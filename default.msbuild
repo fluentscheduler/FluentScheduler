@@ -1,0 +1,51 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Default">
+	<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+	<UsingTask AssemblyFile="$(MSBuildExtensionsPath)\NuGet\NuGet.MSBuild.dll" TaskName="NuGet.MSBuild.NuGet" />
+
+	<PropertyGroup>
+		<AssemblyName>FluentScheduler</AssemblyName>
+		<PackagePath Condition="'$(teamcity_version)' == ''">c:\nuget</PackagePath>
+		<BuildConfiguration Condition="'$(teamcity_version)' == ''">Debug</BuildConfiguration>
+		<BuildConfiguration Condition="'$(teamcity_version)' != ''">Release</BuildConfiguration>
+		<build_number Condition="'$(teamcity_version)' == ''">1.0.0</build_number>
+	</PropertyGroup>
+	
+	<Target Name="UpdateVersion">
+		<ItemGroup>
+			<AssemblyInfoFiles Include="**\AssemblyInfo.cs" />
+		</ItemGroup>
+
+		<Message Text="Updating assembly versions: @(AssemblyInfoFiles->'%(RecursiveDir)%(Filename)%(Extension)')"/>
+
+		<FileUpdate Files="@(AssemblyInfoFiles->'%(RecursiveDir)%(Filename)%(Extension)')" Regex="AssemblyVersion\(&quot;([^&quot;]*)&quot;\)" ReplacementText="AssemblyVersion(&quot;$(build_number)&quot;)" />
+	</Target>
+	
+	<Target Name="CreatePackage">
+		<PropertyGroup>
+			<PackageBuildPath Condition="'$(teamcity_version)' == ''">build\NuGet</PackageBuildPath>
+			<PackageBuildPath Condition="'$(teamcity_version)' != ''">$(teamcity_build_tempDir)\build\NuGet</PackageBuildPath>
+			<PackageSourcePath>$(AssemblyName)\NuGet</PackageSourcePath>
+		</PropertyGroup>
+
+		<ItemGroup>
+			<PackageSourceFiles Include="$(PackageSourcePath)\**" />
+			<PackageLibFiles Include="$(AssemblyName)\bin\$(BuildConfiguration)\$(AssemblyName).dll;$(AssemblyName)\bin\$(BuildConfiguration)\$(AssemblyName).pdb" />
+			<OldDestinationFiles Include="$(PackagePath)\$(AssemblyName).1.*.nupkg" Exclude="$(PackagePath)\$(AssemblyName).$(build_number).nupkg" />
+		</ItemGroup>
+
+		<RemoveDir Directories="$(PackageBuildPath)" ContinueOnError="true" />
+		<Message Text="Setting up the $(PackageBuildPath) directory will all the necessary files to create our package"/>
+		<Copy SourceFiles="@(PackageSourceFiles)"  DestinationFiles="@(PackageSourceFiles->'$(PackageBuildPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+		<Copy SourceFiles="@(PackageLibFiles)"  DestinationFiles="@(PackageLibFiles->'$(PackageBuildPath)\lib\%(RecursiveDir)%(Filename)%(Extension)')" />
+
+		<FileUpdate Files="$(PackageBuildPath)\package.nuspec" Regex="version&gt;([^&quot;&lt;]*)&lt;/version" ReplacementText="version&gt;$(build_number)&lt;/version" />
+
+		<Message Text="Creating the package" />
+
+		<NuGet PackageDir="$(PackagePath)" SpecFile="$(PackageBuildPath)\package.nuspec" />
+
+		<Message Text="Deleting previous package"/>
+		<Delete Files="@(OldDestinationFiles->'$(PackagePath)\%(Filename)%(Extension)')" ContinueOnError="true" />
+	</Target>
+	
+</Project>

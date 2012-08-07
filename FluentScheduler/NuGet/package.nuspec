@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+		<id>FluentScheduler</id>
+		<version>1.0.0</version>
+		<authors>Jim Geurts</authors>
+		<projectUrl>http://fluentscheduler.codeplex.com/</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>A task scheduler that uses fluent interface to configure schedules. Useful for running cron jobs/automated tasks from your application.</description>
+		<summary>A task scheduler that uses fluent interface to configure schedules. Useful for running cron jobs/automated tasks from your application.</summary>
+		<language>en-US</language>
+		<tags>Library task-scheduler tasks cron</tags>
+	</metadata>
+	<files>
+		<file src="bin\Release\FluentScheduler.dll" target="lib" />
+		<file src="bin\Release\FluentScheduler.pdb" target="lib" />
+	</files>
+</package>
