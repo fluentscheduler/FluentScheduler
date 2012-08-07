@@ -4,7 +4,7 @@
 		<id>FluentScheduler</id>
 		<version>1.0.0</version>
 		<authors>Jim Geurts</authors>
-		<projectUrl>http://fluentscheduler.codeplex.com/</projectUrl>
+		<projectUrl>https://github.com/jgeurts/FluentScheduler</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>A task scheduler that uses fluent interface to configure schedules. Useful for running cron jobs/automated tasks from your application.</description>
 		<summary>A task scheduler that uses fluent interface to configure schedules. Useful for running cron jobs/automated tasks from your application.</summary>
