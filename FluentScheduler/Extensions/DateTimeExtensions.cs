@@ -74,6 +74,23 @@ namespace FluentScheduler.Extensions
 		}
 
 		/// <summary>
+		/// Gets a DateTime representing the first date following the current date which falls on the given day of the week
+		/// </summary>
+		/// <param name="current">The current date</param>
+		/// <param name="dayOfWeek">The day of week for the next date to get</param>
+		public static DateTime Next(this DateTime current, DayOfWeek dayOfWeek)
+		{
+			var offsetDays = dayOfWeek - current.DayOfWeek;
+
+			if (offsetDays <= 0)
+			{
+				offsetDays += 7;
+			}
+
+			return current.AddDays(offsetDays);
+		}
+
+		/// <summary>
 		/// Zero's out the minutes and seconds for the specified datetime.
 		/// </summary>
 		/// <param name="current">The current date</param>

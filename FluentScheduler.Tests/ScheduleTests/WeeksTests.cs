@@ -123,7 +123,7 @@ namespace FluentScheduler.Tests.ScheduleTests
 			var schedule = new Schedule(task.Object);
 			schedule.ToRunEvery(2).Weeks().On(DayOfWeek.Saturday);
 
-			var input = new DateTime(2000, 1, 1);
+			var input = new DateTime(2000, 1, 1); // Saturday
 			var scheduledTime = schedule.CalculateNextRun(input);
 
 			var expectedTime = new DateTime(2000, 1, 15);
@@ -183,6 +183,34 @@ namespace FluentScheduler.Tests.ScheduleTests
 			var scheduledTime = schedule.CalculateNextRun(input);
 
 			var expectedTime = new DateTime(2000, 1, 16);
+			scheduledTime.Should().Equal(expectedTime);
+		}
+
+		[Test]
+		public void Should_Pick_The_Next_Day_Of_Week_If_0_Weeks_Specified()
+		{
+			var task = new Mock<ITask>();
+			var schedule = new Schedule(task.Object);
+			schedule.ToRunEvery(0).Weeks().On(DayOfWeek.Wednesday);
+
+			var input = new DateTime(2000, 1, 4); // Tuesday
+			var scheduledTime = schedule.CalculateNextRun(input);
+
+			var expectedTime = new DateTime(2000, 1, 5);
+			scheduledTime.Should().Equal(expectedTime);
+		}
+
+		[Test]
+		public void Should_Pick_The_Next_Week_On_The_Specified_Day_Of_Week_If_0_Weeks_Specified()
+		{
+			var task = new Mock<ITask>();
+			var schedule = new Schedule(task.Object);
+			schedule.ToRunEvery(0).Weeks().On(DayOfWeek.Tuesday);
+
+			var input = new DateTime(2000, 1, 4, 1, 23, 25); // Tuesday
+			var scheduledTime = schedule.CalculateNextRun(input);
+
+			var expectedTime = new DateTime(2000, 1, 11);
 			scheduledTime.Should().Equal(expectedTime);
 		}
 

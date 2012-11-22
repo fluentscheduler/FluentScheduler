@@ -14,7 +14,14 @@ namespace FluentScheduler.Model
 			Schedule = schedule;
 			Duration = duration;
 			Day = day;
-			Schedule.CalculateNextRun = x => x.Date.AddDays(Duration * 7).ThisOrNext(day);
+			if (Duration > 0)
+			{
+				Schedule.CalculateNextRun = x => x.Date.AddDays(Duration * 7).ThisOrNext(day);
+			}
+			else
+			{
+				Schedule.CalculateNextRun = x => x.Date.Next(day);
+			}
 		}
 
 		/// <summary>
