@@ -215,6 +215,20 @@ namespace FluentScheduler.Tests.ScheduleTests
 		}
 
 		[Test]
+		public void Should_Pick_The_Same_Day_Of_Week_If_0_Weeks_Specified_And_Before_Specified_Run_Time()
+		{
+			var task = new Mock<ITask>();
+			var schedule = new Schedule(task.Object);
+			schedule.ToRunEvery(0).Weeks().On(DayOfWeek.Tuesday).At(4, 20);
+
+			var input = new DateTime(2000, 1, 4, 3, 15, 0); // Tuesday
+			var scheduledTime = schedule.CalculateNextRun(input);
+
+			var expectedTime = new DateTime(2000, 1, 4, 4, 20, 0);
+			scheduledTime.Should().Equal(expectedTime);
+		}
+
+		[Test]
 		public void Should_Schedule_Today_If_Input_Time_Is_Before_Run_Time()
 		{
 			var task = new Mock<ITask>();
