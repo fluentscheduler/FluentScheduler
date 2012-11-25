@@ -18,6 +18,7 @@
 		<Message Text="Updating assembly versions: @(AssemblyInfoFiles->'%(RecursiveDir)%(Filename)%(Extension)')"/>
 
 		<FileUpdate Files="@(AssemblyInfoFiles->'%(RecursiveDir)%(Filename)%(Extension)')" Regex="AssemblyVersion\(&quot;([^&quot;]*)&quot;\)" ReplacementText="AssemblyVersion(&quot;$(build_number)&quot;)" />
+		<FileUpdate Files="@(AssemblyInfoFiles->'%(RecursiveDir)%(Filename)%(Extension)')" Regex="AssemblyFileVersion\(&quot;([^&quot;]*)&quot;\)" ReplacementText="AssemblyFileVersion(&quot;$(build_number)&quot;)" />
 	</Target>
 	
 	<Target Name="CreatePackage">

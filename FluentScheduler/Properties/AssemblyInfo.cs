@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Bia Creations")]
 [assembly: AssemblyProduct("FluentScheduler")]
-[assembly: AssemblyCopyright("Copyright © Bia Creations 2010")]
+[assembly: AssemblyCopyright("Copyright © Bia Creations")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
