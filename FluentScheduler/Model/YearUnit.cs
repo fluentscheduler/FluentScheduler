@@ -11,7 +11,10 @@ namespace FluentScheduler.Model
 		{
 			Schedule = schedule;
 			Duration = duration;
-			Schedule.CalculateNextRun = x => x.Date.AddYears(Duration);
+			Schedule.CalculateNextRun = x => {
+				var nextRun = x.Date.AddYears(Duration);
+				return (x > nextRun) ? nextRun.AddYears(Duration) : nextRun;
+			};
 		}
 
 		/// <summary>

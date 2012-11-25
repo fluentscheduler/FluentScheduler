@@ -12,7 +12,10 @@ namespace FluentScheduler.Model
 		{
 			Schedule = schedule;
 			Duration = duration;
-			Schedule.CalculateNextRun = x => (x > x.Date.Last()) ? x.Date.First().AddMonths(Duration).Last() : x.Date.Last();
+			Schedule.CalculateNextRun = x => {
+				var nextRun = x.Date.Last();
+				return (x > nextRun) ? x.Date.First().AddMonths(Duration).Last() : x.Date.Last();
+			};
 		}
 
 		/// <summary>
@@ -23,7 +26,10 @@ namespace FluentScheduler.Model
 		/// <returns></returns>
 		public void At(int hours, int minutes)
 		{
-			Schedule.CalculateNextRun = x => (x > x.Date.Last().AddHours(hours).AddMinutes(minutes)) ? x.Date.First().AddMonths(Duration).Last().AddHours(hours).AddMinutes(minutes) : x.Date.Last().AddHours(hours).AddMinutes(minutes);
+			Schedule.CalculateNextRun = x => {
+				var nextRun = x.Date.Last().AddHours(hours).AddMinutes(minutes);
+				return (x > nextRun) ? x.Date.First().AddMonths(Duration).Last().AddHours(hours).AddMinutes(minutes) : nextRun;
+			};
 		}
 	}
 }

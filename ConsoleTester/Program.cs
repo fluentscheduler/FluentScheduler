@@ -10,9 +10,9 @@ namespace ConsoleTester
 	{
 		static void Main(string[] args)
 		{
-//			Console.WriteLine("Starting everything...");
-//			TaskManager.Initialize(new MyRegistry());
-//			Console.WriteLine("Done initializing...");
+			Console.WriteLine("Starting everything...");
+			TaskManager.Initialize(new MyRegistry());
+			Console.WriteLine("Done initializing...");
 			//Thread.Sleep(10000);
 			//TaskManager.Stop();
 
@@ -22,10 +22,10 @@ namespace ConsoleTester
 			TaskManager.AddTask<MyInlineTask>(x => x.ToRunNow());
 */
 			TaskManager.UnobservedTaskException += TaskManager_UnobservedTaskException;
-			TaskManager.AddTask(() => {
+/*			TaskManager.AddTask(() => {
 			                          	Console.WriteLine("Inline task: " + DateTime.Now); 
 				throw new Exception("Hi"); }, x => x.ToRunNow());
-
+*/
 			Console.ReadKey();
 		}
 
@@ -39,19 +39,10 @@ namespace ConsoleTester
 	{
 		public MyRegistry()
 		{
-			// Schedule an ITask to run at an interval
-			Schedule<MyTask>().ToRunNow().AndEvery(2).Seconds();
-
-			// Schedule a simple task to run at a specific time
-			Schedule(() => Console.WriteLine("Timed Task - Will run every day at 9:15pm: " + DateTime.Now)).ToRunEvery(1).Days().At(21, 15);
-
-			// Schedule a more complex action to run immediately and on an monthly interval
 			Schedule(() =>
-			         	{
-			         		Console.WriteLine("Complex Action Task Starts: " + DateTime.Now);
-			         		Thread.Sleep(1000);
-			         		Console.WriteLine("Complex Action Task Ends: " + DateTime.Now);
-			         	}).ToRunNow().AndEvery(1).Months().OnTheFirst(DayOfWeek.Monday).At(3, 0);
+			{
+				Console.WriteLine(DateTime.Now.ToString());
+			}).ToRunEvery(0).Weeks().On(DayOfWeek.Sunday).At(15, 24);
 		}
 	}
 

@@ -17,9 +17,15 @@ namespace FluentScheduler.Model
 			Week = week;
 			DayOfWeek = dayOfWeek;
 			if (Week == Week.Last)
-				Schedule.CalculateNextRun = x => (x > x.Date.First().Last(DayOfWeek)) ? x.Date.First().AddMonths(Duration).Last(DayOfWeek) : x.Date.First().Last(DayOfWeek);
+				Schedule.CalculateNextRun = x => {
+					var nextRun = x.Date.First().Last(DayOfWeek);
+					return (x > nextRun) ? x.Date.First().AddMonths(Duration).Last(DayOfWeek) : nextRun;
+				};
 			else
-				Schedule.CalculateNextRun = x => (x > x.Date.First().ToWeek(Week).ThisOrNext(DayOfWeek)) ? x.Date.First().AddMonths(Duration).ToWeek(Week).ThisOrNext(DayOfWeek) : x.Date.First().ToWeek(Week).ThisOrNext(DayOfWeek);
+				Schedule.CalculateNextRun = x => {
+					var nextRun = x.Date.First().ToWeek(Week).ThisOrNext(DayOfWeek);
+					return (x > nextRun) ? x.Date.First().AddMonths(Duration).ToWeek(Week).ThisOrNext(DayOfWeek) : nextRun;
+				};
 		}
 
 		/// <summary>
@@ -31,9 +37,15 @@ namespace FluentScheduler.Model
 		public void At(int hours, int minutes)
 		{
 			if (Week == Week.Last)
-				Schedule.CalculateNextRun = x => (x > x.Date.First().Last(DayOfWeek).AddHours(hours).AddMinutes(minutes)) ? x.Date.First().AddMonths(Duration).Last(DayOfWeek).AddHours(hours).AddMinutes(minutes) : x.Date.First().Last(DayOfWeek).AddHours(hours).AddMinutes(minutes);
+				Schedule.CalculateNextRun = x => {
+					var nextRun = x.Date.First().Last(DayOfWeek).AddHours(hours).AddMinutes(minutes);
+					return (x > nextRun) ? x.Date.First().AddMonths(Duration).Last(DayOfWeek).AddHours(hours).AddMinutes(minutes) : nextRun;
+				};
 			else
-				Schedule.CalculateNextRun = x => (x > x.Date.First().ToWeek(Week).ThisOrNext(DayOfWeek).AddHours(hours).AddMinutes(minutes)) ? x.Date.First().AddMonths(Duration).ToWeek(Week).ThisOrNext(DayOfWeek).AddHours(hours).AddMinutes(minutes) : x.Date.First().ToWeek(Week).ThisOrNext(DayOfWeek).AddHours(hours).AddMinutes(minutes);
+				Schedule.CalculateNextRun = x => {
+					var nextRun = x.Date.First().ToWeek(Week).ThisOrNext(DayOfWeek).AddHours(hours).AddMinutes(minutes);
+					return (x > nextRun) ? x.Date.First().AddMonths(Duration).ToWeek(Week).ThisOrNext(DayOfWeek).AddHours(hours).AddMinutes(minutes) : nextRun;
+				};
 		}
 	}
 }

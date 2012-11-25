@@ -14,7 +14,10 @@ namespace FluentScheduler.Model
 			Schedule = schedule;
 			Duration = duration;
 			DayOfMonth = dayOfMonth;
-			Schedule.CalculateNextRun = x => (x > x.Date.First().AddDays(DayOfMonth - 1)) ? x.Date.First().AddMonths(Duration).AddDays(DayOfMonth - 1) : x.Date.First().AddDays(DayOfMonth - 1);
+			Schedule.CalculateNextRun = x => {
+				var nextRun = x.Date.First().AddDays(DayOfMonth - 1);
+				return (x > nextRun) ? x.Date.First().AddMonths(Duration).AddDays(DayOfMonth - 1) : nextRun;
+			};
 		}
 
 		/// <summary>
@@ -25,7 +28,10 @@ namespace FluentScheduler.Model
 		/// <returns></returns>
 		public void At(int hours, int minutes)
 		{
-			Schedule.CalculateNextRun = x => (x > x.Date.First().AddDays(DayOfMonth - 1).AddHours(hours).AddMinutes(minutes)) ? x.Date.First().AddMonths(Duration).AddDays(DayOfMonth - 1).AddHours(hours).AddMinutes(minutes) : x.Date.First().AddDays(DayOfMonth - 1).AddHours(hours).AddMinutes(minutes);
+			Schedule.CalculateNextRun = x => {
+				var nextRun = x.Date.First().AddDays(DayOfMonth - 1).AddHours(hours).AddMinutes(minutes);
+				return (x > nextRun) ? x.Date.First().AddMonths(Duration).AddDays(DayOfMonth - 1).AddHours(hours).AddMinutes(minutes) : nextRun;
+			};
 		}
 	}
 }

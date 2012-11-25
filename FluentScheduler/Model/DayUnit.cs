@@ -13,7 +13,11 @@ namespace FluentScheduler.Model
 			Duration = duration;
 			if (Duration < 1)
 				Duration = 1;
-			Schedule.CalculateNextRun = x => x.Date.AddDays(Duration);
+
+			Schedule.CalculateNextRun = x => {
+				var nextRun = x.Date.AddDays(Duration);
+				return (x > nextRun) ? nextRun.AddDays(Duration) : nextRun;
+			};
 		}
 
 		/// <summary>
@@ -24,7 +28,10 @@ namespace FluentScheduler.Model
 		/// <returns></returns>
 		public void At(int hours, int minutes)
 		{
-			Schedule.CalculateNextRun = x => (x > x.Date.AddHours(hours).AddMinutes(minutes)) ? x.Date.AddDays(Duration).AddHours(hours).AddMinutes(minutes) : x.Date.AddHours(hours).AddMinutes(minutes);
+			Schedule.CalculateNextRun = x => {
+				var nextRun = x.Date.AddHours(hours).AddMinutes(minutes);
+				return (x > nextRun) ? nextRun.AddDays(Duration) : nextRun;
+			};
 		}
 	}
 }

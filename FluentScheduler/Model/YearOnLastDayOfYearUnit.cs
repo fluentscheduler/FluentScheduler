@@ -12,7 +12,10 @@ namespace FluentScheduler.Model
 		{
 			Schedule = schedule;
 			Duration = duration;
-			Schedule.CalculateNextRun = x => (x > x.Date.FirstOfYear().AddMonths(11).Last()) ? x.Date.FirstOfYear().AddYears(Duration).AddMonths(11).Last() : x.Date.FirstOfYear().AddMonths(11).Last();
+			Schedule.CalculateNextRun = x => {
+				var nextRun = x.Date.FirstOfYear().AddMonths(11).Last();
+				return (x > nextRun) ? x.Date.FirstOfYear().AddYears(Duration).AddMonths(11).Last() : nextRun;
+			};
 		}
 
 		/// <summary>
@@ -23,7 +26,10 @@ namespace FluentScheduler.Model
 		/// <returns></returns>
 		public void At(int hours, int minutes)
 		{
-			Schedule.CalculateNextRun = x => (x > x.Date.FirstOfYear().AddMonths(11).Last().AddHours(hours).AddMinutes(minutes)) ? x.Date.FirstOfYear().AddYears(Duration).AddMonths(11).Last().AddHours(hours).AddMinutes(minutes) : x.Date.FirstOfYear().AddMonths(11).Last().AddHours(hours).AddMinutes(minutes);
+			Schedule.CalculateNextRun = x => {
+				var nextRun = x.Date.FirstOfYear().AddMonths(11).Last().AddHours(hours).AddMinutes(minutes);
+				return (x > nextRun) ? x.Date.FirstOfYear().AddYears(Duration).AddMonths(11).Last().AddHours(hours).AddMinutes(minutes) : nextRun;
+			};
 		}
 	}
 }
