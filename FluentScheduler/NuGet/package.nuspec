@@ -5,6 +5,7 @@
 		<version>1.0.0</version>
 		<authors>Jim Geurts</authors>
 		<projectUrl>https://github.com/jgeurts/FluentScheduler</projectUrl>
+		<licenseUrl>https://raw.github.com/jgeurts/FluentScheduler/master/LICENSE.txt</licenseUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>A task scheduler that uses fluent interface to configure schedules. Useful for running cron jobs/automated tasks from your application.</description>
 		<summary>A task scheduler that uses fluent interface to configure schedules. Useful for running cron jobs/automated tasks from your application.</summary>
