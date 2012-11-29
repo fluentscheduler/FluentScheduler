@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler", "FluentScheduler\FluentScheduler.csproj", "{434FED39-4EC1-4797-BB2D-246432B3D4FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Tests", "FluentScheduler.Tests\FluentScheduler.Tests.csproj", "{0F9D4F68-6205-4B01-BFF8-1023512F9F4A}"
@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C7E74B
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.WebTest", "FluentScheduler.WebTest\FluentScheduler.WebTest.csproj", "{744E0020-F8E6-421E-950A-45C98461B19C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,16 @@ Global
 		{CAEE643E-334E-4103-9BFD-1D67106386D7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{CAEE643E-334E-4103-9BFD-1D67106386D7}.Release|x86.ActiveCfg = Release|x86
 		{CAEE643E-334E-4103-9BFD-1D67106386D7}.Release|x86.Build.0 = Release|x86
+		{744E0020-F8E6-421E-950A-45C98461B19C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{744E0020-F8E6-421E-950A-45C98461B19C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{744E0020-F8E6-421E-950A-45C98461B19C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{744E0020-F8E6-421E-950A-45C98461B19C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{744E0020-F8E6-421E-950A-45C98461B19C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{744E0020-F8E6-421E-950A-45C98461B19C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{744E0020-F8E6-421E-950A-45C98461B19C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{744E0020-F8E6-421E-950A-45C98461B19C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{744E0020-F8E6-421E-950A-45C98461B19C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{744E0020-F8E6-421E-950A-45C98461B19C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
