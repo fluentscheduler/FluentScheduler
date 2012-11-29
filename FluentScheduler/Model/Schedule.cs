@@ -18,7 +18,7 @@ namespace FluentScheduler.Model
         /// Is task reentrant; can long running task be executed again while another instance is still executing?
         /// Default is true.
         /// </summary>
-        public bool IsReentrant { get; set; }
+        internal bool IsReentrant { get; set; }
 
         /// <summary>
         /// Schedules the specified task to run
@@ -87,6 +87,8 @@ namespace FluentScheduler.Model
         /// <summary>
         /// Enable/disable reentry when for long running tasks.
         /// Check <see cref="IsReentrant"/> property.
+        /// Is task reentrant; can long running task be executed again while another instance is still executing?
+        /// By default, all tasks are reentrant (isReentrant == true).
         /// </summary>
         public Schedule Reentrant(bool isReentrant)
         {
