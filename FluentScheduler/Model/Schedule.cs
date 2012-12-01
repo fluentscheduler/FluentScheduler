@@ -7,10 +7,10 @@ namespace FluentScheduler.Model
 	{
 		internal Action Task { get; private set; }
 
-		public Func<DateTime, DateTime> CalculateNextRun { get; internal set; }
+		internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
 		public DateTime NextRunTime { get; set; }
 
-		public ICollection<Schedule> AdditionalSchedules { get; internal set; }
+		internal ICollection<Schedule> AdditionalSchedules { get; set; }
 		internal bool Reentrant { get; set; }
 		internal Schedule Parent { get; set; }
 		internal int TaskExecutions { get; set; }
@@ -85,26 +85,7 @@ namespace FluentScheduler.Model
 		public Schedule NonReentrant()
 		{
 			Reentrant = false;
-			var parent = Parent;
-			while (parent != null)
-			{
-				parent.Reentrant = false;
-				parent = Parent.Parent;
-			}
-			foreach (var child in AdditionalSchedules)
-			{
-				SetReentrantForChildSchedule(child);
-			}
 			return this;
-		}
-
-		private void SetReentrantForChildSchedule(Schedule child)
-		{
-			child.Reentrant = Reentrant;
-			foreach (var c in child.AdditionalSchedules)
-			{
-				SetReentrantForChildSchedule(c);
-			}
 		}
 	}
 }
