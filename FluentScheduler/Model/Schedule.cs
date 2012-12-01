@@ -11,6 +11,7 @@ namespace FluentScheduler.Model
 		public DateTime NextRunTime { get; set; }
 
 		public ICollection<Schedule> AdditionalSchedules { get; internal set; }
+		internal bool Reentrant { get; set; }
 		internal Schedule Parent { get; set; }
 		internal int TaskExecutions { get; set; }
 
@@ -31,6 +32,7 @@ namespace FluentScheduler.Model
 			Task = action;
 			AdditionalSchedules = new List<Schedule>();
 			TaskExecutions = -1;
+			Reentrant = true;
 		}
 
 		/// <summary>
@@ -74,6 +76,35 @@ namespace FluentScheduler.Model
 			TaskExecutions = 1;
 
 			return new SpecificRunTime(this);
+		}
+
+		/// <summary>
+		/// Will not start a new instance of the task if a previous schedule is still running
+		/// </summary>
+		/// <returns></returns>
+		public Schedule NonReentrant()
+		{
+			Reentrant = false;
+			var parent = Parent;
+			while (parent != null)
+			{
+				parent.Reentrant = false;
+				parent = Parent.Parent;
+			}
+			foreach (var child in AdditionalSchedules)
+			{
+				SetReentrantForChildSchedule(child);
+			}
+			return this;
+		}
+
+		private void SetReentrantForChildSchedule(Schedule child)
+		{
+			child.Reentrant = Reentrant;
+			foreach (var c in child.AdditionalSchedules)
+			{
+				SetReentrantForChildSchedule(c);
+			}
 		}
 	}
 }

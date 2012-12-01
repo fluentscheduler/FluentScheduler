@@ -18,10 +18,13 @@ namespace FluentScheduler.Model
 		/// <returns></returns>
 		public TimeUnit AndEvery(int interval)
 		{
+			var parent = Schedule.Parent ?? Schedule;
+
 			var child = new Schedule(Schedule.Task)
-			            	{
-			            		Parent = Schedule.Parent ?? Schedule
-			            	};
+							{
+								Parent = parent,
+								Reentrant = parent.Reentrant
+							};
 
 			child.Parent.AdditionalSchedules.Add(child);
 

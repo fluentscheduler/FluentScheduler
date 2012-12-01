@@ -41,8 +41,10 @@ namespace ConsoleTester
 		{
 			Schedule(() =>
 			{
-				Console.WriteLine(DateTime.Now.ToString());
-			}).ToRunEvery(0).Weeks().On(DayOfWeek.Sunday).At(15, 24);
+				Console.WriteLine("Before sleep - " + DateTime.Now);
+				Thread.Sleep(4000);
+				Console.WriteLine("After sleep - " + DateTime.Now);
+			}).NonReentrant().ToRunEvery(1).Seconds();
 		}
 	}
 

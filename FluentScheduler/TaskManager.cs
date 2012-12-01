@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace FluentScheduler
 		public static event GenericEventHandler<Task, UnhandledExceptionEventArgs> UnobservedTaskException;
 		private static List<Schedule> _tasks;
 		private static Timer _timer;
+		private static readonly ConcurrentDictionary<Action, bool> RunningNonReentrantTasks = new ConcurrentDictionary<Action, bool>(); 
 
 		/// <summary>
 		/// Initializes the task manager with all schedules configured in the specified registry
@@ -37,7 +39,7 @@ namespace FluentScheduler
 		private static void ThrowUnobservedTaskException(Task t)
 		{
 			var handler = UnobservedTaskException;
-			if (handler != null)
+			if (handler != null && t.Exception != null)
 				handler(t, new UnhandledExceptionEventArgs(t.Exception.InnerException, true));
 		}
 
@@ -72,8 +74,7 @@ namespace FluentScheduler
 		{
 			foreach (var task in immediateTasks)
 			{
-				Task.Factory.StartNew(task.Task, TaskCreationOptions.PreferFairness)
-					.ContinueWith(ThrowUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
+				StartTask(task);
 			}
 
 			if (!_tasks.Any())
@@ -86,6 +87,22 @@ namespace FluentScheduler
 			}
 			_tasks.Sort((x, y) => DateTime.Compare(x.NextRunTime, y.NextRunTime));
 			Schedule();
+		}
+
+		private static void StartTask(Schedule task)
+		{
+			if (!task.Reentrant)
+			{
+				if (!RunningNonReentrantTasks.TryAdd(task.Task, true))
+					return;
+			}
+
+			Task.Factory.StartNew(task.Task, TaskCreationOptions.PreferFairness)
+				.ContinueWith(_ => {
+					bool notUsed;
+					RunningNonReentrantTasks.TryRemove(task.Task, out notUsed);
+				})
+				.ContinueWith(ThrowUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
 		}
 
 		/// <summary>
@@ -163,8 +180,7 @@ namespace FluentScheduler
 			var firstTask = _tasks.First();
 			if (firstTask.NextRunTime <= DateTime.Now)
 			{
-				Task.Factory.StartNew(firstTask.Task, TaskCreationOptions.PreferFairness)
-					.ContinueWith(ThrowUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
+				StartTask(firstTask);
 				firstTask.NextRunTime = firstTask.CalculateNextRun(DateTime.Now.AddMilliseconds(1));
 				if (firstTask.TaskExecutions > 0)
 				{
