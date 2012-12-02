@@ -21,10 +21,23 @@ namespace FluentScheduler
 		// Schedule<MyTask>().ToRunEvery(1).Months().On(1).Monday().At(0, 15)
 
 		internal List<Schedule> Schedules { get; private set; }
+		internal bool AllTasksConfiguredAsNonReentrant { get; set; }
 
 		public Registry()
 		{
 			Schedules = new List<Schedule>();
+		}
+
+		public void DefaultAllTasksAsNonReentrant()
+		{
+			AllTasksConfiguredAsNonReentrant = true;
+			lock (((ICollection)Schedules).SyncRoot)
+			{
+				foreach (var schedule in Schedules)
+				{
+					schedule.Reentrant = true;
+				}
+			}
 		}
 
 		/// <summary>
@@ -35,6 +48,10 @@ namespace FluentScheduler
 		public Schedule Schedule<T>() where T : ITask
 		{
 			var schedule = new Schedule(() => GetTaskInstance<T>().Execute());
+			if (AllTasksConfiguredAsNonReentrant)
+			{
+				schedule.Reentrant = true;
+			}
 			lock (((ICollection)Schedules).SyncRoot)
 			{
 				Schedules.Add(schedule);
@@ -50,6 +67,10 @@ namespace FluentScheduler
 		public Schedule Schedule(Action action)
 		{
 			var schedule = new Schedule(action);
+			if (AllTasksConfiguredAsNonReentrant)
+			{
+				schedule.Reentrant = true;
+			}
 			lock (((ICollection)Schedules).SyncRoot)
 			{
 				Schedules.Add(schedule);
