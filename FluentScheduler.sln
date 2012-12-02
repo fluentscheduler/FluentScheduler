@@ -1,16 +1,10 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler", "FluentScheduler\FluentScheduler.csproj", "{434FED39-4EC1-4797-BB2D-246432B3D4FD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Tests", "FluentScheduler.Tests\FluentScheduler.Tests.csproj", "{0F9D4F68-6205-4B01-BFF8-1023512F9F4A}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{84DE7963-A70D-4768-ADDC-0B54E78CA064}"
 	ProjectSection(SolutionItems) = preProject
 		default.msbuild = default.msbuild
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTester", "ConsoleTester\ConsoleTester.csproj", "{CAEE643E-334E-4103-9BFD-1D67106386D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C7E74B75-9A73-40BB-9919-9560520E176B}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,6 +12,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C7E74B
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler", "FluentScheduler\FluentScheduler.csproj", "{434FED39-4EC1-4797-BB2D-246432B3D4FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Tests", "FluentScheduler.Tests\FluentScheduler.Tests.csproj", "{0F9D4F68-6205-4B01-BFF8-1023512F9F4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTester", "ConsoleTester\ConsoleTester.csproj", "{CAEE643E-334E-4103-9BFD-1D67106386D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Webtester", "FluentScheduler.Webtester\FluentScheduler.Webtester.csproj", "{EC3E1A41-2332-43D6-AD62-2D01425CE538}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,16 @@ Global
 		{CAEE643E-334E-4103-9BFD-1D67106386D7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{CAEE643E-334E-4103-9BFD-1D67106386D7}.Release|x86.ActiveCfg = Release|x86
 		{CAEE643E-334E-4103-9BFD-1D67106386D7}.Release|x86.Build.0 = Release|x86
+		{EC3E1A41-2332-43D6-AD62-2D01425CE538}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC3E1A41-2332-43D6-AD62-2D01425CE538}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC3E1A41-2332-43D6-AD62-2D01425CE538}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EC3E1A41-2332-43D6-AD62-2D01425CE538}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EC3E1A41-2332-43D6-AD62-2D01425CE538}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC3E1A41-2332-43D6-AD62-2D01425CE538}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC3E1A41-2332-43D6-AD62-2D01425CE538}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC3E1A41-2332-43D6-AD62-2D01425CE538}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EC3E1A41-2332-43D6-AD62-2D01425CE538}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EC3E1A41-2332-43D6-AD62-2D01425CE538}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

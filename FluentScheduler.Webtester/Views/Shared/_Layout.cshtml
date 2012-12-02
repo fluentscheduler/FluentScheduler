@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>@ViewBag.Title</title>
+	<link href="//twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+	<style>
+		body > .container {
+			margin-top: 60px;
+		}
+		footer {
+			padding: 15px 0;
+			border-top: 1px solid #aaa;
+			background: rgb(204,204,204); /* Old browsers */
+			background: -moz-linear-gradient(top,  rgba(204,204,204,1) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(204,204,204,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top,  rgba(204,204,204,1) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top,  rgba(204,204,204,1) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+			background: -ms-linear-gradient(top,  rgba(204,204,204,1) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+			background: linear-gradient(to bottom,  rgba(204,204,204,1) 0%,rgba(255,255,255,1) 100%); /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+		}
+
+	</style>
+</head>
+<body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="brand" href="~/">FluentScheduler</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a href="https://github.com/jgeurts/fluentscheduler">Project Home (Github)</a></li>
+						<li><a href="https://github.com/jgeurts/fluentscheduler/wiki">Documentation</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		@RenderBody()
+	</div>
+
+	<footer class="footer">
+		<div class="container">
+			<p>Built by Jim Geurts (<a href="http://twitter.com/jgeurts">@@jgeurts</a>)</p>
+			<p>Code licensed under <a href="~/license" target="_blank">New BSD</a>, documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+		</div>
+	</footer>
+</body>
+</html>
