@@ -3,12 +3,11 @@ using System.Collections.Generic;
 
 namespace FluentScheduler.Model
 {
-	public class Schedule
+	public class Schedule : ScheduleBase
 	{
 		internal Action Task { get; private set; }
 
 		internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
-		public DateTime NextRunTime { get; set; }
 
 		internal ICollection<Schedule> AdditionalSchedules { get; set; }
 		internal bool Reentrant { get; set; }
@@ -76,6 +75,17 @@ namespace FluentScheduler.Model
 			TaskExecutions = 1;
 
 			return new SpecificRunTime(this);
+		}
+
+		/// <summary>
+		/// Provide a name for this schedule
+		/// </summary>
+		/// <param name="name">Name of this schedule</param>
+		/// <returns></returns>
+		public Schedule WithName(string name)
+		{
+			Name = name;
+			return this;
 		}
 
 		/// <summary>

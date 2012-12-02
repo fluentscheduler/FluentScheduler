@@ -14,9 +14,20 @@ namespace FluentScheduler
 	public static class TaskManager
 	{
 		public static event GenericEventHandler<Task, UnhandledExceptionEventArgs> UnobservedTaskException;
+		public static event GenericEventHandler<ScheduleBase, EventArgs> TaskStart;
+		public static event GenericEventHandler<ScheduleBase, EventArgs> TaskEnd;
+
 		private static List<Schedule> _tasks;
 		private static Timer _timer;
-		private static readonly ConcurrentDictionary<Action, bool> RunningNonReentrantTasks = new ConcurrentDictionary<Action, bool>(); 
+		private static readonly ConcurrentDictionary<Action, bool> RunningNonReentrantTasks = new ConcurrentDictionary<Action, bool>();
+		private static readonly ConcurrentDictionary<Guid, Schedule> _runningSchedules = new ConcurrentDictionary<Guid, Schedule>();
+		public static IList<Schedule> RunningSchedules
+		{
+			get
+			{
+				return new List<Schedule>(_runningSchedules.Values);
+			}
+		}
 
 		/// <summary>
 		/// Initializes the task manager with all schedules configured in the specified registry
@@ -36,11 +47,27 @@ namespace FluentScheduler
 			RunAndInitializeSchedule(immediateTasks);
 		}
 
-		private static void ThrowUnobservedTaskException(Task t)
+		private static void RaiseUnobservedTaskException(Task t)
 		{
 			var handler = UnobservedTaskException;
 			if (handler != null && t.Exception != null)
 				handler(t, new UnhandledExceptionEventArgs(t.Exception.InnerException, true));
+		}
+		private static void RaiseTaskStart(Schedule schedule)
+		{
+			var handler = TaskStart;
+			if (handler != null)
+			{
+				handler(schedule, new EventArgs());
+			}
+		}
+		private static void RaiseTaskEnd(Schedule schedule)
+		{
+			var handler = TaskEnd;
+			if (handler != null)
+			{
+				handler(schedule, new EventArgs());
+			}
 		}
 
 		private static void AddSchedules(IEnumerable<Schedule> schedules, ICollection<Schedule> immediateTasks, DateTime now)
@@ -97,12 +124,19 @@ namespace FluentScheduler
 					return;
 			}
 
+			var id = Guid.NewGuid();
+			_runningSchedules.TryAdd(id, task);
+
+			RaiseTaskStart(task);
 			Task.Factory.StartNew(task.Task, TaskCreationOptions.PreferFairness)
 				.ContinueWith(_ => {
 					bool notUsed;
 					RunningNonReentrantTasks.TryRemove(task.Task, out notUsed);
+					Schedule notUsedSchedule;
+					_runningSchedules.TryRemove(id, out notUsedSchedule);
+					RaiseTaskEnd(task);
 				})
-				.ContinueWith(ThrowUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
+				.ContinueWith(RaiseUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
 		}
 
 		/// <summary>

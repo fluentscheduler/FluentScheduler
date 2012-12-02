@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FluentScheduler;
-using FluentScheduler.Model;
 
 namespace ConsoleTester
 {
@@ -11,6 +10,10 @@ namespace ConsoleTester
 		static void Main(string[] args)
 		{
 			Console.WriteLine("Starting everything...");
+
+			TaskManager.TaskStart += (schedule, e) => Console.WriteLine(schedule.Name + " Started");
+			TaskManager.TaskEnd += (schedule, e) => Console.WriteLine(schedule.Name + " Ended.  Next run: " + schedule.NextRunTime);
+
 			TaskManager.Initialize(new MyRegistry());
 			Console.WriteLine("Done initializing...");
 			//Thread.Sleep(10000);
@@ -42,9 +45,11 @@ namespace ConsoleTester
 			Schedule(() =>
 			{
 				Console.WriteLine("Before sleep - " + DateTime.Now);
+				Console.WriteLine("Running Tasks: " + TaskManager.RunningSchedules.Count);
 				Thread.Sleep(4000);
 				Console.WriteLine("After sleep - " + DateTime.Now);
-			}).NonReentrant().ToRunEvery(1).Seconds();
+
+			}).WithName("Sleepy Task").NonReentrant().ToRunEvery(1).Seconds();
 		}
 	}
 

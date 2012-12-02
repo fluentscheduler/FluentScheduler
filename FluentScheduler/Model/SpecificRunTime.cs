@@ -23,7 +23,8 @@ namespace FluentScheduler.Model
 			var child = new Schedule(Schedule.Task)
 							{
 								Parent = parent,
-								Reentrant = parent.Reentrant
+								Reentrant = parent.Reentrant,
+								Name = parent.Name
 							};
 
 			child.Parent.AdditionalSchedules.Add(child);
