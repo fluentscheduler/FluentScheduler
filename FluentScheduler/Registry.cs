@@ -35,7 +35,7 @@ namespace FluentScheduler
 			{
 				foreach (var schedule in Schedules)
 				{
-					schedule.Reentrant = true;
+					schedule.NonReentrant();
 				}
 			}
 		}
@@ -50,7 +50,7 @@ namespace FluentScheduler
 			var schedule = new Schedule(() => GetTaskInstance<T>().Execute());
 			if (AllTasksConfiguredAsNonReentrant)
 			{
-				schedule.Reentrant = true;
+				schedule.NonReentrant();
 			}
 			lock (((ICollection)Schedules).SyncRoot)
 			{
@@ -69,7 +69,7 @@ namespace FluentScheduler
 			var schedule = new Schedule(action);
 			if (AllTasksConfiguredAsNonReentrant)
 			{
-				schedule.Reentrant = true;
+				schedule.NonReentrant();
 			}
 			lock (((ICollection)Schedules).SyncRoot)
 			{

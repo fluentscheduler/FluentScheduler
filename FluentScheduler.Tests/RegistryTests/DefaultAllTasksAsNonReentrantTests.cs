@@ -13,7 +13,7 @@ namespace FluentScheduler.Tests.RegistryTests
 			var registry = new RegistryWithPreviousTasksConfigured();
 			foreach (var schedule in registry.Schedules)
 			{
-				schedule.Reentrant.Should().Be.True();
+				schedule.Reentrant.Should().Be.False();
 			}
 		}
 		private class RegistryWithPreviousTasksConfigured : Registry
@@ -32,7 +32,7 @@ namespace FluentScheduler.Tests.RegistryTests
 			var registry = new RegistryWithFutureTasksConfigured();
 			foreach (var schedule in registry.Schedules)
 			{
-				schedule.Reentrant.Should().Be.True();
+				schedule.Reentrant.Should().Be.False();
 			}
 		}
 		private class RegistryWithFutureTasksConfigured : Registry
