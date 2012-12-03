@@ -2,9 +2,9 @@
 
 namespace FluentScheduler.Model
 {
-	public abstract class ScheduleBase
+	public class TaskStartScheduleInformation
 	{
-		public DateTime NextRunTime { get; set; }
 		public string Name { get; set; }
+		public DateTime StartTime { get; set; }
 	}
 }

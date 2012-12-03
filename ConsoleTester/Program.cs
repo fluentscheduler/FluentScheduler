@@ -11,8 +11,8 @@ namespace ConsoleTester
 		{
 			Console.WriteLine("Starting everything...");
 
-			TaskManager.TaskStart += (schedule, e) => Console.WriteLine(schedule.Name + " Started");
-			TaskManager.TaskEnd += (schedule, e) => Console.WriteLine(schedule.Name + " Ended.  Next run: " + schedule.NextRunTime);
+			TaskManager.TaskStart += (schedule, e) => Console.WriteLine(schedule.Name + " Started: " + schedule.StartTime);
+			TaskManager.TaskEnd += (schedule, e) => Console.WriteLine(schedule.Name + " Ended.\n\tStarted: " + schedule.StartTime + "\n\tDuration: " + schedule.Duration + "\n\tNext run: " + schedule.NextRunTime);
 
 			TaskManager.Initialize(new MyRegistry());
 			Console.WriteLine("Done initializing...");
@@ -49,7 +49,13 @@ namespace ConsoleTester
 				Thread.Sleep(4000);
 				Console.WriteLine("After sleep - " + DateTime.Now);
 
-			}).WithName("Sleepy Task").NonReentrant().ToRunEvery(1).Seconds();
+			}).WithName("Sleepy Task").NonReentrant().ToRunNow().AndEvery(1).Seconds();
+
+			Schedule(() =>
+			{
+				Console.WriteLine("Before exception");
+				throw new Exception("Test throwing an exception, to make sure UnobservedTaskException is raised properly");
+			}).WithName("Exception Task").NonReentrant().ToRunNow().AndEvery(1).Seconds();
 		}
 	}
 

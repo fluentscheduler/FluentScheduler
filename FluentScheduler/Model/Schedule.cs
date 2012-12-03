@@ -3,8 +3,11 @@ using System.Collections.Generic;
 
 namespace FluentScheduler.Model
 {
-	public class Schedule : ScheduleBase
+	public class Schedule
 	{
+		public DateTime NextRunTime { get; set; }
+		public string Name { get; set; }
+
 		internal Action Task { get; private set; }
 
 		internal Func<DateTime, DateTime> CalculateNextRun { get; set; }

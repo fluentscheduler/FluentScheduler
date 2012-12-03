@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
@@ -14,8 +15,8 @@ namespace FluentScheduler
 	public static class TaskManager
 	{
 		public static event GenericEventHandler<Task, UnhandledExceptionEventArgs> UnobservedTaskException;
-		public static event GenericEventHandler<ScheduleBase, EventArgs> TaskStart;
-		public static event GenericEventHandler<ScheduleBase, EventArgs> TaskEnd;
+		public static event GenericEventHandler<TaskStartScheduleInformation, EventArgs> TaskStart;
+		public static event GenericEventHandler<TaskEndScheduleInformation, EventArgs> TaskEnd;
 
 		private static List<Schedule> _tasks;
 		private static Timer _timer;
@@ -53,20 +54,34 @@ namespace FluentScheduler
 			if (handler != null && t.Exception != null)
 				handler(t, new UnhandledExceptionEventArgs(t.Exception.InnerException, true));
 		}
-		private static void RaiseTaskStart(Schedule schedule)
+		private static void RaiseTaskStart(Schedule schedule, DateTime startTime)
 		{
 			var handler = TaskStart;
 			if (handler != null)
 			{
-				handler(schedule, new EventArgs());
+				var info = new TaskStartScheduleInformation
+					{
+						Name = schedule.Name,
+						StartTime = startTime
+					};
+				handler(info, new EventArgs());
 			}
 		}
-		private static void RaiseTaskEnd(Schedule schedule)
+		private static void RaiseTaskEnd(Schedule schedule, DateTime startTime, TimeSpan duration)
 		{
 			var handler = TaskEnd;
 			if (handler != null)
 			{
-				handler(schedule, new EventArgs());
+				var info = new TaskEndScheduleInformation
+					{
+						Name = schedule.Name,
+						StartTime = startTime,
+						Duration = duration
+					};
+				if (schedule.NextRunTime != default(DateTime))
+					info.NextRunTime = schedule.NextRunTime;
+
+				handler(info, new EventArgs());
 			}
 		}
 
@@ -77,6 +92,16 @@ namespace FluentScheduler
 				if (schedule.CalculateNextRun == null)
 				{
 					immediateTasks.Add(schedule);
+					var hasAdded = false;
+					foreach (var child in schedule.AdditionalSchedules.Where(x => x.CalculateNextRun != null))
+					{
+						var nextRun = child.CalculateNextRun(now.AddMilliseconds(1));
+						if (!hasAdded || schedule.NextRunTime > nextRun)
+						{
+							schedule.NextRunTime = nextRun;
+							hasAdded = true;
+						}
+					}
 				}
 				else
 				{
@@ -127,16 +152,26 @@ namespace FluentScheduler
 			var id = Guid.NewGuid();
 			_runningSchedules.TryAdd(id, task);
 
-			RaiseTaskStart(task);
-			Task.Factory.StartNew(task.Task, TaskCreationOptions.PreferFairness)
-				.ContinueWith(_ => {
+			var start = DateTime.Now;
+			RaiseTaskStart(task, start);
+			Task.Factory.StartNew(() => {
+				var stopwatch = new Stopwatch();
+				try
+				{
+					stopwatch.Start();
+					task.Task();
+				}
+				finally
+				{
+					stopwatch.Stop();
 					bool notUsed;
 					RunningNonReentrantTasks.TryRemove(task.Task, out notUsed);
 					Schedule notUsedSchedule;
 					_runningSchedules.TryRemove(id, out notUsedSchedule);
-					RaiseTaskEnd(task);
-				})
-				.ContinueWith(RaiseUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
+					RaiseTaskEnd(task, start, stopwatch.Elapsed);
+				}
+			}, TaskCreationOptions.PreferFairness)
+			.ContinueWith(RaiseUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
 		}
 
 		/// <summary>
