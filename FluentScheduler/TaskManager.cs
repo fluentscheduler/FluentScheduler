@@ -273,6 +273,9 @@ namespace FluentScheduler
 				Schedule();
 				return;
 			}
+			// If the interval is greater than what the _timer supports, just go for int.MaxValue. A new interval will be calculated the next time the timer runs.
+			if (timerInterval > int.MaxValue)
+				timerInterval = int.MaxValue;
 
 			_timer.Interval = timerInterval;
 			_timer.Start();

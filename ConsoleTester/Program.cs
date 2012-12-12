@@ -42,6 +42,8 @@ namespace ConsoleTester
 	{
 		public MyRegistry()
 		{
+			DefaultAllTasksAsNonReentrant();
+
 			Schedule(() =>
 			{
 				Console.WriteLine("Before sleep - " + DateTime.Now);
@@ -49,13 +51,7 @@ namespace ConsoleTester
 				Thread.Sleep(4000);
 				Console.WriteLine("After sleep - " + DateTime.Now);
 
-			}).WithName("Sleepy Task").NonReentrant().ToRunNow().AndEvery(1).Seconds();
-
-			Schedule(() =>
-			{
-				Console.WriteLine("Before exception");
-				throw new Exception("Test throwing an exception, to make sure UnobservedTaskException is raised properly");
-			}).WithName("Exception Task").NonReentrant().ToRunNow().AndEvery(1).Seconds();
+			}).WithName("Sleepy Task").ToRunEvery(1).Months().On(10).At(5,0);
 		}
 	}
 
