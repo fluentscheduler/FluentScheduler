@@ -38,6 +38,14 @@ namespace FluentScheduler.Model
 		}
 
 		/// <summary>
+		/// Start the task now, regardless of any scheduled start time.
+		/// </summary>
+		public void Execute()
+		{
+			TaskManager.StartTask(this);
+		}
+
+		/// <summary>
 		/// Schedules the specified task to run now
 		/// </summary>
 		/// <returns></returns>

@@ -16,6 +16,15 @@ namespace ConsoleTester
 
 			TaskManager.Initialize(new MyRegistry());
 			Console.WriteLine("Done initializing...");
+
+			// try to get the named schedule registered inside MyRegistry
+			FluentScheduler.Model.Schedule named = TaskManager.GetSchedule("named task");
+			if (named != null)
+			{
+				// success, execute it manually
+				named.Execute();
+			}
+
 			//Thread.Sleep(10000);
 			//TaskManager.Stop();
 
@@ -46,12 +55,19 @@ namespace ConsoleTester
 
 			Schedule(() =>
 			{
+				Console.WriteLine();
+				Console.WriteLine("... named task output ...");
+				Console.WriteLine();
+			}).WithName("named task").ToRunEvery(1).Years();
+
+			Schedule(() =>
+			{
 				Console.WriteLine("Before sleep - " + DateTime.Now);
 				Console.WriteLine("Running Tasks: " + TaskManager.RunningSchedules.Count);
 				Thread.Sleep(4000);
 				Console.WriteLine("After sleep - " + DateTime.Now);
 
-			}).WithName("Sleepy Task").ToRunEvery(1).Months().On(10).At(5,0);
+			}).WithName("Sleepy Task").ToRunEvery(1).Months().On(10).At(5, 0);
 		}
 	}
 

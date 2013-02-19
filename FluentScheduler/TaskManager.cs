@@ -31,6 +31,34 @@ namespace FluentScheduler
 		}
 
 		/// <summary>
+		/// The list of all schedules, whether or not they are currently running.
+		/// Use <see cref="GetSchedule"/> to get concrete schedule by name.
+		/// </summary>
+		public static Schedule[] AllSchedules
+		{
+			get
+			{
+				return _tasks.ToArray();
+			}
+		}
+		/// <summary>
+		/// Get schedule by name.
+		/// </summary>
+		/// <param name="name">Schedule name</param>
+		/// <returns>Schedule instance or null if the schedule does not exist</returns>
+		public static Schedule GetSchedule(string name)
+		{
+			if (_tasks != null)
+			{
+				return _tasks.Where(x => x.Name == name).FirstOrDefault();
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		/// <summary>
 		/// Initializes the task manager with all schedules configured in the specified registry
 		/// </summary>
 		/// <param name="registry">Registry containing task schedules</param>
@@ -141,7 +169,7 @@ namespace FluentScheduler
 			Schedule();
 		}
 
-		private static void StartTask(Schedule task)
+		internal static void StartTask(Schedule task)
 		{
 			if (!task.Reentrant)
 			{
@@ -154,7 +182,8 @@ namespace FluentScheduler
 
 			var start = DateTime.Now;
 			RaiseTaskStart(task, start);
-			Task.Factory.StartNew(() => {
+			Task.Factory.StartNew(() =>
+			{
 				var stopwatch = new Stopwatch();
 				try
 				{
