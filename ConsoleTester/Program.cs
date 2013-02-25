@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentScheduler;
@@ -55,15 +57,22 @@ namespace ConsoleTester
 
 			Schedule(() =>
 			{
+				if (TaskManager.RunningSchedules.Any(x => x.Name == "Sleepy Task"))
+				{
+					Console.WriteLine("Skipped named task because sleepy task is running");
+					return;
+				}
 				Console.WriteLine();
 				Console.WriteLine("... named task output ...");
 				Console.WriteLine();
+
+
 			}).WithName("named task").ToRunEvery(1).Years();
 
 			Schedule(() =>
 			{
 				Console.WriteLine("Before sleep - " + DateTime.Now);
-				Console.WriteLine("Running Tasks: " + TaskManager.RunningSchedules.Count);
+				Console.WriteLine("Running Tasks: " + TaskManager.RunningSchedules.Length);
 				Thread.Sleep(4000);
 				Console.WriteLine("After sleep - " + DateTime.Now);
 

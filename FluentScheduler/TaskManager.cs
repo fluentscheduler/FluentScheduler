@@ -22,11 +22,14 @@ namespace FluentScheduler
 		private static Timer _timer;
 		private static readonly ConcurrentDictionary<Action, bool> RunningNonReentrantTasks = new ConcurrentDictionary<Action, bool>();
 		private static readonly ConcurrentDictionary<Guid, Schedule> _runningSchedules = new ConcurrentDictionary<Guid, Schedule>();
-		public static IList<Schedule> RunningSchedules
+		/// <summary>
+		/// Gets a list of currently schedules currently executing.
+		/// </summary>
+		public static Schedule[] RunningSchedules
 		{
 			get
 			{
-				return new List<Schedule>(_runningSchedules.Values);
+				return _runningSchedules.Values.ToArray();
 			}
 		}
 
