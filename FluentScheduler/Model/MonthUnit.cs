@@ -61,7 +61,16 @@ namespace FluentScheduler.Model
 			return new MonthOnDayOfWeekUnit(Schedule, Duration, Week.Third, day);
 		}
 		/// <summary>
-		/// Schedules the specified task to run on the last occurance of the specified day of the week.  If the day has passed, the task will execute the next scheduled month.
+		/// Schedules the specified task to run on the fourth occurance of the specified day of the week.  If the day has passed, the task will execute the next scheduled month.
+		/// </summary>
+		/// <param name="day">Day of week to run the task</param>
+		/// <returns></returns>
+		public MonthOnDayOfWeekUnit OnTheFourth(DayOfWeek day)
+		{
+			return new MonthOnDayOfWeekUnit(Schedule, Duration, Week.Fourth, day);
+		}
+		/// <summary>
+		/// Schedules the specified task to run on the last occurance of the specified day of the week.  Depending on the month, this might be the 4th week or the 5th week.  If the day has passed, the task will execute the next scheduled month.
 		/// </summary>
 		/// <param name="day">Day of week to run the task</param>
 		/// <returns></returns>

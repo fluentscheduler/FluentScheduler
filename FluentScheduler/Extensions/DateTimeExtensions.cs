@@ -112,6 +112,8 @@ namespace FluentScheduler.Extensions
 					return current.First().AddDays(7);
 				case Week.Third:
 					return current.First().AddDays(14);
+				case Week.Fourth:
+					return current.First().AddDays(21);
 				case Week.Last:
 					return current.Last().AddDays(-7);
 			}

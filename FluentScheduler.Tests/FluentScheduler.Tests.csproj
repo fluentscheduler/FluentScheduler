@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RegistryTests\DefaultAllTasksAsNonReentrantTests.cs" />
+    <Compile Include="ScheduleTests\MonthsOnTheFourthTests.cs" />
     <Compile Include="ScheduleTests\NonReentrantTests.cs" />
     <Compile Include="ScheduleTests\SpecificRunTimeTests.cs" />
     <Compile Include="ScheduleTests\YearsOnTheLastDayTests.cs" />

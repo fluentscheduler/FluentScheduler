@@ -7,6 +7,7 @@ namespace FluentScheduler.Model
 		First,
 		Second,
 		Third,
+		Fourth,
 		Last
 	}
 }
