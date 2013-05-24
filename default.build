@@ -1,0 +1,21 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Default">
+	<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+
+	<PropertyGroup>
+		<build_number Condition="'$(teamcity_version)' == ''">1.0.0</build_number>
+	</PropertyGroup>
+	
+	<Target Name="UpdateVersion">
+		<ItemGroup>
+			<AssemblyInfoFiles Include="**\AssemblyInfo.cs" />
+			<NuspecFiles Include="**\package.nuspec" />
+		</ItemGroup>
+
+		<Message Text="Updating assembly versions: @(AssemblyInfoFiles->'%(RecursiveDir)%(Filename)%(Extension)')"/>
+
+		<FileUpdate Files="@(AssemblyInfoFiles->'%(RecursiveDir)%(Filename)%(Extension)')" Regex="AssemblyVersion\(&quot;([^&quot;]*)&quot;\)" ReplacementText="AssemblyVersion(&quot;$(build_number)&quot;)" />
+		<FileUpdate Files="@(AssemblyInfoFiles->'%(RecursiveDir)%(Filename)%(Extension)')" Regex="AssemblyFileVersion\(&quot;([^&quot;]*)&quot;\)" ReplacementText="AssemblyFileVersion(&quot;$(build_number)&quot;)" />
+		<FileUpdate Files="@(NuspecFiles->'%(RecursiveDir)%(Filename)%(Extension)')" Regex="version&gt;([^&quot;&lt;]*)&lt;/version" ReplacementText="version&gt;$(build_number)&lt;/version" />
+	</Target>
+	
+</Project>

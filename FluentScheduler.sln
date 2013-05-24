@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{84DE7963-A70D-4768-ADDC-0B54E78CA064}"
 	ProjectSection(SolutionItems) = preProject
-		default.msbuild = default.msbuild
+		default.build = default.build
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C7E74B75-9A73-40BB-9919-9560520E176B}"

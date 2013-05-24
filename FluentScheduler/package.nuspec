@@ -13,7 +13,7 @@
 		<tags>Library task-scheduler tasks cron</tags>
 	</metadata>
 	<files>
-		<file src="FluentScheduler\bin\Release\FluentScheduler.dll" target="lib" />
-		<file src="FluentScheduler\bin\Release\FluentScheduler.pdb" target="lib" />
+		<file src="bin\Release\FluentScheduler.dll" target="lib\net40" />
+		<file src="bin\Release\FluentScheduler.pdb" target="lib\net40" />
 	</files>
 </package>
