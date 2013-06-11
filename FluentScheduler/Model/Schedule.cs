@@ -64,6 +64,32 @@ namespace FluentScheduler.Model
 			return new TimeUnit(this, interval);
 		}
 
+        /// <summary>
+        /// Schedules the specified task to run for the specified interval.
+        /// The specified interval is randomized between a value of (interval - 10%) 
+        /// and (interval + 10%) to allow for the start time of the task to be 
+        /// different for each scheduled run.
+        /// <para></para>
+        /// <para>*** NOTE ***</para>
+        /// <para>The randomization only applies when using Seconds() and Minutes().
+        /// The other time ranges (hours, days, weeks, months, years) allow for an 
+        /// overridden "At()" that contradicts the intended randomness therefore, 
+        /// an InvalidOperationException will be thrown.
+        /// </para>
+        /// </summary>
+        /// <param name="interval"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">
+        /// If you use the <see cref="ToRunAboutEvery"/> method to schedule a 
+        /// random start time of the task, but use any method other than Seconds() or
+        /// Minutes() to specify the amount of time you want to use when scheduling
+        /// the next run time of the task.
+        /// </exception>
+        public TimeUnit ToRunAboutEvery(int interval)
+        {
+            return new TimeUnit(this, interval, true);
+        }
+
 		/// <summary>
 		/// Schedules the specified task to run once at the hour and minute specified.  If the hour and minute have passed, the task will be executed immediately.
 		/// </summary>

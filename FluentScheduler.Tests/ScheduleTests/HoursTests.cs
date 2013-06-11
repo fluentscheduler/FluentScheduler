@@ -136,5 +136,13 @@ namespace FluentScheduler.Tests.ScheduleTests
 			scheduledTime.Minute.Should().Equal(15);
 			scheduledTime.Second.Should().Equal(0);
 		}
+
+        [Test]
+        public void SHould_Throw_Exception_When_Using_Randomized_Hour_For_Start_Time()
+        {
+            var task = new Mock<ITask>();
+            var schedule = new Schedule(task.Object);
+            Assert.Throws(typeof(InvalidOperationException), delegate { schedule.ToRunAboutEvery(3).Hours(); });
+        }
 	}
 }
