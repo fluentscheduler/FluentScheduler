@@ -55,28 +55,48 @@ namespace ConsoleTester
 		{
 			DefaultAllTasksAsNonReentrant();
 
-			Schedule(() =>
-			{
-				if (TaskManager.RunningSchedules.Any(x => x.Name == "Sleepy Task"))
-				{
-					Console.WriteLine("Skipped named task because sleepy task is running");
-					return;
-				}
-				Console.WriteLine();
-				Console.WriteLine("... named task output ...");
-				Console.WriteLine();
+            //Schedule(() =>
+            //{
+            //    if (TaskManager.RunningSchedules.Any(x => x.Name == "Sleepy Task"))
+            //    {
+            //        Console.WriteLine("Skipped named task because sleepy task is running");
+            //        return;
+            //    }
+            //    Console.WriteLine();
+            //    Console.WriteLine("... named task output ...");
+            //    Console.WriteLine();
 
 
-			}).WithName("named task").ToRunEvery(1).Years();
+            //}).WithName("named task").ToRunEvery(1).Years();
 
-			Schedule(() =>
-			{
-				Console.WriteLine("Before sleep - " + DateTime.Now);
-				Console.WriteLine("Running Tasks: " + TaskManager.RunningSchedules.Length);
-				Thread.Sleep(4000);
-				Console.WriteLine("After sleep - " + DateTime.Now);
+            //Schedule(() =>
+            //{
+            //    Console.WriteLine("Before sleep - " + DateTime.Now);
+            //    Console.WriteLine("Running Tasks: " + TaskManager.RunningSchedules.Length);
+            //    Thread.Sleep(4000);
+            //    Console.WriteLine("After sleep - " + DateTime.Now);
 
-			}).WithName("Sleepy Task").ToRunEvery(1).Months().On(10).At(5, 0);
+            //}).WithName("Sleepy Task").ToRunEvery(1).Months().On(10).At(5, 0);
+
+            Schedule(() =>
+            {
+                Console.WriteLine("First task will fire first!");
+                Console.WriteLine("Waiting four seconds...");
+                Thread.Sleep(4000);
+            }).AndThen(() =>
+            {
+                Console.WriteLine("Then the second task fires!");
+            }).WithName("Multitask").ToRunNow();
+
+            //Schedule(() =>
+            //{
+            //    Console.WriteLine("First task fires and then sleeps for four seconds...");
+            //    Thread.Sleep(4000);
+            //}).AndThen(() =>
+            //{
+            //    Console.WriteLine("Second task fires concurrently!");
+            //}).Concurrently().WithName("Concurrent Multitask").ToRunNow();
+
 		}
 	}
 

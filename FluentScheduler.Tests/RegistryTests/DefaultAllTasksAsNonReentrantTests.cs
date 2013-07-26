@@ -35,6 +35,7 @@ namespace FluentScheduler.Tests.RegistryTests
 				schedule.Reentrant.Should().Be.False();
 			}
 		}
+
 		private class RegistryWithFutureTasksConfigured : Registry
 		{
 			public RegistryWithFutureTasksConfigured()

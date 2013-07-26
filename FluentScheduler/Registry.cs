@@ -22,6 +22,7 @@ namespace FluentScheduler
 
 		internal List<Schedule> Schedules { get; private set; }
 		internal bool AllTasksConfiguredAsNonReentrant { get; set; }
+        public ITaskFactory TaskFactory { get; set; }
 
 		public Registry()
 		{
@@ -47,7 +48,7 @@ namespace FluentScheduler
 		/// <returns></returns>
 		public Schedule Schedule<T>() where T : ITask
 		{
-			var schedule = new Schedule(() => GetTaskInstance<T>().Execute());
+            var schedule = new Schedule(TaskFactory, () => TaskFactory.GetTaskInstance<T>().Execute());
 			if (AllTasksConfiguredAsNonReentrant)
 			{
 				schedule.NonReentrant();
@@ -76,16 +77,6 @@ namespace FluentScheduler
 				Schedules.Add(schedule);
 			}
 			return schedule;
-		}
-
-		/// <summary>
-		/// Retrieves the task instance for the specified type
-		/// </summary>
-		/// <typeparam name="T">Type of task to create</typeparam>
-		/// <returns></returns>
-		public virtual ITask GetTaskInstance<T>() where T : ITask
-		{
-			return Activator.CreateInstance<T>();
 		}
 	}
 }
