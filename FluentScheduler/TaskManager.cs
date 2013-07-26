@@ -20,7 +20,8 @@ namespace FluentScheduler
 
 		private static List<Schedule> _tasks;
 		private static Timer _timer;
-		private static readonly ConcurrentDictionary<Action, bool> RunningNonReentrantTasks = new ConcurrentDictionary<Action, bool>();
+        private static bool _testMode;
+		private static readonly ConcurrentDictionary<List<Action>, bool> RunningNonReentrantTasks = new ConcurrentDictionary<List<Action>, bool>();
 		private static readonly ConcurrentDictionary<Guid, Schedule> _runningSchedules = new ConcurrentDictionary<Guid, Schedule>();
 		/// <summary>
 		/// Gets a list of currently schedules currently executing.
@@ -116,13 +117,13 @@ namespace FluentScheduler
 			}
 		}
 
-		private static void AddSchedules(IEnumerable<Schedule> schedules, ICollection<Schedule> immediateTasks, DateTime now)
+		private static void AddSchedules(IEnumerable<Schedule> schedules, ICollection<Schedule> immediatelyInvokedSchedules, DateTime now)
 		{
 			foreach (var schedule in schedules)
 			{
 				if (schedule.CalculateNextRun == null)
 				{
-					immediateTasks.Add(schedule);
+					immediatelyInvokedSchedules.Add(schedule);
 					var hasAdded = false;
 					foreach (var child in schedule.AdditionalSchedules.Where(x => x.CalculateNextRun != null))
 					{
@@ -144,7 +145,7 @@ namespace FluentScheduler
 				{
 					if (childSchedule.CalculateNextRun == null)
 					{
-						immediateTasks.Add(childSchedule);
+						immediatelyInvokedSchedules.Add(childSchedule);
 						continue;
 					}
 					childSchedule.NextRunTime = childSchedule.CalculateNextRun(now);
@@ -153,9 +154,9 @@ namespace FluentScheduler
 			}
 		}
 
-		private static void RunAndInitializeSchedule(IEnumerable<Schedule> immediateTasks)
+		private static void RunAndInitializeSchedule(IEnumerable<Schedule> immediatelyInvokedSchedules)
 		{
-			foreach (var task in immediateTasks)
+			foreach (var task in immediatelyInvokedSchedules)
 			{
 				StartTask(task);
 			}
@@ -172,38 +173,60 @@ namespace FluentScheduler
 			Schedule();
 		}
 
-		internal static void StartTask(Schedule task)
+		internal static void StartTask(Schedule schedule)
 		{
-			if (!task.Reentrant)
+			if (!schedule.Reentrant)
 			{
-				if (!RunningNonReentrantTasks.TryAdd(task.Task, true))
+				if (!RunningNonReentrantTasks.TryAdd(schedule.Tasks, true))
 					return;
 			}
 
 			var id = Guid.NewGuid();
-			_runningSchedules.TryAdd(id, task);
+			_runningSchedules.TryAdd(id, schedule);
 
 			var start = DateTime.Now;
-			RaiseTaskStart(task, start);
-			Task.Factory.StartNew(() =>
+			RaiseTaskStart(schedule, start);
+			var MainTask = Task.Factory.StartNew(() =>
 			{
-				var stopwatch = new Stopwatch();
-				try
-				{
-					stopwatch.Start();
-					task.Task();
+                var stopwatch = new Stopwatch();
+                try
+                {
+                    stopwatch.Start();
+                    if (schedule.Concurrent)
+                    {
+                        Task[] SubTasks = new Task[schedule.Tasks.Count()];
+                        int i = 0;
+                        foreach (Action action in schedule.Tasks)
+                        {
+                            SubTasks[i] = Task.Factory.StartNew(() => action());
+                            i++;
+                        }
+                        Task.WaitAll(SubTasks);
+                    }
+                    else
+                    {
+                        foreach (Action action in schedule.Tasks)
+                        {
+                            Task SubTask = Task.Factory.StartNew(() => action());
+                            SubTask.Wait();
+                        }
+                    }
 				}
 				finally
 				{
 					stopwatch.Stop();
 					bool notUsed;
-					RunningNonReentrantTasks.TryRemove(task.Task, out notUsed);
+					RunningNonReentrantTasks.TryRemove(schedule.Tasks, out notUsed);
 					Schedule notUsedSchedule;
 					_runningSchedules.TryRemove(id, out notUsedSchedule);
-					RaiseTaskEnd(task, start, stopwatch.Elapsed);
+					RaiseTaskEnd(schedule, start, stopwatch.Elapsed);
 				}
-			}, TaskCreationOptions.PreferFairness)
-			.ContinueWith(RaiseUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
+			}, TaskCreationOptions.PreferFairness);
+			MainTask.ContinueWith(RaiseUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
+
+            //If running assertions against the code, make sure to wait for the tasks to complete.
+            if (_testMode)
+                MainTask.Wait();
 		}
 
 		/// <summary>
@@ -312,5 +335,14 @@ namespace FluentScheduler
 			_timer.Interval = timerInterval;
 			_timer.Start();
 		}
+
+        /// <summary>
+        /// Utilized for asserting that actions have run in StartTask - requires the async task wait for completion
+        /// as opposed to SOP of running asynchronously with a continuation.
+        /// </summary>
+        public static void RunInTestingMode()
+        {
+            _testMode = true;
+        }
 	}
 }

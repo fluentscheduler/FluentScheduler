@@ -29,6 +29,12 @@ public class MyRegistry : Registry
 			Thread.Sleep(1000);
 			Console.WriteLine("Complex Action Task Ends: " + DateTime.Now);
 		}).ToRunNow().AndEvery(1).Months().OnTheFirst(DayOfWeek.Monday).At(3, 0);
+		
+		//Schedule multiple tasks to be run in a single schedule
+		Schedule<MyTask>().AndThen<MyOtherTask>().ToRunNow().AndEvery(5).Minutes();
+		
+		//Schedule multiple tasks to be run in a single schedule concurrently
+		Schedule<MyTask>().AndThen<MyOtherTask>().Concurrently().ToRunNow();
 	}
 } 
 ```
@@ -45,23 +51,30 @@ protected void Application_Start()
 Using your Dependency Injection / Inversion of Control tool of choice
 ---------------------------------------------------------------------
 
-FluentScheduler makes it easy to use your IOC tool to create task instances. Simply override the GetTaskInstance<T>() method on your Registry class. An example incorporating StructureMap:
+FluentScheduler makes it easy to use your IOC tool to create task instances. Simply extend the ITaskFactory class and override the GetTaskInstance<T>() method. An example incorporating StructureMap:
 
 ```csharp
 using FluentScheduler;
 using StructureMap;
 
+public class StructureMapTaskFacotry : ITaskFactory
+{
+	public StructureMapTaskFactory () { }
+	
+	public override ITask GetTaskInstance<T>()
+	{
+		return ObjectFactory.Container.GetInstance<T>();
+	}
+}
+
 public class MyRegistry : Registry
 {
 	public MyRegistry()
 	{
+		TaskFactory = new StructureMapTaskFactory();
+	
 		// Schedule an ITask to run at an interval
 		Schedule<MyTask>().ToRunNow().AndEvery(2).Seconds();
-	}
-
-	public override ITask GetTaskInstance<T>()
-	{
-		return ObjectFactory.Container.GetInstance<T>();
 	}
 } 
 ```
