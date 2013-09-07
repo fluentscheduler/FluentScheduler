@@ -251,6 +251,15 @@ namespace FluentScheduler
 			RunAndInitializeSchedule(immediateTasks);
 		}
 
+		public static void RemoveTask(string name) {
+			var task = GetSchedule(name);
+			if (task != null) {
+				lock (typeof(TaskManager)) {
+					_tasks.Remove(task);
+				}
+			}
+		}
+
 		/// <summary>
 		/// Stops the task manager from executing tasks.
 		/// </summary>
@@ -278,7 +287,10 @@ namespace FluentScheduler
 		{
 			_timer.Stop();
 
-			var firstTask = _tasks.First();
+			var firstTask = _tasks.FirstOrDefault();
+			if (firstTask == default(Schedule)) {
+				return;
+			}
 			if (firstTask.NextRunTime <= DateTime.Now)
 			{
 				StartTask(firstTask);
