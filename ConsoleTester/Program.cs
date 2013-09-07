@@ -27,6 +27,20 @@ namespace ConsoleTester
 				named.Execute();
 			}
 
+			FluentScheduler.Model.Schedule removable = TaskManager.GetSchedule("removable task");
+			if (removable != null) {
+				Console.WriteLine("before remove");
+				TaskManager.RemoveTask(removable.Name);
+				Console.WriteLine("after remove");
+			}
+
+			FluentScheduler.Model.Schedule longRemovable = TaskManager.GetSchedule("long removable task");
+			if (longRemovable != null) {
+				Console.WriteLine("before remove long running");
+				TaskManager.RemoveTask(longRemovable.Name);
+				Console.WriteLine("after remove long running");
+			}
+
 			//Thread.Sleep(10000);
 			//TaskManager.Stop();
 
@@ -77,6 +91,22 @@ namespace ConsoleTester
 				Console.WriteLine("After sleep - " + DateTime.Now);
 
 			}).WithName("Sleepy Task").ToRunEvery(1).Months().On(10).At(5, 0);
+
+			Schedule(() =>
+			{
+				Console.WriteLine();
+				Console.WriteLine("... removable task output ...");
+				Console.WriteLine();
+			}).WithName("removable task").ToRunNow().AndEvery(2).Seconds();
+
+			Schedule(() => {
+				Console.WriteLine();
+				Console.WriteLine("Before sleep - " + DateTime.Now);
+				Console.WriteLine("... long removable task output ...");
+				Thread.Sleep(4000);
+				Console.WriteLine("After sleep - " + DateTime.Now);
+				Console.WriteLine();
+			}).WithName("long removable task").ToRunNow().AndEvery(10).Seconds();
 		}
 	}
 
