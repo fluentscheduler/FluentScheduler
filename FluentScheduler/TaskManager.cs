@@ -287,7 +287,10 @@ namespace FluentScheduler
 		{
 			_timer.Stop();
 
-			var firstTask = _tasks.First();
+			var firstTask = _tasks.FirstOrDefault();
+			if (firstTask == default(Schedule)) {
+				return;
+			}
 			if (firstTask.NextRunTime <= DateTime.Now)
 			{
 				StartTask(firstTask);
