@@ -59,6 +59,7 @@
     <Compile Include="RegistryTests\DefaultAllTasksAsNonReentrantTests.cs" />
     <Compile Include="ScheduleTests\MonthsOnTheFourthTests.cs" />
     <Compile Include="ScheduleTests\NonReentrantTests.cs" />
+    <Compile Include="ScheduleTests\RemoveTests.cs" />
     <Compile Include="ScheduleTests\SpecificRunTimeTests.cs" />
     <Compile Include="ScheduleTests\YearsOnTheLastDayTests.cs" />
     <Compile Include="ScheduleTests\YearsOnTests.cs" />
