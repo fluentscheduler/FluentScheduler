@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GenericEventHandler.cs" />
-    <Compile Include="ITaskFactory.cs" />
+    <Compile Include="TaskFactory.cs" />
     <Compile Include="Model\TaskEndScheduleInformation.cs" />
     <Compile Include="Model\TaskStartScheduleInformation.cs" />
     <Compile Include="Registry.cs" />

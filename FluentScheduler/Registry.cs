@@ -22,17 +22,18 @@ namespace FluentScheduler
 
 		internal List<Schedule> Schedules { get; private set; }
 		internal bool AllTasksConfiguredAsNonReentrant { get; set; }
-        public ITaskFactory TaskFactory { get; set; }
+		public ITaskFactory TaskFactory { get; set; }
 
 		public Registry()
 		{
 			Schedules = new List<Schedule>();
+			TaskFactory = new TaskFactory();
 		}
 
 		public void DefaultAllTasksAsNonReentrant()
 		{
 			AllTasksConfiguredAsNonReentrant = true;
-			lock (((ICollection)Schedules).SyncRoot)
+			lock (((ICollection) Schedules).SyncRoot)
 			{
 				foreach (var schedule in Schedules)
 				{
@@ -48,12 +49,12 @@ namespace FluentScheduler
 		/// <returns></returns>
 		public Schedule Schedule<T>() where T : ITask
 		{
-            var schedule = new Schedule(TaskFactory, () => TaskFactory.GetTaskInstance<T>().Execute());
+			var schedule = new Schedule(() => TaskFactory.GetTaskInstance<T>().Execute(), TaskFactory);
 			if (AllTasksConfiguredAsNonReentrant)
 			{
 				schedule.NonReentrant();
 			}
-			lock (((ICollection)Schedules).SyncRoot)
+			lock (((ICollection) Schedules).SyncRoot)
 			{
 				Schedules.Add(schedule);
 			}
@@ -67,12 +68,12 @@ namespace FluentScheduler
 		/// <returns></returns>
 		public Schedule Schedule(Action action)
 		{
-			var schedule = new Schedule(action);
+			var schedule = new Schedule(action, TaskFactory);
 			if (AllTasksConfiguredAsNonReentrant)
 			{
 				schedule.NonReentrant();
 			}
-			lock (((ICollection)Schedules).SyncRoot)
+			lock (((ICollection) Schedules).SyncRoot)
 			{
 				Schedules.Add(schedule);
 			}

@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Threading;
 using FluentScheduler.Model;
 using Moq;
 using NUnit.Framework;
@@ -6,42 +8,68 @@ using Should.Fluent;
 
 namespace FluentScheduler.Tests.ScheduleTests
 {
-    [TestFixture]
-    public class AndThenTests
-    {
+	[TestFixture]
+	public class AndThenTests
+	{
+		[Test]
+		public void Should_Be_Able_To_Schedule_Multiple_ITasks()
+		{
+			var task1 = new Mock<ITask>();
+			var task2 = new Mock<ITask>();
+			task1.Setup(m => m.Execute());
+			task2.Setup(m => m.Execute());
+			var schedule = new Schedule(task1.Object).AndThen(task2.Object);
+			schedule.Execute();
 
-        [SetUp]
-        public void Setup()
-        {
-            TaskManager.RunInTestingMode();
-        }
+			while (TaskManager.RunningSchedules.Any())
+			{
+				Thread.Sleep(1);
+			}
+			task1.Verify(m => m.Execute(), Times.Once());
+			task2.Verify(m => m.Execute(), Times.Once());
+		}
 
-        [Test]
-        public void Should_Be_Able_To_Schedule_Multiple_ITasks()
-        {
-            var task_1 = new Mock<ITask>();
-            var task_2 = new Mock<ITask>();
-            task_1.Setup(m => m.Execute());
-            task_2.Setup(m => m.Execute());
-            Schedule schedule = new Schedule(task_1.Object).AndThen(task_2.Object);
-            schedule.Execute();
+		[Test]
+		public void Should_Be_Able_To_Schedule_Multiple_Simple_Methods()
+		{
+			var task1 = new Mock<ITask>();
+			var task2 = new Mock<ITask>();
+			task1.Setup(m => m.Execute());
+			task2.Setup(m => m.Execute());
+			var schedule = new Schedule(() => task1.Object.Execute()).AndThen(() => task2.Object.Execute());
+			schedule.Execute();
 
-            task_1.Verify(m => m.Execute(), Times.Once());
-            task_2.Verify(m => m.Execute(), Times.Once());
-        }
+			while (TaskManager.RunningSchedules.Any())
+			{
+				Thread.Sleep(1);
+			}
 
-        [Test]
-        public void Should_Be_Able_To_Schedule_Multiple_Simple_Methods()
-        {
-            var task_1 = new Mock<ITask>();
-            var task_2 = new Mock<ITask>();
-            task_1.Setup(m => m.Execute());
-            task_2.Setup(m => m.Execute());
-            Schedule schedule = new Schedule(() => task_1.Object.Execute()).AndThen(() => task_2.Object.Execute());
-            schedule.Execute();
+			task1.Verify(m => m.Execute(), Times.Once());
+			task2.Verify(m => m.Execute(), Times.Once());
+		}
 
-            task_1.Verify(m => m.Execute(), Times.Once());
-            task_2.Verify(m => m.Execute(), Times.Once());
-        }
-    }
+		[Test]
+		public void Should_Execute_Tasks_In_Order()
+		{
+			var task1 = new Mock<ITask>();
+			var task2 = new Mock<ITask>();
+			var task1Runtime = DateTime.MinValue;
+			var task2Runtime = DateTime.MinValue;
+			task1.Setup(m => m.Execute()).Callback(() =>
+				{
+					task1Runtime = DateTime.Now;
+					Thread.Sleep(1);
+				});
+			task2.Setup(m => m.Execute()).Callback(() => task2Runtime = DateTime.Now);
+			var schedule = new Schedule(() => task1.Object.Execute()).AndThen(() => task2.Object.Execute());
+			schedule.Execute();
+
+			while (TaskManager.RunningSchedules.Any())
+			{
+				Thread.Sleep(1);
+			}
+
+			((task2Runtime.Ticks - task1Runtime.Ticks) > 0).Should().Be.True();
+		}
+	}
 }

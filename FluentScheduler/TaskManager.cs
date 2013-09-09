@@ -20,7 +20,6 @@ namespace FluentScheduler
 
 		private static List<Schedule> _tasks;
 		private static Timer _timer;
-        private static bool _testMode;
 		private static readonly ConcurrentDictionary<List<Action>, bool> RunningNonReentrantTasks = new ConcurrentDictionary<List<Action>, bool>();
 		private static readonly ConcurrentDictionary<Guid, Schedule> _runningSchedules = new ConcurrentDictionary<Guid, Schedule>();
 		/// <summary>
@@ -54,7 +53,7 @@ namespace FluentScheduler
 		{
 			if (_tasks != null)
 			{
-				return _tasks.Where(x => x.Name == name).FirstOrDefault();
+				return _tasks.FirstOrDefault(x => x.Name == name);
 			}
 			else
 			{
@@ -186,31 +185,17 @@ namespace FluentScheduler
 
 			var start = DateTime.Now;
 			RaiseTaskStart(schedule, start);
-			var MainTask = Task.Factory.StartNew(() =>
+			var mainTask = Task.Factory.StartNew(() =>
 			{
-                var stopwatch = new Stopwatch();
-                try
-                {
-                    stopwatch.Start();
-                    if (schedule.Concurrent)
-                    {
-                        Task[] SubTasks = new Task[schedule.Tasks.Count()];
-                        int i = 0;
-                        foreach (Action action in schedule.Tasks)
-                        {
-                            SubTasks[i] = Task.Factory.StartNew(() => action());
-                            i++;
-                        }
-                        Task.WaitAll(SubTasks);
-                    }
-                    else
-                    {
-                        foreach (Action action in schedule.Tasks)
-                        {
-                            Task SubTask = Task.Factory.StartNew(() => action());
-                            SubTask.Wait();
-                        }
-                    }
+				var stopwatch = new Stopwatch();
+				try
+				{
+					stopwatch.Start();
+					foreach (var action in schedule.Tasks)
+					{
+						var subTask = Task.Factory.StartNew(action);
+						subTask.Wait();
+					}
 				}
 				finally
 				{
@@ -222,11 +207,7 @@ namespace FluentScheduler
 					RaiseTaskEnd(schedule, start, stopwatch.Elapsed);
 				}
 			}, TaskCreationOptions.PreferFairness);
-			MainTask.ContinueWith(RaiseUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
-
-            //If running assertions against the code, make sure to wait for the tasks to complete.
-            if (_testMode)
-                MainTask.Wait();
+			mainTask.ContinueWith(RaiseUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
 		}
 
 		/// <summary>
@@ -335,14 +316,5 @@ namespace FluentScheduler
 			_timer.Interval = timerInterval;
 			_timer.Start();
 		}
-
-        /// <summary>
-        /// Utilized for asserting that actions have run in StartTask - requires the async task wait for completion
-        /// as opposed to SOP of running asynchronously with a continuation.
-        /// </summary>
-        public static void RunInTestingMode()
-        {
-            _testMode = true;
-        }
 	}
 }
