@@ -51,17 +51,15 @@ protected void Application_Start()
 Using your Dependency Injection / Inversion of Control tool of choice
 ---------------------------------------------------------------------
 
-FluentScheduler makes it easy to use your IOC tool to create task instances. Simply extend the ITaskFactory class and override the GetTaskInstance<T>() method. An example incorporating StructureMap:
+FluentScheduler makes it easy to use your IOC tool to create task instances. Simply implement the ITaskFactory interface and the GetTaskInstance<T>() method. An example incorporating StructureMap:
 
 ```csharp
 using FluentScheduler;
 using StructureMap;
 
-public class StructureMapTaskFacotry : ITaskFactory
+public class StructureMapTaskFactory : ITaskFactory
 {
-	public StructureMapTaskFactory () { }
-	
-	public override ITask GetTaskInstance<T>()
+	public ITask GetTaskInstance<T>() where T : ITask
 	{
 		return ObjectFactory.Container.GetInstance<T>();
 	}
@@ -71,12 +69,20 @@ public class MyRegistry : Registry
 {
 	public MyRegistry()
 	{
-		TaskFactory = new StructureMapTaskFactory();
-	
 		// Schedule an ITask to run at an interval
 		Schedule<MyTask>().ToRunNow().AndEvery(2).Seconds();
 	}
 } 
+```
+
+Register the new task factory with the TaskManager:
+
+```csharp
+protected void Application_Start()
+{
+	TaskManager.TaskFactory = new StructureMapTaskFactory();
+	TaskManager.Initialize(new MyRegistry()); 
+}
 ```
 
 Handling unexpected exceptions thrown from tasks
@@ -96,21 +102,3 @@ static void TaskManager_UnobservedTaskException(Task sender, UnhandledExceptionE
 	Log.Fatal("An error happened with a scheduled task: " + e.ExceptionObject);
 }
 ```
-
-
-LICENSE
-=======
-New BSD License (BSD)
----------------------
-Copyright (c) Bia Creations
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-
-* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-* Neither the name of Bia Creations nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

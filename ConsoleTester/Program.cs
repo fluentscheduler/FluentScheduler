@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentScheduler;
@@ -13,6 +11,7 @@ namespace ConsoleTester
 		{
 			Console.WriteLine("Starting everything...");
 
+			TaskManager.TaskFactory = new MyTaskFactory();
 			TaskManager.TaskStart += (schedule, e) => Console.WriteLine(schedule.Name + " Started: " + schedule.StartTime);
 			TaskManager.TaskEnd += (schedule, e) => Console.WriteLine(schedule.Name + " Ended.\n\tStarted: " + schedule.StartTime + "\n\tDuration: " + schedule.Duration + "\n\tNext run: " + schedule.NextRunTime);
 
@@ -94,6 +93,8 @@ namespace ConsoleTester
 
 			//}).WithName("Sleepy Task").ToRunEvery(1).Months().On(10).At(5, 0);
 
+			Schedule<MyTask>().ToRunNow();
+
 			Schedule(() =>
 			{
 				Console.WriteLine("First task will fire first!");
@@ -135,6 +136,16 @@ namespace ConsoleTester
 		public void Execute()
 		{
 			Console.WriteLine("ITask Inline Task: " + DateTime.Now);
+		}
+	}
+
+	public class MyTaskFactory : ITaskFactory
+	{
+		public ITask GetTaskInstance<T>() where T : ITask
+		{
+			// If you're creating your own ITaskFactory, typically your DI framework of choice would take care of this
+			Console.WriteLine("Creating task: " + typeof(T));
+			return Activator.CreateInstance<T>();
 		}
 	}
 }

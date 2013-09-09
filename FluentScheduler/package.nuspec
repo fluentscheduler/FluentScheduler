@@ -11,6 +11,11 @@
 		<summary>A task scheduler that uses fluent interface to configure schedules. Useful for running cron jobs/automated tasks from your application.</summary>
 		<language>en-US</language>
 		<tags>Library task-scheduler tasks cron</tags>
+		<releaseNotes>v2.0.0 Changes:
+* Strongly named assembly
+* TaskManager.TaskFactory replaces Registry.GetTaskInstance() method
+* Allow basic continuations with schedules
+* Remove task by name</releaseNotes>
 	</metadata>
 	<files>
 		<file src="bin\Release\FluentScheduler.dll" target="lib\net40" />

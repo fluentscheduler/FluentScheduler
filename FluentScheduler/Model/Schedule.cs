@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace FluentScheduler.Model
 {
@@ -10,7 +9,6 @@ namespace FluentScheduler.Model
 		public string Name { get; set; }
 
 		internal List<Action> Tasks { get; private set; }
-		internal ITaskFactory TaskFactory { get; private set; }
 
 		internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
 
@@ -31,16 +29,6 @@ namespace FluentScheduler.Model
 		/// <summary>
 		/// Schedules the specified task to run
 		/// </summary>
-		/// <param name="task">Task to run</param>
-		/// <param name="factory">An instantiated ITaskFactory.</param>
-		public Schedule(ITask task, ITaskFactory factory) : this(task)
-		{
-			TaskFactory = factory;
-		}
-
-		/// <summary>
-		/// Schedules the specified task to run
-		/// </summary>
 		/// <param name="action">A parameterless method to run</param>
 		public Schedule(Action action)
 		{
@@ -48,17 +36,6 @@ namespace FluentScheduler.Model
 			AdditionalSchedules = new List<Schedule>();
 			TaskExecutions = -1;
 			Reentrant = true;
-			TaskFactory = new TaskFactory();
-		}
-
-		/// <summary>
-		/// Creates a specific schedule for a group of tasks
-		/// </summary>
-		/// <param name="action">A parameterless method to run.</param>
-		/// <param name="factory">An instantiated ITaskFactory.</param>
-		public Schedule(Action action, ITaskFactory factory) : this(action)
-		{
-			TaskFactory = factory;
 		}
 
 		/// <summary>
@@ -71,17 +48,6 @@ namespace FluentScheduler.Model
 			AdditionalSchedules = new List<Schedule>();
 			TaskExecutions = -1;
 			Reentrant = true;
-			TaskFactory = new TaskFactory();
-		}
-
-		/// <summary>
-		/// Schedules the specified task to run
-		/// </summary>
-		/// <param name="actions">A list of parameterless methods to run</param>
-		/// <param name="factory">An instantiated ITaskFactory.</param>
-		public Schedule(List<Action> actions, ITaskFactory factory) : this(actions)
-		{
-			TaskFactory = factory;
 		}
 
 		/// <summary>
@@ -100,10 +66,9 @@ namespace FluentScheduler.Model
 		public Schedule AndThen<T>() where T : ITask
 		{
 			//If no task factory has been added to the schedule, use the default.
-			if (TaskFactory == null)
-				TaskFactory = new TaskFactory();
+			var factory = TaskManager.TaskFactory ?? new TaskFactory();
 
-			Tasks.Add(() => TaskFactory.GetTaskInstance<T>().Execute());
+			Tasks.Add(() => factory.GetTaskInstance<T>().Execute());
 			return this;
 		}
 

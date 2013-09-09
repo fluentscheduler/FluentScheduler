@@ -22,12 +22,10 @@ namespace FluentScheduler
 
 		internal List<Schedule> Schedules { get; private set; }
 		internal bool AllTasksConfiguredAsNonReentrant { get; set; }
-		public ITaskFactory TaskFactory { get; set; }
 
 		public Registry()
 		{
 			Schedules = new List<Schedule>();
-			TaskFactory = new TaskFactory();
 		}
 
 		public void DefaultAllTasksAsNonReentrant()
@@ -49,7 +47,7 @@ namespace FluentScheduler
 		/// <returns></returns>
 		public Schedule Schedule<T>() where T : ITask
 		{
-			var schedule = new Schedule(() => TaskFactory.GetTaskInstance<T>().Execute(), TaskFactory);
+			var schedule = new Schedule(() => TaskManager.TaskFactory.GetTaskInstance<T>().Execute());
 			if (AllTasksConfiguredAsNonReentrant)
 			{
 				schedule.NonReentrant();
@@ -68,7 +66,7 @@ namespace FluentScheduler
 		/// <returns></returns>
 		public Schedule Schedule(Action action)
 		{
-			var schedule = new Schedule(action, TaskFactory);
+			var schedule = new Schedule(action);
 			if (AllTasksConfiguredAsNonReentrant)
 			{
 				schedule.NonReentrant();

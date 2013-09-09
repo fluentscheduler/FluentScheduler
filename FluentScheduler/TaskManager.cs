@@ -14,6 +14,7 @@ namespace FluentScheduler
 	/// </summary>
 	public static class TaskManager
 	{
+		public static ITaskFactory TaskFactory { get; set; }
 		public static event GenericEventHandler<Task, UnhandledExceptionEventArgs> UnobservedTaskException;
 		public static event GenericEventHandler<TaskStartScheduleInformation, EventArgs> TaskStart;
 		public static event GenericEventHandler<TaskEndScheduleInformation, EventArgs> TaskEnd;
@@ -59,6 +60,11 @@ namespace FluentScheduler
 			{
 				return null;
 			}
+		}
+
+		static TaskManager()
+		{
+			TaskFactory = new TaskFactory();
 		}
 
 		/// <summary>
