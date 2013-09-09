@@ -2,7 +2,6 @@ using System;
 using FluentScheduler.Model;
 using Moq;
 using NUnit.Framework;
-using Should.Fluent;
 
 namespace FluentScheduler.Tests.ScheduleTests
 {
@@ -16,7 +15,7 @@ namespace FluentScheduler.Tests.ScheduleTests
 			var schedule = new Schedule(task.Object);
 			schedule.ToRunNow();
 
-			schedule.Reentrant.Should().Be.True();
+			Assert.IsTrue(schedule.Reentrant);
 		}
 
 		[Test]
@@ -26,10 +25,10 @@ namespace FluentScheduler.Tests.ScheduleTests
 			var schedule = new Schedule(task.Object);
 			schedule.ToRunNow().AndEvery(1).Minutes();
 
-			schedule.Reentrant.Should().Be.True();
+			Assert.IsTrue(schedule.Reentrant);
 			foreach (var child in schedule.AdditionalSchedules)
 			{
-				child.Reentrant.Should().Be.True();
+				Assert.IsTrue(child.Reentrant);
 			}
 		}
 
@@ -40,10 +39,10 @@ namespace FluentScheduler.Tests.ScheduleTests
 			var schedule = new Schedule(task.Object);
 			schedule.NonReentrant().ToRunNow().AndEvery(1).Minutes();
 
-			schedule.Reentrant.Should().Be.False();
+			Assert.IsFalse(schedule.Reentrant);
 			foreach (var child in schedule.AdditionalSchedules)
 			{
-				child.Reentrant.Should().Be.False();
+				Assert.IsFalse(child.Reentrant);
 			}
 		}
 	}

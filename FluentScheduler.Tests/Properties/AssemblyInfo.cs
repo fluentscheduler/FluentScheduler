@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Bia Creations")]
 [assembly: AssemblyProduct("FluentScheduler.Tests")]
-[assembly: AssemblyCopyright("Copyright © Bia Creations 2010")]
+[assembly: AssemblyCopyright("Copyright © Bia Creations")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,3 +33,4 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0")]
 [assembly: AssemblyFileVersion("1.0.0")]
+[assembly:AssemblyKeyFileAttribute("..\\FluentScheduler\\keyfile.snk")]

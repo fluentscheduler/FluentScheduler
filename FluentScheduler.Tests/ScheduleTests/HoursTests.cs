@@ -2,7 +2,6 @@ using System;
 using FluentScheduler.Model;
 using Moq;
 using NUnit.Framework;
-using Should.Fluent;
 
 namespace FluentScheduler.Tests.ScheduleTests
 {
@@ -18,11 +17,11 @@ namespace FluentScheduler.Tests.ScheduleTests
 
 			var input = new DateTime(2000, 1, 1);
 			var scheduledTime = schedule.CalculateNextRun(input);
-			scheduledTime.Date.Should().Equal(input.Date);
 
-			scheduledTime.Hour.Should().Equal(2);
-			scheduledTime.Minute.Should().Equal(0);
-			scheduledTime.Second.Should().Equal(0);
+			Assert.AreEqual(scheduledTime.Date, input.Date);
+			Assert.AreEqual(scheduledTime.Hour, 2);
+			Assert.AreEqual(scheduledTime.Minute, 0);
+			Assert.AreEqual(scheduledTime.Second, 0);
 		}
 
 		[Test]
@@ -34,11 +33,11 @@ namespace FluentScheduler.Tests.ScheduleTests
 
 			var input = new DateTime(2000, 1, 1, 5, 30, 0).AddMilliseconds(1);
 			var scheduledTime = schedule.CalculateNextRun(input);
-			scheduledTime.Date.Should().Equal(input.Date);
+			Assert.AreEqual(scheduledTime.Date, input.Date);
 
-			scheduledTime.Hour.Should().Equal(6);
-			scheduledTime.Minute.Should().Equal(30);
-			scheduledTime.Second.Should().Equal(0);
+			Assert.AreEqual(scheduledTime.Hour, 6);
+			Assert.AreEqual(scheduledTime.Minute, 30);
+			Assert.AreEqual(scheduledTime.Second, 0);
 		}
 
 		[Test]
@@ -50,11 +49,11 @@ namespace FluentScheduler.Tests.ScheduleTests
 
 			var input = new DateTime(2000, 1, 1);
 			var scheduledTime = schedule.CalculateNextRun(input);
-			scheduledTime.Date.Should().Equal(input.Date);
+			Assert.AreEqual(scheduledTime.Date, input.Date);
 
-			scheduledTime.Hour.Should().Equal(2);
-			scheduledTime.Minute.Should().Equal(30);
-			scheduledTime.Second.Should().Equal(0);
+			Assert.AreEqual(scheduledTime.Hour, 2);
+			Assert.AreEqual(scheduledTime.Minute, 30);
+			Assert.AreEqual(scheduledTime.Second, 0);
 		}
 
 		[Test]
@@ -66,11 +65,11 @@ namespace FluentScheduler.Tests.ScheduleTests
 
 			var input = new DateTime(2000, 1, 1, 5, 23, 25);
 			var scheduledTime = schedule.CalculateNextRun(input);
-			scheduledTime.Date.Should().Equal(input.Date);
+			Assert.AreEqual(scheduledTime.Date, input.Date);
 
-			scheduledTime.Hour.Should().Equal(7);
-			scheduledTime.Minute.Should().Equal(15);
-			scheduledTime.Second.Should().Equal(0);
+			Assert.AreEqual(scheduledTime.Hour, 7);
+			Assert.AreEqual(scheduledTime.Minute, 15);
+			Assert.AreEqual(scheduledTime.Second, 0);
 		}
 
 		[Test]
@@ -82,11 +81,11 @@ namespace FluentScheduler.Tests.ScheduleTests
 
 			var input = new DateTime(2000, 1, 1, 5, 23, 25);
 			var scheduledTime = schedule.CalculateNextRun(input);
-			scheduledTime.Date.Should().Equal(input.Date);
+			Assert.AreEqual(scheduledTime.Date, input.Date);
 
-			scheduledTime.Hour.Should().Equal(6);
-			scheduledTime.Minute.Should().Equal(15);
-			scheduledTime.Second.Should().Equal(0);
+			Assert.AreEqual(scheduledTime.Hour, 6);
+			Assert.AreEqual(scheduledTime.Minute, 15);
+			Assert.AreEqual(scheduledTime.Second, 0);
 		}
 
 		[Test]
@@ -98,11 +97,11 @@ namespace FluentScheduler.Tests.ScheduleTests
 
 			var input = new DateTime(2000, 1, 1, 5, 23, 25);
 			var scheduledTime = schedule.CalculateNextRun(input);
-			scheduledTime.Date.Should().Equal(input.Date);
+			Assert.AreEqual(scheduledTime.Date, input.Date);
 
-			scheduledTime.Hour.Should().Equal(8);
-			scheduledTime.Minute.Should().Equal(15);
-			scheduledTime.Second.Should().Equal(0);
+			Assert.AreEqual(scheduledTime.Hour, 8);
+			Assert.AreEqual(scheduledTime.Minute, 15);
+			Assert.AreEqual(scheduledTime.Second, 0);
 		}
 
 		[Test]
@@ -114,11 +113,11 @@ namespace FluentScheduler.Tests.ScheduleTests
 
 			var input = new DateTime(2000, 1, 1, 5, 14, 25);
 			var scheduledTime = schedule.CalculateNextRun(input);
-			scheduledTime.Date.Should().Equal(input.Date);
+			Assert.AreEqual(scheduledTime.Date, input.Date);
 
-			scheduledTime.Hour.Should().Equal(5);
-			scheduledTime.Minute.Should().Equal(15);
-			scheduledTime.Second.Should().Equal(0);
+			Assert.AreEqual(scheduledTime.Hour, 5);
+			Assert.AreEqual(scheduledTime.Minute, 15);
+			Assert.AreEqual(scheduledTime.Second, 0);
 		}
 
 		[Test]
@@ -130,11 +129,11 @@ namespace FluentScheduler.Tests.ScheduleTests
 
 			var input = new DateTime(2000, 1, 1, 5, 14, 25);
 			var scheduledTime = schedule.CalculateNextRun(input);
-			scheduledTime.Date.Should().Equal(input.Date);
+			Assert.AreEqual(scheduledTime.Date, input.Date);
 
-			scheduledTime.Hour.Should().Equal(8);
-			scheduledTime.Minute.Should().Equal(15);
-			scheduledTime.Second.Should().Equal(0);
+			Assert.AreEqual(scheduledTime.Hour, 8);
+			Assert.AreEqual(scheduledTime.Minute, 15);
+			Assert.AreEqual(scheduledTime.Second, 0);
 		}
 	}
 }

@@ -6,7 +6,6 @@ using System.Threading;
 using FluentScheduler.Model;
 using Moq;
 using NUnit.Framework;
-using Should.Fluent;
 
 namespace FluentScheduler.Tests.ScheduleTests
 {
@@ -23,7 +22,7 @@ namespace FluentScheduler.Tests.ScheduleTests
 			TaskManager.RemoveTask(name);
 
 			var taskFromManager = TaskManager.GetSchedule(name);
-			taskFromManager.Should().Be.Null();
+			Assert.IsNull(taskFromManager);
 		}
 
 		[Test]
@@ -34,13 +33,13 @@ namespace FluentScheduler.Tests.ScheduleTests
 			schedule.WithName(name).ToRunNow().AndEvery(2).Seconds();
 			schedule.Execute();
 
-			TaskManager.RunningSchedules.Any(task => task.Name == name).Should().Be.True();
+			Assert.IsTrue(TaskManager.RunningSchedules.Any(task => task.Name == name));
 			TaskManager.RemoveTask(name);
-			TaskManager.GetSchedule(name).Should().Be.Null();
-			TaskManager.RunningSchedules.Any(task => task.Name == name).Should().Be.True();
+			Assert.IsNull(TaskManager.GetSchedule(name));
+			Assert.IsTrue(TaskManager.RunningSchedules.Any(task => task.Name == name));
 
 			Thread.Sleep(2042); // wait until a second run would normally be executed
-			TaskManager.RunningSchedules.Any(task => task.Name == name).Should().Be.False();
+			Assert.IsFalse(TaskManager.RunningSchedules.Any(task => task.Name == name));
 		}
 	}
 }

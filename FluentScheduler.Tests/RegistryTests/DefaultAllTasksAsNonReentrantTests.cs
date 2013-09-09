@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using Should.Fluent;
 
 namespace FluentScheduler.Tests.RegistryTests
 {
@@ -13,7 +12,7 @@ namespace FluentScheduler.Tests.RegistryTests
 			var registry = new RegistryWithPreviousTasksConfigured();
 			foreach (var schedule in registry.Schedules)
 			{
-				schedule.Reentrant.Should().Be.False();
+				Assert.IsFalse(schedule.Reentrant);
 			}
 		}
 		private class RegistryWithPreviousTasksConfigured : Registry
@@ -32,7 +31,7 @@ namespace FluentScheduler.Tests.RegistryTests
 			var registry = new RegistryWithFutureTasksConfigured();
 			foreach (var schedule in registry.Schedules)
 			{
-				schedule.Reentrant.Should().Be.False();
+				Assert.IsFalse(schedule.Reentrant);
 			}
 		}
 

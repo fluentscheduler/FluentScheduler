@@ -3,7 +3,6 @@ using System.Linq;
 using FluentScheduler.Model;
 using Moq;
 using NUnit.Framework;
-using Should.Fluent;
 
 namespace FluentScheduler.Tests.ScheduleTests
 {
@@ -16,8 +15,7 @@ namespace FluentScheduler.Tests.ScheduleTests
 			var task = new Mock<ITask>();
 			var schedule = new Schedule(task.Object);
 			schedule.ToRunNow().AndEvery(1).Months();
-
-			schedule.AdditionalSchedules.Should().Count.Exactly(1);
+			Assert.AreEqual(schedule.AdditionalSchedules.Count, 1);
 		}
 
 		[Test]
@@ -30,7 +28,7 @@ namespace FluentScheduler.Tests.ScheduleTests
 			var input = new DateTime(2000, 1, 1);
 			var scheduledTime = schedule.AdditionalSchedules.ElementAt(0).CalculateNextRun(input);
 			var expectedTime = new DateTime(2000, 3, 1);
-			scheduledTime.Should().Equal(expectedTime);
+			Assert.AreEqual(scheduledTime, expectedTime);
 		}
 
 		[Test]
@@ -39,8 +37,7 @@ namespace FluentScheduler.Tests.ScheduleTests
 			var task = new Mock<ITask>();
 			var schedule = new Schedule(task.Object);
 			schedule.ToRunNow().AndEvery(1).Months();
-
-			schedule.CalculateNextRun.Should().Be.Null();
+			Assert.IsNull(schedule.CalculateNextRun);
 		}
 	}
 }

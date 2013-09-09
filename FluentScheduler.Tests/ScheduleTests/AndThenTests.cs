@@ -4,7 +4,6 @@ using System.Threading;
 using FluentScheduler.Model;
 using Moq;
 using NUnit.Framework;
-using Should.Fluent;
 
 namespace FluentScheduler.Tests.ScheduleTests
 {
@@ -68,8 +67,7 @@ namespace FluentScheduler.Tests.ScheduleTests
 			{
 				Thread.Sleep(1);
 			}
-
-			((task2Runtime.Ticks - task1Runtime.Ticks) > 0).Should().Be.True();
+			Assert.Less(task1Runtime.Ticks, task2Runtime.Ticks);
 		}
 	}
 }
