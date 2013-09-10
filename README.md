@@ -32,9 +32,6 @@ public class MyRegistry : Registry
 		
 		//Schedule multiple tasks to be run in a single schedule
 		Schedule<MyTask>().AndThen<MyOtherTask>().ToRunNow().AndEvery(5).Minutes();
-		
-		//Schedule multiple tasks to be run in a single schedule concurrently
-		Schedule<MyTask>().AndThen<MyOtherTask>().Concurrently().ToRunNow();
 	}
 } 
 ```
