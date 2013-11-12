@@ -93,13 +93,13 @@ namespace ConsoleTester
 
 			//}).WithName("Sleepy Task").ToRunEvery(1).Months().On(10).At(5, 0);
 
-            // Immediately invoked task example
+			// Immediately invoked task example
 			Schedule<MyTask>().ToRunNow();
 
-            // Delayed invoked task example
-		    Schedule<MyTask>().ToRunOnceIn(5).Seconds();
+			// Delayed invoked task example
+			Schedule<MyTask>().ToRunOnceIn(5).Seconds();
 
-            // Chaining tasks example
+			// Chaining tasks example
 			Schedule(() =>
 			{
 				Console.WriteLine("First task will fire first!");
