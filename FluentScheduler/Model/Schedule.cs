@@ -111,6 +111,17 @@ namespace FluentScheduler.Model
 			return new TimeUnit(this, interval);
 		}
 
+        /// <summary>
+        /// Schedules the specified tasks to run once, delayed by a specific time interval. 
+        /// </summary>
+        /// <param name="interval"></param>
+        /// <returns></returns>
+        public TimeUnit ToRunOnceIn(int interval)
+        {
+            TaskExecutions = 1;
+            return new TimeUnit(this, interval);
+        }
+
 		/// <summary>
 		/// Schedules the specified tasks to run once at the hour and minute specified.  If the hour and minute have passed, the tasks will be executed immediately.
 		/// </summary>
