@@ -221,12 +221,12 @@ namespace FluentScheduler
 		/// </summary>
 		/// <typeparam name="T">Task to schedule</typeparam>
 		/// <param name="taskSchedule">Schedule for the task</param>
-		public static void AddTask<T>(Action<Schedule> taskSchedule) where T : ITask, new()
+		public static void AddTask<T>(Action<Schedule> taskSchedule) where T : ITask
 		{
 			if (taskSchedule == null)
 				throw new ArgumentNullException("taskSchedule", "Please specify the task schedule to add to the task manager.");
 
-			var schedule = new Schedule(new T());
+			var schedule = new Schedule(TaskFactory.GetTaskInstance<T>());
 			AddTask(taskSchedule, schedule);
 		}
 
