@@ -15,7 +15,7 @@ namespace FluentScheduler
 	public static class TaskManager
 	{
 		public static ITaskFactory TaskFactory { get; set; }
-		public static event GenericEventHandler<Task, UnhandledExceptionEventArgs> UnobservedTaskException;
+		public static event GenericEventHandler<TaskExceptionInformation, UnhandledExceptionEventArgs> UnobservedTaskException;
 		public static event GenericEventHandler<TaskStartScheduleInformation, EventArgs> TaskStart;
 		public static event GenericEventHandler<TaskEndScheduleInformation, EventArgs> TaskEnd;
 
@@ -85,11 +85,18 @@ namespace FluentScheduler
 			RunAndInitializeSchedule(immediateTasks);
 		}
 
-		private static void RaiseUnobservedTaskException(Task t)
+		private static void RaiseUnobservedTaskException(Schedule schedule, Task t)
 		{
 			var handler = UnobservedTaskException;
 			if (handler != null && t.Exception != null)
-				handler(t, new UnhandledExceptionEventArgs(t.Exception.InnerException, true));
+			{
+				var info = new TaskExceptionInformation
+					{
+						Name = schedule.Name,
+						Task = t
+					};
+				handler(info, new UnhandledExceptionEventArgs(t.Exception.InnerException, true));
+			}
 		}
 		private static void RaiseTaskStart(Schedule schedule, DateTime startTime)
 		{
@@ -213,7 +220,7 @@ namespace FluentScheduler
 					RaiseTaskEnd(schedule, start, stopwatch.Elapsed);
 				}
 			}, TaskCreationOptions.PreferFairness);
-			mainTask.ContinueWith(RaiseUnobservedTaskException, TaskContinuationOptions.OnlyOnFaulted);
+			mainTask.ContinueWith(task => RaiseUnobservedTaskException(schedule, task), TaskContinuationOptions.OnlyOnFaulted);
 		}
 
 		/// <summary>

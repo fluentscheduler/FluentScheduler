@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FluentScheduler;
+using FluentScheduler.Model;
 
 namespace ConsoleTester
 {
@@ -58,9 +59,9 @@ namespace ConsoleTester
 			Console.ReadKey();
 		}
 
-		static void TaskManager_UnobservedTaskException(Task sender, UnhandledExceptionEventArgs e)
+		static void TaskManager_UnobservedTaskException(TaskExceptionInformation sender, UnhandledExceptionEventArgs e)
 		{
-			Console.WriteLine("Something went wrong: " + e.ExceptionObject);
+			Console.WriteLine("Something went wrong with task: " + sender.Name + "\n" + e.ExceptionObject);
 		}
 	}
 

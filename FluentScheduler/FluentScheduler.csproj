@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GenericEventHandler.cs" />
+    <Compile Include="Model\TaskExceptionInformation.cs" />
     <Compile Include="TaskFactory.cs" />
     <Compile Include="Model\TaskEndScheduleInformation.cs" />
     <Compile Include="Model\TaskStartScheduleInformation.cs" />

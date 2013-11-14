@@ -11,7 +11,10 @@
 		<summary>A task scheduler that uses fluent interface to configure schedules. Useful for running cron jobs/automated tasks from your application.</summary>
 		<language>en-US</language>
 		<tags>Library task-scheduler tasks cron</tags>
-		<releaseNotes>v2.0 Changes:
+		<releaseNotes>v3.0 Changes:
+* Add schedule information to UnobservedTaskException event
+
+v2.0 Changes:
 * Strongly named assembly
 * TaskManager.TaskFactory replaces Registry.GetTaskInstance() method
 * Allow basic continuations with schedules
