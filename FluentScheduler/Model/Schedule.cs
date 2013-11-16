@@ -12,6 +12,24 @@ namespace FluentScheduler.Model
 
 		internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
 
+        private TimeSpan _DelayRunFor = TimeSpan.Zero;
+        /// <summary>
+        /// TODO: comment
+        /// </summary>
+        internal TimeSpan DelayRunFor
+        {
+            get
+            {
+                return _DelayRunFor;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    _DelayRunFor = value;
+                }
+            }
+        }
 		internal ICollection<Schedule> AdditionalSchedules { get; set; }
 		internal Schedule Parent { get; set; }
 		internal int TaskExecutions { get; set; }

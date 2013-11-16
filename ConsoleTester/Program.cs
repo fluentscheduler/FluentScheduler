@@ -42,6 +42,13 @@ namespace ConsoleTester
         static void DelayForTest()
         {
             Console.WriteLine("Testing DelayFor...");
+
+            TaskManager.AddTask(() => Console.WriteLine("ToRunNow() - not delayed: " + DateTime.Now), x => x.ToRunNow());
+            TaskManager.AddTask(() => Console.WriteLine("ToRunNow() - delayed 2 sec: " + DateTime.Now), x => x.ToRunNow().DelayFor(2).Seconds());
+            
+
+            //TaskManager.AddTask(() => Console.WriteLine("recurring, not delayed: " + DateTime.Now), x => x.ToRunNow().DelayFor(3).Seconds());
+            //TaskManager.AddTask(() => Console.WriteLine("Inline task (delayed 5 sec): " + DateTime.Now), x => x.ToRunOnceAt(DateTime.Now).DelayFor(5).Seconds());
         }
 
         static void MiscTests()

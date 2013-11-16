@@ -135,11 +135,21 @@ namespace FluentScheduler
 			{
 				if (schedule.CalculateNextRun == null)
 				{
-					immediatelyInvokedSchedules.Add(schedule);
+					if (schedule.DelayRunFor > TimeSpan.Zero)
+					{
+						// delayed task
+						schedule.NextRunTime = DateTime.Now.Add(schedule.DelayRunFor);
+						_tasks.Add(schedule);
+					}
+					else
+					{
+						// only non-delayed tasks are started right away
+						immediatelyInvokedSchedules.Add(schedule);
+					}
 					var hasAdded = false;
 					foreach (var child in schedule.AdditionalSchedules.Where(x => x.CalculateNextRun != null))
 					{
-						var nextRun = child.CalculateNextRun(now.AddMilliseconds(1));
+						var nextRun = child.CalculateNextRun(now.Add(child.DelayRunFor).AddMilliseconds(1));
 						if (!hasAdded || schedule.NextRunTime > nextRun)
 						{
 							schedule.NextRunTime = nextRun;
@@ -149,7 +159,7 @@ namespace FluentScheduler
 				}
 				else
 				{
-					schedule.NextRunTime = schedule.CalculateNextRun(now);
+					schedule.NextRunTime = schedule.CalculateNextRun(now.Add(schedule.DelayRunFor));
 					_tasks.Add(schedule);
 				}
 
@@ -157,11 +167,24 @@ namespace FluentScheduler
 				{
 					if (childSchedule.CalculateNextRun == null)
 					{
-						immediatelyInvokedSchedules.Add(childSchedule);
-						continue;
+						if (childSchedule.DelayRunFor > TimeSpan.Zero)
+						{
+							// delayed task
+							childSchedule.NextRunTime = DateTime.Now.Add(childSchedule.DelayRunFor);
+							_tasks.Add(childSchedule);
+						}
+						else
+						{
+							// run immediately
+							immediatelyInvokedSchedules.Add(childSchedule);
+							continue;
+						}
 					}
-					childSchedule.NextRunTime = childSchedule.CalculateNextRun(now);
-					_tasks.Add(childSchedule);
+					else
+					{
+						childSchedule.NextRunTime = childSchedule.CalculateNextRun(now.Add(schedule.DelayRunFor));
+						_tasks.Add(childSchedule);
+					}
 				}
 			}
 		}
@@ -315,12 +338,19 @@ namespace FluentScheduler
 			if (firstTask.NextRunTime <= DateTime.Now)
 			{
 				StartTask(firstTask);
-				firstTask.NextRunTime = firstTask.CalculateNextRun(DateTime.Now.AddMilliseconds(1));
+				if (firstTask.CalculateNextRun == null)
+				{
+					// probably a ToRunNow().DelayFor() task, there's no CalculateNextRun
+				}
+				else
+				{
+					firstTask.NextRunTime = firstTask.CalculateNextRun(DateTime.Now.Add(firstTask.DelayRunFor).AddMilliseconds(1));
+				}
 				if (firstTask.TaskExecutions > 0)
 				{
 					firstTask.TaskExecutions--;
 				}
-				if (firstTask.TaskExecutions == 0)
+				if (firstTask.TaskExecutions <= 0)
 				{
 					lock (typeof(TaskManager))
 					{
