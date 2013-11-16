@@ -26,6 +26,5 @@ namespace FluentScheduler.Model
         {
             Schedule.DelayRunFor = new TimeSpan(0, Interval, 0);
         }
-
     }
 }

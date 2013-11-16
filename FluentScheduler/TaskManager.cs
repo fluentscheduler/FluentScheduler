@@ -344,13 +344,13 @@ namespace FluentScheduler
 				}
 				else
 				{
-					firstTask.NextRunTime = firstTask.CalculateNextRun(DateTime.Now.Add(firstTask.DelayRunFor).AddMilliseconds(1));
+					firstTask.NextRunTime = firstTask.CalculateNextRun(DateTime.Now.AddMilliseconds(1));
 				}
 				if (firstTask.TaskExecutions > 0)
 				{
 					firstTask.TaskExecutions--;
 				}
-				if (firstTask.TaskExecutions <= 0)
+				if (firstTask.NextRunTime <= DateTime.Now || firstTask.TaskExecutions == 0)
 				{
 					lock (typeof(TaskManager))
 					{

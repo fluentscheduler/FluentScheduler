@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Extensions\DelayForExtensions.cs" />
     <Compile Include="GenericEventHandler.cs" />
+    <Compile Include="Model\MinuteUnit.cs" />
+    <Compile Include="Model\SecondUnit.cs" />
     <Compile Include="Model\TaskExceptionInformation.cs" />
     <Compile Include="Model\DelayTimeUnit.cs" />
     <Compile Include="TaskFactory.cs" />

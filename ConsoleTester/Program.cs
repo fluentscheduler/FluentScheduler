@@ -47,6 +47,8 @@ namespace ConsoleTester
 			TaskManager.AddTask(() => Console.WriteLine("ToRunNow() - delayed 2 sec: " + DateTime.Now), x => x.ToRunNow().DelayFor(2).Seconds());
 			TaskManager.AddTask(() => Console.WriteLine("ToRunOnceAt() - not delayed: " + DateTime.Now), x => x.ToRunOnceAt(DateTime.Now));
 			TaskManager.AddTask(() => Console.WriteLine("ToRunOnceAt() - delayed 2 sec: " + DateTime.Now), x => x.ToRunOnceAt(DateTime.Now).DelayFor(2).Seconds());
+			TaskManager.AddTask(() => Console.WriteLine("ToRunEvery() - not delayed: " + DateTime.Now), x => x.ToRunEvery(2).Seconds());
+			TaskManager.AddTask(() => Console.WriteLine("ToRunEvery() - delayed 2 sec: " + DateTime.Now), x => x.ToRunEvery(2).Seconds().DelayFor(2).Seconds());
             
 
             //TaskManager.AddTask(() => Console.WriteLine("recurring, not delayed: " + DateTime.Now), x => x.ToRunNow().DelayFor(3).Seconds());
