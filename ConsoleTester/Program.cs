@@ -10,54 +10,87 @@ namespace ConsoleTester
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Starting everything...");
+			Console.WriteLine("Which the test you'd like to run (enter the test number):");
+            Console.WriteLine("1. DelayFor");
+            Console.WriteLine("2. MiscTests (everything else)");
 
-			TaskManager.TaskFactory = new MyTaskFactory();
-			TaskManager.TaskStart += (schedule, e) => Console.WriteLine(schedule.Name + " Started: " + schedule.StartTime);
-			TaskManager.TaskEnd += (schedule, e) => Console.WriteLine(schedule.Name + " Ended.\n\tStarted: " + schedule.StartTime + "\n\tDuration: " + schedule.Duration + "\n\tNext run: " + schedule.NextRunTime);
+            byte testNum;
+            if (byte.TryParse(Console.ReadLine(), out testNum))
+            {
+                // which test to run?
+                switch (testNum)
+                {
+                    case 1: // DelayFor
+                        DelayForTest();
+                        break;
+                    case 2: // MiscTests
+                        MiscTests();
+                        break;
+                    default:
+                        Console.WriteLine(string.Format("There's not test #{0}", testNum));
+                        return;
+                }
+            }
+            else
+            {
+                MiscTests();
+            }
 
-			TaskManager.Initialize(new MyRegistry());
-			Console.WriteLine("Done initializing...");
-
-			// try to get the named schedule registered inside MyRegistry
-			FluentScheduler.Model.Schedule named = TaskManager.GetSchedule("named task");
-			if (named != null)
-			{
-				// success, execute it manually
-				named.Execute();
-			}
-
-			FluentScheduler.Model.Schedule removable = TaskManager.GetSchedule("removable task");
-			if (removable != null)
-			{
-				Console.WriteLine("before remove");
-				TaskManager.RemoveTask(removable.Name);
-				Console.WriteLine("after remove");
-			}
-
-			FluentScheduler.Model.Schedule longRemovable = TaskManager.GetSchedule("long removable task");
-			if (longRemovable != null)
-			{
-				Console.WriteLine("before remove long running");
-				TaskManager.RemoveTask(longRemovable.Name);
-				Console.WriteLine("after remove long running");
-			}
-
-			//Thread.Sleep(10000);
-			//TaskManager.Stop();
-
-			/*			TaskManager.AddTask(() => Console.WriteLine("Inline task: " + DateTime.Now), x => x.ToRunEvery(15).Seconds());
-						TaskManager.AddTask(() => Console.WriteLine("Inline task (once): " + DateTime.Now), x => x.ToRunOnceAt(DateTime.Now.AddSeconds(5)));
-
-						TaskManager.AddTask<MyInlineTask>(x => x.ToRunNow());
-			*/
-			TaskManager.UnobservedTaskException += TaskManager_UnobservedTaskException;
-			/*			TaskManager.AddTask(() => {
-													Console.WriteLine("Inline task: " + DateTime.Now); 
-							throw new Exception("Hi"); }, x => x.ToRunNow());
-			*/
 			Console.ReadKey();
 		}
+
+        static void DelayForTest()
+        {
+            Console.WriteLine("Testing DelayFor...");
+        }
+
+        static void MiscTests()
+        {
+            TaskManager.TaskFactory = new MyTaskFactory();
+            TaskManager.TaskStart += (schedule, e) => Console.WriteLine(schedule.Name + " Started: " + schedule.StartTime);
+            TaskManager.TaskEnd += (schedule, e) => Console.WriteLine(schedule.Name + " Ended.\n\tStarted: " + schedule.StartTime + "\n\tDuration: " + schedule.Duration + "\n\tNext run: " + schedule.NextRunTime);
+
+            TaskManager.Initialize(new MyRegistry());
+            Console.WriteLine("Done initializing...");
+
+            // try to get the named schedule registered inside MyRegistry
+            FluentScheduler.Model.Schedule named = TaskManager.GetSchedule("named task");
+            if (named != null)
+            {
+                // success, execute it manually
+                named.Execute();
+            }
+
+            FluentScheduler.Model.Schedule removable = TaskManager.GetSchedule("removable task");
+            if (removable != null)
+            {
+                Console.WriteLine("before remove");
+                TaskManager.RemoveTask(removable.Name);
+                Console.WriteLine("after remove");
+            }
+
+            FluentScheduler.Model.Schedule longRemovable = TaskManager.GetSchedule("long removable task");
+            if (longRemovable != null)
+            {
+                Console.WriteLine("before remove long running");
+                TaskManager.RemoveTask(longRemovable.Name);
+                Console.WriteLine("after remove long running");
+            }
+
+            //Thread.Sleep(10000);
+            //TaskManager.Stop();
+
+            /*			TaskManager.AddTask(() => Console.WriteLine("Inline task: " + DateTime.Now), x => x.ToRunEvery(15).Seconds());
+                        TaskManager.AddTask(() => Console.WriteLine("Inline task (once): " + DateTime.Now), x => x.ToRunOnceAt(DateTime.Now.AddSeconds(5)));
+
+                        TaskManager.AddTask<MyInlineTask>(x => x.ToRunNow());
+            */
+            TaskManager.UnobservedTaskException += TaskManager_UnobservedTaskException;
+            /*			TaskManager.AddTask(() => {
+                                                    Console.WriteLine("Inline task: " + DateTime.Now); 
+                            throw new Exception("Hi"); }, x => x.ToRunNow());
+            */
+        }
 
 		static void TaskManager_UnobservedTaskException(TaskExceptionInformation sender, UnhandledExceptionEventArgs e)
 		{
