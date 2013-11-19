@@ -13,13 +13,13 @@ namespace FluentScheduler.Model
 			Duration = duration;
 		}
 
-		public void Seconds()
+		public SecondUnit Seconds()
 		{
-			Schedule.CalculateNextRun = x => x.AddSeconds(Duration);
+			return new SecondUnit(Schedule, Duration);
 		}
-		public void Minutes()
+		public MinuteUnit Minutes()
 		{
-			Schedule.CalculateNextRun = x => x.AddMinutes(Duration);
+			return new MinuteUnit(Schedule, Duration);
 		}
 		public HourUnit Hours()
 		{
