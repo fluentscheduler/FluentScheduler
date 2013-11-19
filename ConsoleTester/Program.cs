@@ -11,37 +11,37 @@ namespace ConsoleTester
 		static void Main(string[] args)
 		{
 			Console.WriteLine("Which the test you'd like to run (enter the test number):");
-            Console.WriteLine("1. DelayFor");
-            Console.WriteLine("2. MiscTests (everything else)");
+			Console.WriteLine("1. DelayFor");
+			Console.WriteLine("2. MiscTests (everything else)");
 
-            byte testNum;
-            if (byte.TryParse(Console.ReadLine(), out testNum))
-            {
-                // which test to run?
-                switch (testNum)
-                {
-                    case 1: // DelayFor
-                        DelayForTest();
-                        break;
-                    case 2: // MiscTests
-                        MiscTests();
-                        break;
-                    default:
-                        Console.WriteLine(string.Format("There's not test #{0}", testNum));
-                        return;
-                }
-            }
-            else
-            {
-                MiscTests();
-            }
+			byte testNum;
+			if (byte.TryParse(Console.ReadLine(), out testNum))
+			{
+				// which test to run?
+				switch (testNum)
+				{
+					case 1: // DelayFor
+						DelayForTest();
+						break;
+					case 2: // MiscTests
+						MiscTests();
+						break;
+					default:
+						Console.WriteLine(string.Format("There's not test #{0}", testNum));
+						return;
+				}
+			}
+			else
+			{
+				MiscTests();
+			}
 
 			Console.ReadKey();
 		}
 
-        static void DelayForTest()
-        {
-            Console.WriteLine("Testing DelayFor...");
+		static void DelayForTest()
+		{
+			Console.WriteLine("Testing DelayFor...");
 
 			TaskManager.AddTask(() => Console.WriteLine("ToRunNow() - not delayed: " + DateTime.Now), x => x.ToRunNow());
 			TaskManager.AddTask(() => Console.WriteLine("ToRunNow() - delayed 2 sec: " + DateTime.Now), x => x.ToRunNow().DelayFor(2).Seconds());
@@ -49,59 +49,59 @@ namespace ConsoleTester
 			TaskManager.AddTask(() => Console.WriteLine("ToRunOnceAt() - delayed 2 sec: " + DateTime.Now), x => x.ToRunOnceAt(DateTime.Now).DelayFor(2).Seconds());
 			TaskManager.AddTask(() => Console.WriteLine("ToRunEvery() - not delayed: " + DateTime.Now), x => x.ToRunEvery(2).Seconds());
 			TaskManager.AddTask(() => Console.WriteLine("ToRunEvery() - delayed 2 sec: " + DateTime.Now), x => x.ToRunEvery(2).Seconds().DelayFor(2).Seconds());
-            
 
-            //TaskManager.AddTask(() => Console.WriteLine("recurring, not delayed: " + DateTime.Now), x => x.ToRunNow().DelayFor(3).Seconds());
-            //TaskManager.AddTask(() => Console.WriteLine("Inline task (delayed 5 sec): " + DateTime.Now), x => x.ToRunOnceAt(DateTime.Now).DelayFor(5).Seconds());
-        }
 
-        static void MiscTests()
-        {
-            TaskManager.TaskFactory = new MyTaskFactory();
-            TaskManager.TaskStart += (schedule, e) => Console.WriteLine(schedule.Name + " Started: " + schedule.StartTime);
-            TaskManager.TaskEnd += (schedule, e) => Console.WriteLine(schedule.Name + " Ended.\n\tStarted: " + schedule.StartTime + "\n\tDuration: " + schedule.Duration + "\n\tNext run: " + schedule.NextRunTime);
+			//TaskManager.AddTask(() => Console.WriteLine("recurring, not delayed: " + DateTime.Now), x => x.ToRunNow().DelayFor(3).Seconds());
+			//TaskManager.AddTask(() => Console.WriteLine("Inline task (delayed 5 sec): " + DateTime.Now), x => x.ToRunOnceAt(DateTime.Now).DelayFor(5).Seconds());
+		}
 
-            TaskManager.Initialize(new MyRegistry());
-            Console.WriteLine("Done initializing...");
+		static void MiscTests()
+		{
+			TaskManager.TaskFactory = new MyTaskFactory();
+			TaskManager.TaskStart += (schedule, e) => Console.WriteLine(schedule.Name + " Started: " + schedule.StartTime);
+			TaskManager.TaskEnd += (schedule, e) => Console.WriteLine(schedule.Name + " Ended.\n\tStarted: " + schedule.StartTime + "\n\tDuration: " + schedule.Duration + "\n\tNext run: " + schedule.NextRunTime);
 
-            // try to get the named schedule registered inside MyRegistry
-            FluentScheduler.Model.Schedule named = TaskManager.GetSchedule("named task");
-            if (named != null)
-            {
-                // success, execute it manually
-                named.Execute();
-            }
+			TaskManager.Initialize(new MyRegistry());
+			Console.WriteLine("Done initializing...");
 
-            FluentScheduler.Model.Schedule removable = TaskManager.GetSchedule("removable task");
-            if (removable != null)
-            {
-                Console.WriteLine("before remove");
-                TaskManager.RemoveTask(removable.Name);
-                Console.WriteLine("after remove");
-            }
+			// try to get the named schedule registered inside MyRegistry
+			FluentScheduler.Model.Schedule named = TaskManager.GetSchedule("named task");
+			if (named != null)
+			{
+				// success, execute it manually
+				named.Execute();
+			}
 
-            FluentScheduler.Model.Schedule longRemovable = TaskManager.GetSchedule("long removable task");
-            if (longRemovable != null)
-            {
-                Console.WriteLine("before remove long running");
-                TaskManager.RemoveTask(longRemovable.Name);
-                Console.WriteLine("after remove long running");
-            }
+			FluentScheduler.Model.Schedule removable = TaskManager.GetSchedule("removable task");
+			if (removable != null)
+			{
+				Console.WriteLine("before remove");
+				TaskManager.RemoveTask(removable.Name);
+				Console.WriteLine("after remove");
+			}
 
-            //Thread.Sleep(10000);
-            //TaskManager.Stop();
+			FluentScheduler.Model.Schedule longRemovable = TaskManager.GetSchedule("long removable task");
+			if (longRemovable != null)
+			{
+				Console.WriteLine("before remove long running");
+				TaskManager.RemoveTask(longRemovable.Name);
+				Console.WriteLine("after remove long running");
+			}
 
-            /*			TaskManager.AddTask(() => Console.WriteLine("Inline task: " + DateTime.Now), x => x.ToRunEvery(15).Seconds());
-                        TaskManager.AddTask(() => Console.WriteLine("Inline task (once): " + DateTime.Now), x => x.ToRunOnceAt(DateTime.Now.AddSeconds(5)));
+			//Thread.Sleep(10000);
+			//TaskManager.Stop();
 
-                        TaskManager.AddTask<MyInlineTask>(x => x.ToRunNow());
-            */
-            TaskManager.UnobservedTaskException += TaskManager_UnobservedTaskException;
-            /*			TaskManager.AddTask(() => {
-                                                    Console.WriteLine("Inline task: " + DateTime.Now); 
-                            throw new Exception("Hi"); }, x => x.ToRunNow());
-            */
-        }
+			/*			TaskManager.AddTask(() => Console.WriteLine("Inline task: " + DateTime.Now), x => x.ToRunEvery(15).Seconds());
+						TaskManager.AddTask(() => Console.WriteLine("Inline task (once): " + DateTime.Now), x => x.ToRunOnceAt(DateTime.Now.AddSeconds(5)));
+
+						TaskManager.AddTask<MyInlineTask>(x => x.ToRunNow());
+			*/
+			TaskManager.UnobservedTaskException += TaskManager_UnobservedTaskException;
+			/*			TaskManager.AddTask(() => {
+													Console.WriteLine("Inline task: " + DateTime.Now); 
+							throw new Exception("Hi"); }, x => x.ToRunNow());
+			*/
+		}
 
 		static void TaskManager_UnobservedTaskException(TaskExceptionInformation sender, UnhandledExceptionEventArgs e)
 		{

@@ -12,25 +12,11 @@ namespace FluentScheduler.Model
 
 		internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
 
-		private TimeSpan _DelayRunFor = TimeSpan.Zero;
 		/// <summary>
 		/// The first execution of the task can be delayed by the interval defined here.
-        /// It will only delay the startup (first execution).
+		/// It will only delay the startup (first execution).
 		/// </summary>
-		internal TimeSpan DelayRunFor
-		{
-			get
-			{
-				return _DelayRunFor;
-			}
-			set
-			{
-				if (value != null)
-				{
-					_DelayRunFor = value;
-				}
-			}
-		}
+		internal TimeSpan DelayRunFor { get; set; }
 		internal ICollection<Schedule> AdditionalSchedules { get; set; }
 		internal Schedule Parent { get; set; }
 		internal int TaskExecutions { get; set; }
@@ -160,7 +146,7 @@ namespace FluentScheduler.Model
 		/// <returns></returns>
 		public SpecificRunTime ToRunOnceAt(DateTime time)
 		{
-			CalculateNextRun = x => (this.DelayRunFor > TimeSpan.Zero ? time.Add(this.DelayRunFor) : time);
+			CalculateNextRun = x => (DelayRunFor > TimeSpan.Zero ? time.Add(DelayRunFor) : time);
 			TaskExecutions = 1;
 
 			return new SpecificRunTime(this);
