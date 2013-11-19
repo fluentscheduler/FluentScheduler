@@ -14,5 +14,5 @@ namespace FluentScheduler.Model
 
 			Schedule.CalculateNextRun = x => x.AddSeconds(Duration);
 		}
-	}
+    }
 }

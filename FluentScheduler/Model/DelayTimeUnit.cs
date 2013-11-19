@@ -3,9 +3,9 @@
 namespace FluentScheduler.Model
 {
 
-	/// <summary>
-	/// TODO: comments
-	/// </summary>
+    /// <summary>
+    /// TODO: comments
+    /// </summary>
     public class DelayTimeUnit
     {
         internal Schedule Schedule { get; private set; }
@@ -19,12 +19,32 @@ namespace FluentScheduler.Model
 
         public void Seconds()
         {
-            Schedule.DelayRunFor = new TimeSpan(0, 0, Interval);
+            Schedule.DelayRunFor = new TimeSpan(0, 0, 0, Interval, 0);
         }
 
         public void Minutes()
         {
-            Schedule.DelayRunFor = new TimeSpan(0, Interval, 0);
+            Schedule.DelayRunFor = new TimeSpan(0, 0, Interval, 0, 0);
+        }
+        public void Hours()
+        {
+            Schedule.DelayRunFor = new TimeSpan(0, Interval, 0, 0, 0);
+        }
+        public void Days()
+        {
+            Schedule.DelayRunFor = new TimeSpan(Interval, 0, 0, 0, 0);
+        }
+        public void Weeks()
+        {
+            Schedule.DelayRunFor = new TimeSpan(Interval * 7, 0, 0, 0, 0);
+        }
+        public void Months()
+        {
+            Schedule.DelayRunFor = DateTime.Now.AddMonths(1).Subtract(DateTime.Now);
+        }
+        public void Years()
+        {
+            Schedule.DelayRunFor = DateTime.Now.AddYears(1).Subtract(DateTime.Now);
         }
     }
 }
