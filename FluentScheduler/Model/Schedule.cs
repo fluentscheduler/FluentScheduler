@@ -14,7 +14,8 @@ namespace FluentScheduler.Model
 
 		private TimeSpan _DelayRunFor = TimeSpan.Zero;
 		/// <summary>
-		/// TODO: comment
+		/// The first execution of the task can be delayed by the interval defined here.
+        /// It will only delay the startup (first execution).
 		/// </summary>
 		internal TimeSpan DelayRunFor
 		{

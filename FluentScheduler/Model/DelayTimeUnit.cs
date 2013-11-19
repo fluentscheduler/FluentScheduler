@@ -4,7 +4,7 @@ namespace FluentScheduler.Model
 {
 
     /// <summary>
-    /// TODO: comments
+    /// Delayed execution support - each method extends the startup time of the task for the specific interval.
     /// </summary>
     public class DelayTimeUnit
     {
@@ -16,7 +16,6 @@ namespace FluentScheduler.Model
             Schedule = schedule;
             Interval = interval;
         }
-
         public void Seconds()
         {
             Schedule.DelayRunFor = new TimeSpan(0, 0, 0, Interval, 0);
