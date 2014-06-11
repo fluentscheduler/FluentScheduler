@@ -56,6 +56,7 @@ namespace FluentScheduler
 			{
 				Schedules.Add(schedule);
 			}
+			schedule.Name = typeof(T).Name;
 			return schedule;
 		}
 

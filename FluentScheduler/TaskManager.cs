@@ -256,7 +256,10 @@ namespace FluentScheduler
 			if (taskSchedule == null)
 				throw new ArgumentNullException("taskSchedule", "Please specify the task schedule to add to the task manager.");
 
-			var schedule = new Schedule(TaskFactory.GetTaskInstance<T>());
+			var schedule = new Schedule(TaskFactory.GetTaskInstance<T>())
+				{
+					Name = typeof (T).Name
+				};
 			AddTask(taskSchedule, schedule);
 		}
 
