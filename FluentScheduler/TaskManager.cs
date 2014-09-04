@@ -210,6 +210,9 @@ namespace FluentScheduler
 
 		internal static void StartTask(Schedule schedule)
 		{
+            if(schedule.Paused)
+                return;
+
 			if (!schedule.Reentrant)
 			{
 				if (!RunningNonReentrantTasks.TryAdd(schedule.Tasks, true))

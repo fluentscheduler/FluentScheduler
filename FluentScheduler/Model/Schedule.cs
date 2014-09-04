@@ -5,10 +5,17 @@ namespace FluentScheduler.Model
 {
 	public class Schedule
 	{
-		public DateTime NextRunTime { get; set; }
+	    private bool _paused = false;
+	    public DateTime NextRunTime { get; set; }
 		public string Name { get; set; }
 
-		internal List<Action> Tasks { get; private set; }
+	    public bool Paused
+	    {
+	        get { return _paused; }
+	        private set { _paused = value; }
+	    }
+
+	    internal List<Action> Tasks { get; private set; }
 
 		internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
 
@@ -172,5 +179,16 @@ namespace FluentScheduler.Model
 			Reentrant = false;
 			return this;
 		}
-	}
+
+        public void Pause()
+        {
+            Paused = true;
+        }
+
+
+        public void Resume()
+        {
+            Paused = false;
+        }
+    }
 }
