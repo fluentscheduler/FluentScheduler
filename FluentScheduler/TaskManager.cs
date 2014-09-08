@@ -210,8 +210,8 @@ namespace FluentScheduler
 
 		internal static void StartTask(Schedule schedule)
 		{
-            if(schedule.Paused)
-                return;
+			if (schedule.Paused)
+				return;
 
 			if (!schedule.Reentrant)
 			{
@@ -261,7 +261,7 @@ namespace FluentScheduler
 
 			var schedule = new Schedule(TaskFactory.GetTaskInstance<T>())
 				{
-					Name = typeof (T).Name
+					Name = typeof(T).Name
 				};
 			AddTask(taskSchedule, schedule);
 		}
