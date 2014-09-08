@@ -24,11 +24,11 @@ namespace ConsoleTester
 					case 1: // DelayFor
 						DelayForTest();
 						break;
-					case 2: // MiscTests
-                        MiscTests();
-                        break;
-                    case 3: // Pausing/Resuming
-                        PauseResumeTest();
+                            case 2: // MiscTests
+                                    MiscTests();
+                            break;
+                        case 3: // Test of Pausing/Resuming
+                                PauseResumeTest();
                         break;
 					default:
 						Console.WriteLine(string.Format("There's not test #{0}", testNum));
