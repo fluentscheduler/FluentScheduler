@@ -25,10 +25,10 @@ namespace ConsoleTester
 						DelayForTest();
 						break;
 					case 2: // MiscTests
-						MiscTests();
-						break;
+                        MiscTests();
+                        break;
                     case 3: // Pausing/Resuming
-				        PauseResumeTest();
+                        PauseResumeTest();
                         break;
 					default:
 						Console.WriteLine(string.Format("There's not test #{0}", testNum));
@@ -170,7 +170,7 @@ namespace ConsoleTester
 			// Delayed invoked task example
 			Schedule<MyTask>().ToRunOnceIn(5).Seconds();
 
-		    // Chaining tasks example
+            // Chaining tasks example
 			Schedule(() =>
 			{
 				Console.WriteLine("First task will fire first!");

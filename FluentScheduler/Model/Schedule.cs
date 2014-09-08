@@ -5,17 +5,12 @@ namespace FluentScheduler.Model
 {
 	public class Schedule
 	{
-	    private bool _paused = false;
 	    public DateTime NextRunTime { get; set; }
 		public string Name { get; set; }
 
-	    public bool Paused
-	    {
-	        get { return _paused; }
-	        private set { _paused = value; }
-	    }
+        public bool Paused { get; private set; }
 
-	    internal List<Action> Tasks { get; private set; }
+        internal List<Action> Tasks { get; private set; }
 
 		internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
 
@@ -45,7 +40,8 @@ namespace FluentScheduler.Model
 		/// <param name="action">A parameterless method to run</param>
 		public Schedule(Action action)
 		{
-			Tasks = new List<Action> { action };
+		    Paused = false;
+		    Tasks = new List<Action> { action };
 			AdditionalSchedules = new List<Schedule>();
 			TaskExecutions = -1;
 			Reentrant = true;
@@ -57,7 +53,8 @@ namespace FluentScheduler.Model
 		/// <param name="actions">A list of parameterless methods to run</param>
 		public Schedule(List<Action> actions)
 		{
-			Tasks = actions;
+		    Paused = false;
+		    Tasks = actions;
 			AdditionalSchedules = new List<Schedule>();
 			TaskExecutions = -1;
 			Reentrant = true;
