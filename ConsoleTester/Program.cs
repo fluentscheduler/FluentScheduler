@@ -13,7 +13,7 @@ namespace ConsoleTester
 			Console.WriteLine("Which the test you'd like to run (enter the test number):");
 			Console.WriteLine("1. DelayFor");
 			Console.WriteLine("2. MiscTests (everything else)");
-			Console.WriteLine("3. Pause/Resume ");
+			Console.WriteLine("3. Enable/Disable ");
 
 			byte testNum;
 			if (byte.TryParse(Console.ReadLine(), out testNum))
@@ -28,7 +28,7 @@ namespace ConsoleTester
 						MiscTests();
 						break;
 					case 3: // Test of Pausing/Resuming
-						PauseResumeTest();
+						EnableDisableTest();
 						break;
 					default:
 						Console.WriteLine(string.Format("There's not test #{0}", testNum));
@@ -43,25 +43,25 @@ namespace ConsoleTester
 			Console.ReadKey();
 		}
 
-		static void PauseResumeTest()
+		static void EnableDisableTest()
 		{
-			Console.WriteLine("Testing Pause/Resume...");
+			Console.WriteLine("Testing Enable/Disable...");
 			TaskManager.AddTask(() => Console.WriteLine("Runner 1 " + DateTime.Now), x => x.WithName("Runner1").ToRunEvery(1).Seconds());
 			//TaskManager.AddTask(() => Console.WriteLine("Runner 2 " + DateTime.Now), x => x.WithName("Runner2").ToRunEvery(1).Seconds());  //Test that pause/resume did not affect other tasks
 			TaskManager.AddTask(() =>
 			{
-				Console.WriteLine("Pause: " + DateTime.Now);
-				TaskManager.GetSchedule("Runner1").Pause();
+				Console.WriteLine("Disable: " + DateTime.Now);
+				TaskManager.GetSchedule("Runner1").Disable();
 
-			}, x => x.WithName("Pauser").ToRunOnceIn(10).Seconds());
+			}, x => x.WithName("Disable").ToRunOnceIn(10).Seconds());
 
 
 			TaskManager.AddTask(() =>
 			{
-				Console.WriteLine("Resume: " + DateTime.Now);
-				TaskManager.GetSchedule("Runner1").Resume();
+				Console.WriteLine("Enable: " + DateTime.Now);
+				TaskManager.GetSchedule("Runner1").Enable();
 
-			}, x => x.WithName("Resumer").ToRunOnceIn(20).Seconds());
+			}, x => x.WithName("Enable").ToRunOnceIn(20).Seconds());
 		}
 
 		static void DelayForTest()
