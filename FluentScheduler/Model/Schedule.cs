@@ -8,6 +8,8 @@ namespace FluentScheduler.Model
 		public DateTime NextRunTime { get; set; }
 		public string Name { get; set; }
 
+		public bool Disabled { get; private set; }
+
 		internal List<Action> Tasks { get; private set; }
 
 		internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
@@ -38,6 +40,7 @@ namespace FluentScheduler.Model
 		/// <param name="action">A parameterless method to run</param>
 		public Schedule(Action action)
 		{
+			Disabled = false;
 			Tasks = new List<Action> { action };
 			AdditionalSchedules = new List<Schedule>();
 			TaskExecutions = -1;
@@ -50,6 +53,7 @@ namespace FluentScheduler.Model
 		/// <param name="actions">A list of parameterless methods to run</param>
 		public Schedule(List<Action> actions)
 		{
+			Disabled = false;
 			Tasks = actions;
 			AdditionalSchedules = new List<Schedule>();
 			TaskExecutions = -1;
@@ -171,6 +175,17 @@ namespace FluentScheduler.Model
 		{
 			Reentrant = false;
 			return this;
+		}
+
+		public void Disable()
+		{
+			Disabled = true;
+		}
+
+
+		public void Enable()
+		{
+			Disabled = false;
 		}
 	}
 }
