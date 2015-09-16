@@ -1,3 +1,8 @@
+# Seeking New Ownership!
+
+This project is no longer actively being maintained.  If you are interested in taking over as an owner, please [inquire within](https://github.com/jgeurts/FluentScheduler/issues/59)
+
+
 FluentScheduler
 ===============
 
