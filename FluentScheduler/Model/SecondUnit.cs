@@ -1,18 +1,21 @@
-﻿using System;
-
-namespace FluentScheduler.Model
+﻿namespace FluentScheduler.Model
 {
-	public class SecondUnit
-	{
-		internal Schedule Schedule { get; private set; }
-		internal int Duration { get; private set; }
+  using System;
 
-		public SecondUnit(Schedule schedule, int duration)
-		{
-			Schedule = schedule;
-			Duration = duration;
+  public class SecondUnit : ITimeRestrictableUnit
+  {
+    internal Schedule Schedule { get; private set; }
 
-			Schedule.CalculateNextRun = x => x.AddSeconds(Duration);
-		}
-	}
+    Schedule ITimeRestrictableUnit.Schedule { get { return this.Schedule; } }
+
+    internal int Duration { get; private set; }
+
+    public SecondUnit(Schedule schedule, int duration)
+    {
+      Schedule = schedule;
+      Duration = duration;
+
+      Schedule.CalculateNextRun = x => x.AddSeconds(Duration);
+    }
+  }
 }
