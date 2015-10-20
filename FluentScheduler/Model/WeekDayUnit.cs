@@ -1,16 +1,17 @@
-﻿using System;
-
 namespace FluentScheduler.Model
 {
-  public class DayUnit : IDayRestrictableUnit
+  using System;
+  using FluentScheduler.Extensions;
+
+  public class WeekDayUnit : ITimeRestrictableUnit
   {
     internal Schedule Schedule { get; private set; }
 
-    Schedule IDayRestrictableUnit.Schedule { get { return this.Schedule; } }
+    Schedule ITimeRestrictableUnit.Schedule { get { return this.Schedule; } }
 
     internal int Duration { get; private set; }
 
-    public DayUnit(Schedule schedule, int duration)
+    public WeekDayUnit(Schedule schedule, int duration)
     {
       Schedule = schedule;
       Duration = duration;
@@ -19,8 +20,8 @@ namespace FluentScheduler.Model
 
       Schedule.CalculateNextRun = x =>
       {
-        var nextRun = x.Date.AddDays(Duration);
-        return (x > nextRun) ? ((IDayRestrictableUnit)this).DayIncrement(nextRun) : nextRun;
+        DateTime nextRun = x.Date.NextNWeekday(Duration);
+        return (x > nextRun || !nextRun.Date.IsWeekDay()) ? nextRun.NextNWeekday(Duration) : nextRun;
       };
     }
 
@@ -30,19 +31,13 @@ namespace FluentScheduler.Model
     /// <param name="hours">0-23: Represents the hour of the day</param>
     /// <param name="minutes">0-59: Represents the minute of the day</param>
     /// <returns></returns>
-    public IDayRestrictableUnit At(int hours, int minutes)
+    public void At(int hours, int minutes)
     {
       Schedule.CalculateNextRun = x =>
       {
-        var nextRun = x.Date.AddHours(hours).AddMinutes(minutes);
-        return (x > nextRun) ? ((IDayRestrictableUnit)this).DayIncrement(nextRun) : nextRun;
+        DateTime nextRun = x.Date.AddHours(hours).AddMinutes(minutes);
+        return (x > nextRun || !nextRun.Date.IsWeekDay()) ? nextRun.NextNWeekday(Duration) : nextRun;
       };
-      return this;
-    }
-
-    DateTime IDayRestrictableUnit.DayIncrement(DateTime x)
-    {
-      return x.AddDays(Duration);
     }
   }
 }
