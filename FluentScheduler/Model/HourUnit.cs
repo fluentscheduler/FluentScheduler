@@ -3,9 +3,12 @@ using FluentScheduler.Extensions;
 
 namespace FluentScheduler.Model
 {
-	public class HourUnit
+	public class HourUnit : ITimeRestrictableUnit
 	{
 		internal Schedule Schedule { get; private set; }
+
+    Schedule ITimeRestrictableUnit.Schedule { get { return this.Schedule; } }
+
 		internal int Duration { get; private set; }
 
 		public HourUnit(Schedule schedule, int duration)
@@ -25,12 +28,13 @@ namespace FluentScheduler.Model
 		/// </summary>
 		/// <param name="minutes">0-59: Represents the minute of the hour</param>
 		/// <returns></returns>
-		public void At(int minutes)
+		public ITimeRestrictableUnit At(int minutes)
 		{
 			Schedule.CalculateNextRun = x => {
 				var nextRun = x.ClearMinutesAndSeconds().AddMinutes(minutes);
 				return (Duration == 1 && x < nextRun) ? nextRun : nextRun.AddHours(Duration);
 			};
+      return this;
 		}
 	}
 }

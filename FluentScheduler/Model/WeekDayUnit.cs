@@ -3,9 +3,11 @@ namespace FluentScheduler.Model
   using System;
   using FluentScheduler.Extensions;
 
-  public class WeekDayUnit
+  public class WeekDayUnit : ITimeRestrictableUnit
   {
     internal Schedule Schedule { get; private set; }
+
+    Schedule ITimeRestrictableUnit.Schedule { get { return this.Schedule; } }
 
     internal int Duration { get; private set; }
 
