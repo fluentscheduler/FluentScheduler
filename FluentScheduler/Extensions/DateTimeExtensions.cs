@@ -90,6 +90,45 @@ namespace FluentScheduler.Extensions
 			return current.AddDays(offsetDays);
 		}
 
+    /// <summary>
+    /// Nexts the Nth weekday.
+    /// </summary>
+    /// <param name="d">The day.</param>
+    /// <param name="n">The number of weekdays to advance.</param>
+    /// <returns>Advanced date.</returns>
+    public static DateTime NextNWeekday(this DateTime d, int n)
+    {
+      int nToAdvance = n;
+      while (nToAdvance >= 1)
+      {
+        nToAdvance--;
+        d = d.AddDays(1);
+        while (!d.IsWeekDay())
+        {
+          d = d.AddDays(1);
+        }
+      }
+      return d;
+    }
+
+    /// <summary>
+    /// Determines whether the specified date is a week day.
+    /// </summary>
+    /// <param name="d">The date.</param>
+    /// <returns></returns>
+    /// <exception cref="System.ArgumentOutOfRangeException"></exception>
+    public static bool IsWeekDay(this DateTime d)
+    {
+      switch (d.DayOfWeek)
+      {
+        case DayOfWeek.Saturday:
+        case DayOfWeek.Sunday:
+          return false;
+        default:
+          return true;
+      }
+    }
+
 		/// <summary>
 		/// Zero's out the minutes and seconds for the specified datetime.
 		/// </summary>
