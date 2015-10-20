@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="RegistryTests\DefaultAllTasksAsNonReentrantTests.cs" />
     <Compile Include="ScheduleTests\AndThenTests.cs" />
+    <Compile Include="ScheduleTests\DaysWeekDaysOnlyTests.cs" />
     <Compile Include="ScheduleTests\DelayFor_ToRunEvery_Tests.cs" />
     <Compile Include="ScheduleTests\DelayFor_ToRunOnceAt_Tests.cs" />
     <Compile Include="ScheduleTests\MonthsOnTheFourthTests.cs" />
