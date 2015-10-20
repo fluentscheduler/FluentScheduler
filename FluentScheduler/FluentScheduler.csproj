@@ -47,6 +47,7 @@
     <Compile Include="Model\SecondUnit.cs" />
     <Compile Include="Model\TaskExceptionInformation.cs" />
     <Compile Include="Model\DelayTimeUnit.cs" />
+    <Compile Include="Model\WeekDayUnit.cs" />
     <Compile Include="TaskFactory.cs" />
     <Compile Include="Model\TaskEndScheduleInformation.cs" />
     <Compile Include="Model\TaskStartScheduleInformation.cs" />
