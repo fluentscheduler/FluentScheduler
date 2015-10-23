@@ -9,13 +9,13 @@ namespace FluentScheduler.WebTester.Controllers
 {
     public class HomeController : Controller
     {
-		[GET("")]
+        [GET("")]
         public ActionResult Index()
         {
             return View();
         }
 
-		[GET("license")]
+        [GET("license")]
         public ActionResult License()
         {
             return View();

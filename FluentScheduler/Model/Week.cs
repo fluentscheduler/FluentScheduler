@@ -2,12 +2,12 @@
 
 namespace FluentScheduler.Model
 {
-	public enum Week
-	{
-		First,
-		Second,
-		Third,
-		Fourth,
-		Last
-	}
+    public enum Week
+    {
+        First,
+        Second,
+        Third,
+        Fourth,
+        Last
+    }
 }

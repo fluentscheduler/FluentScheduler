@@ -5,8 +5,8 @@ using System.Text;
 
 namespace FluentScheduler
 {
-	public interface ITask
-	{
-		void Execute();
-	}
+    public interface ITask
+    {
+        void Execute();
+    }
 }
