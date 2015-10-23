@@ -1,9 +1,9 @@
 namespace FluentScheduler.Model
 {
-  public enum TimeOfDayRunnable
-  {
-    TooEarly,
-    CanRun,
-    TooLate
-  }
+    public enum TimeOfDayRunnable
+    {
+        TooEarly,
+        CanRun,
+        TooLate
+    }
 }

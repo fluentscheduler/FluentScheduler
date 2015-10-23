@@ -1,12 +1,12 @@
+using System;
+using FluentScheduler.Model;
+using Moq;
+using NUnit.Framework;
+using FluentScheduler.Extensions;
+using FluentAssertions;
+
 namespace FluentScheduler.Tests.ScheduleTests
 {
-  using System;
-  using FluentScheduler.Model;
-  using Moq;
-  using NUnit.Framework;
-  using FluentScheduler.Extensions;
-  using FluentAssertions;
-
   [TestFixture]
   public class HoursTests
   {

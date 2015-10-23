@@ -1,12 +1,12 @@
-﻿namespace FluentScheduler.Tests.ScheduleTests
-{
-  using System;
-  using FluentScheduler.Model;
-  using Moq;
-  using NUnit.Framework;
-  using FluentAssertions;
-  using FluentScheduler.Extensions;
+﻿using System;
+using FluentScheduler.Model;
+using Moq;
+using NUnit.Framework;
+using FluentAssertions;
+using FluentScheduler.Extensions;
 
+namespace FluentScheduler.Tests.ScheduleTests
+{
   [TestFixture]
   public class DaysWeekDaysOnlyTests
   {

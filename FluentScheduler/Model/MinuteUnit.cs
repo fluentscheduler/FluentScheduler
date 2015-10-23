@@ -1,17 +1,19 @@
 ﻿namespace FluentScheduler.Model
 {
-  public class MinuteUnit : ITimeRestrictableUnit
-  {
-    internal Schedule Schedule { get; private set; }
-    Schedule ITimeRestrictableUnit.Schedule { get { return this.Schedule; } }
-    internal int Duration { get; private set; }
-
-    public MinuteUnit(Schedule schedule, int duration)
+    public class MinuteUnit : ITimeRestrictableUnit
     {
-      this.Schedule = schedule;
-      this.Duration = duration;
+        internal Schedule Schedule { get; private set; }
 
-      this.Schedule.CalculateNextRun = x => x.AddMinutes(Duration);
+        Schedule ITimeRestrictableUnit.Schedule { get { return this.Schedule; } }
+
+        internal int Duration { get; private set; }
+
+        public MinuteUnit(Schedule schedule, int duration)
+        {
+            this.Schedule = schedule;
+            this.Duration = duration;
+
+            this.Schedule.CalculateNextRun = x => x.AddMinutes(Duration);
+        }
     }
-  }
 }

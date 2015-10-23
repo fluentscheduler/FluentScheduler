@@ -1,8 +1,8 @@
+using System;
+using FluentScheduler.Model;
+
 namespace FluentScheduler.Extensions
 {
-  using System;
-  using FluentScheduler.Model;
-
   public static class RestrictableUnitExtensions
   {
     public static ITimeRestrictableUnit Between(this ITimeRestrictableUnit restrictableUnit, int startHour, int startMinute, int endHour, int endMinute)

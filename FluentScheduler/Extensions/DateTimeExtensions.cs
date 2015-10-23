@@ -90,44 +90,43 @@ namespace FluentScheduler.Extensions
 			return current.AddDays(offsetDays);
 		}
 
-    /// <summary>
-    /// Nexts the Nth weekday.
-    /// </summary>
-    /// <param name="d">The day.</param>
-    /// <param name="n">The number of weekdays to advance.</param>
-    /// <returns>Advanced date.</returns>
-    public static DateTime NextNWeekday(this DateTime d, int n)
-    {
-      int nToAdvance = n;
-      while (nToAdvance >= 1)
-      {
-        nToAdvance--;
-        d = d.AddDays(1);
-        while (!d.IsWeekDay())
+        /// <summary>
+        /// Nexts the Nth weekday.
+        /// </summary>
+        /// <param name="current">The current date</param>
+        /// <param name="n">The number of weekdays to advance.</param>
+        /// <returns>Advanced date.</returns>
+        public static DateTime NextNWeekday(this DateTime current, int n)
         {
-          d = d.AddDays(1);
+            int nToAdvance = n;
+            while (nToAdvance >= 1)
+            {
+                nToAdvance--;
+                current = current.AddDays(1);
+                while (!current.IsWeekDay())
+                {
+                    current = current.AddDays(1);
+                }
+            }
+            return current;
         }
-      }
-      return d;
-    }
 
-    /// <summary>
-    /// Determines whether the specified date is a week day.
-    /// </summary>
-    /// <param name="d">The date.</param>
-    /// <returns></returns>
-    /// <exception cref="System.ArgumentOutOfRangeException"></exception>
-    public static bool IsWeekDay(this DateTime d)
-    {
-      switch (d.DayOfWeek)
-      {
-        case DayOfWeek.Saturday:
-        case DayOfWeek.Sunday:
-          return false;
-        default:
-          return true;
-      }
-    }
+        /// <summary>
+        /// Determines whether the specified date is a week day.
+        /// </summary>
+        /// <param name="current">The current date</param>
+        /// <returns></returns>
+        public static bool IsWeekDay(this DateTime current)
+        {
+            switch (current.DayOfWeek)
+            {
+                case DayOfWeek.Saturday:
+                case DayOfWeek.Sunday:
+                    return false;
+                default:
+                    return true;
+            }
+        }
 
 		/// <summary>
 		/// Zero's out the minutes and seconds for the specified datetime.
