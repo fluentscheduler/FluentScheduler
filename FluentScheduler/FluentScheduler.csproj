@@ -46,7 +46,7 @@
     <Compile Include="Model\IDayRestrictableUnit.cs" />
     <Compile Include="Model\ITimeRestrictableUnit.cs" />
     <Compile Include="Model\MinuteUnit.cs" />
-    <Compile Include="Extensions\RestrictableUnitExtensions.cs" />
+    <Compile Include="RestrictableUnitExtensions.cs" />
     <Compile Include="Model\SecondUnit.cs" />
     <Compile Include="Model\TaskExceptionInformation.cs" />
     <Compile Include="Model\DelayTimeUnit.cs" />

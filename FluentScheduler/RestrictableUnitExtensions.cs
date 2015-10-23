@@ -1,7 +1,8 @@
 using System;
 using FluentScheduler.Model;
+using FluentScheduler.Extensions;
 
-namespace FluentScheduler.Extensions
+namespace FluentScheduler
 {
   public static class RestrictableUnitExtensions
   {
