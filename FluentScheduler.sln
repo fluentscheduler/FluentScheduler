@@ -1,13 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{84DE7963-A70D-4768-ADDC-0B54E78CA064}"
-	ProjectSection(SolutionItems) = preProject
-		default.build = default.build
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler", "FluentScheduler\FluentScheduler.csproj", "{434FED39-4EC1-4797-BB2D-246432B3D4FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Tests", "FluentScheduler.Tests\FluentScheduler.Tests.csproj", "{0F9D4F68-6205-4B01-BFF8-1023512F9F4A}"
