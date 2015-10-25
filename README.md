@@ -1,3 +1,9 @@
+<p align="center">
+    <a href="#fluentscheduler">
+        <img alt="logo" src="Logo/200x200.png">
+    </a>
+</p>
+
 # FluentScheduler
 
 [![][build-img]][build]
