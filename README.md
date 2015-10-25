@@ -1,7 +1,16 @@
 FluentScheduler
 ===============
 
+[![][build-img]][build]
+[![][nuget-img]][nuget]
+
 A task scheduler that uses fluent interface to configure schedules. Useful for running cron jobs/automated tasks from your application.
+
+[build]:     https://ci.appveyor.com/project/TallesL/fluentscheduler
+[build-img]: https://ci.appveyor.com/api/projects/status/rvgyhrs904qsxlho
+
+[nuget]:     http://badge.fury.io/nu/fluentscheduler
+[nuget-img]: https://badge.fury.io/nu/fluentscheduler.png
 
 
 Getting Started
