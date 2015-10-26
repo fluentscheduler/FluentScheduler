@@ -16,8 +16,17 @@ namespace FluentScheduler
     public static class TaskManager
     {
         public static ITaskFactory TaskFactory { get; set; }
+
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
+            Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event GenericEventHandler<TaskExceptionInformation, UnhandledExceptionEventArgs> UnobservedTaskException;
+
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
+            Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event GenericEventHandler<TaskStartScheduleInformation, EventArgs> TaskStart;
+
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
+            Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event GenericEventHandler<TaskEndScheduleInformation, EventArgs> TaskEnd;
 
         private static List<Schedule> _tasks;
