@@ -57,7 +57,7 @@ protected void Application_Start()
 } 
 ```
 
-## Dependency Injection / Inversion of Control
+## Dependency Injection
 
 FluentScheduler makes it easy to use your IoC tool of choice to create task instances.
 Simply implement [ITaskFactory].
