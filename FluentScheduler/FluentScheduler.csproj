@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\DelayForExtensions.cs" />
+    <Compile Include="DelayForExtensions.cs" />
     <Compile Include="GenericEventHandler.cs" />
     <Compile Include="Model\IDayRestrictableUnit.cs" />
     <Compile Include="Model\ITimeRestrictableUnit.cs" />
@@ -59,7 +59,7 @@
     <Compile Include="Model\TaskEndScheduleInformation.cs" />
     <Compile Include="Model\TaskStartScheduleInformation.cs" />
     <Compile Include="Registry.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="ITask.cs" />
     <Compile Include="Model\YearOnDayOfYearUnit.cs" />
     <Compile Include="Model\YearOnLastDayOfYearUnit.cs" />

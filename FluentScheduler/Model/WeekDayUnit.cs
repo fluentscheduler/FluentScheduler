@@ -1,5 +1,4 @@
 using System;
-using FluentScheduler.Extensions;
 
 namespace FluentScheduler.Model
 {

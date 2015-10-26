@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentScheduler.Model;
 
-namespace FluentScheduler.Extensions
+namespace FluentScheduler
 {
     // Some of these from: http://datetimeextensions.codeplex.com/
     public static class DateTimeExtensions

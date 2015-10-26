@@ -3,7 +3,6 @@ using FluentScheduler.Model;
 using Moq;
 using NUnit.Framework;
 using FluentAssertions;
-using FluentScheduler.Extensions;
 
 namespace FluentScheduler.Tests.UnitTests.ScheduleTests
 {
