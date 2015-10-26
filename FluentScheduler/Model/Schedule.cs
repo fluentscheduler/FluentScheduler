@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FluentScheduler.Model
 {
@@ -51,10 +52,10 @@ namespace FluentScheduler.Model
         /// Schedules the specified task to run
         /// </summary>
         /// <param name="actions">A list of parameterless methods to run</param>
-        public Schedule(List<Action> actions)
+        public Schedule(IEnumerable<Action> actions)
         {
             Disabled = false;
-            Tasks = actions;
+            Tasks = actions.ToList();
             AdditionalSchedules = new List<Schedule>();
             TaskExecutions = -1;
             Reentrant = true;
