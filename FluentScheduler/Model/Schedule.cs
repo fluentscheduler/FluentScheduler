@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace FluentScheduler.Model
@@ -74,6 +75,8 @@ namespace FluentScheduler.Model
         /// </summary>
         /// <typeparam name="T">Type of task to run</typeparam>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+            Justification = "The 'T' requirement is on purpose.")]
         public Schedule AndThen<T>() where T : ITask
         {
             //If no task factory has been added to the schedule, use the default.

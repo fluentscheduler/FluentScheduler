@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using FluentScheduler.Model;
 
 namespace FluentScheduler
@@ -45,6 +46,8 @@ namespace FluentScheduler
         /// </summary>
         /// <typeparam name="T">Task to schedule</typeparam>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+            Justification = "The 'T' requirement is on purpose.")]
         public Schedule Schedule<T>() where T : ITask
         {
             var schedule = new Schedule(() => TaskManager.TaskFactory.GetTaskInstance<T>().Execute());

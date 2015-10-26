@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
@@ -254,6 +255,8 @@ namespace FluentScheduler
         /// </summary>
         /// <typeparam name="T">Task to schedule</typeparam>
         /// <param name="taskSchedule">Schedule for the task</param>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+            Justification = "The 'T' requirement is on purpose.")]
         public static void AddTask<T>(Action<Schedule> taskSchedule) where T : ITask
         {
             if (taskSchedule == null)
