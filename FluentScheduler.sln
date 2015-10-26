@@ -5,11 +5,11 @@ VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler", "FluentScheduler\FluentScheduler.csproj", "{434FED39-4EC1-4797-BB2D-246432B3D4FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Tests", "FluentScheduler.Tests\FluentScheduler.Tests.csproj", "{0F9D4F68-6205-4B01-BFF8-1023512F9F4A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Tests.UnitTests", "FluentScheduler.Tests.UnitTests\FluentScheduler.Tests.UnitTests.csproj", "{0F9D4F68-6205-4B01-BFF8-1023512F9F4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTester", "ConsoleTester\ConsoleTester.csproj", "{CAEE643E-334E-4103-9BFD-1D67106386D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Tests.Console", "FluentScheduler.Tests.Console\FluentScheduler.Tests.Console.csproj", "{CAEE643E-334E-4103-9BFD-1D67106386D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Webtester", "FluentScheduler.Webtester\FluentScheduler.Webtester.csproj", "{EC3E1A41-2332-43D6-AD62-2D01425CE538}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Tests.Web", "FluentScheduler.Tests.Web\FluentScheduler.Tests.Web.csproj", "{EC3E1A41-2332-43D6-AD62-2D01425CE538}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
