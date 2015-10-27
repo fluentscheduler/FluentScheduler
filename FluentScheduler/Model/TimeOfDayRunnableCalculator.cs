@@ -20,13 +20,13 @@ namespace FluentScheduler.Model
             this.endMinute = endMinute;
         }
 
-        public TimeOfDayRunnable Calculate(DateTime x)
+        public TimeOfDayRunnable Calculate(DateTime nextRun)
         {
-            if (x.Hour < this.startHour || (x.Hour == this.startHour && x.Minute < this.startMinute))
+            if (nextRun.Hour < this.startHour || (nextRun.Hour == this.startHour && nextRun.Minute < this.startMinute))
             {
                 return Model.TimeOfDayRunnable.TooEarly;
             }
-            if (x.Hour < this.endHour || (x.Hour == this.endHour && x.Minute < this.endMinute))
+            if (nextRun.Hour < this.endHour || (nextRun.Hour == this.endHour && nextRun.Minute < this.endMinute))
             {
                 return Model.TimeOfDayRunnable.CanRun;
             }

@@ -94,11 +94,11 @@ namespace FluentScheduler
         /// Nexts the Nth weekday.
         /// </summary>
         /// <param name="current">The current date</param>
-        /// <param name="n">The number of weekdays to advance.</param>
+        /// <param name="toAdvance">The number of weekdays to advance.</param>
         /// <returns>Advanced date.</returns>
-        public static DateTime NextNWeekday(this DateTime current, int n)
+        public static DateTime NextNWeekday(this DateTime current, int toAdvance)
         {
-            int nToAdvance = n;
+            int nToAdvance = toAdvance;
             while (nToAdvance >= 1)
             {
                 nToAdvance--;
