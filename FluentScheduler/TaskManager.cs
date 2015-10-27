@@ -83,6 +83,9 @@ namespace FluentScheduler
         /// <param name="registry">Registry containing task schedules</param>
         public static void Initialize(Registry registry)
         {
+            if (registry == null)
+                throw new ArgumentNullException("registry");
+
             var immediateTasks = new List<Schedule>();
             lock (typeof(TaskManager))
             {

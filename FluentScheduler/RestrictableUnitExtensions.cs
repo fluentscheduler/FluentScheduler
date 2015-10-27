@@ -6,7 +6,10 @@ namespace FluentScheduler
   public static class RestrictableUnitExtensions
   {
     public static ITimeRestrictableUnit Between(this ITimeRestrictableUnit restrictableUnit, int startHour, int startMinute, int endHour, int endMinute)
-    {
+      {
+          if (restrictableUnit == null)
+              throw new ArgumentNullException("restrictableUnit");
+
       TimeOfDayRunnableCalculator timeOfDayRunnableCalculator = new TimeOfDayRunnableCalculator(startHour, startMinute, endHour, endMinute);
 
       Func<DateTime, DateTime> unboundCalculateNextRun = restrictableUnit.Schedule.CalculateNextRun;
@@ -28,6 +31,9 @@ namespace FluentScheduler
 
     public static IDayRestrictableUnit WeekDaysOnly(this IDayRestrictableUnit restrictableUnit)
     {
+        if (restrictableUnit == null)
+            throw new ArgumentNullException("restrictableUnit");
+
       Func<DateTime, DateTime> unboundCalculateNextRun = restrictableUnit.Schedule.CalculateNextRun;
       restrictableUnit.Schedule.CalculateNextRun = x =>
       {

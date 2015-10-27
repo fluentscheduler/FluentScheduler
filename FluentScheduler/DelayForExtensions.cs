@@ -17,6 +17,9 @@ namespace FluentScheduler
         /// </summary>
         public static DelayTimeUnit DelayFor(this SpecificRunTime runTime, int interval)
         {
+            if (runTime == null)
+                throw new ArgumentNullException("runTime");
+
             return DelayFor(runTime.Schedule, interval);
         }
 
@@ -25,6 +28,9 @@ namespace FluentScheduler
         /// </summary>
         public static DelayTimeUnit DelayFor(this SecondUnit timeUnit, int interval)
         {
+            if (timeUnit == null)
+                throw new ArgumentNullException("timeUnit");
+
             return DelayFor(timeUnit.Schedule, interval);
         }
         /// <summary>
@@ -32,6 +38,9 @@ namespace FluentScheduler
         /// </summary>
         public static DelayTimeUnit DelayFor(this MinuteUnit timeUnit, int interval)
         {
+            if (timeUnit == null)
+                throw new ArgumentNullException("timeUnit");
+
             return DelayFor(timeUnit.Schedule, interval);
         }
         /// <summary>
@@ -39,6 +48,9 @@ namespace FluentScheduler
         /// </summary>
         public static DelayTimeUnit DelayFor(this HourUnit timeUnit, int interval)
         {
+            if (timeUnit == null)
+                throw new ArgumentNullException("timeUnit");
+
             return DelayFor(timeUnit.Schedule, interval);
         }
         /// <summary>
@@ -46,6 +58,9 @@ namespace FluentScheduler
         /// </summary>
         public static DelayTimeUnit DelayFor(this DayUnit timeUnit, int interval)
         {
+            if (timeUnit == null)
+                throw new ArgumentNullException("timeUnit");
+
             return DelayFor(timeUnit.Schedule, interval);
         }
         /// <summary>
@@ -53,6 +68,9 @@ namespace FluentScheduler
         /// </summary>
         public static DelayTimeUnit DelayFor(this WeekUnit timeUnit, int interval)
         {
+            if (timeUnit == null)
+                throw new ArgumentNullException("timeUnit");
+
             return DelayFor(timeUnit.Schedule, interval);
         }
         /// <summary>
@@ -60,6 +78,9 @@ namespace FluentScheduler
         /// </summary>
         public static DelayTimeUnit DelayFor(this MonthUnit timeUnit, int interval)
         {
+            if (timeUnit == null)
+                throw new ArgumentNullException("timeUnit");
+
             return DelayFor(timeUnit.Schedule, interval);
         }
         /// <summary>
@@ -67,6 +88,9 @@ namespace FluentScheduler
         /// </summary>
         public static DelayTimeUnit DelayFor(this YearUnit timeUnit, int interval)
         {
+            if (timeUnit == null)
+                throw new ArgumentNullException("timeUnit");
+
             return DelayFor(timeUnit.Schedule, interval);
         }
     }
