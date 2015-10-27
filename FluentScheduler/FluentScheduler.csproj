@@ -54,7 +54,7 @@
     <Compile Include="Model\DelayTimeUnit.cs" />
     <Compile Include="Model\TimeOfDayRunnable.cs" />
     <Compile Include="Model\TimeOfDayRunnableCalculator.cs" />
-    <Compile Include="Model\WeekDayUnit.cs" />
+    <Compile Include="Model\WeekdayUnit.cs" />
     <Compile Include="TaskFactory.cs" />
     <Compile Include="Model\TaskEndScheduleInformation.cs" />
     <Compile Include="Model\TaskStartScheduleInformation.cs" />
@@ -74,10 +74,13 @@
     <Compile Include="Model\DayUnit.cs" />
     <Compile Include="Model\HourUnit.cs" />
     <Compile Include="Model\TimeUnit.cs" />
-    <Compile Include="Model\SpecificRunTime.cs" />
+    <Compile Include="Model\SpecificTime.cs" />
     <Compile Include="TaskManager.cs" />
     <Compile Include="Model\Schedule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CodeAnalysis\CustomDictionary.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

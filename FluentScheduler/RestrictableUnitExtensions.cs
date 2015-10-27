@@ -29,7 +29,7 @@ namespace FluentScheduler
       return restrictableUnit;
     }
 
-    public static IDayRestrictableUnit WeekDaysOnly(this IDayRestrictableUnit restrictableUnit)
+    public static IDayRestrictableUnit WeekdaysOnly(this IDayRestrictableUnit restrictableUnit)
     {
         if (restrictableUnit == null)
             throw new ArgumentNullException("restrictableUnit");
@@ -38,7 +38,7 @@ namespace FluentScheduler
       restrictableUnit.Schedule.CalculateNextRun = x =>
       {
         var nextRun = unboundCalculateNextRun(x);
-        while (!nextRun.IsWeekDay())
+        while (!nextRun.IsWeekday())
         {
           nextRun = restrictableUnit.DayIncrement(nextRun);
         }

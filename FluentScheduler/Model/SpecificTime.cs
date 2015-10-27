@@ -2,11 +2,11 @@
 
 namespace FluentScheduler.Model
 {
-    public class SpecificRunTime
+    public class SpecificTime
     {
         internal Schedule Schedule { get; private set; }
 
-        public SpecificRunTime(Schedule schedule)
+        public SpecificTime(Schedule schedule)
         {
             Schedule = schedule;
         }

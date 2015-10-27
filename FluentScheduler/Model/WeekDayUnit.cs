@@ -2,7 +2,7 @@ using System;
 
 namespace FluentScheduler.Model
 {
-    public sealed class WeekDayUnit : ITimeRestrictableUnit
+    public sealed class WeekdayUnit : ITimeRestrictableUnit
     {
         internal Schedule Schedule { get; private set; }
 
@@ -10,7 +10,7 @@ namespace FluentScheduler.Model
 
         internal int Duration { get; private set; }
 
-        public WeekDayUnit(Schedule schedule, int duration)
+        public WeekdayUnit(Schedule schedule, int duration)
         {
             Schedule = schedule;
             Duration = duration;
@@ -20,7 +20,7 @@ namespace FluentScheduler.Model
             Schedule.CalculateNextRun = x =>
             {
                 DateTime nextRun = x.Date.NextNWeekday(Duration);
-                return (x > nextRun || !nextRun.Date.IsWeekDay()) ? nextRun.NextNWeekday(Duration) : nextRun;
+                return (x > nextRun || !nextRun.Date.IsWeekday()) ? nextRun.NextNWeekday(Duration) : nextRun;
             };
         }
 
@@ -35,7 +35,7 @@ namespace FluentScheduler.Model
             Schedule.CalculateNextRun = x =>
             {
                 DateTime nextRun = x.Date.AddHours(hours).AddMinutes(minutes);
-                return (x > nextRun || !nextRun.Date.IsWeekDay()) ? nextRun.NextNWeekday(Duration) : nextRun;
+                return (x > nextRun || !nextRun.Date.IsWeekday()) ? nextRun.NextNWeekday(Duration) : nextRun;
             };
         }
     }

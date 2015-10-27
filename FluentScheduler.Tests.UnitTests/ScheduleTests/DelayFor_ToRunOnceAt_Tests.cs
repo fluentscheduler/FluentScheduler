@@ -14,7 +14,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunNow_For_2_Seconds").ToRunNow().DelayFor(2).Seconds());
             DateTime expectedTime = DateTime.Now.AddSeconds(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Seconds").NextRunTime;
+            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Seconds").NextRun;
 
             Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
         }
@@ -24,7 +24,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunNow_For_2_Minutes").ToRunNow().DelayFor(2).Minutes());
             DateTime expectedTime = DateTime.Now.AddMinutes(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Minutes").NextRunTime;
+            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Minutes").NextRun;
 
             Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
         }
@@ -34,7 +34,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunNow_For_2_Hours").ToRunNow().DelayFor(2).Hours());
             DateTime expectedTime = DateTime.Now.AddHours(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Hours").NextRunTime;
+            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Hours").NextRun;
 
             Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
         }
@@ -44,7 +44,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunNow_For_2_Days").ToRunNow().DelayFor(2).Days());
             DateTime expectedTime = DateTime.Now.AddDays(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Days").NextRunTime;
+            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Days").NextRun;
 
             Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
         }
@@ -54,7 +54,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunNow_For_2_Weeks").ToRunNow().DelayFor(2).Weeks());
             DateTime expectedTime = DateTime.Now.AddDays(14);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Weeks").NextRunTime;
+            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Weeks").NextRun;
 
             Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
         }
@@ -64,7 +64,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunNow_For_2_Months").ToRunNow().DelayFor(2).Months());
             DateTime expectedTime = DateTime.Now.AddMonths(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Months").NextRunTime;
+            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Months").NextRun;
 
             Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
         }
@@ -74,7 +74,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunNow_For_2_Years").ToRunNow().DelayFor(2).Years());
             DateTime expectedTime = DateTime.Now.AddYears(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Years").NextRunTime;
+            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunNow_For_2_Years").NextRun;
 
             Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
         }

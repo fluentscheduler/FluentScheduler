@@ -86,7 +86,7 @@ namespace FluentScheduler.Tests.Console
         {
             TaskManager.TaskFactory = new MyTaskFactory();
             TaskManager.TaskStart += (schedule, e) => Console.WriteLine(schedule.Name + " Started: " + schedule.StartTime);
-            TaskManager.TaskEnd += (schedule, e) => Console.WriteLine(schedule.Name + " Ended.\n\tStarted: " + schedule.StartTime + "\n\tDuration: " + schedule.Duration + "\n\tNext run: " + schedule.NextRunTime);
+            TaskManager.TaskEnd += (schedule, e) => Console.WriteLine(schedule.Name + " Ended.\n\tStarted: " + schedule.StartTime + "\n\tDuration: " + schedule.Duration + "\n\tNext run: " + schedule.NextRun);
 
             TaskManager.Initialize(new MyRegistry());
             Console.WriteLine("Done initializing...");

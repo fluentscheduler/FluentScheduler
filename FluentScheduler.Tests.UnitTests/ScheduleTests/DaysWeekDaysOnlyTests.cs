@@ -14,7 +14,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     {
       var task = new Mock<ITask>();
       var schedule = new Schedule(task.Object);
-      schedule.ToRunEvery(1).Days().At(3, 15).WeekDaysOnly();
+      schedule.ToRunEvery(1).Days().At(3, 15).WeekdaysOnly();
 
       var input = new DateTime(1999, 12, 31, 1, 23, 25);
       input.DayOfWeek.Should().Be(DayOfWeek.Friday);
@@ -31,7 +31,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     {
       var task = new Mock<ITask>();
       var schedule = new Schedule(task.Object);
-      schedule.ToRunEvery(1).Days().At(3, 15).WeekDaysOnly();
+      schedule.ToRunEvery(1).Days().At(3, 15).WeekdaysOnly();
 
       var input = new DateTime(1999, 12, 31, 12, 23, 25);
       input.DayOfWeek.Should().Be(DayOfWeek.Friday);
@@ -48,7 +48,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     {
       var task = new Mock<ITask>();
       var schedule = new Schedule(task.Object);
-      schedule.ToRunEvery(1).Days().At(3, 15).WeekDaysOnly();
+      schedule.ToRunEvery(1).Days().At(3, 15).WeekdaysOnly();
 
       var input = new DateTime(2000, 1, 1, 1, 23, 25);
       input.DayOfWeek.Should().Be(DayOfWeek.Saturday);
@@ -65,7 +65,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     {
       var task = new Mock<ITask>();
       var schedule = new Schedule(task.Object);
-      schedule.ToRunEvery(1).Days().At(3, 15).WeekDaysOnly();
+      schedule.ToRunEvery(1).Days().At(3, 15).WeekdaysOnly();
 
       var input = new DateTime(2000, 1, 2, 1, 23, 25);
       input.DayOfWeek.Should().Be(DayOfWeek.Sunday);
@@ -82,7 +82,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     {
       var task = new Mock<ITask>();
       var schedule = new Schedule(task.Object);
-      schedule.ToRunEvery(1).Days().At(3, 15).WeekDaysOnly();
+      schedule.ToRunEvery(1).Days().At(3, 15).WeekdaysOnly();
 
       var input = new DateTime(2000, 1, 3, 12, 23, 25);
       input.DayOfWeek.Should().Be(DayOfWeek.Monday);

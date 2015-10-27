@@ -15,12 +15,12 @@ namespace FluentScheduler
         /// <summary>
         /// Delay first execution of the task for the specified time interval.
         /// </summary>
-        public static DelayTimeUnit DelayFor(this SpecificRunTime runTime, int interval)
+        public static DelayTimeUnit DelayFor(this SpecificTime time, int interval)
         {
-            if (runTime == null)
-                throw new ArgumentNullException("runTime");
+            if (time == null)
+                throw new ArgumentNullException("time");
 
-            return DelayFor(runTime.Schedule, interval);
+            return DelayFor(time.Schedule, interval);
         }
 
         /// <summary>

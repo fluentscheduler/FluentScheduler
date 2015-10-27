@@ -135,8 +135,8 @@ namespace FluentScheduler
                         StartTime = startTime,
                         Duration = duration
                     };
-                if (schedule.NextRunTime != default(DateTime))
-                    info.NextRunTime = schedule.NextRunTime;
+                if (schedule.NextRun != default(DateTime))
+                    info.NextRun = schedule.NextRun;
 
                 handler(info, new EventArgs());
             }
@@ -151,7 +151,7 @@ namespace FluentScheduler
                     if (schedule.DelayRunFor > TimeSpan.Zero)
                     {
                         // delayed task
-                        schedule.NextRunTime = DateTime.Now.Add(schedule.DelayRunFor);
+                        schedule.NextRun = DateTime.Now.Add(schedule.DelayRunFor);
                         _tasks.Add(schedule);
                     }
                     else
@@ -163,16 +163,16 @@ namespace FluentScheduler
                     foreach (var child in schedule.AdditionalSchedules.Where(x => x.CalculateNextRun != null))
                     {
                         var nextRun = child.CalculateNextRun(now.Add(child.DelayRunFor).AddMilliseconds(1));
-                        if (!hasAdded || schedule.NextRunTime > nextRun)
+                        if (!hasAdded || schedule.NextRun > nextRun)
                         {
-                            schedule.NextRunTime = nextRun;
+                            schedule.NextRun = nextRun;
                             hasAdded = true;
                         }
                     }
                 }
                 else
                 {
-                    schedule.NextRunTime = schedule.CalculateNextRun(now.Add(schedule.DelayRunFor));
+                    schedule.NextRun = schedule.CalculateNextRun(now.Add(schedule.DelayRunFor));
                     _tasks.Add(schedule);
                 }
 
@@ -183,7 +183,7 @@ namespace FluentScheduler
                         if (childSchedule.DelayRunFor > TimeSpan.Zero)
                         {
                             // delayed task
-                            childSchedule.NextRunTime = DateTime.Now.Add(childSchedule.DelayRunFor);
+                            childSchedule.NextRun = DateTime.Now.Add(childSchedule.DelayRunFor);
                             _tasks.Add(childSchedule);
                         }
                         else
@@ -195,7 +195,7 @@ namespace FluentScheduler
                     }
                     else
                     {
-                        childSchedule.NextRunTime = childSchedule.CalculateNextRun(now.Add(schedule.DelayRunFor));
+                        childSchedule.NextRun = childSchedule.CalculateNextRun(now.Add(schedule.DelayRunFor));
                         _tasks.Add(childSchedule);
                     }
                 }
@@ -217,7 +217,7 @@ namespace FluentScheduler
                 _timer = new Timer { AutoReset = false };
                 _timer.Elapsed += Timer_Elapsed;
             }
-            _tasks.Sort((x, y) => DateTime.Compare(x.NextRunTime, y.NextRunTime));
+            _tasks.Sort((x, y) => DateTime.Compare(x.NextRun, y.NextRun));
             Schedule();
         }
 
@@ -356,7 +356,7 @@ namespace FluentScheduler
             {
                 return;
             }
-            if (firstTask.NextRunTime <= DateTime.Now)
+            if (firstTask.NextRun <= DateTime.Now)
             {
                 StartTask(firstTask);
                 if (firstTask.CalculateNextRun == null)
@@ -365,25 +365,25 @@ namespace FluentScheduler
                 }
                 else
                 {
-                    firstTask.NextRunTime = firstTask.CalculateNextRun(DateTime.Now.AddMilliseconds(1));
+                    firstTask.NextRun = firstTask.CalculateNextRun(DateTime.Now.AddMilliseconds(1));
                 }
                 if (firstTask.TaskExecutions > 0)
                 {
                     firstTask.TaskExecutions--;
                 }
-                if (firstTask.NextRunTime <= DateTime.Now || firstTask.TaskExecutions == 0)
+                if (firstTask.NextRun <= DateTime.Now || firstTask.TaskExecutions == 0)
                 {
                     lock (typeof(TaskManager))
                     {
                         _tasks.Remove(firstTask);
                     }
                 }
-                _tasks.Sort((x, y) => DateTime.Compare(x.NextRunTime, y.NextRunTime));
+                _tasks.Sort((x, y) => DateTime.Compare(x.NextRun, y.NextRun));
                 Schedule();
                 return;
             }
 
-            var timerInterval = (firstTask.NextRunTime - DateTime.Now).TotalMilliseconds;
+            var timerInterval = (firstTask.NextRun - DateTime.Now).TotalMilliseconds;
             if (timerInterval <= 0)
             {
                 Schedule();

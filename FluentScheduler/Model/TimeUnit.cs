@@ -30,9 +30,9 @@ namespace FluentScheduler.Model
         {
             return new DayUnit(this.schedule, this.duration);
         }
-        public WeekDayUnit WeekDays()
+        public WeekdayUnit Weekdays()
         {
-            return new WeekDayUnit(this.schedule, this.duration);
+            return new WeekdayUnit(this.schedule, this.duration);
         }
         public WeekUnit Weeks()
         {

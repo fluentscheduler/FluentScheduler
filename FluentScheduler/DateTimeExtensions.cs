@@ -103,7 +103,7 @@ namespace FluentScheduler
             {
                 nToAdvance--;
                 current = current.AddDays(1);
-                while (!current.IsWeekDay())
+                while (!current.IsWeekday())
                 {
                     current = current.AddDays(1);
                 }
@@ -116,7 +116,7 @@ namespace FluentScheduler
         /// </summary>
         /// <param name="current">The current date</param>
         /// <returns></returns>
-        public static bool IsWeekDay(this DateTime current)
+        public static bool IsWeekday(this DateTime current)
         {
             switch (current.DayOfWeek)
             {
