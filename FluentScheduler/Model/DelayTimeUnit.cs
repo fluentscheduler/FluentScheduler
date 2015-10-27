@@ -6,7 +6,7 @@ namespace FluentScheduler.Model
     /// <summary>
     /// Delayed execution support - each method extends the startup time of the task for the specific interval.
     /// </summary>
-    public class DelayTimeUnit
+    public sealed class DelayTimeUnit
     {
         internal Schedule Schedule { get; private set; }
         internal int Interval { get; private set; }

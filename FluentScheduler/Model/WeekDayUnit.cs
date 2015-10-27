@@ -2,7 +2,7 @@ using System;
 
 namespace FluentScheduler.Model
 {
-    public class WeekDayUnit : ITimeRestrictableUnit
+    public sealed class WeekDayUnit : ITimeRestrictableUnit
     {
         internal Schedule Schedule { get; private set; }
 

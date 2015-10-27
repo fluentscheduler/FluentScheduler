@@ -2,7 +2,7 @@
 
 namespace FluentScheduler.Model
 {
-    public class SecondUnit : ITimeRestrictableUnit
+    public sealed class SecondUnit : ITimeRestrictableUnit
     {
         internal Schedule Schedule { get; private set; }
 

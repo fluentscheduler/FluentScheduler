@@ -2,7 +2,7 @@
 
 namespace FluentScheduler.Model
 {
-    public class TimeUnit
+    public sealed class TimeUnit
     {
         private readonly Schedule schedule;
 

@@ -2,7 +2,7 @@
 
 namespace FluentScheduler.Model
 {
-    public class MonthOnLastDayOfMonthUnit
+    public sealed class MonthOnLastDayOfMonthUnit
     {
         internal Schedule Schedule { get; private set; }
         internal int Duration { get; private set; }

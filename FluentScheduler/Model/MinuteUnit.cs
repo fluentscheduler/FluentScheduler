@@ -1,6 +1,6 @@
 ﻿namespace FluentScheduler.Model
 {
-    public class MinuteUnit : ITimeRestrictableUnit
+    public sealed class MinuteUnit : ITimeRestrictableUnit
     {
         internal Schedule Schedule { get; private set; }
 
