@@ -114,18 +114,29 @@ static void TaskManager_UnobservedTaskException(Task sender, UnhandledExceptionE
 }
 ```
 
+## Contributing
+
+Feel free to [open an issue] or [submit a pull request].
+
+When sending a patch remember to [Run All Tests (Ctrl + R, A)] and [Run Code Analysis on Solution (Alt + F11)] if possible.
+And, of course, be consistent with the existing code!
+
 [build]:     https://ci.appveyor.com/project/TallesL/fluentscheduler
 [build-img]: https://ci.appveyor.com/api/projects/status/rvgyhrs904qsxlho
 
 [nuget]:     http://badge.fury.io/nu/fluentscheduler
 [nuget-img]: https://badge.fury.io/nu/fluentscheduler.png
 
-[Registry]:                    FluentScheduler/Registry.cs
-[ITask]:                       FluentScheduler/ITask.cs
-[Action]:                      https://msdn.microsoft.com/library/System.Action
-[TaskManager]:                 FluentScheduler/TaskManager.cs
-[ITaskFactory]:                FluentScheduler/TaskFactory.cs
-[StructureMap]:                http://structuremap.github.io
-[Application_Start]:           https://msdn.microsoft.com/library/ms178473
-[UnobservedTaskException]:     FluentScheduler/TaskManager.cs#L18
-[System.Threading.Tasks.Task]: https://msdn.microsoft.com/library/System.Threading.Tasks.Task
+[Registry]:                                  FluentScheduler/Registry.cs
+[ITask]:                                     FluentScheduler/ITask.cs
+[Action]:                                    https://msdn.microsoft.com/library/System.Action
+[TaskManager]:                               FluentScheduler/TaskManager.cs
+[ITaskFactory]:                              FluentScheduler/TaskFactory.cs
+[StructureMap]:                              http://structuremap.github.io
+[Application_Start]:                         https://msdn.microsoft.com/library/ms178473
+[UnobservedTaskException]:                   FluentScheduler/TaskManager.cs#L18
+[System.Threading.Tasks.Task]:               https://msdn.microsoft.com/library/System.Threading.Tasks.Task
+[open an issue]:                             https://github.com/fluentscheduler/FluentScheduler/issues
+[submit a pull request]:                     https://github.com/fluentscheduler/FluentScheduler/pulls
+[Run All Tests (Ctrl + R, A)]:               https://msdn.microsoft.com/library/ms182470
+[Run Code Analysis on Solution (Alt + F11)]: https://msdn.microsoft.com/library/bb907198
