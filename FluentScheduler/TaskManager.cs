@@ -42,9 +42,15 @@ namespace FluentScheduler
         public static event GenericEventHandler<TaskEndScheduleInformation, EventArgs> TaskEnd;
 
         private static List<Schedule> _tasks;
+
+        private static object _tasksLock = new object();
+
         private static Timer _timer;
+
         private static readonly ConcurrentDictionary<List<Action>, bool> RunningNonReentrantTasks = new ConcurrentDictionary<List<Action>, bool>();
+
         private static readonly ConcurrentDictionary<Guid, Schedule> _runningSchedules = new ConcurrentDictionary<Guid, Schedule>();
+
         /// <summary>
         /// Gets a list of currently schedules currently executing.
         /// </summary>
@@ -94,7 +100,7 @@ namespace FluentScheduler
                 throw new ArgumentNullException("registry");
 
             var immediateTasks = new List<Schedule>();
-            lock (typeof(TaskManager))
+            lock (_tasksLock)
             {
                 var now = DateTime.Now;
                 _tasks = new List<Schedule>();
@@ -307,7 +313,7 @@ namespace FluentScheduler
             taskSchedule(schedule);
 
             var immediateTasks = new List<Schedule>();
-            lock (typeof(TaskManager))
+            lock (_tasksLock)
             {
                 var now = DateTime.Now;
                 if (_tasks == null)
@@ -324,7 +330,7 @@ namespace FluentScheduler
             var task = GetSchedule(name);
             if (task != null)
             {
-                lock (typeof(TaskManager))
+                lock (_tasksLock)
                 {
                     _tasks.Remove(task);
                 }
@@ -380,7 +386,7 @@ namespace FluentScheduler
                 }
                 if (firstTask.NextRun <= DateTime.Now || firstTask.TaskExecutions == 0)
                 {
-                    lock (typeof(TaskManager))
+                    lock (_tasksLock)
                     {
                         _tasks.Remove(firstTask);
                     }
