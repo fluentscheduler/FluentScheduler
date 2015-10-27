@@ -36,11 +36,11 @@ namespace FluentScheduler
         /// <summary>
         /// Gets a list of currently schedules currently executing.
         /// </summary>
-        public static Schedule[] RunningSchedules
+        public static IEnumerable<Schedule> RunningSchedules
         {
             get
             {
-                return _runningSchedules.Values.ToArray();
+                return _runningSchedules.Values.ToList();
             }
         }
 
@@ -48,11 +48,11 @@ namespace FluentScheduler
         /// The list of all schedules, whether or not they are currently running.
         /// Use <see cref="GetSchedule"/> to get concrete schedule by name.
         /// </summary>
-        public static Schedule[] AllSchedules
+        public static IEnumerable<Schedule> AllSchedules
         {
             get
             {
-                return _tasks.ToArray();
+                return _tasks.ToList();
             }
         }
         /// <summary>
