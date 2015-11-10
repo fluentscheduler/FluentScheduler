@@ -57,6 +57,48 @@ protected void Application_Start()
 } 
 ```
 
+## Using it with ASP.NET
+
+When using it with ASP.NET consider implementing [IRegisteredObject] in your task and registering it itself on [HostingEnvironment]&nbsp;([here's a great explanation on it]), like:
+
+```cs
+public class SampleTask : ITask, IRegisteredObject
+{
+    private readonly object _lock = new object();
+
+    private bool _shuttingDown;
+
+    public SampleTask()
+    {
+        // Register this task with the hosting environment.
+        // Allows for a more graceful stop of the task, in the case of IIS shutting down.
+        HostingEnvironment.RegisterObject(this);
+    }
+
+    public void Execute()
+    {
+        lock (_lock)
+        {
+            if (_shuttingDown)
+                return;
+
+            // Do work, son!
+        }
+    }
+
+    public void Stop(bool immediate)
+    {
+        // Locking here will wait for the lock in Execute to be released until this code can continue.
+        lock (_lock)
+        {
+            _shuttingDown = true;
+        }
+
+        HostingEnvironment.UnregisterObject(this);
+    }
+}
+```
+
 ## Dependency Injection
 
 FluentScheduler makes it easy to use your IoC tool of choice to create task instances.
@@ -134,6 +176,9 @@ And, of course, be consistent with the existing code!
 [ITaskFactory]:                              FluentScheduler/TaskFactory.cs
 [StructureMap]:                              http://structuremap.github.io
 [Application_Start]:                         https://msdn.microsoft.com/library/ms178473
+[IRegisteredObject]:                         https://msdn.microsoft.com/library/System.Web.Hosting.IRegisteredObject
+[HostingEnvironment]:                        https://msdn.microsoft.com/library/System.Web.Hosting.HostingEnvironment
+[here's a great explanation on it]:       http://haacked.com/archive/2011/10/16/the-dangers-of-implementing-recurring-background-tasks-in-asp-net.aspx
 [UnobservedTaskException]:                   FluentScheduler/TaskManager.cs#L18
 [System.Threading.Tasks.Task]:               https://msdn.microsoft.com/library/System.Threading.Tasks.Task
 [open an issue]:                             https://github.com/fluentscheduler/FluentScheduler/issues
