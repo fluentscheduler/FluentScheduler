@@ -134,7 +134,7 @@ namespace FluentScheduler
         /// <param name="current">The current date</param>
         public static DateTime ClearMinutesAndSeconds(this DateTime current)
         {
-            return current.AddMinutes(-1 * current.Minute).AddSeconds(-1 * current.Second);
+            return current.AddMinutes(-1 * current.Minute).AddSeconds(-1 * current.Second).AddMilliseconds(-1 * current.Millisecond);
         }
 
         /// <summary>
