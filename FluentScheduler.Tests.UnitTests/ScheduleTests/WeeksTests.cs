@@ -1,262 +1,300 @@
-using System;
 using FluentScheduler.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using NUnit.Framework;
+using System;
 
 namespace FluentScheduler.Tests.UnitTests.ScheduleTests
 {
-    [TestFixture]
+    [TestClass]
     public class WeeksTests
     {
-        [Test]
+        [TestMethod]
         public void Should_Add_Specified_Weeks_To_Next_Run_Date()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1);
+            var expected = new DateTime(2000, 1, 15);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks();
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            var expectedTime = new DateTime(2000, 1, 15);
-            Assert.AreEqual(scheduledTime, expectedTime);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Default_To_00_00_If_At_Is_Not_Defined()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1, 1, 23, 25);
+            var expected = new DateTime(2000, 1, 15);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks();
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1, 1, 23, 25);
-            var scheduledTime = schedule.CalculateNextRun(input);
-
-            Assert.AreEqual(scheduledTime.Hour, 0);
-            Assert.AreEqual(scheduledTime.Minute, 0);
-            Assert.AreEqual(scheduledTime.Second, 0);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Set_Specific_Hour_And_Minute_If_At_Method_Is_Called()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1);
+            var expected = new DateTime(2000, 1, 1, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            Assert.AreEqual(scheduledTime.Date, input.Date);
-
-            Assert.AreEqual(scheduledTime.Hour, 3);
-            Assert.AreEqual(scheduledTime.Minute, 15);
-            Assert.AreEqual(scheduledTime.Second, 0);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Override_Existing_Minutes_And_Seconds_If_At_Method_Is_Called()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1, 5, 23, 25);
+            var expected = new DateTime(2000, 1, 15, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1, 5, 23, 25);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            Assert.AreEqual(scheduledTime.Date, input.Date.AddDays(14));
-
-            Assert.AreEqual(scheduledTime.Hour, 3);
-            Assert.AreEqual(scheduledTime.Minute, 15);
-            Assert.AreEqual(scheduledTime.Second, 0);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Default_To_00_00_If_On_Is_Specified_And_At_Is_Not_Defined()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1, 1, 23, 25);
+            var expected = new DateTime(2000, 1, 15);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().On(DayOfWeek.Saturday);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1, 1, 23, 25);
-            var scheduledTime = schedule.CalculateNextRun(input);
-
-            Assert.AreEqual(scheduledTime.Hour, 0);
-            Assert.AreEqual(scheduledTime.Minute, 0);
-            Assert.AreEqual(scheduledTime.Second, 0);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Set_Specific_Hour_And_Minute_If_On_Is_Specified_And_At_Method_Is_Called()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1);
+            var expected = new DateTime(2000, 1, 15, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().On(DayOfWeek.Saturday).At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            Assert.AreEqual(scheduledTime.Date, input.Date.AddDays(14));
-
-            Assert.AreEqual(scheduledTime.Hour, 3);
-            Assert.AreEqual(scheduledTime.Minute, 15);
-            Assert.AreEqual(scheduledTime.Second, 0);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Override_Existing_Minutes_And_Seconds_If_On_Is_Specified_And_At_Method_Is_Called()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1, 1, 23, 25);
+            var expected = new DateTime(2000, 1, 15, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().On(DayOfWeek.Saturday).At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1, 1, 23, 25);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            Assert.AreEqual(scheduledTime.Date, input.Date.AddDays(14));
-
-            Assert.AreEqual(scheduledTime.Hour, 3);
-            Assert.AreEqual(scheduledTime.Minute, 15);
-            Assert.AreEqual(scheduledTime.Second, 0);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Select_The_Date_If_The_Next_Runtime_Falls_On_The_Specified_Day()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1);
+            var actual = new DateTime(2000, 1, 15);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().On(DayOfWeek.Saturday);
+            var expected = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1); // Saturday
-            var scheduledTime = schedule.CalculateNextRun(input);
-
-            var expectedTime = new DateTime(2000, 1, 15);
-            Assert.AreEqual(scheduledTime, expectedTime);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_The_Day_Of_Week_Specified()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1);
+            var expected = new DateTime(2000, 1, 16);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().On(DayOfWeek.Sunday);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1);
-            var scheduledTime = schedule.CalculateNextRun(input);
-
-            var expectedTime = new DateTime(2000, 1, 16);
-            Assert.AreEqual(scheduledTime, expectedTime);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_The_Next_Week_If_The_Day_Of_Week_Has_Passed()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 5);
+            var actual = new DateTime(2000, 1, 24);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().On(DayOfWeek.Monday);
+            var expected = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 5); // Wednesday
-            var scheduledTime = schedule.CalculateNextRun(input);
-
-            var expectedTime = new DateTime(2000, 1, 24);
-            Assert.AreEqual(scheduledTime, expectedTime);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_The_Next_Week_If_The_Day_Of_Week_Has_Passed_For_New_Weeks()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 2);
+            var actual = new DateTime(2000, 1, 22);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().On(DayOfWeek.Saturday);
+            var expected = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 2); // Sunday
-            var scheduledTime = schedule.CalculateNextRun(input);
-
-            var expectedTime = new DateTime(2000, 1, 22);
-            Assert.AreEqual(scheduledTime, expectedTime);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_The_Next_Week_If_The_Day_Of_Week_Has_Passed_For_End_Of_Week()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1);
+            var expected = new DateTime(2000, 1, 16);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().On(DayOfWeek.Sunday);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1); // Saturday
-            var scheduledTime = schedule.CalculateNextRun(input);
-
-            var expectedTime = new DateTime(2000, 1, 16);
-            Assert.AreEqual(scheduledTime, expectedTime);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_The_Next_Day_Of_Week_If_0_Weeks_Specified()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 4);
+            var actual = new DateTime(2000, 1, 5);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(0).Weeks().On(DayOfWeek.Wednesday);
+            var expected = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 4); // Tuesday
-            var scheduledTime = schedule.CalculateNextRun(input);
-
-            var expectedTime = new DateTime(2000, 1, 5);
-            Assert.AreEqual(scheduledTime, expectedTime);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_The_Next_Week_On_The_Specified_Day_Of_Week_If_0_Weeks_Specified()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 4, 1, 23, 25);
+            var expected = new DateTime(2000, 1, 11);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(0).Weeks().On(DayOfWeek.Tuesday);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 4, 1, 23, 25); // Tuesday
-            var scheduledTime = schedule.CalculateNextRun(input);
-
-            var expectedTime = new DateTime(2000, 1, 11);
-            Assert.AreEqual(scheduledTime, expectedTime);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_The_Same_Day_Of_Week_If_0_Weeks_Specified_And_Before_Specified_Run_Time()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 4, 3, 15, 0);
+            var expected = new DateTime(2000, 1, 4, 4, 20, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(0).Weeks().On(DayOfWeek.Tuesday).At(4, 20);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 4, 3, 15, 0); // Tuesday
-            var scheduledTime = schedule.CalculateNextRun(input);
-
-            var expectedTime = new DateTime(2000, 1, 4, 4, 20, 0);
-            Assert.AreEqual(scheduledTime, expectedTime);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Schedule_Today_If_Input_Time_Is_Before_Run_Time()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1);
+            var expected = new DateTime(2000, 1, 1, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            Assert.AreEqual(scheduledTime.Date, input.Date);
-
-            Assert.AreEqual(scheduledTime.Hour, 3);
-            Assert.AreEqual(scheduledTime.Minute, 15);
-            Assert.AreEqual(scheduledTime.Second, 0);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Not_Schedule_Today_If_Input_Time_Is_After_Run_Time()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1, 5, 23, 25);
+            var expected = new DateTime(2000, 1, 15, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weeks().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1, 5, 23, 25);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            Assert.AreEqual(scheduledTime.Date, input.Date.AddDays(14));
-
-            Assert.AreEqual(scheduledTime.Hour, 3);
-            Assert.AreEqual(scheduledTime.Minute, 15);
-            Assert.AreEqual(scheduledTime.Second, 0);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
     }
 }

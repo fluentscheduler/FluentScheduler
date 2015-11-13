@@ -1,165 +1,182 @@
-﻿using System;
-using FluentScheduler.Model;
+﻿using FluentScheduler.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using NUnit.Framework;
-using FluentAssertions;
+using System;
 
 namespace FluentScheduler.Tests.UnitTests.ScheduleTests
 {
-    [TestFixture]
+    [TestClass]
     public class WeekDaysTests
     {
-        [Test]
+        [TestMethod]
         public void Should_Pick_Same_Day_If_Now_Is_In_Time_On_Friday()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(1999, 12, 31, 1, 23, 25);
+            var expected = new DateTime(1999, 12, 31, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(1).Weekdays().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(1999, 12, 31, 1, 23, 25);
-            input.DayOfWeek.Should().Be(DayOfWeek.Friday);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            scheduledTime.Date.Should().Be(input.Date);
-
-            scheduledTime.Hour.Should().Be(3);
-            scheduledTime.Minute.Should().Be(15);
-            scheduledTime.Second.Should().Be(0);
+            // Assert
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(DayOfWeek.Friday, input.DayOfWeek);
+            Assert.AreEqual(DayOfWeek.Friday, actual.DayOfWeek);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_Monday_If_Now_Is_Too_Late_On_Friday()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(1999, 12, 31, 12, 23, 25);
+            var expected = new DateTime(2000, 1, 3, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(1).Weekdays().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(1999, 12, 31, 12, 23, 25);
-            input.DayOfWeek.Should().Be(DayOfWeek.Friday);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            scheduledTime.Date.Should().Be(input.AddDays(3).Date);
-
-            scheduledTime.Hour.Should().Be(3);
-            scheduledTime.Minute.Should().Be(15);
-            scheduledTime.Second.Should().Be(0);
+            // Assert
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(DayOfWeek.Friday, input.DayOfWeek);
+            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_Monday_If_Now_Is_Saturday()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1, 1, 23, 25);
+            var expected = new DateTime(2000, 1, 3, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(1).Weekdays().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1, 1, 23, 25);
-            input.DayOfWeek.Should().Be(DayOfWeek.Saturday);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            scheduledTime.Date.Should().Be(input.AddDays(2).Date);
-
-            scheduledTime.Hour.Should().Be(3);
-            scheduledTime.Minute.Should().Be(15);
-            scheduledTime.Second.Should().Be(0);
+            // Assert
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(DayOfWeek.Saturday, input.DayOfWeek);
+            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_Monday_If_Now_Is_Sunday()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 2, 1, 23, 25);
+            var expected = new DateTime(2000, 1, 3, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(1).Weekdays().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 2, 1, 23, 25);
-            input.DayOfWeek.Should().Be(DayOfWeek.Sunday);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            scheduledTime.Date.Should().Be(input.AddDays(1).Date);
-
-            scheduledTime.Hour.Should().Be(3);
-            scheduledTime.Minute.Should().Be(15);
-            scheduledTime.Second.Should().Be(0);
+            // Assert
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(DayOfWeek.Sunday, input.DayOfWeek);
+            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_Tuesday_If_Now_Is_Too_Late_Monday()
         {
+            // Assert
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 3, 12, 23, 25);
+            var expected = new DateTime(2000, 1, 4, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(1).Weekdays().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 3, 12, 23, 25);
-            input.DayOfWeek.Should().Be(DayOfWeek.Monday);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            scheduledTime.Date.Should().Be(input.AddDays(1).Date);
-
-            scheduledTime.Hour.Should().Be(3);
-            scheduledTime.Minute.Should().Be(15);
-            scheduledTime.Second.Should().Be(0);
+            // Assert
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(DayOfWeek.Monday, input.DayOfWeek);
+            Assert.AreEqual(DayOfWeek.Tuesday, actual.DayOfWeek);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Skip_Monday_If_Now_Is_Saturday()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1, 1, 23, 25);
+            var expected = new DateTime(2000, 1, 4, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weekdays().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1, 1, 23, 25);
-            input.DayOfWeek.Should().Be(DayOfWeek.Saturday);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            scheduledTime.Date.Should().Be(input.AddDays(3).Date);
-
-            scheduledTime.Hour.Should().Be(3);
-            scheduledTime.Minute.Should().Be(15);
-            scheduledTime.Second.Should().Be(0);
+            // Assert
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(DayOfWeek.Saturday, input.DayOfWeek);
+            Assert.AreEqual(DayOfWeek.Tuesday, actual.DayOfWeek);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_Same_Day_If_Now_Is_In_Time_Monday()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 3, 1, 23, 25);
+            var expected = new DateTime(2000, 1, 3, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weekdays().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 3, 1, 23, 25);
-            input.DayOfWeek.Should().Be(DayOfWeek.Monday);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            scheduledTime.Date.Should().Be(input.Date);
-
-            scheduledTime.Hour.Should().Be(3);
-            scheduledTime.Minute.Should().Be(15);
-            scheduledTime.Second.Should().Be(0);
+            // Assert
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(DayOfWeek.Monday, input.DayOfWeek);
+            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_Wednesday_If_Now_Is_Too_Late_Monday()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 3, 12, 23, 25);
+            var expected = new DateTime(2000, 1, 5, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weekdays().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 3, 12, 23, 25);
-            input.DayOfWeek.Should().Be(DayOfWeek.Monday);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            scheduledTime.Date.Should().Be(input.AddDays(2).Date);
-
-            scheduledTime.Hour.Should().Be(3);
-            scheduledTime.Minute.Should().Be(15);
-            scheduledTime.Second.Should().Be(0);
+            // Assert
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(DayOfWeek.Monday, input.DayOfWeek);
+            Assert.AreEqual(DayOfWeek.Wednesday, actual.DayOfWeek);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Pick_Monday_If_Now_Is_Too_Late_Thursday()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 6, 12, 23, 25);
+            var expected = new DateTime(2000, 1, 10, 3, 15, 0);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Weekdays().At(3, 15);
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 6, 12, 23, 25);
-            input.DayOfWeek.Should().Be(DayOfWeek.Thursday);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            scheduledTime.Date.Should().Be(input.AddDays(4).Date);
-
-            scheduledTime.Hour.Should().Be(3);
-            scheduledTime.Minute.Should().Be(15);
-            scheduledTime.Second.Should().Be(0);
+            // Assert
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(DayOfWeek.Thursday, input.DayOfWeek);
+            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
         }
     }
 }

@@ -1,42 +1,56 @@
+using FluentScheduler.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Linq;
-using FluentScheduler.Model;
-using Moq;
-using NUnit.Framework;
 
 namespace FluentScheduler.Tests.UnitTests.ScheduleTests
 {
-    [TestFixture]
+    [TestClass]
     public class SpecificRunTimeTests
     {
-        [Test]
+        [TestMethod]
         public void Should_Add_Chained_Tasks_To_AdditionalSchedules_Property()
         {
+            // Arrange
             var task = new Mock<ITask>();
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunNow().AndEvery(1).Months();
-            Assert.AreEqual(schedule.AdditionalSchedules.Count, 1);
+
+            // Assert
+            Assert.AreEqual(1, schedule.AdditionalSchedules.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Set_Chained_Task_Schedule_As_Expected()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1);
+            var expected = new DateTime(2000, 3, 1);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunNow().AndEvery(2).Months();
+            var actual = schedule.AdditionalSchedules.ElementAt(0).CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1);
-            var scheduledTime = schedule.AdditionalSchedules.ElementAt(0).CalculateNextRun(input);
-            var expectedTime = new DateTime(2000, 3, 1);
-            Assert.AreEqual(scheduledTime, expectedTime);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Not_Alter_Original_Runtime_If_Chained_Task_Exists()
         {
+            // Arrange
             var task = new Mock<ITask>();
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunNow().AndEvery(1).Months();
+
+            // Assert
             Assert.IsNull(schedule.CalculateNextRun);
         }
     }

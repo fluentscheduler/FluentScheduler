@@ -1,82 +1,148 @@
+using FluentScheduler.Tests.UnitTests.Utilities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using FluentScheduler.Model;
-using Moq;
-using NUnit.Framework;
 
 namespace FluentScheduler.Tests.UnitTests.ScheduleTests
 {
-    [TestFixture]
+    [TestClass]
     public class DelayFor_ToRunOnceAt_Tests
     {
-        [Test]
+        [TestMethod]
         public void Should_Delay_ToRunOnceAt_For_2_Seconds()
         {
-            TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunOnceAt_For_2_Seconds").ToRunOnceAt(DateTime.Now).DelayFor(2).Seconds());
-            DateTime expectedTime = DateTime.Now.AddSeconds(2);
+            // Arrange
+            var now = DateTime.Now;
+            var expected = now.AddSeconds(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunOnceAt_For_2_Seconds").NextRun;
+            // Act
+            TaskManager.AddTask(
+                () => { },
+                s => s.WithName("run once at x and delay for 2 seconds")
+                    .ToRunOnceAt(now)
+                    .DelayFor(2).Seconds()
+            );
+            var actual = TaskManager.GetSchedule("run once at x and delay for 2 seconds").NextRun;
 
-            Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
+            // Assert
+            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
-        [Test]
+
+        [TestMethod]
         public void Should_Delay_ToRunOnceAt_For_2_Minutes()
         {
-            TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunOnceAt_For_2_Minutes").ToRunOnceAt(DateTime.Now).DelayFor(2).Minutes());
-            DateTime expectedTime = DateTime.Now.AddMinutes(2);
+            // Arrange
+            var now = DateTime.Now;
+            var expected = now.AddMinutes(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunOnceAt_For_2_Minutes").NextRun;
+            // Act
+            TaskManager.AddTask(
+                () => { },
+                s => s.WithName("run once at x and delay for 2 minutes")
+                    .ToRunOnceAt(now)
+                    .DelayFor(2).Minutes()
+            );
+            var actual = TaskManager.GetSchedule("run once at x and delay for 2 minutes").NextRun;
 
-            Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
+            // Assert
+            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
-        [Test]
+
+        [TestMethod]
         public void Should_Delay_ToRunOnceAt_For_2_Hours()
         {
-            TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunOnceAt_For_2_Hours").ToRunOnceAt(DateTime.Now).DelayFor(2).Hours());
-            DateTime expectedTime = DateTime.Now.AddHours(2);
+            // Act
+            var now = DateTime.Now;
+            var expected = now.AddHours(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunOnceAt_For_2_Hours").NextRun;
+            // Arrange
+            TaskManager.AddTask(
+                () => { },
+                s => s.WithName("run once at x and delay for 2 hours")
+                    .ToRunOnceAt(now)
+                    .DelayFor(2).Hours()
+            );
+            var actual = TaskManager.GetSchedule("run once at x and delay for 2 hours").NextRun;
 
-            Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
+            // Assert
+            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
-        [Test]
+
+        [TestMethod]
         public void Should_Delay_ToRunOnceAt_For_2_Days()
         {
-            TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunOnceAt_For_2_Days").ToRunOnceAt(DateTime.Now).DelayFor(2).Days());
-            DateTime expectedTime = DateTime.Now.AddDays(2);
+            // Assert
+            var expected = DateTime.Now.AddDays(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunOnceAt_For_2_Days").NextRun;
+            // Act
+            TaskManager.AddTask(
+                () => { },
+                s => s.WithName("run once at x and delay for 2 days")
+                    .ToRunOnceAt(DateTime.Now)
+                    .DelayFor(2).Days()
+            );
+            var actual = TaskManager.GetSchedule("run once at x and delay for 2 days").NextRun;
 
-            Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
+            // Assert
+            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
-        [Test]
+
+        [TestMethod]
         public void Should_Delay_ToRunOnceAt_For_2_Weeks()
         {
-            TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunOnceAt_For_2_Weeks").ToRunOnceAt(DateTime.Now).DelayFor(2).Weeks());
-            DateTime expectedTime = DateTime.Now.AddDays(14);
+            // Assert
+            var now = DateTime.Now;
+            var expected = now.AddDays(14);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunOnceAt_For_2_Weeks").NextRun;
+            // Act
+            TaskManager.AddTask(
+                () => { },
+                s => s.WithName("run once at x and delay for 2 weeks")
+                    .ToRunOnceAt(now)
+                    .DelayFor(2).Weeks());
+            var actual = TaskManager.GetSchedule("run once at x and delay for 2 weeks").NextRun;
 
-            Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
+            // Assert
+            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
-        [Test]
+
+        [TestMethod]
         public void Should_Delay_ToRunOnceAt_For_2_Months()
         {
-            TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunOnceAt_For_2_Months").ToRunOnceAt(DateTime.Now).DelayFor(2).Months());
-            DateTime expectedTime = DateTime.Now.AddMonths(2);
+            // Arrange
+            var now = DateTime.Now;
+            var expected = DateTime.Now.AddMonths(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunOnceAt_For_2_Months").NextRun;
+            // Act
+            TaskManager.AddTask(
+                () => { },
+                s => s.WithName("run once at x and delay for 2 months")
+                    .ToRunOnceAt(now)
+                    .DelayFor(2).Months()
+            );
+            var actual = TaskManager.GetSchedule("run once at x and delay for 2 months").NextRun;
 
-            Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
+            // Assert
+            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
-        [Test]
+
+        [TestMethod]
         public void Should_Delay_ToRunOnceAt_For_2_Years()
         {
-            TaskManager.AddTask(() => { }, x => x.WithName("Should_Delay_ToRunOnceAt_For_2_Years").ToRunOnceAt(DateTime.Now).DelayFor(2).Years());
-            DateTime expectedTime = DateTime.Now.AddYears(2);
+            // Arrange
+            var now = DateTime.Now;
+            var expected = DateTime.Now.AddYears(2);
 
-            DateTime actualTime = TaskManager.GetSchedule("Should_Delay_ToRunOnceAt_For_2_Years").NextRun;
+            // Act
+            TaskManager.AddTask(
+                () => { },
+                s => s.WithName("run once at x and delay for 2 years")
+                    .ToRunOnceAt(now)
+                    .DelayFor(2).Years()
+            );
+            var actual = TaskManager.GetSchedule("run once at x and delay for 2 years").NextRun;
 
-            Assert.AreEqual(Math.Floor(expectedTime.TimeOfDay.TotalSeconds), Math.Floor(actualTime.TimeOfDay.TotalSeconds));
+            // Assert
+            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
     }

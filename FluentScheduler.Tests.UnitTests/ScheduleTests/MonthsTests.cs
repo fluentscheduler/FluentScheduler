@@ -1,39 +1,45 @@
-using System;
 using FluentScheduler.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using NUnit.Framework;
+using System;
 
 namespace FluentScheduler.Tests.UnitTests.ScheduleTests
 {
-    [TestFixture]
+    [TestClass]
     public class MonthsTests
     {
-        [Test]
+        [TestMethod]
         public void Should_Add_Specified_Months_To_Next_Run_Date()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1);
+            var expected = new DateTime(2000, 3, 1);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Months();
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1);
-            var scheduledTime = schedule.CalculateNextRun(input);
-            var expectedTime = new DateTime(2000, 3, 1);
-            Assert.AreEqual(scheduledTime, expectedTime);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void Should_Default_To_00_00_If_At_Is_Not_Defined()
         {
+            // Arrange
             var task = new Mock<ITask>();
+            var input = new DateTime(2000, 1, 1, 1, 23, 25);
+            var expected = new DateTime(2000, 3, 1);
+
+            // Act
             var schedule = new Schedule(task.Object);
             schedule.ToRunEvery(2).Months();
+            var actual = schedule.CalculateNextRun(input);
 
-            var input = new DateTime(2000, 1, 1, 1, 23, 25);
-            var scheduledTime = schedule.CalculateNextRun(input);
-
-            Assert.AreEqual(scheduledTime.Hour, 0);
-            Assert.AreEqual(scheduledTime.Minute, 0);
-            Assert.AreEqual(scheduledTime.Second, 0);
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
     }
 }
