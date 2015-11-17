@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler", "FluentScheduler\FluentScheduler.csproj", "{434FED39-4EC1-4797-BB2D-246432B3D4FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{434FED39-4EC1-4797-BB2D-246432B3D4FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Tests.UnitTests", "FluentScheduler.Tests.UnitTests\FluentScheduler.Tests.UnitTests.csproj", "{0F9D4F68-6205-4B01-BFF8-1023512F9F4A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{0F9D4F68-6205-4B01-BFF8-1023512F9F4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScheduler.Tests.TestApplication", "FluentScheduler.Tests.TestApplication\FluentScheduler.Tests.TestApplication.csproj", "{DC6EEC65-4EC2-4E5F-84D6-C84D5EF72DBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplication\TestApplication.csproj", "{DC6EEC65-4EC2-4E5F-84D6-C84D5EF72DBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
