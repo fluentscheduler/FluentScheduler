@@ -79,6 +79,7 @@
     <Compile Include="TaskManager.cs" />
     <Compile Include="Model\Schedule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnhandledExceptionEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysis\CustomDictionary.xml" />

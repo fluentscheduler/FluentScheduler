@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
 using FluentScheduler.Model;
 
 namespace FluentScheduler
@@ -31,7 +30,7 @@ namespace FluentScheduler
 
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
-        public static event GenericEventHandler<TaskExceptionInformation, UnhandledExceptionEventArgs> UnobservedTaskException;
+        public static event GenericEventHandler<TaskExceptionInformation, FluentScheduler.UnhandledExceptionEventArgs> UnobservedTaskException;
 
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
@@ -45,7 +44,7 @@ namespace FluentScheduler
 
         private static object _tasksLock = new object();
 
-        private static Timer _timer;
+        private static System.Threading.Timer _timer;
 
         private static readonly ConcurrentDictionary<List<Action>, bool> RunningNonReentrantTasks = new ConcurrentDictionary<List<Action>, bool>();
 
@@ -117,11 +116,11 @@ namespace FluentScheduler
             if (handler != null && t.Exception != null)
             {
                 var info = new TaskExceptionInformation
-                    {
-                        Name = schedule.Name,
-                        Task = t
-                    };
-                handler(info, new UnhandledExceptionEventArgs(t.Exception.InnerException, true));
+                {
+                    Name = schedule.Name,
+                    Task = t
+                };
+                handler(info, new FluentScheduler.UnhandledExceptionEventArgs(t.Exception.InnerException, true));
             }
         }
         private static void RaiseTaskStart(Schedule schedule, DateTime startTime)
@@ -130,10 +129,10 @@ namespace FluentScheduler
             if (handler != null)
             {
                 var info = new TaskStartScheduleInformation
-                    {
-                        Name = schedule.Name,
-                        StartTime = startTime
-                    };
+                {
+                    Name = schedule.Name,
+                    StartTime = startTime
+                };
                 handler(info, new EventArgs());
             }
         }
@@ -143,11 +142,11 @@ namespace FluentScheduler
             if (handler != null)
             {
                 var info = new TaskEndScheduleInformation
-                    {
-                        Name = schedule.Name,
-                        StartTime = startTime,
-                        Duration = duration
-                    };
+                {
+                    Name = schedule.Name,
+                    StartTime = startTime,
+                    Duration = duration
+                };
                 if (schedule.NextRun != default(DateTime))
                     info.NextRun = schedule.NextRun;
 
@@ -227,8 +226,7 @@ namespace FluentScheduler
 
             if (_timer == null)
             {
-                _timer = new Timer { AutoReset = false };
-                _timer.Elapsed += Timer_Elapsed;
+                _timer = new System.Threading.Timer(Timer_Callback, null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             }
             _tasks.Sort((x, y) => DateTime.Compare(x.NextRun, y.NextRun));
             Schedule();
@@ -288,9 +286,9 @@ namespace FluentScheduler
                 throw new ArgumentNullException("taskSchedule", "Please specify the task schedule to add to the task manager.");
 
             var schedule = new Schedule(TaskFactory.GetTaskInstance<T>())
-                {
-                    Name = typeof(T).Name
-                };
+            {
+                Name = typeof(T).Name
+            };
             AddTask(taskSchedule, schedule);
         }
 
@@ -343,7 +341,7 @@ namespace FluentScheduler
         public static void Stop()
         {
             if (_timer != null)
-                _timer.Stop();
+                _timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
         }
 
         /// <summary>
@@ -355,14 +353,14 @@ namespace FluentScheduler
                 Schedule();
         }
 
-        static void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        static void Timer_Callback(object state)
         {
             Schedule();
         }
 
         private static void Schedule()
         {
-            _timer.Stop();
+            _timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
 
             var firstTask = _tasks.FirstOrDefault();
             if (firstTask == null)
@@ -396,18 +394,17 @@ namespace FluentScheduler
                 return;
             }
 
-            var timerInterval = (firstTask.NextRun - DateTime.Now).TotalMilliseconds;
+            int timerInterval = (int)(firstTask.NextRun - DateTime.Now).TotalMilliseconds;
             if (timerInterval <= 0)
             {
                 Schedule();
                 return;
             }
             // If the interval is greater than what the _timer supports, just go for int.MaxValue. A new interval will be calculated the next time the timer runs.
-            if (timerInterval > int.MaxValue)
-                timerInterval = int.MaxValue;
+            if (timerInterval > System.Threading.Timeout.Infinite)
+                timerInterval = System.Threading.Timeout.Infinite;
 
-            _timer.Interval = timerInterval;
-            _timer.Start();
+            _timer.Change(timerInterval, timerInterval);
         }
     }
 }

@@ -8,6 +8,5 @@ namespace FluentScheduler
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
         Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
-    [Serializable]
     public delegate void GenericEventHandler<in TSender, in TEventArgs>(TSender sender, TEventArgs e) where TEventArgs : EventArgs;
 }

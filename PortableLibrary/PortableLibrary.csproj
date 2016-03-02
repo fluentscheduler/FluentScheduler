@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F8F6E26B-C211-469D-BD79-C31218628E72}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FluentScheduler</RootNamespace>
+    <AssemblyName>FluentScheduler</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="project.json" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Library\DateTimeExtensions.cs">
+      <Link>DateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\DelayForExtensions.cs">
+      <Link>DelayForExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\GenericEventHandler.cs">
+      <Link>GenericEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\ITask.cs">
+      <Link>ITask.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\DayUnit.cs">
+      <Link>Model\DayUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\DelayTimeUnit.cs">
+      <Link>Model\DelayTimeUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\HourUnit.cs">
+      <Link>Model\HourUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\IDayRestrictableUnit.cs">
+      <Link>Model\IDayRestrictableUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\ITimeRestrictableUnit.cs">
+      <Link>Model\ITimeRestrictableUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\MinuteUnit.cs">
+      <Link>Model\MinuteUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\MonthOnDayOfMonthUnit.cs">
+      <Link>Model\MonthOnDayOfMonthUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\MonthOnDayOfWeekUnit.cs">
+      <Link>Model\MonthOnDayOfWeekUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\MonthOnLastDayOfMonthUnit.cs">
+      <Link>Model\MonthOnLastDayOfMonthUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\MonthUnit.cs">
+      <Link>Model\MonthUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\Schedule.cs">
+      <Link>Model\Schedule.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\SecondUnit.cs">
+      <Link>Model\SecondUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\SpecificTime.cs">
+      <Link>Model\SpecificTime.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\TaskEndScheduleInformation.cs">
+      <Link>Model\TaskEndScheduleInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\TaskExceptionInformation.cs">
+      <Link>Model\TaskExceptionInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\TaskStartScheduleInformation.cs">
+      <Link>Model\TaskStartScheduleInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\TimeOfDayRunnable.cs">
+      <Link>Model\TimeOfDayRunnable.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\TimeOfDayRunnableCalculator.cs">
+      <Link>Model\TimeOfDayRunnableCalculator.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\TimeUnit.cs">
+      <Link>Model\TimeUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\Week.cs">
+      <Link>Model\Week.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\WeekdayUnit.cs">
+      <Link>Model\WeekdayUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\WeeklyDayOfWeekUnit.cs">
+      <Link>Model\WeeklyDayOfWeekUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\WeekUnit.cs">
+      <Link>Model\WeekUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\YearOnDayOfYearUnit.cs">
+      <Link>Model\YearOnDayOfYearUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\YearOnLastDayOfYearUnit.cs">
+      <Link>Model\YearOnLastDayOfYearUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Model\YearUnit.cs">
+      <Link>Model\YearUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Registry.cs">
+      <Link>Registry.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\RestrictableUnitExtensions.cs">
+      <Link>RestrictableUnitExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\TaskFactory.cs">
+      <Link>TaskFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\TaskManager.cs">
+      <Link>TaskManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\UnhandledExceptionEventArgs.cs">
+      <Link>UnhandledExceptionEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
