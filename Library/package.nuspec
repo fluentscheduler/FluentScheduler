@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>FluentScheduler</id>
-    <version>3.1.46</version>
+    <version>3.2.0</version>
     <authors>Jim Geurts</authors>
     <projectUrl>https://github.com/jgeurts/FluentScheduler</projectUrl>
     <licenseUrl>https://raw.github.com/jgeurts/FluentScheduler/master/LICENSE.txt</licenseUrl>
@@ -11,7 +11,10 @@
     <summary>A task scheduler that uses fluent interface to configure schedules. Useful for running cron jobs/automated tasks from your application.</summary>
     <language>en-US</language>
     <tags>Library task-scheduler tasks cron</tags>
-    <releaseNotes>v3.1.45 Changes:
+    <releaseNotes>v3.2.0 Changes:
+* Support .NET Core
+
+	v3.1.45 Changes:
 * Added Enable/Disable for task schedules
 
 v3.0 Changes:
@@ -23,7 +26,8 @@ v2.0 Changes:
 * Allow basic continuations with schedules
 * Remove task by name</releaseNotes>
     <dependencies>
-      <group targetFramework="dotnet">
+      <group targetFramework="net40"></group>
+	  <group targetFramework="dotnet">
         <dependency id="System.Collections" version="4.0.10" />
         <dependency id="System.Collections.Concurrent" version="4.0.10" />
         <dependency id="System.Linq" version="4.0.0" />
