@@ -394,15 +394,12 @@ namespace FluentScheduler
                 return;
             }
 
-            int timerInterval = (int)(firstTask.NextRun - DateTime.Now).TotalMilliseconds;
-            if (timerInterval <= 0)
+            var timerInterval = firstTask.NextRun - DateTime.Now;
+            if (timerInterval <= TimeSpan.Zero)
             {
                 Schedule();
                 return;
             }
-            // If the interval is greater than what the _timer supports, just go for int.MaxValue. A new interval will be calculated the next time the timer runs.
-            if (timerInterval > System.Threading.Timeout.Infinite)
-                timerInterval = System.Threading.Timeout.Infinite;
 
             _timer.Change(timerInterval, timerInterval);
         }
