@@ -40,9 +40,7 @@ namespace FluentScheduler
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event GenericEventHandler<TaskEndScheduleInformation, EventArgs> TaskEnd;
 
-        private static List<Schedule> _tasks;
-
-        private static object _tasksLock = new object();
+        private static ScheduleCollection _schedules = new ScheduleCollection();
 
         private static System.Threading.Timer _timer;
 
@@ -69,7 +67,7 @@ namespace FluentScheduler
         {
             get
             {
-                return _tasks.ToList();
+                return _schedules.All();
             }
         }
         /// <summary>
@@ -79,14 +77,7 @@ namespace FluentScheduler
         /// <returns>Schedule instance or null if the schedule does not exist</returns>
         public static Schedule GetSchedule(string name)
         {
-            if (_tasks != null)
-            {
-                return _tasks.FirstOrDefault(x => x.Name == name);
-            }
-            else
-            {
-                return null;
-            }
+            return _schedules.Get(name);
         }
 
         /// <summary>
@@ -99,14 +90,7 @@ namespace FluentScheduler
                 throw new ArgumentNullException("registry");
 
             var immediateTasks = new List<Schedule>();
-            lock (_tasksLock)
-            {
-                var now = DateTime.Now;
-                _tasks = new List<Schedule>();
-
-                AddSchedules(registry.Schedules, immediateTasks, now);
-            }
-
+            AddSchedules(registry.Schedules, immediateTasks, DateTime.Now);
             RunAndInitializeSchedule(immediateTasks);
         }
 
@@ -164,7 +148,7 @@ namespace FluentScheduler
                     {
                         // delayed task
                         schedule.NextRun = DateTime.Now.Add(schedule.DelayRunFor);
-                        _tasks.Add(schedule);
+                        _schedules.Add(schedule);
                     }
                     else
                     {
@@ -185,7 +169,7 @@ namespace FluentScheduler
                 else
                 {
                     schedule.NextRun = schedule.CalculateNextRun(now.Add(schedule.DelayRunFor));
-                    _tasks.Add(schedule);
+                    _schedules.Add(schedule);
                 }
 
                 foreach (var childSchedule in schedule.AdditionalSchedules)
@@ -196,7 +180,7 @@ namespace FluentScheduler
                         {
                             // delayed task
                             childSchedule.NextRun = DateTime.Now.Add(childSchedule.DelayRunFor);
-                            _tasks.Add(childSchedule);
+                            _schedules.Add(childSchedule);
                         }
                         else
                         {
@@ -208,7 +192,7 @@ namespace FluentScheduler
                     else
                     {
                         childSchedule.NextRun = childSchedule.CalculateNextRun(now.Add(schedule.DelayRunFor));
-                        _tasks.Add(childSchedule);
+                        _schedules.Add(childSchedule);
                     }
                 }
             }
@@ -221,14 +205,14 @@ namespace FluentScheduler
                 StartTask(task);
             }
 
-            if (!_tasks.Any())
+            if (!_schedules.Any())
                 return;
 
             if (_timer == null)
             {
                 _timer = new System.Threading.Timer(Timer_Callback, null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             }
-            _tasks.Sort((x, y) => DateTime.Compare(x.NextRun, y.NextRun));
+            _schedules.Sort();
             Schedule();
         }
 
@@ -311,28 +295,13 @@ namespace FluentScheduler
             taskSchedule(schedule);
 
             var immediateTasks = new List<Schedule>();
-            lock (_tasksLock)
-            {
-                var now = DateTime.Now;
-                if (_tasks == null)
-                    _tasks = new List<Schedule>();
-
-                AddSchedules(new List<Schedule> { schedule }, immediateTasks, now);
-            }
-
+            AddSchedules(new List<Schedule> { schedule }, immediateTasks, DateTime.Now);
             RunAndInitializeSchedule(immediateTasks);
         }
 
         public static void RemoveTask(string name)
         {
-            var task = GetSchedule(name);
-            if (task != null)
-            {
-                lock (_tasksLock)
-                {
-                    _tasks.Remove(task);
-                }
-            }
+            _schedules.Remove(name);
         }
 
         /// <summary>
@@ -362,7 +331,7 @@ namespace FluentScheduler
         {
             _timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
 
-            var firstTask = _tasks.FirstOrDefault();
+            var firstTask = _schedules.First();
             if (firstTask == null)
             {
                 return;
@@ -384,12 +353,9 @@ namespace FluentScheduler
                 }
                 if (firstTask.NextRun <= DateTime.Now || firstTask.TaskExecutions == 0)
                 {
-                    lock (_tasksLock)
-                    {
-                        _tasks.Remove(firstTask);
-                    }
+                    _schedules.Remove(firstTask);
                 }
-                _tasks.Sort((x, y) => DateTime.Compare(x.NextRun, y.NextRun));
+                _schedules.Sort();
                 Schedule();
                 return;
             }

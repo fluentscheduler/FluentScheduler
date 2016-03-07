@@ -135,6 +135,9 @@
     <Compile Include="..\Library\RestrictableUnitExtensions.cs">
       <Link>RestrictableUnitExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Library\ScheduleCollection.cs">
+      <Link>ScheduleCollection.cs</Link>
+    </Compile>
     <Compile Include="..\Library\TaskFactory.cs">
       <Link>TaskFactory.cs</Link>
     </Compile>

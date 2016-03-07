@@ -56,6 +56,7 @@
     <Compile Include="Model\TimeOfDayRunnable.cs" />
     <Compile Include="Model\TimeOfDayRunnableCalculator.cs" />
     <Compile Include="Model\WeekdayUnit.cs" />
+    <Compile Include="ScheduleCollection.cs" />
     <Compile Include="TaskFactory.cs" />
     <Compile Include="Model\TaskEndScheduleInformation.cs" />
     <Compile Include="Model\TaskStartScheduleInformation.cs" />
