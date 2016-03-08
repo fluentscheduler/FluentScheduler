@@ -1,6 +1,6 @@
 <p align="center">
     <a href="#fluentscheduler">
-        <img alt="logo" src="Logo/200x200.png">
+        <img alt="logo" src="Assets/logo-200x200.png">
     </a>
 </p>
 
@@ -9,7 +9,12 @@
 [![][build-img]][build]
 [![][nuget-img]][nuget]
 
-Task scheduler with fluent interface that runs automated tasks (cron jobs) from your application.
+Task scheduler with fluent interface that runs automated jobs from your application.
+
+[build]:     https://ci.appveyor.com/project/TallesL/fluentscheduler
+[build-img]: https://ci.appveyor.com/api/projects/status/github/fluentscheduler/fluentscheduler?svg=true
+[nuget]:     https://www.nuget.org/packages/FluentScheduler
+[nuget-img]: https://badge.fury.io/nu/fluentscheduler.svg
 
 ## Usage
 
@@ -57,6 +62,12 @@ protected void Application_Start()
 } 
 ```
 
+[Registry]:          Library/Registry.cs
+[ITask]:             Library/ITask.cs
+[Action]:            https://msdn.microsoft.com/library/System.Action
+[TaskManager]:       Library/TaskManager.cs
+[Application_Start]: https://msdn.microsoft.com/library/ms178473
+
 ## Using it with ASP.NET
 
 When using it with ASP.NET consider implementing [IRegisteredObject] in your task and registering it itself on [HostingEnvironment]&nbsp;([here's a great explanation on it]), like:
@@ -99,6 +110,10 @@ public class SampleTask : ITask, IRegisteredObject
 }
 ```
 
+[IRegisteredObject]:                https://msdn.microsoft.com/library/System.Web.Hosting.IRegisteredObject
+[HostingEnvironment]:               https://msdn.microsoft.com/library/System.Web.Hosting.HostingEnvironment
+[here's a great explanation on it]: http://haacked.com/archive/2011/10/16/the-dangers-of-implementing-recurring-background-tasks-in-asp-net.aspx
+
 ## Dependency Injection
 
 FluentScheduler makes it easy to use your IoC tool of choice to create task instances.
@@ -138,6 +153,9 @@ protected void Application_Start()
 }
 ```
 
+[ITaskFactory]: Library/TaskFactory.cs
+[StructureMap]: http://structuremap.github.io
+
 ## Unexpected exceptions
 
 To observe unhandled exceptions from your scheduled tasks, you will need to hook the [UnobservedTaskException] event on [TaskManager].
@@ -156,31 +174,17 @@ static void TaskManager_UnobservedTaskException(Task sender, UnhandledExceptionE
 }
 ```
 
+[UnobservedTaskException]:     Library/TaskManager.cs#L32
+[System.Threading.Tasks.Task]: https://msdn.microsoft.com/library/System.Threading.Tasks.Task
+
 ## Contributing
 
 Feel free to [open an issue] or [submit a pull request].
 
-When sending a patch remember to [Run All Tests (Ctrl + R, A)] and [Run Code Analysis on Solution (Alt + F11)] if possible.
+When sending a patch remember to [Run All Tests (Ctrl + R, A)] and [Run Code Analysis on Solution (Alt + F11)] if
+possible.
 And, of course, be consistent with the existing code!
 
-[build]:     https://ci.appveyor.com/project/TallesL/fluentscheduler
-[build-img]: https://ci.appveyor.com/api/projects/status/rvgyhrs904qsxlho
-
-[nuget]:     http://badge.fury.io/nu/fluentscheduler
-[nuget-img]: https://badge.fury.io/nu/fluentscheduler.png
-
-[Registry]:                                  FluentScheduler/Registry.cs
-[ITask]:                                     FluentScheduler/ITask.cs
-[Action]:                                    https://msdn.microsoft.com/library/System.Action
-[TaskManager]:                               FluentScheduler/TaskManager.cs
-[ITaskFactory]:                              FluentScheduler/TaskFactory.cs
-[StructureMap]:                              http://structuremap.github.io
-[Application_Start]:                         https://msdn.microsoft.com/library/ms178473
-[IRegisteredObject]:                         https://msdn.microsoft.com/library/System.Web.Hosting.IRegisteredObject
-[HostingEnvironment]:                        https://msdn.microsoft.com/library/System.Web.Hosting.HostingEnvironment
-[here's a great explanation on it]:       http://haacked.com/archive/2011/10/16/the-dangers-of-implementing-recurring-background-tasks-in-asp-net.aspx
-[UnobservedTaskException]:                   FluentScheduler/TaskManager.cs#L18
-[System.Threading.Tasks.Task]:               https://msdn.microsoft.com/library/System.Threading.Tasks.Task
 [open an issue]:                             https://github.com/fluentscheduler/FluentScheduler/issues
 [submit a pull request]:                     https://github.com/fluentscheduler/FluentScheduler/pulls
 [Run All Tests (Ctrl + R, A)]:               https://msdn.microsoft.com/library/ms182470
