@@ -47,6 +47,10 @@ namespace FluentScheduler
 
         private static readonly ConcurrentDictionary<Guid, Schedule> _runningSchedules = new ConcurrentDictionary<Guid, Schedule>();
 
+        private static bool _useUtc = false;
+
+        private static DateTime Now { get { return _useUtc ? DateTime.UtcNow : DateTime.Now; } }
+
         /// <summary>
         /// Gets a list of currently schedules currently executing.
         /// </summary>
@@ -88,8 +92,10 @@ namespace FluentScheduler
             if (registry == null)
                 throw new ArgumentNullException("registry");
 
+            _useUtc = registry.UtcTime;
+
             var immediateTasks = new List<Schedule>();
-            AddSchedules(registry.Schedules, immediateTasks, DateTime.Now);
+            AddSchedules(registry.Schedules, immediateTasks, Now);
             RunAndInitializeSchedule(immediateTasks);
         }
 
@@ -146,7 +152,7 @@ namespace FluentScheduler
                     if (schedule.DelayRunFor > TimeSpan.Zero)
                     {
                         // delayed task
-                        schedule.NextRun = DateTime.Now.Add(schedule.DelayRunFor);
+                        schedule.NextRun = Now.Add(schedule.DelayRunFor);
                         _schedules.Add(schedule);
                     }
                     else
@@ -178,7 +184,7 @@ namespace FluentScheduler
                         if (childSchedule.DelayRunFor > TimeSpan.Zero)
                         {
                             // delayed task
-                            childSchedule.NextRun = DateTime.Now.Add(childSchedule.DelayRunFor);
+                            childSchedule.NextRun = Now.Add(childSchedule.DelayRunFor);
                             _schedules.Add(childSchedule);
                         }
                         else
@@ -229,7 +235,7 @@ namespace FluentScheduler
             var id = Guid.NewGuid();
             _runningSchedules.TryAdd(id, schedule);
 
-            var start = DateTime.Now;
+            var start = Now;
             RaiseTaskStart(schedule, start);
             var mainTask = Task.Factory.StartNew(() =>
             {
@@ -294,7 +300,7 @@ namespace FluentScheduler
             taskSchedule(schedule);
 
             var immediateTasks = new List<Schedule>();
-            AddSchedules(new List<Schedule> { schedule }, immediateTasks, DateTime.Now);
+            AddSchedules(new List<Schedule> { schedule }, immediateTasks, Now);
             RunAndInitializeSchedule(immediateTasks);
         }
 
@@ -335,7 +341,7 @@ namespace FluentScheduler
             {
                 return;
             }
-            if (firstTask.NextRun <= DateTime.Now)
+            if (firstTask.NextRun <= Now)
             {
                 StartTask(firstTask);
                 if (firstTask.CalculateNextRun == null)
@@ -344,13 +350,13 @@ namespace FluentScheduler
                 }
                 else
                 {
-                    firstTask.NextRun = firstTask.CalculateNextRun(DateTime.Now.AddMilliseconds(1));
+                    firstTask.NextRun = firstTask.CalculateNextRun(Now.AddMilliseconds(1));
                 }
                 if (firstTask.TaskExecutions > 0)
                 {
                     firstTask.TaskExecutions--;
                 }
-                if (firstTask.NextRun <= DateTime.Now || firstTask.TaskExecutions == 0)
+                if (firstTask.NextRun <= Now || firstTask.TaskExecutions == 0)
                 {
                     _schedules.Remove(firstTask);
                 }
@@ -359,7 +365,7 @@ namespace FluentScheduler
                 return;
             }
 
-            var timerInterval = firstTask.NextRun - DateTime.Now;
+            var timerInterval = firstTask.NextRun - Now;
             if (timerInterval <= TimeSpan.Zero)
             {
                 Schedule();

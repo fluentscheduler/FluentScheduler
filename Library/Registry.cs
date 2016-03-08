@@ -22,6 +22,8 @@ namespace FluentScheduler
 
         private bool _allTasksConfiguredAsNonReentrant;
 
+        internal bool UtcTime { get; private set; }
+
         internal List<Schedule> Schedules { get; private set; }
 
         public Registry()
@@ -38,6 +40,11 @@ namespace FluentScheduler
                 foreach (var schedule in Schedules)
                     schedule.NonReentrant();
             }
+        }
+
+        public void UseUtcTime()
+        {
+            UtcTime = true;
         }
 
         /// <summary>
