@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using FluentScheduler.Model;
 
 namespace FluentScheduler
 {
@@ -21,23 +20,23 @@ namespace FluentScheduler
         // Schedule<MyTask>().ToRunEvery(1).Months().On(1).OfMonth().At(0, 15)
         // Schedule<MyTask>().ToRunEvery(1).Months().On(1).Monday().At(0, 15)
 
+        private bool _allTasksConfiguredAsNonReentrant;
+
         internal List<Schedule> Schedules { get; private set; }
-        internal bool AllTasksConfiguredAsNonReentrant { get; set; }
 
         public Registry()
         {
+            _allTasksConfiguredAsNonReentrant = false;
             Schedules = new List<Schedule>();
         }
 
         public void DefaultAllTasksAsNonReentrant()
         {
-            AllTasksConfiguredAsNonReentrant = true;
-            lock (((ICollection) Schedules).SyncRoot)
+            _allTasksConfiguredAsNonReentrant = true;
+            lock (((ICollection)Schedules).SyncRoot)
             {
                 foreach (var schedule in Schedules)
-                {
                     schedule.NonReentrant();
-                }
             }
         }
 
@@ -51,14 +50,15 @@ namespace FluentScheduler
         public Schedule Schedule<T>() where T : ITask
         {
             var schedule = new Schedule(() => TaskManager.TaskFactory.GetTaskInstance<T>().Execute());
-            if (AllTasksConfiguredAsNonReentrant)
-            {
+
+            if (_allTasksConfiguredAsNonReentrant)
                 schedule.NonReentrant();
-            }
-            lock (((ICollection) Schedules).SyncRoot)
+
+            lock (((ICollection)Schedules).SyncRoot)
             {
                 Schedules.Add(schedule);
             }
+
             schedule.Name = typeof(T).Name;
             return schedule;
         }
@@ -71,14 +71,15 @@ namespace FluentScheduler
         public Schedule Schedule(Action action)
         {
             var schedule = new Schedule(action);
-            if (AllTasksConfiguredAsNonReentrant)
-            {
+
+            if (_allTasksConfiguredAsNonReentrant)
                 schedule.NonReentrant();
-            }
-            lock (((ICollection) Schedules).SyncRoot)
+
+            lock (((ICollection)Schedules).SyncRoot)
             {
                 Schedules.Add(schedule);
             }
+
             return schedule;
         }
     }

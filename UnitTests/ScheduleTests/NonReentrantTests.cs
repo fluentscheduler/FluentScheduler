@@ -1,4 +1,3 @@
-using FluentScheduler.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

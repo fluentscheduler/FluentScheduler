@@ -92,7 +92,8 @@ namespace FluentScheduler.Tests.TestApplication
         {
             Log.Register("[sleepy]");
 
-            Schedule(() => {
+            Schedule(() =>
+            {
                 Log.This("[sleepy]", "Sleeping...");
                 Thread.Sleep(new TimeSpan(0, 7, 30));
             }).WithName("[sleepy]").ToRunEvery(15).Minutes();

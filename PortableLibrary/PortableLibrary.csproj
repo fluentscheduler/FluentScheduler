@@ -39,113 +39,113 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Library\DateTimeExtensions.cs">
-      <Link>DateTimeExtensions.cs</Link>
+    <Compile Include="..\Library\Enum\TimeOfDayRunnable.cs">
+      <Link>Enum\TimeOfDayRunnable.cs</Link>
     </Compile>
-    <Compile Include="..\Library\DelayForExtensions.cs">
-      <Link>DelayForExtensions.cs</Link>
+    <Compile Include="..\Library\Enum\Week.cs">
+      <Link>Enum\Week.cs</Link>
     </Compile>
-    <Compile Include="..\Library\GenericEventHandler.cs">
-      <Link>GenericEventHandler.cs</Link>
+    <Compile Include="..\Library\Event\GenericEventHandler.cs">
+      <Link>Event\GenericEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Event\UnhandledExceptionEventArgs.cs">
+      <Link>Event\UnhandledExceptionEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Extension\DateTimeExtensions.cs">
+      <Link>Extension\DateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Extension\DelayForExtensions.cs">
+      <Link>Extension\DelayForExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Extension\RestrictableUnitExtensions.cs">
+      <Link>Extension\RestrictableUnitExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Information\TaskEndScheduleInformation.cs">
+      <Link>Information\TaskEndScheduleInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Information\TaskExceptionInformation.cs">
+      <Link>Information\TaskExceptionInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Information\TaskStartScheduleInformation.cs">
+      <Link>Information\TaskStartScheduleInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\DayUnit.cs">
+      <Link>Unit\DayUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\DelayTimeUnit.cs">
+      <Link>Unit\DelayTimeUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\HourUnit.cs">
+      <Link>Unit\HourUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\IDayRestrictableUnit.cs">
+      <Link>Unit\IDayRestrictableUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\ITimeRestrictableUnit.cs">
+      <Link>Unit\ITimeRestrictableUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\MinuteUnit.cs">
+      <Link>Unit\MinuteUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\MonthOnDayOfMonthUnit.cs">
+      <Link>Unit\MonthOnDayOfMonthUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\MonthOnDayOfWeekUnit.cs">
+      <Link>Unit\MonthOnDayOfWeekUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\MonthOnLastDayOfMonthUnit.cs">
+      <Link>Unit\MonthOnLastDayOfMonthUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\MonthUnit.cs">
+      <Link>Unit\MonthUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\SecondUnit.cs">
+      <Link>Unit\SecondUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\SpecificTimeUnit.cs">
+      <Link>Unit\SpecificTimeUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\TimeUnit.cs">
+      <Link>Unit\TimeUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\WeekdayUnit.cs">
+      <Link>Unit\WeekdayUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\WeeklyDayOfWeekUnit.cs">
+      <Link>Unit\WeeklyDayOfWeekUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\WeekUnit.cs">
+      <Link>Unit\WeekUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\YearOnDayOfYearUnit.cs">
+      <Link>Unit\YearOnDayOfYearUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\YearOnLastDayOfYearUnit.cs">
+      <Link>Unit\YearOnLastDayOfYearUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\YearUnit.cs">
+      <Link>Unit\YearUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Util\ScheduleCollection.cs">
+      <Link>Util\ScheduleCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Util\TimeOfDayRunnableCalculator.cs">
+      <Link>Util\TimeOfDayRunnableCalculator.cs</Link>
     </Compile>
     <Compile Include="..\Library\ITask.cs">
       <Link>ITask.cs</Link>
     </Compile>
-    <Compile Include="..\Library\Model\DayUnit.cs">
-      <Link>Model\DayUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\DelayTimeUnit.cs">
-      <Link>Model\DelayTimeUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\HourUnit.cs">
-      <Link>Model\HourUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\IDayRestrictableUnit.cs">
-      <Link>Model\IDayRestrictableUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\ITimeRestrictableUnit.cs">
-      <Link>Model\ITimeRestrictableUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\MinuteUnit.cs">
-      <Link>Model\MinuteUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\MonthOnDayOfMonthUnit.cs">
-      <Link>Model\MonthOnDayOfMonthUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\MonthOnDayOfWeekUnit.cs">
-      <Link>Model\MonthOnDayOfWeekUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\MonthOnLastDayOfMonthUnit.cs">
-      <Link>Model\MonthOnLastDayOfMonthUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\MonthUnit.cs">
-      <Link>Model\MonthUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\Schedule.cs">
-      <Link>Model\Schedule.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\SecondUnit.cs">
-      <Link>Model\SecondUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\SpecificTime.cs">
-      <Link>Model\SpecificTime.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\TaskEndScheduleInformation.cs">
-      <Link>Model\TaskEndScheduleInformation.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\TaskExceptionInformation.cs">
-      <Link>Model\TaskExceptionInformation.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\TaskStartScheduleInformation.cs">
-      <Link>Model\TaskStartScheduleInformation.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\TimeOfDayRunnable.cs">
-      <Link>Model\TimeOfDayRunnable.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\TimeOfDayRunnableCalculator.cs">
-      <Link>Model\TimeOfDayRunnableCalculator.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\TimeUnit.cs">
-      <Link>Model\TimeUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\Week.cs">
-      <Link>Model\Week.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\WeekdayUnit.cs">
-      <Link>Model\WeekdayUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\WeeklyDayOfWeekUnit.cs">
-      <Link>Model\WeeklyDayOfWeekUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\WeekUnit.cs">
-      <Link>Model\WeekUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\YearOnDayOfYearUnit.cs">
-      <Link>Model\YearOnDayOfYearUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\YearOnLastDayOfYearUnit.cs">
-      <Link>Model\YearOnLastDayOfYearUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Model\YearUnit.cs">
-      <Link>Model\YearUnit.cs</Link>
-    </Compile>
     <Compile Include="..\Library\Registry.cs">
       <Link>Registry.cs</Link>
     </Compile>
-    <Compile Include="..\Library\RestrictableUnitExtensions.cs">
-      <Link>RestrictableUnitExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\ScheduleCollection.cs">
-      <Link>ScheduleCollection.cs</Link>
+    <Compile Include="..\Library\Schedule.cs">
+      <Link>Schedule.cs</Link>
     </Compile>
     <Compile Include="..\Library\TaskFactory.cs">
       <Link>TaskFactory.cs</Link>
     </Compile>
     <Compile Include="..\Library\TaskManager.cs">
       <Link>TaskManager.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\UnhandledExceptionEventArgs.cs">
-      <Link>UnhandledExceptionEventArgs.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
