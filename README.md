@@ -177,6 +177,13 @@ static void TaskManager_UnobservedTaskException(Task sender, UnhandledExceptionE
 [UnobservedTaskException]:     Library/TaskManager.cs#L32
 [System.Threading.Tasks.Task]: https://msdn.microsoft.com/library/System.Threading.Tasks.Task
 
+## Daylight Saving Time
+
+Unfortunately, not unlike many schedulers, there is no Daylight Saving Time support (yet).
+
+If you are worried about your jobs not running or running twice due to that, the suggestion is to avoid troublesome time
+ranges or just `UseUtcTime()` on your registry.
+
 ## Contributing
 
 Feel free to [open an issue] or [submit a pull request].
