@@ -2,7 +2,7 @@
 
 namespace FluentScheduler
 {
-    public class TaskStartScheduleInformation
+    public class JobStartInfo
     {
         public string Name { get; set; }
 

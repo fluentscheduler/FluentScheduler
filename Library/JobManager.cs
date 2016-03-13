@@ -9,41 +9,41 @@ using System.Threading.Tasks;
 namespace FluentScheduler
 {
     /// <summary>
-    /// Controls the timer logic to execute all configured tasks.
+    /// Controls the timer logic to execute all configured jobs.
     /// </summary>
-    public static class TaskManager
+    public static class JobManager
     {
-        private static ITaskFactory _taskFactory;
+        private static IJobFactory _jobFactory;
 
-        public static ITaskFactory TaskFactory
+        public static IJobFactory JobFactory
         {
             get
             {
-                return (_taskFactory = _taskFactory ?? new TaskFactory());
+                return (_jobFactory = _jobFactory ?? new JobFactory());
             }
             set
             {
-                _taskFactory = value;
+                _jobFactory = value;
             }
         }
 
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
-        public static event GenericEventHandler<TaskExceptionInformation, FluentScheduler.UnhandledExceptionEventArgs> UnobservedTaskException;
+        public static event GenericEventHandler<JobExceptionInfo, FluentScheduler.UnhandledExceptionEventArgs> JobException;
 
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
-        public static event GenericEventHandler<TaskStartScheduleInformation, EventArgs> TaskStart;
+        public static event GenericEventHandler<JobStartInfo, EventArgs> JobStart;
 
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
-        public static event GenericEventHandler<TaskEndScheduleInformation, EventArgs> TaskEnd;
+        public static event GenericEventHandler<JobEndInfo, EventArgs> JobEnd;
 
         private static ScheduleCollection _schedules = new ScheduleCollection();
 
         private static System.Threading.Timer _timer;
 
-        private static readonly ConcurrentDictionary<List<Action>, bool> RunningNonReentrantTasks = new ConcurrentDictionary<List<Action>, bool>();
+        private static readonly ConcurrentDictionary<List<Action>, bool> RunningNonReentrantJobs = new ConcurrentDictionary<List<Action>, bool>();
 
         private static readonly ConcurrentDictionary<Guid, Schedule> _runningSchedules = new ConcurrentDictionary<Guid, Schedule>();
 
@@ -84,9 +84,9 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Initializes the task manager with all schedules configured in the specified registry
+        /// Initializes the job manager with all schedules configured in the specified registry
         /// </summary>
-        /// <param name="registry">Registry containing task schedules</param>
+        /// <param name="registry">Registry containing job schedules</param>
         public static void Initialize(Registry registry)
         {
             if (registry == null)
@@ -94,17 +94,17 @@ namespace FluentScheduler
 
             _useUtc = registry.UtcTime;
 
-            var immediateTasks = new List<Schedule>();
-            AddSchedules(registry.Schedules, immediateTasks, Now);
-            RunAndInitializeSchedule(immediateTasks);
+            var immediateJobs = new List<Schedule>();
+            AddSchedules(registry.Schedules, immediateJobs, Now);
+            RunAndInitializeSchedule(immediateJobs);
         }
 
-        private static void RaiseUnobservedTaskException(Schedule schedule, Task t)
+        private static void RaiseJobException(Schedule schedule, Task t)
         {
-            var handler = UnobservedTaskException;
+            var handler = JobException;
             if (handler != null && t.Exception != null)
             {
-                var info = new TaskExceptionInformation
+                var info = new JobExceptionInfo
                 {
                     Name = schedule.Name,
                     Task = t
@@ -112,12 +112,12 @@ namespace FluentScheduler
                 handler(info, new FluentScheduler.UnhandledExceptionEventArgs(t.Exception.InnerException, true));
             }
         }
-        private static void RaiseTaskStart(Schedule schedule, DateTime startTime)
+        private static void RaiseJobStart(Schedule schedule, DateTime startTime)
         {
-            var handler = TaskStart;
+            var handler = JobStart;
             if (handler != null)
             {
-                var info = new TaskStartScheduleInformation
+                var info = new JobStartInfo
                 {
                     Name = schedule.Name,
                     StartTime = startTime
@@ -125,12 +125,12 @@ namespace FluentScheduler
                 handler(info, new EventArgs());
             }
         }
-        private static void RaiseTaskEnd(Schedule schedule, DateTime startTime, TimeSpan duration)
+        private static void RaiseJobEnd(Schedule schedule, DateTime startTime, TimeSpan duration)
         {
-            var handler = TaskEnd;
+            var handler = JobEnd;
             if (handler != null)
             {
-                var info = new TaskEndScheduleInformation
+                var info = new JobEndInfo
                 {
                     Name = schedule.Name,
                     StartTime = startTime,
@@ -151,13 +151,13 @@ namespace FluentScheduler
                 {
                     if (schedule.DelayRunFor > TimeSpan.Zero)
                     {
-                        // delayed task
+                        // delayed job
                         schedule.NextRun = Now.Add(schedule.DelayRunFor);
                         _schedules.Add(schedule);
                     }
                     else
                     {
-                        // only non-delayed tasks are started right away
+                        // only non-delayed jobs are started right away
                         immediatelyInvokedSchedules.Add(schedule);
                     }
                     var hasAdded = false;
@@ -183,7 +183,7 @@ namespace FluentScheduler
                     {
                         if (childSchedule.DelayRunFor > TimeSpan.Zero)
                         {
-                            // delayed task
+                            // delayed job
                             childSchedule.NextRun = Now.Add(childSchedule.DelayRunFor);
                             _schedules.Add(childSchedule);
                         }
@@ -205,9 +205,9 @@ namespace FluentScheduler
 
         private static void RunAndInitializeSchedule(IEnumerable<Schedule> immediatelyInvokedSchedules)
         {
-            foreach (var task in immediatelyInvokedSchedules)
+            foreach (var job in immediatelyInvokedSchedules)
             {
-                StartTask(task);
+                StartJob(job);
             }
 
             if (!_schedules.Any())
@@ -221,14 +221,14 @@ namespace FluentScheduler
             Schedule();
         }
 
-        internal static void StartTask(Schedule schedule)
+        internal static void StartJob(Schedule schedule)
         {
             if (schedule.Disabled)
                 return;
 
             if (!schedule.Reentrant)
             {
-                if (!RunningNonReentrantTasks.TryAdd(schedule.Tasks, true))
+                if (!RunningNonReentrantJobs.TryAdd(schedule.Jobs, true))
                     return;
             }
 
@@ -236,14 +236,14 @@ namespace FluentScheduler
             _runningSchedules.TryAdd(id, schedule);
 
             var start = Now;
-            RaiseTaskStart(schedule, start);
-            var mainTask = Task.Factory.StartNew(() =>
+            RaiseJobStart(schedule, start);
+            var task = Task.Factory.StartNew(() =>
             {
                 var stopwatch = new Stopwatch();
                 try
                 {
                     stopwatch.Start();
-                    foreach (var action in schedule.Tasks)
+                    foreach (var action in schedule.Jobs)
                     {
                         var subTask = Task.Factory.StartNew(action);
                         subTask.Wait();
@@ -253,64 +253,64 @@ namespace FluentScheduler
                 {
                     stopwatch.Stop();
                     bool notUsed;
-                    RunningNonReentrantTasks.TryRemove(schedule.Tasks, out notUsed);
+                    RunningNonReentrantJobs.TryRemove(schedule.Jobs, out notUsed);
                     Schedule notUsedSchedule;
                     _runningSchedules.TryRemove(id, out notUsedSchedule);
-                    RaiseTaskEnd(schedule, start, stopwatch.Elapsed);
+                    RaiseJobEnd(schedule, start, stopwatch.Elapsed);
                 }
             }, TaskCreationOptions.PreferFairness);
-            mainTask.ContinueWith(task => RaiseUnobservedTaskException(schedule, task), TaskContinuationOptions.OnlyOnFaulted);
+            task.ContinueWith(t => RaiseJobException(schedule, t), TaskContinuationOptions.OnlyOnFaulted);
         }
 
         /// <summary>
-        /// Adds a task to the task manager
+        /// Adds a job to the job manager
         /// </summary>
-        /// <typeparam name="T">Task to schedule</typeparam>
-        /// <param name="taskSchedule">Schedule for the task</param>
+        /// <typeparam name="T">Job to schedule</typeparam>
+        /// <param name="jobSchedule">Schedule for the job</param>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
             Justification = "The 'T' requirement is on purpose.")]
-        public static void AddTask<T>(Action<Schedule> taskSchedule) where T : ITask
+        public static void AddJob<T>(Action<Schedule> jobSchedule) where T : IJob
         {
-            if (taskSchedule == null)
-                throw new ArgumentNullException("taskSchedule", "Please specify the task schedule to add to the task manager.");
+            if (jobSchedule == null)
+                throw new ArgumentNullException("jobSchedule", "Please specify the job schedule to add to the job manager.");
 
-            var schedule = new Schedule(TaskFactory.GetTaskInstance<T>())
+            var schedule = new Schedule(JobFactory.GetJobInstance<T>())
             {
                 Name = typeof(T).Name
             };
-            AddTask(taskSchedule, schedule);
+            AddJob(jobSchedule, schedule);
         }
 
         /// <summary>
-        /// Adds a task to the task manager
+        /// Adds a job to the job manager
         /// </summary>
-        /// <param name="taskAction">Task to schedule</param>
-        /// <param name="taskSchedule">Schedule for the task</param>
-        public static void AddTask(Action taskAction, Action<Schedule> taskSchedule)
+        /// <param name="jobAction">Job to schedule</param>
+        /// <param name="jobSchedule">Schedule for the job</param>
+        public static void AddJob(Action jobAction, Action<Schedule> jobSchedule)
         {
-            if (taskSchedule == null)
-                throw new ArgumentNullException("taskSchedule", "Please specify the task schedule to add to the task manager.");
+            if (jobSchedule == null)
+                throw new ArgumentNullException("jobSchedule", "Please specify the job schedule to add to the job manager.");
 
-            var schedule = new Schedule(taskAction);
-            AddTask(taskSchedule, schedule);
+            var schedule = new Schedule(jobAction);
+            AddJob(jobSchedule, schedule);
         }
 
-        private static void AddTask(Action<Schedule> taskSchedule, Schedule schedule)
+        private static void AddJob(Action<Schedule> jobSchedule, Schedule schedule)
         {
-            taskSchedule(schedule);
+            jobSchedule(schedule);
 
-            var immediateTasks = new List<Schedule>();
-            AddSchedules(new List<Schedule> { schedule }, immediateTasks, Now);
-            RunAndInitializeSchedule(immediateTasks);
+            var immediateJobs = new List<Schedule>();
+            AddSchedules(new List<Schedule> { schedule }, immediateJobs, Now);
+            RunAndInitializeSchedule(immediateJobs);
         }
 
-        public static void RemoveTask(string name)
+        public static void RemoveJob(string name)
         {
             _schedules.Remove(name);
         }
 
         /// <summary>
-        /// Stops the task manager from executing tasks.
+        /// Stops the job manager from executing jobs.
         /// </summary>
         public static void Stop()
         {
@@ -319,7 +319,7 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Restarts the task manager if it had previously been stopped
+        /// Restarts the job manager if it had previously been stopped
         /// </summary>
         public static void Start()
         {
@@ -336,36 +336,36 @@ namespace FluentScheduler
         {
             _timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
 
-            var firstTask = _schedules.First();
-            if (firstTask == null)
+            var firstJob = _schedules.First();
+            if (firstJob == null)
             {
                 return;
             }
-            if (firstTask.NextRun <= Now)
+            if (firstJob.NextRun <= Now)
             {
-                StartTask(firstTask);
-                if (firstTask.CalculateNextRun == null)
+                StartJob(firstJob);
+                if (firstJob.CalculateNextRun == null)
                 {
-                    // probably a ToRunNow().DelayFor() task, there's no CalculateNextRun
+                    // probably a ToRunNow().DelayFor() job, there's no CalculateNextRun
                 }
                 else
                 {
-                    firstTask.NextRun = firstTask.CalculateNextRun(Now.AddMilliseconds(1));
+                    firstJob.NextRun = firstJob.CalculateNextRun(Now.AddMilliseconds(1));
                 }
-                if (firstTask.TaskExecutions > 0)
+                if (firstJob.JobExecutions > 0)
                 {
-                    firstTask.TaskExecutions--;
+                    firstJob.JobExecutions--;
                 }
-                if (firstTask.NextRun <= Now || firstTask.TaskExecutions == 0)
+                if (firstJob.NextRun <= Now || firstJob.JobExecutions == 0)
                 {
-                    _schedules.Remove(firstTask);
+                    _schedules.Remove(firstJob);
                 }
                 _schedules.Sort();
                 Schedule();
                 return;
             }
 
-            var timerInterval = firstTask.NextRun - Now;
+            var timerInterval = firstJob.NextRun - Now;
             if (timerInterval <= TimeSpan.Zero)
             {
                 Schedule();

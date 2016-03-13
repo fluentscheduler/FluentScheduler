@@ -17,29 +17,29 @@ namespace FluentScheduler.Tests.TestApplication
 
         private static void ListenForStart()
         {
-            Log.Register("[task start]", "\"{0}\" has started.");
-            TaskManager.TaskStart += (schedule, e) => Log.This("[task start]", schedule.Name);
+            Log.Register("[job start]", "\"{0}\" has started.");
+            JobManager.JobStart += (schedule, e) => Log.This("[job start]", schedule.Name);
         }
 
         private static void ListenForEnd()
         {
-            Log.Register("[task end]", "\"{0}\" has ended{1}.");
+            Log.Register("[job end]", "\"{0}\" has ended{1}.");
 
-            TaskManager.TaskEnd += (schedule, e) =>
-                Log.This("[task end]", schedule.Name,
+            JobManager.JobEnd += (schedule, e) =>
+                Log.This("[job end]", schedule.Name,
                     schedule.Duration > TimeSpan.FromSeconds(1) ?
                     " with duration of " + schedule.Duration : string.Empty);
         }
 
         private static void ListenForException()
         {
-            Log.Register("[task exception]", "An error just happened:" + Environment.NewLine + "{0}");
-            TaskManager.UnobservedTaskException += (sender, e) => Log.This("[task exception]", e.ExceptionObject);
+            Log.Register("[job exception]", "An error just happened:" + Environment.NewLine + "{0}");
+            JobManager.JobException += (sender, e) => Log.This("[job exception]", e.ExceptionObject);
         }
 
         private static void Initialize()
         {
-            TaskManager.Initialize(new MyRegistry());
+            JobManager.Initialize(new MyRegistry());
         }
 
         private static void Sleep()

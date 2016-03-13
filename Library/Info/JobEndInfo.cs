@@ -2,7 +2,7 @@
 
 namespace FluentScheduler
 {
-    public class TaskEndScheduleInformation : TaskStartScheduleInformation
+    public class JobEndInfo : JobStartInfo
     {
         public TimeSpan Duration { get; set; }
 

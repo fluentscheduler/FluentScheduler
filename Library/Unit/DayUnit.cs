@@ -22,7 +22,7 @@ namespace FluentScheduler
         Schedule IDayRestrictableUnit.Schedule { get { return this.Schedule; } }
 
         /// <summary>
-        /// Schedules the specified task to run at the hour and minute specified.  If the hour and minute have passed, the task will execute the next scheduled day.
+        /// Schedules to run at the hour and minute specified. If the hour and minute have passed it will execute the next scheduled day.
         /// </summary>
         /// <param name="hours">0-23: Represents the hour of the day</param>
         /// <param name="minutes">0-59: Represents the minute of the day</param>

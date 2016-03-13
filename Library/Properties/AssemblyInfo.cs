@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("FluentScheduler")]
-[assembly: AssemblyDescription("Task scheduler with fluent interface that runs automated jobs from your application.")]
+[assembly: AssemblyDescription("Automated job scheduler with fluent interface.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]

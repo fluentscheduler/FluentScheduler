@@ -4,20 +4,20 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentScheduler.Tests.UnitTests.RegistryTests
 {
     [TestClass]
-    public class DefaultAllTasksAsNonReentrantTests
+    public class DefaultAllJobsAsNonReentrantTests
     {
         [TestMethod]
-        public void Should_Set_NonReentrant_For_Any_Previously_Configured_Task_In_The_Registry()
+        public void Should_Set_NonReentrant_For_Any_Previously_Configured_Job_In_The_Registry()
         {
-            var registry = new RegistryWithPreviousTasksConfigured();
+            var registry = new RegistryWithPreviousJobsConfigured();
             foreach (var schedule in registry.Schedules)
                 Assert.IsFalse(schedule.Reentrant);
         }
 
         [TestMethod]
-        public void Should_Set_Future_Configured_Tasks_In_The_Registry()
+        public void Should_Set_Future_Configured_Jobs_In_The_Registry()
         {
-            var registry = new RegistryWithFutureTasksConfigured();
+            var registry = new RegistryWithFutureJobsConfigured();
             foreach (var schedule in registry.Schedules)
                 Assert.IsFalse(schedule.Reentrant);
         }

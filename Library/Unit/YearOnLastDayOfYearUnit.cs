@@ -14,7 +14,7 @@
         internal Schedule Schedule { get; private set; }
 
         /// <summary>
-        /// Schedules the specified task to run at the hour and minute specified on the last day of year.  If the hour and minute have passed, the task will execute the next scheduled year.
+        /// Schedules it to run at the hour and minute specified on the last day of year. If the hour and minute have passed it will execute the next scheduled year.
         /// </summary>
         /// <param name="hours">0-23: Represents the hour of the day</param>
         /// <param name="minutes">0-59: Represents the minute of the day</param>

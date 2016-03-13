@@ -60,14 +60,14 @@
     <Compile Include="..\Library\Extension\RestrictableUnitExtensions.cs">
       <Link>Extension\RestrictableUnitExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Library\Information\TaskEndScheduleInformation.cs">
-      <Link>Information\TaskEndScheduleInformation.cs</Link>
+    <Compile Include="..\Library\Info\JobEndInfo.cs">
+      <Link>Information\JobEndInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Library\Information\TaskExceptionInformation.cs">
-      <Link>Information\TaskExceptionInformation.cs</Link>
+    <Compile Include="..\Library\Info\JobExceptionInfo.cs">
+      <Link>Information\JobExceptionInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Library\Information\TaskStartScheduleInformation.cs">
-      <Link>Information\TaskStartScheduleInformation.cs</Link>
+    <Compile Include="..\Library\Info\JobStartInfo.cs">
+      <Link>Information\JobStartInfo.cs</Link>
     </Compile>
     <Compile Include="..\Library\Unit\DayUnit.cs">
       <Link>Unit\DayUnit.cs</Link>
@@ -132,20 +132,20 @@
     <Compile Include="..\Library\Util\TimeOfDayRunnableCalculator.cs">
       <Link>Util\TimeOfDayRunnableCalculator.cs</Link>
     </Compile>
-    <Compile Include="..\Library\ITask.cs">
-      <Link>ITask.cs</Link>
+    <Compile Include="..\Library\IJob.cs">
+      <Link>IJob.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\JobFactory.cs">
+      <Link>JobFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\JobManager.cs">
+      <Link>JobManager.cs</Link>
     </Compile>
     <Compile Include="..\Library\Registry.cs">
       <Link>Registry.cs</Link>
     </Compile>
     <Compile Include="..\Library\Schedule.cs">
       <Link>Schedule.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\TaskFactory.cs">
-      <Link>TaskFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\TaskManager.cs">
-      <Link>TaskManager.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -20,7 +20,7 @@ namespace FluentScheduler
         internal Schedule Schedule { get; private set; }
 
         /// <summary>
-        /// Schedules the specified task to run at the hour and minute specified.  If the hour and minute have passed, the task will execute the next scheduled week.
+        /// Schedules it to run at the hour and minute specified. If the hour and minute have passed it will execute the next scheduled week.
         /// </summary>
         /// <param name="hours">0-23: Represents the hour of the day</param>
         /// <param name="minutes">0-59: Represents the minute of the day</param>
@@ -35,9 +35,9 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Schedules the specified task to run on the day specified.  If the day has passed, the task will execute the next scheduled week.
+        /// Schedules it to run on the day specified. If the day has passed it will execute the next scheduled week.
         /// </summary>
-        /// <param name="day">Day of week to run the task</param>
+        /// <param name="day">Day of week to run</param>
         /// <returns></returns>
         public WeeklyDayOfWeekUnit On(DayOfWeek day)
         {

@@ -9,39 +9,39 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     public class RemoveTests
     {
         [TestMethod]
-        public void Should_Remove_Named_Task()
+        public void Should_Remove_Named_Job()
         {
             // Arrange
-            var task = new Mock<ITask>();
+            var job = new Mock<IJob>();
 
             // Act
-            var schedule = new Schedule(task.Object).WithName("remove named task");
+            var schedule = new Schedule(job.Object).WithName("remove named job");
             schedule.ToRunNow().AndEvery(1).Seconds();
-            TaskManager.RemoveTask("remove named task");
+            JobManager.RemoveJob("remove named job");
 
             // Assert
-            Assert.IsNull(TaskManager.GetSchedule("remove named task"));
+            Assert.IsNull(JobManager.GetSchedule("remove named job"));
         }
 
         [TestMethod]
-        public void Should_Remove_LongRunning_Task_But_Keep_Running()
+        public void Should_Remove_LongRunning_Job_But_Keep_Running()
         {
             // Act
             var schedule = new Schedule(() => Thread.Sleep(100));
-            schedule.WithName("remove long running task").ToRunNow().AndEvery(2).Seconds();
+            schedule.WithName("remove long running job").ToRunNow().AndEvery(2).Seconds();
             schedule.Execute();
 
             // Assert
-            Assert.IsTrue(TaskManager.RunningSchedules.Any(s => s.Name == "remove long running task"));
+            Assert.IsTrue(JobManager.RunningSchedules.Any(s => s.Name == "remove long running job"));
 
             // Act
-            TaskManager.RemoveTask("remove long running task");
+            JobManager.RemoveJob("remove long running job");
 
             // Assert
-            Assert.IsNull(TaskManager.GetSchedule("remove long running task"));
-            Assert.IsTrue(TaskManager.RunningSchedules.Any(s => s.Name == "remove long running task"));
+            Assert.IsNull(JobManager.GetSchedule("remove long running job"));
+            Assert.IsTrue(JobManager.RunningSchedules.Any(s => s.Name == "remove long running job"));
             Thread.Sleep(2000);
-            Assert.IsFalse(TaskManager.RunningSchedules.Any(s => s.Name == "remove long running task"));
+            Assert.IsFalse(JobManager.RunningSchedules.Any(s => s.Name == "remove long running job"));
         }
     }
 }

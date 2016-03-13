@@ -16,7 +16,7 @@ namespace FluentScheduler
         internal Schedule Schedule { get; private set; }
 
         /// <summary>
-        /// Schedules the specified task to run on the day specified.  If the day has passed, the task will execute the next scheduled month.
+        /// Schedules it to run on the day specified. If the day has passed it will execute the next scheduled month.
         /// </summary>
         /// <param name="day">1-31: Represents the day of the month</param>
         /// <returns></returns>
@@ -26,7 +26,7 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Schedules the specified task to run on the last day of the month.
+        /// Schedules it to run on the last day of the month.
         /// </summary>
         /// <returns></returns>
         public MonthOnLastDayOfMonthUnit OnTheLastDay()
@@ -35,9 +35,9 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Schedules the specified task to run on the first occurance of the specified day of the week.  If the day has passed, the task will execute the next scheduled month.
+        /// Schedules it to run on the first occurance of the specified day of the week. If the day has passed it will execute the next scheduled month.
         /// </summary>
-        /// <param name="day">Day of week to run the task</param>
+        /// <param name="day">Day of week to run</param>
         /// <returns></returns>
         public MonthOnDayOfWeekUnit OnTheFirst(DayOfWeek day)
         {
@@ -45,9 +45,9 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Schedules the specified task to run on the second occurance of the specified day of the week.  If the day has passed, the task will execute the next scheduled month.
+        /// Schedules it to run on the second occurance of the specified day of the week. If the day has passed it will execute the next scheduled month.
         /// </summary>
-        /// <param name="day">Day of week to run the task</param>
+        /// <param name="day">Day of week to run</param>
         /// <returns></returns>
         public MonthOnDayOfWeekUnit OnTheSecond(DayOfWeek day)
         {
@@ -55,9 +55,9 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Schedules the specified task to run on the third occurance of the specified day of the week.  If the day has passed, the task will execute the next scheduled month.
+        /// Schedules it to run on the third occurance of the specified day of the week. If the day has passed it will execute the next scheduled month.
         /// </summary>
-        /// <param name="day">Day of week to run the task</param>
+        /// <param name="day">Day of week to run</param>
         /// <returns></returns>
         public MonthOnDayOfWeekUnit OnTheThird(DayOfWeek day)
         {
@@ -65,9 +65,9 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Schedules the specified task to run on the fourth occurance of the specified day of the week.  If the day has passed, the task will execute the next scheduled month.
+        /// Schedules it to run on the fourth occurance of the specified day of the week. If the day has passed it will execute the next scheduled month.
         /// </summary>
-        /// <param name="day">Day of week to run the task</param>
+        /// <param name="day">Day of week to run</param>
         /// <returns></returns>
         public MonthOnDayOfWeekUnit OnTheFourth(DayOfWeek day)
         {
@@ -75,9 +75,9 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Schedules the specified task to run on the last occurance of the specified day of the week.  Depending on the month, this might be the 4th week or the 5th week.  If the day has passed, the task will execute the next scheduled month.
+        /// Schedules it to run on the last occurance of the specified day of the week.  Depending on the month, this might be the 4th week or the 5th week. If the day has passed it will execute the next scheduled month.
         /// </summary>
-        /// <param name="day">Day of week to run the task</param>
+        /// <param name="day">Day of week to run</param>
         /// <returns></returns>
         public MonthOnDayOfWeekUnit OnTheLast(DayOfWeek day)
         {

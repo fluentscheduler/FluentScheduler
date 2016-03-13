@@ -8,106 +8,110 @@ namespace FluentScheduler
     public class Schedule
     {
         public DateTime NextRun { get; set; }
+
         public string Name { get; set; }
 
         public bool Disabled { get; private set; }
 
-        internal List<Action> Tasks { get; private set; }
+        internal List<Action> Jobs { get; private set; }
 
         internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
 
         /// <summary>
-        /// The first execution of the task can be delayed by the interval defined here.
+        /// The first execution can be delayed by the interval defined here.
         /// It will only delay the startup (first execution).
         /// </summary>
         internal TimeSpan DelayRunFor { get; set; }
+
         internal ICollection<Schedule> AdditionalSchedules { get; set; }
+
         internal Schedule Parent { get; set; }
-        internal int TaskExecutions { get; set; }
+
+        internal int JobExecutions { get; set; }
 
         internal bool Reentrant { get; set; }
 
         /// <summary>
-        /// Schedules the specified task to run
+        /// Schedules the specified job to run
         /// </summary>
-        /// <param name="task">Task to run</param>
-        public Schedule(ITask task)
-            : this(task.Execute)
+        /// <param name="job">Job to run</param>
+        public Schedule(IJob job)
+            : this(job.Execute)
         {
         }
 
         /// <summary>
-        /// Schedules the specified task to run
+        /// Schedules the specified job to run
         /// </summary>
         /// <param name="action">A parameterless method to run</param>
         public Schedule(Action action)
         {
             Disabled = false;
-            Tasks = new List<Action> { action };
+            Jobs = new List<Action> { action };
             AdditionalSchedules = new List<Schedule>();
-            TaskExecutions = -1;
+            JobExecutions = -1;
             Reentrant = true;
         }
 
         /// <summary>
-        /// Schedules the specified task to run
+        /// Schedules the specified job to run
         /// </summary>
         /// <param name="actions">A list of parameterless methods to run</param>
         public Schedule(IEnumerable<Action> actions)
         {
             Disabled = false;
-            Tasks = actions.ToList();
+            Jobs = actions.ToList();
             AdditionalSchedules = new List<Schedule>();
-            TaskExecutions = -1;
+            JobExecutions = -1;
             Reentrant = true;
         }
 
         /// <summary>
-        /// Start the task now, regardless of any scheduled start time.
+        /// Start the job now, regardless of any scheduled start time.
         /// </summary>
         public void Execute()
         {
-            TaskManager.StartTask(this);
+            JobManager.StartJob(this);
         }
 
         /// <summary>
-        /// Schedules another task to be run with this schedule
+        /// Schedules another job to be run with this schedule
         /// </summary>
-        /// <typeparam name="T">Type of task to run</typeparam>
+        /// <typeparam name="T">Type of job to run</typeparam>
         /// <returns></returns>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
             Justification = "The 'T' requirement is on purpose.")]
-        public Schedule AndThen<T>() where T : ITask
+        public Schedule AndThen<T>() where T : IJob
         {
-            //If no task factory has been added to the schedule, use the default.
-            var factory = TaskManager.TaskFactory ?? new TaskFactory();
+            //If no job factory has been added to the schedule, use the default.
+            var factory = JobManager.JobFactory ?? new JobFactory();
 
-            Tasks.Add(() => factory.GetTaskInstance<T>().Execute());
+            Jobs.Add(() => factory.GetJobInstance<T>().Execute());
             return this;
         }
 
         /// <summary>
-        /// Schedules another task to be run with this schedule
+        /// Schedules another job to be run with this schedule
         /// </summary>
         /// <param name="action">A parameterless method to run</param>
         public Schedule AndThen(Action action)
         {
-            Tasks.Add(action);
+            Jobs.Add(action);
             return this;
         }
 
         /// <summary>
-        /// Schedules another task to be run with this schedule
+        /// Schedules another job to be run with this schedule
         /// </summary>
-        /// <param name="task">An instantiated ITask.</param>
-        public Schedule AndThen(ITask task)
+        /// <param name="job">An instantiated IJob.</param>
+        public Schedule AndThen(IJob job)
         {
-            Tasks.Add(task.Execute);
+            Jobs.Add(job.Execute);
             return this;
         }
 
         /// <summary>
-        /// Schedules the specified tasks to run now
+        /// Schedules the specified jobs to run now
         /// </summary>
         /// <returns></returns>
         public SpecificTimeUnit ToRunNow()
@@ -116,7 +120,7 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Schedules the specified tasks to run for the specified interval
+        /// Schedules the specified jobs to run for the specified interval
         /// </summary>
         /// <param name="interval"></param>
         /// <returns></returns>
@@ -126,21 +130,21 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Schedules the specified tasks to run once, delayed by a specific time interval. 
+        /// Schedules the specified jobs to run once, delayed by a specific time interval. 
         /// </summary>
         /// <param name="interval"></param>
         /// <returns></returns>
         public TimeUnit ToRunOnceIn(int interval)
         {
-            TaskExecutions = 1;
+            JobExecutions = 1;
             return new TimeUnit(this, interval);
         }
 
         /// <summary>
-        /// Schedules the specified tasks to run once at the hour and minute specified.  If the hour and minute have passed, the tasks will be executed immediately.
+        /// Schedules the specified jobs to run once at the hour and minute specified.  If the hour and minute have passed, the jobs will be executed immediately.
         /// </summary>
         /// <param name="hours">0-23: Represents the hour of today</param>
-        /// <param name="minutes">0-59: Represents the minute to run the task</param>
+        /// <param name="minutes">0-59: Represents the minute to run the job</param>
         /// <returns></returns>
         public SpecificTimeUnit ToRunOnceAt(int hours, int minutes)
         {
@@ -148,14 +152,14 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Schedules the specified tasks to run once at the time specified.  If the time has passed, the task will be executed immediately.
+        /// Schedules the specified jobs to run once at the time specified.  If the time has passed, the job will be executed immediately.
         /// </summary>
-        /// <param name="time">Time to run the task</param>
+        /// <param name="time">Time to run the job</param>
         /// <returns></returns>
         public SpecificTimeUnit ToRunOnceAt(DateTime time)
         {
             CalculateNextRun = x => (DelayRunFor > TimeSpan.Zero ? time.Add(DelayRunFor) : time);
-            TaskExecutions = 1;
+            JobExecutions = 1;
 
             return new SpecificTimeUnit(this);
         }

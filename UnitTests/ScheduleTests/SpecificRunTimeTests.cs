@@ -9,13 +9,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     public class SpecificRunTimeTests
     {
         [TestMethod]
-        public void Should_Add_Chained_Tasks_To_AdditionalSchedules_Property()
+        public void Should_Add_Chained_Jobs_To_AdditionalSchedules_Property()
         {
             // Arrange
-            var task = new Mock<ITask>();
+            var job = new Mock<IJob>();
 
             // Act
-            var schedule = new Schedule(task.Object);
+            var schedule = new Schedule(job.Object);
             schedule.ToRunNow().AndEvery(1).Months();
 
             // Assert
@@ -23,15 +23,15 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
         }
 
         [TestMethod]
-        public void Should_Set_Chained_Task_Schedule_As_Expected()
+        public void Should_Set_Chained_Job_Schedule_As_Expected()
         {
             // Arrange
-            var task = new Mock<ITask>();
+            var job = new Mock<IJob>();
             var input = new DateTime(2000, 1, 1);
             var expected = new DateTime(2000, 3, 1);
 
             // Act
-            var schedule = new Schedule(task.Object);
+            var schedule = new Schedule(job.Object);
             schedule.ToRunNow().AndEvery(2).Months();
             var actual = schedule.AdditionalSchedules.ElementAt(0).CalculateNextRun(input);
 
@@ -40,13 +40,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
         }
 
         [TestMethod]
-        public void Should_Not_Alter_Original_Runtime_If_Chained_Task_Exists()
+        public void Should_Not_Alter_Original_Runtime_If_Chained_Job_Exists()
         {
             // Arrange
-            var task = new Mock<ITask>();
+            var job = new Mock<IJob>();
 
             // Act
-            var schedule = new Schedule(task.Object);
+            var schedule = new Schedule(job.Object);
             schedule.ToRunNow().AndEvery(1).Months();
 
             // Assert

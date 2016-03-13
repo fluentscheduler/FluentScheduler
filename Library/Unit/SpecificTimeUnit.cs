@@ -10,7 +10,7 @@
         internal Schedule Schedule { get; private set; }
 
         /// <summary>
-        /// Schedules the specified task to run for the specified interval
+        /// Schedules it to run for the specified interval
         /// </summary>
         /// <param name="interval"></param>
         /// <returns></returns>
@@ -19,7 +19,7 @@
             var parent = Schedule.Parent ?? Schedule;
 
             var child =
-                new Schedule(Schedule.Tasks)
+                new Schedule(Schedule.Jobs)
                 {
                     Parent = parent,
                     Reentrant = parent.Reentrant,

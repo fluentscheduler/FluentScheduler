@@ -13,7 +13,7 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Delay first execution of the task for the specified time interval.
+        /// Delay first execution for the specified time interval.
         /// </summary>
         public static DelayTimeUnit DelayFor(this SpecificTimeUnit time, int interval)
         {
@@ -24,7 +24,7 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Delay first execution of the task for the specified time interval.
+        /// Delay first execution for the specified time interval.
         /// </summary>
         public static DelayTimeUnit DelayFor(this SecondUnit timeUnit, int interval)
         {
@@ -35,7 +35,7 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Delay first execution of the task for the specified time interval.
+        /// Delay first execution for the specified time interval.
         /// </summary>
         public static DelayTimeUnit DelayFor(this MinuteUnit timeUnit, int interval)
         {
@@ -46,7 +46,7 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Delay first execution of the task for the specified time interval.
+        /// Delay first execution for the specified time interval.
         /// </summary>
         public static DelayTimeUnit DelayFor(this HourUnit timeUnit, int interval)
         {
@@ -57,7 +57,7 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Delay first execution of the task for the specified time interval.
+        /// Delay first execution for the specified time interval.
         /// </summary>
         public static DelayTimeUnit DelayFor(this DayUnit timeUnit, int interval)
         {
@@ -68,7 +68,7 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Delay first execution of the task for the specified time interval.
+        /// Delay first execution for the specified time interval.
         /// </summary>
         public static DelayTimeUnit DelayFor(this WeekUnit timeUnit, int interval)
         {
@@ -79,7 +79,7 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Delay first execution of the task for the specified time interval.
+        /// Delay first execution for the specified time interval.
         /// </summary>
         public static DelayTimeUnit DelayFor(this MonthUnit timeUnit, int interval)
         {
@@ -90,7 +90,7 @@ namespace FluentScheduler
         }
 
         /// <summary>
-        /// Delay first execution of the task for the specified time interval.
+        /// Delay first execution for the specified time interval.
         /// </summary>
         public static DelayTimeUnit DelayFor(this YearUnit timeUnit, int interval)
         {

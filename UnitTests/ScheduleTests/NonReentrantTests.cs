@@ -10,10 +10,10 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
         public void Should_Be_True_By_Default()
         {
             // Arrange
-            var task = new Mock<ITask>();
+            var job = new Mock<IJob>();
 
             // Act
-            var schedule = new Schedule(task.Object);
+            var schedule = new Schedule(job.Object);
             schedule.ToRunNow();
 
             // Assert
@@ -24,10 +24,10 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
         public void Should_Default_Reentrent_Parameter_For_Child_Schedules()
         {
             // Arrange
-            var task = new Mock<ITask>();
+            var job = new Mock<IJob>();
 
             // Act
-            var schedule = new Schedule(task.Object);
+            var schedule = new Schedule(job.Object);
             schedule.ToRunNow().AndEvery(1).Minutes();
 
             // Assert
@@ -40,10 +40,10 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
         public void Should_Set_Reentrent_Parameter_For_Child_Schedules()
         {
             // Arrange
-            var task = new Mock<ITask>();
+            var job = new Mock<IJob>();
 
             // Act
-            var schedule = new Schedule(task.Object);
+            var schedule = new Schedule(job.Object);
             schedule.NonReentrant().ToRunNow().AndEvery(1).Minutes();
 
             // Assert

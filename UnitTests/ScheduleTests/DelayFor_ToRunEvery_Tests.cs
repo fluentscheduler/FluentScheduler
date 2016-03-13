@@ -14,13 +14,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = DateTime.Now.AddSeconds(12);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run every 10 seconds and delay for 2 seconds")
                     .ToRunEvery(10).Seconds()
                     .DelayFor(2).Seconds()
             );
-            var actual = TaskManager.GetSchedule("run every 10 seconds and delay for 2 seconds").NextRun;
+            var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 seconds").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -33,13 +33,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = DateTime.Now.AddSeconds(10).AddMinutes(2);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run every 10 seconds and delay for 2 minutes")
                     .ToRunEvery(10).Seconds()
                     .DelayFor(2).Minutes()
             );
-            var actual = TaskManager.GetSchedule("run every 10 seconds and delay for 2 minutes").NextRun;
+            var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 minutes").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -52,13 +52,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = DateTime.Now.AddSeconds(10).AddHours(2);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run every 10 seconds and delay for 2 hours")
                     .ToRunEvery(10).Seconds()
                     .DelayFor(2).Hours()
             );
-            var actual = TaskManager.GetSchedule("run every 10 seconds and delay for 2 hours").NextRun;
+            var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 hours").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -71,13 +71,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = DateTime.Now.AddSeconds(10).AddDays(2);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run every 10 seconds and delay for 2 days")
                     .ToRunEvery(10).Seconds()
                     .DelayFor(2).Days()
             );
-            var actual = TaskManager.GetSchedule("run every 10 seconds and delay for 2 days").NextRun;
+            var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 days").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -90,13 +90,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = DateTime.Now.AddSeconds(10).AddDays(14);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run every 10 seconds and delay for 2 weeks")
                     .ToRunEvery(10).Seconds()
                     .DelayFor(2).Weeks()
             );
-            var actual = TaskManager.GetSchedule("run every 10 seconds and delay for 2 weeks").NextRun;
+            var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 weeks").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -109,13 +109,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = DateTime.Now.AddSeconds(10).AddMonths(2);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run every 10 seconds and delay for 2 months")
                     .ToRunEvery(10).Seconds()
                     .DelayFor(2).Months()
             );
-            var actual = TaskManager.GetSchedule("run every 10 seconds and delay for 2 months").NextRun;
+            var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 months").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -128,13 +128,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = DateTime.Now.AddSeconds(10).AddYears(2);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run every 10 seconds and delay for 2 years")
                     .ToRunEvery(10).Seconds()
                     .DelayFor(2).Years()
             );
-            var actual = TaskManager.GetSchedule("run every 10 seconds and delay for 2 years").NextRun;
+            var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 years").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());

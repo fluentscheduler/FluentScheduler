@@ -8,7 +8,7 @@ namespace FluentScheduler.Tests.TestApplication
     {
         public MyRegistry()
         {
-            DefaultAllTasksAsNonReentrant();
+            NonReentrantAsDefault();
 
             Welcome();
 
@@ -66,9 +66,9 @@ namespace FluentScheduler.Tests.TestApplication
 
             Schedule(() =>
             {
-                TaskManager.RemoveTask("[reentrant]");
-                TaskManager.RemoveTask("[non reentrant]");
-                Log.This("[once in]", "Disabled the reentrant and non reentrant tasks.");
+                JobManager.RemoveJob("[reentrant]");
+                JobManager.RemoveJob("[non reentrant]");
+                Log.This("[once in]", "Disabled the reentrant and non reentrant jobs.");
             }).WithName("[once in]").ToRunOnceIn(3).Minutes();
         }
 

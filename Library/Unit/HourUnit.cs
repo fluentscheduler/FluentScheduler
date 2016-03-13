@@ -20,7 +20,7 @@
         Schedule ITimeRestrictableUnit.Schedule { get { return this.Schedule; } }
 
         /// <summary>
-        /// Schedules the specified task to run at the minute specified.  If the minute has passed, the task will execute the next hour.
+        /// Schedules to run at the minute specified. If the minute has passed it will execute the next hour.
         /// </summary>
         /// <param name="minutes">0-59: Represents the minute of the hour</param>
         /// <returns></returns>

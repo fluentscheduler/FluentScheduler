@@ -2,7 +2,7 @@
 
 namespace FluentScheduler.Tests.UnitTests.RegistryTests.Mocks
 {
-    public abstract class StronglyTypedTestTask : ITask
+    public abstract class StronglyTypedTestJob : IJob
     {
         public void Execute()
         {

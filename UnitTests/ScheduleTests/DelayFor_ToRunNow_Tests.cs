@@ -15,13 +15,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = now.AddSeconds(2);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run once at x and delay for 2 seconds")
                     .ToRunOnceAt(now)
                     .DelayFor(2).Seconds()
             );
-            var actual = TaskManager.GetSchedule("run once at x and delay for 2 seconds").NextRun;
+            var actual = JobManager.GetSchedule("run once at x and delay for 2 seconds").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -35,13 +35,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = now.AddMinutes(2);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run once at x and delay for 2 minutes")
                     .ToRunOnceAt(now)
                     .DelayFor(2).Minutes()
             );
-            var actual = TaskManager.GetSchedule("run once at x and delay for 2 minutes").NextRun;
+            var actual = JobManager.GetSchedule("run once at x and delay for 2 minutes").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -55,13 +55,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = now.AddHours(2);
 
             // Arrange
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run once at x and delay for 2 hours")
                     .ToRunOnceAt(now)
                     .DelayFor(2).Hours()
             );
-            var actual = TaskManager.GetSchedule("run once at x and delay for 2 hours").NextRun;
+            var actual = JobManager.GetSchedule("run once at x and delay for 2 hours").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -74,13 +74,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = DateTime.Now.AddDays(2);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run once at x and delay for 2 days")
                     .ToRunOnceAt(DateTime.Now)
                     .DelayFor(2).Days()
             );
-            var actual = TaskManager.GetSchedule("run once at x and delay for 2 days").NextRun;
+            var actual = JobManager.GetSchedule("run once at x and delay for 2 days").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -94,12 +94,12 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = now.AddDays(14);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run once at x and delay for 2 weeks")
                     .ToRunOnceAt(now)
                     .DelayFor(2).Weeks());
-            var actual = TaskManager.GetSchedule("run once at x and delay for 2 weeks").NextRun;
+            var actual = JobManager.GetSchedule("run once at x and delay for 2 weeks").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -113,13 +113,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = DateTime.Now.AddMonths(2);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run once at x and delay for 2 months")
                     .ToRunOnceAt(now)
                     .DelayFor(2).Months()
             );
-            var actual = TaskManager.GetSchedule("run once at x and delay for 2 months").NextRun;
+            var actual = JobManager.GetSchedule("run once at x and delay for 2 months").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -133,13 +133,13 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var expected = DateTime.Now.AddYears(2);
 
             // Act
-            TaskManager.AddTask(
+            JobManager.AddJob(
                 () => { },
                 s => s.WithName("run once at x and delay for 2 years")
                     .ToRunOnceAt(now)
                     .DelayFor(2).Years()
             );
-            var actual = TaskManager.GetSchedule("run once at x and delay for 2 years").NextRun;
+            var actual = JobManager.GetSchedule("run once at x and delay for 2 years").NextRun;
 
             // Assert
             Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());

@@ -2,7 +2,7 @@
 
 namespace FluentScheduler
 {
-    public class TaskExceptionInformation
+    public class JobExceptionInfo
     {
         public string Name { get; set; }
 

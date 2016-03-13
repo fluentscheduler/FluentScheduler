@@ -18,7 +18,7 @@
         internal Schedule Schedule { get; private set; }
 
         /// <summary>
-        /// Schedules the specified task to run on the day specified.  If the day has passed, the task will execute the next scheduled year.
+        /// Schedules it to run on the day specified. If the day has passed it will execute the next scheduled year.
         /// </summary>
         /// <param name="day">1-365: Represents the day of the year</param>
         /// <returns></returns>
@@ -28,7 +28,7 @@
         }
 
         /// <summary>
-        /// Schedules the specified task to run on the last day of the year.
+        /// Schedules it to run on the last day of the year.
         /// </summary>
         /// <returns></returns>
         public YearOnLastDayOfYearUnit OnTheLastDay()

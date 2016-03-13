@@ -3,7 +3,7 @@
 namespace FluentScheduler
 {
     /// <summary>
-    /// Delayed execution support - each method extends the startup time of the task for the specific interval.
+    /// Delayed execution support - each method extends the startup time for the specific interval.
     /// </summary>
     public sealed class DelayTimeUnit
     {

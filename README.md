@@ -9,7 +9,7 @@
 [![][build-img]][build]
 [![][nuget-img]][nuget]
 
-Task scheduler with fluent interface that runs automated jobs from your application.
+Automated job scheduler with fluent interface.
 
 [build]:     https://ci.appveyor.com/project/TallesL/fluentscheduler
 [build-img]: https://ci.appveyor.com/api/projects/status/github/fluentscheduler/fluentscheduler?svg=true
@@ -18,8 +18,8 @@ Task scheduler with fluent interface that runs automated jobs from your applicat
 
 ## Usage
 
-All task configuration is handled in a [Registry] class.
-You can use classes that implement [ITask] or express your task as an [Action].
+All job configuration is handled in a [Registry] class.
+You can use classes that implement [IJob] or express your job as an [Action].
 
 ```cs
 using FluentScheduler;
@@ -28,61 +28,62 @@ public class MyRegistry : Registry
 {
     public MyRegistry()
     {
-        // Schedule an ITask to run at an interval
-        Schedule<MyTask>().ToRunNow().AndEvery(2).Seconds();
+        // Schedule an IJob to run at an interval
+        Schedule<MyJob>().ToRunNow().AndEvery(2).Seconds();
 
-        // Schedule an ITask to run once, delayed by a specific time interval
-        Schedule<MyTask>().ToRunOnceIn(5).Seconds();
+        // Schedule an IJob to run once, delayed by a specific time interval
+        Schedule<MyJob>().ToRunOnceIn(5).Seconds();
 
-        // Schedule a simple task to run at a specific time
-        Schedule(() => Console.WriteLine("Timed Task - Will run every day at 9:15pm: " + DateTime.Now))
+        // Schedule a simple job to run at a specific time
+        Schedule(() => Console.WriteLine("It's 9:15 PM now."))
             .ToRunEvery(1).Days().At(21, 15);
 
         // Schedule a more complex action to run immediately and on an monthly interval
         Schedule(() =>
         {
-            Console.WriteLine("Complex Action Task Starts: " + DateTime.Now);
-            Thread.Sleep(1000);
-            Console.WriteLine("Complex Action Task Ends: " + DateTime.Now);
+            Console.WriteLine("Complex job started at " + DateTime.Now);
+            Thread.Sleep(10000);
+            Console.WriteLine("Complex job ended at" + DateTime.Now);
         }).ToRunNow().AndEvery(1).Months().OnTheFirst(DayOfWeek.Monday).At(3, 0);
         
-        //Schedule multiple tasks to be run in a single schedule
-        Schedule<MyTask>().AndThen<MyOtherTask>().ToRunNow().AndEvery(5).Minutes();
+        // Schedule multiple jobs to be run in a single schedule
+        Schedule<MyJob>().AndThen<MyOtherJob>().ToRunNow().AndEvery(5).Minutes();
     }
 } 
 ```
 
-You then need to initialize the [TaskManager].
+You then need to initialize the [JobManager].
 This is usually done in the [Application_Start] method of a web application or when your application is being loaded:
 
 ```cs
 protected void Application_Start()
 {
-    TaskManager.Initialize(new MyRegistry()); 
+    JobManager.Initialize(new MyRegistry()); 
 } 
 ```
 
 [Registry]:          Library/Registry.cs
-[ITask]:             Library/ITask.cs
+[IJob]:              Library/IJob.cs
 [Action]:            https://msdn.microsoft.com/library/System.Action
-[TaskManager]:       Library/TaskManager.cs
+[JobManager]:       Library/JobManager.cs
 [Application_Start]: https://msdn.microsoft.com/library/ms178473
 
 ## Using it with ASP.NET
 
-When using it with ASP.NET consider implementing [IRegisteredObject] in your task and registering it itself on [HostingEnvironment]&nbsp;([here's a great explanation on it]), like:
+When using it with ASP.NET consider implementing [IRegisteredObject] in your job and registering it itself on
+[HostingEnvironment]&nbsp;([here's a great explanation on it]), like:
 
 ```cs
-public class SampleTask : ITask, IRegisteredObject
+public class SampleJob : IJob, IRegisteredObject
 {
     private readonly object _lock = new object();
 
     private bool _shuttingDown;
 
-    public SampleTask()
+    public SampleJob()
     {
-        // Register this task with the hosting environment.
-        // Allows for a more graceful stop of the task, in the case of IIS shutting down.
+        // Register this job with the hosting environment.
+        // Allows for a more graceful stop of the job, in the case of IIS shutting down.
         HostingEnvironment.RegisterObject(this);
     }
 
@@ -116,8 +117,8 @@ public class SampleTask : ITask, IRegisteredObject
 
 ## Dependency Injection
 
-FluentScheduler makes it easy to use your IoC tool of choice to create task instances.
-Simply implement [ITaskFactory].
+FluentScheduler makes it easy to use your IoC tool of choice to create job instances.
+Simply implement [IJobFactory].
 
 An example incorporating [StructureMap]:
 
@@ -125,9 +126,9 @@ An example incorporating [StructureMap]:
 using FluentScheduler;
 using StructureMap;
 
-public class StructureMapTaskFactory : ITaskFactory
+public class StructureMapJobFactory : IJobFactory
 {
-    public ITask GetTaskInstance<T>() where T : ITask
+    public IJob GetJobInstance<T>() where T : IJob
     {
         return ObjectFactory.Container.GetInstance<T>();
     }
@@ -137,44 +138,45 @@ public class MyRegistry : Registry
 {
     public MyRegistry()
     {
-        // Schedule an ITask to run at an interval
-        Schedule<MyTask>().ToRunNow().AndEvery(2).Seconds();
+        // Schedule an IJob to run at an interval
+        Schedule<MyJob>().ToRunNow().AndEvery(2).Seconds();
     }
 } 
 ```
 
-Register the new task factory with the [TaskManager]:
+Register the new job factory with the [JobManager]:
 
 ```cs
 protected void Application_Start()
 {
-    TaskManager.TaskFactory = new StructureMapTaskFactory();
-    TaskManager.Initialize(new MyRegistry()); 
+    JobManager.JobFactory = new StructureMapJobFactory();
+    JobManager.Initialize(new MyRegistry()); 
 }
 ```
 
-[ITaskFactory]: Library/TaskFactory.cs
+[IJobFactory]:  Library/JobFactory.cs
 [StructureMap]: http://structuremap.github.io
 
 ## Unexpected exceptions
 
-To observe unhandled exceptions from your scheduled tasks, you will need to hook the [UnobservedTaskException] event on [TaskManager].
+To observe unhandled exceptions from your scheduled jobs, you will need to hook the [JobException] event on
+[JobManager].
 That event will give you access to the underlying [System.Threading.Tasks.Task] and thrown exception details.
 
 ```cs
 protected void Application_Start()
 {
-    TaskManager.UnobservedTaskException += TaskManager_UnobservedTaskException;
-    TaskManager.Initialize(new TaskRegistry());
+    JobManager.JobException += JobExceptionHandler;
+    JobManager.Initialize(new JobRegistry());
 }
 
-static void TaskManager_UnobservedTaskException(Task sender, UnhandledExceptionEventArgs e)
+static void JobExceptionHandler(Task sender, UnhandledExceptionEventArgs e)
 {
-    Log.Fatal("An error happened with a scheduled task: " + e.ExceptionObject);
+    Log.Fatal("An error happened with a scheduled job: " + e.ExceptionObject);
 }
 ```
 
-[UnobservedTaskException]:     Library/TaskManager.cs#L32
+[JobException]:                Library/JobManager.cs#L32
 [System.Threading.Tasks.Task]: https://msdn.microsoft.com/library/System.Threading.Tasks.Task
 
 ## Daylight Saving Time

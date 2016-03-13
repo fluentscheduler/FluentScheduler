@@ -1,6 +1,6 @@
 ﻿namespace FluentScheduler
 {
-    public interface ITask
+    public interface IJob
     {
         void Execute();
     }
