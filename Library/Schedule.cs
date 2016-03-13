@@ -27,7 +27,7 @@ namespace FluentScheduler
 
         internal Schedule Parent { get; set; }
 
-        internal int JobExecutions { get; set; }
+        internal bool PendingRunOnce { get; set; }
 
         internal bool Reentrant { get; set; }
 
@@ -49,7 +49,7 @@ namespace FluentScheduler
             Disabled = false;
             Jobs = new List<Action> { action };
             AdditionalSchedules = new List<Schedule>();
-            JobExecutions = -1;
+            PendingRunOnce = false;
             Reentrant = true;
         }
 
@@ -62,7 +62,7 @@ namespace FluentScheduler
             Disabled = false;
             Jobs = actions.ToList();
             AdditionalSchedules = new List<Schedule>();
-            JobExecutions = -1;
+            PendingRunOnce = false;
             Reentrant = true;
         }
 
@@ -136,7 +136,7 @@ namespace FluentScheduler
         /// <returns></returns>
         public TimeUnit ToRunOnceIn(int interval)
         {
-            JobExecutions = 1;
+            PendingRunOnce = true;
             return new TimeUnit(this, interval);
         }
 
@@ -159,7 +159,7 @@ namespace FluentScheduler
         public SpecificTimeUnit ToRunOnceAt(DateTime time)
         {
             CalculateNextRun = x => (DelayRunFor > TimeSpan.Zero ? time.Add(DelayRunFor) : time);
-            JobExecutions = 1;
+            PendingRunOnce = true;
 
             return new SpecificTimeUnit(this);
         }

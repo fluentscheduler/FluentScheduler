@@ -352,14 +352,13 @@ namespace FluentScheduler
                 {
                     firstJob.NextRun = firstJob.CalculateNextRun(Now.AddMilliseconds(1));
                 }
-                if (firstJob.JobExecutions > 0)
-                {
-                    firstJob.JobExecutions--;
-                }
-                if (firstJob.NextRun <= Now || firstJob.JobExecutions == 0)
+
+                if (firstJob.NextRun <= Now || firstJob.PendingRunOnce)
                 {
                     _schedules.Remove(firstJob);
                 }
+
+                firstJob.PendingRunOnce = false;
                 _schedules.Sort();
                 Schedule();
                 return;
