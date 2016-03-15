@@ -35,23 +35,13 @@ namespace FluentScheduler
         /// Schedules the specified job to run
         /// </summary>
         /// <param name="job">Job to run</param>
-        public Schedule(IJob job)
-            : this(job.Execute)
-        {
-        }
+        public Schedule(IJob job) : this(job.Execute) { }
 
         /// <summary>
         /// Schedules the specified job to run
         /// </summary>
         /// <param name="action">A parameterless method to run</param>
-        public Schedule(Action action)
-        {
-            Disabled = false;
-            Jobs = new List<Action> { action };
-            AdditionalSchedules = new List<Schedule>();
-            PendingRunOnce = false;
-            Reentrant = true;
-        }
+        public Schedule(Action action) : this(new Action[] { action }) { }
 
         /// <summary>
         /// Schedules the specified job to run
