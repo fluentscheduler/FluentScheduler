@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace FluentScheduler
+﻿namespace FluentScheduler
 {
+    using System;
+
     public class JobEndInfo : JobStartInfo
     {
         public TimeSpan Duration { get; set; }

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace FluentScheduler
+﻿namespace FluentScheduler
 {
+    using System;
+
     // Some borrowed from http://datetimeextensions.codeplex.com
     public static class DateTimeExtensions
     {

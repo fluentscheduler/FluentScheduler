@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace FluentScheduler
+﻿namespace FluentScheduler
 {
+    using System;
+
     /// <summary>
     /// Extensions for DelayFor() functionality
     /// </summary>

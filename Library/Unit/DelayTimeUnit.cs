@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace FluentScheduler
+﻿namespace FluentScheduler
 {
+    using System;
+
     /// <summary>
     /// Delayed execution support - each method extends the startup time for the specific interval.
     /// </summary>

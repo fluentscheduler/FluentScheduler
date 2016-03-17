@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System.Linq;
-using System.Threading;
-
-namespace FluentScheduler.Tests.UnitTests.ScheduleTests
+﻿namespace FluentScheduler.Tests.UnitTests.ScheduleTests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using System.Linq;
+    using System.Threading;
+
     [TestClass]
     public class RemoveTests
     {

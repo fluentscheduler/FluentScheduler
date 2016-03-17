@@ -1,9 +1,9 @@
-﻿using LogThis;
-using System;
-using System.Threading;
-
-namespace FluentScheduler.Tests.TestApplication
+﻿namespace FluentScheduler.Tests.TestApplication
 {
+    using LogThis;
+    using System;
+    using System.Threading;
+
     class MyRegistry : Registry
     {
         public MyRegistry()

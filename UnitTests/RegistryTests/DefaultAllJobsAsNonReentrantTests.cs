@@ -1,8 +1,8 @@
-﻿using FluentScheduler.Tests.UnitTests.RegistryTests.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace FluentScheduler.Tests.UnitTests.RegistryTests
+﻿namespace FluentScheduler.Tests.UnitTests.RegistryTests
 {
+    using FluentScheduler.Tests.UnitTests.RegistryTests.Mocks;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class DefaultAllJobsAsNonReentrantTests
     {

@@ -1,4 +1,3 @@
-
 namespace FluentScheduler
 {
     public sealed class WeekdayUnit : ITimeRestrictableUnit

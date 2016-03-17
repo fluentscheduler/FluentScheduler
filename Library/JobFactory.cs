@@ -1,8 +1,8 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-
-namespace FluentScheduler
+﻿namespace FluentScheduler
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+
     public interface IJobFactory
     {
         /// <summary>

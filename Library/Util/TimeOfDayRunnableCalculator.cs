@@ -1,7 +1,7 @@
-using System;
-
 namespace FluentScheduler
 {
+    using System;
+
     internal class TimeOfDayRunnableCalculator
     {
         private readonly int _startHour;

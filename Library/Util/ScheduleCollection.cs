@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace FluentScheduler
+﻿namespace FluentScheduler
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     internal class ScheduleCollection
     {
         private List<Schedule> _schedules = new List<Schedule>();

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-namespace FluentScheduler
+﻿namespace FluentScheduler
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     /// Used to register all job schedules
     /// </summary>

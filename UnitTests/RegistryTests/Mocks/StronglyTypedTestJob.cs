@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace FluentScheduler.Tests.UnitTests.RegistryTests.Mocks
+﻿namespace FluentScheduler.Tests.UnitTests.RegistryTests.Mocks
 {
+    using System;
+
     public abstract class StronglyTypedTestJob : IJob
     {
         public void Execute()

@@ -1,10 +1,10 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Linq;
-
 namespace FluentScheduler.Tests.UnitTests.ScheduleTests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using System;
+    using System.Linq;
+
     [TestClass]
     public class SpecificRunTimeTests
     {

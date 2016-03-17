@@ -1,9 +1,9 @@
-using FluentScheduler.Tests.UnitTests.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
 namespace FluentScheduler.Tests.UnitTests.ScheduleTests
 {
+    using FluentScheduler.Tests.UnitTests.Utilities;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+
     [TestClass]
     public class DelayFor_ToRunEvery_Tests
     {

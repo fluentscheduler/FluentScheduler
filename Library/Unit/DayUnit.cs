@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace FluentScheduler
+﻿namespace FluentScheduler
 {
+    using System;
+
     public sealed class DayUnit : IDayRestrictableUnit
     {
         private readonly int _duration;

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace FluentScheduler.Tests.UnitTests.Utilities
+﻿namespace FluentScheduler.Tests.UnitTests.Utilities
 {
+    using System;
+
     public static class DateTimeExtensions
     {
         public static DateTime WithoutMilliseconds(this DateTime dateTime)

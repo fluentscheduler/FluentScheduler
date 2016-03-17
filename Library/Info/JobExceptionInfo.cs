@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace FluentScheduler
+﻿namespace FluentScheduler
 {
+    using System.Threading.Tasks;
+
     public class JobExceptionInfo
     {
         public string Name { get; set; }

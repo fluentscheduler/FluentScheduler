@@ -1,7 +1,7 @@
-using System;
-
 namespace FluentScheduler
 {
+    using System;
+
     public static class RestrictableUnitExtensions
     {
         public static ITimeRestrictableUnit Between(this ITimeRestrictableUnit restrictableUnit, int startHour,

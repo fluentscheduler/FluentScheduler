@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace FluentScheduler
+﻿namespace FluentScheduler
 {
+    using System;
+
     public sealed class MonthOnDayOfWeekUnit
     {
         private readonly int _duration;

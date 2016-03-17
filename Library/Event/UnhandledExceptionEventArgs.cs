@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace FluentScheduler
+﻿namespace FluentScheduler
 {
+    using System;
+
     public class UnhandledExceptionEventArgs : EventArgs
     {
         public Exception ExceptionObject { get; private set; }
