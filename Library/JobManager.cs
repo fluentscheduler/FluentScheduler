@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FluentScheduler
@@ -13,6 +14,30 @@ namespace FluentScheduler
     /// </summary>
     public static class JobManager
     {
+        #region Internal fields
+
+        private static bool _useUtc = false;
+
+        private static Timer _timer = new Timer(state => ScheduleJobs(), null, Timeout.Infinite, Timeout.Infinite);
+
+        private static ScheduleCollection _schedules = new ScheduleCollection();
+
+        private static readonly ConcurrentDictionary<List<Action>, bool> _runningNonReentrant = new ConcurrentDictionary<List<Action>, bool>();
+
+        private static readonly ConcurrentDictionary<Guid, Schedule> _running = new ConcurrentDictionary<Guid, Schedule>();
+
+        private static DateTime Now
+        {
+            get
+            {
+                return _useUtc ? DateTime.UtcNow : DateTime.Now;
+            }
+        }
+
+        #endregion
+
+        #region Job factory
+
         private static IJobFactory _jobFactory;
 
         public static IJobFactory JobFactory
@@ -27,6 +52,10 @@ namespace FluentScheduler
             }
         }
 
+        #endregion
+
+        #region Event handling
+
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event GenericEventHandler<JobExceptionInfo, FluentScheduler.UnhandledExceptionEventArgs> JobException;
@@ -38,66 +67,6 @@ namespace FluentScheduler
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event GenericEventHandler<JobEndInfo, EventArgs> JobEnd;
-
-        private static ScheduleCollection _schedules = new ScheduleCollection();
-
-        private static System.Threading.Timer _timer;
-
-        private static readonly ConcurrentDictionary<List<Action>, bool> RunningNonReentrantJobs = new ConcurrentDictionary<List<Action>, bool>();
-
-        private static readonly ConcurrentDictionary<Guid, Schedule> _runningSchedules = new ConcurrentDictionary<Guid, Schedule>();
-
-        private static bool _useUtc = false;
-
-        private static DateTime Now { get { return _useUtc ? DateTime.UtcNow : DateTime.Now; } }
-
-        /// <summary>
-        /// Gets a list of currently schedules currently executing.
-        /// </summary>
-        public static IEnumerable<Schedule> RunningSchedules
-        {
-            get
-            {
-                return _runningSchedules.Values.ToList();
-            }
-        }
-
-        /// <summary>
-        /// The list of all schedules, whether or not they are currently running.
-        /// Use <see cref="GetSchedule"/> to get concrete schedule by name.
-        /// </summary>
-        public static IEnumerable<Schedule> AllSchedules
-        {
-            get
-            {
-                return _schedules.All();
-            }
-        }
-        /// <summary>
-        /// Get schedule by name.
-        /// </summary>
-        /// <param name="name">Schedule name</param>
-        /// <returns>Schedule instance or null if the schedule does not exist</returns>
-        public static Schedule GetSchedule(string name)
-        {
-            return _schedules.Get(name);
-        }
-
-        /// <summary>
-        /// Initializes the job manager with all schedules configured in the specified registry
-        /// </summary>
-        /// <param name="registry">Registry containing job schedules</param>
-        public static void Initialize(Registry registry)
-        {
-            if (registry == null)
-                throw new ArgumentNullException("registry");
-
-            _useUtc = registry.UtcTime;
-
-            var immediateJobs = new List<Schedule>();
-            AddSchedules(registry.Schedules, immediateJobs, Now);
-            RunAndInitializeSchedule(immediateJobs);
-        }
 
         private static void RaiseJobException(Schedule schedule, Task t)
         {
@@ -143,7 +112,126 @@ namespace FluentScheduler
             }
         }
 
-        private static void AddSchedules(IEnumerable<Schedule> schedules, ICollection<Schedule> immediatelyInvokedSchedules, DateTime now)
+        #endregion
+
+        #region Start, stop & initialize
+
+        /// <summary>
+        /// Initializes the job manager with all schedules configured in the specified registry
+        /// </summary>
+        /// <param name="registry">Registry containing job schedules</param>
+        public static void Initialize(Registry registry)
+        {
+            if (registry == null)
+                throw new ArgumentNullException("registry");
+
+            _useUtc = registry.UtcTime;
+            CalculateNextRun(registry.Schedules).ToList().ForEach(RunJob);
+            ScheduleJobs();
+        }
+
+        /// <summary>
+        /// Restarts the job manager if it had previously been stopped
+        /// </summary>
+        public static void Start()
+        {
+            ScheduleJobs();
+        }
+
+        /// <summary>
+        /// Stops the job manager from executing jobs.
+        /// </summary>
+        public static void Stop()
+        {
+            _timer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
+        #endregion
+
+        #region Exposing schedules
+
+        /// <summary>
+        /// Get schedule by name.
+        /// </summary>
+        /// <param name="name">Schedule name</param>
+        /// <returns>Schedule instance or null if the schedule does not exist</returns>
+        public static Schedule GetSchedule(string name)
+        {
+            return _schedules.Get(name);
+        }
+
+        /// <summary>
+        /// Gets a list of currently schedules currently executing.
+        /// </summary>
+        public static IEnumerable<Schedule> RunningSchedules
+        {
+            get
+            {
+                return _running.Values.ToList();
+            }
+        }
+
+        /// <summary>
+        /// The list of all schedules, whether or not they are currently running.
+        /// Use <see cref="GetSchedule"/> to get concrete schedule by name.
+        /// </summary>
+        public static IEnumerable<Schedule> AllSchedules
+        {
+            get
+            {
+                return _schedules.All();
+            }
+        }
+
+        #endregion
+
+        #region Exposing adding & removing jobs (without the registry)
+
+        /// <summary>
+        /// Adds a job to the job manager
+        /// </summary>
+        /// <typeparam name="T">Job to schedule</typeparam>
+        /// <param name="jobSchedule">Schedule for the job</param>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+            Justification = "The 'T' requirement is on purpose.")]
+        public static void AddJob<T>(Action<Schedule> jobSchedule) where T : IJob
+        {
+            if (jobSchedule == null)
+                throw new ArgumentNullException("jobSchedule");
+
+            AddJob(jobSchedule, new Schedule(JobFactory.GetJobInstance<T>()) { Name = typeof(T).Name });
+        }
+
+        /// <summary>
+        /// Adds a job to the job manager
+        /// </summary>
+        /// <param name="jobAction">Job to schedule</param>
+        /// <param name="jobSchedule">Schedule for the job</param>
+        public static void AddJob(Action jobAction, Action<Schedule> jobSchedule)
+        {
+            if (jobSchedule == null)
+                throw new ArgumentNullException("jobSchedule");
+
+            AddJob(jobSchedule, new Schedule(jobAction));
+        }
+
+        private static void AddJob(Action<Schedule> jobSchedule, Schedule schedule)
+        {
+            jobSchedule(schedule);
+            CalculateNextRun(new Schedule[] { schedule }).ToList().ForEach(RunJob);
+            ScheduleJobs();
+        }
+
+        public static void RemoveJob(string name)
+        {
+            _schedules.Remove(name);
+        }
+
+        #endregion
+
+        #region Calculating, scheduling & running
+
+        private static IEnumerable<Schedule> CalculateNextRun(IEnumerable<Schedule> schedules)
         {
             foreach (var schedule in schedules)
             {
@@ -157,13 +245,13 @@ namespace FluentScheduler
                     }
                     else
                     {
-                        // only non-delayed jobs are started right away
-                        immediatelyInvokedSchedules.Add(schedule);
+                        // run immediately
+                        yield return schedule;
                     }
                     var hasAdded = false;
                     foreach (var child in schedule.AdditionalSchedules.Where(x => x.CalculateNextRun != null))
                     {
-                        var nextRun = child.CalculateNextRun(now.Add(child.DelayRunFor).AddMilliseconds(1));
+                        var nextRun = child.CalculateNextRun(Now.Add(child.DelayRunFor).AddMilliseconds(1));
                         if (!hasAdded || schedule.NextRun > nextRun)
                         {
                             schedule.NextRun = nextRun;
@@ -173,7 +261,7 @@ namespace FluentScheduler
                 }
                 else
                 {
-                    schedule.NextRun = schedule.CalculateNextRun(now.Add(schedule.DelayRunFor));
+                    schedule.NextRun = schedule.CalculateNextRun(Now.Add(schedule.DelayRunFor));
                     _schedules.Add(schedule);
                 }
 
@@ -190,50 +278,73 @@ namespace FluentScheduler
                         else
                         {
                             // run immediately
-                            immediatelyInvokedSchedules.Add(childSchedule);
+                            yield return childSchedule;
                             continue;
                         }
                     }
                     else
                     {
-                        childSchedule.NextRun = childSchedule.CalculateNextRun(now.Add(schedule.DelayRunFor));
+                        childSchedule.NextRun = childSchedule.CalculateNextRun(Now.Add(schedule.DelayRunFor));
                         _schedules.Add(childSchedule);
                     }
                 }
             }
         }
 
-        private static void RunAndInitializeSchedule(IEnumerable<Schedule> immediatelyInvokedSchedules)
+        private static void ScheduleJobs()
         {
-            foreach (var job in immediatelyInvokedSchedules)
-            {
-                StartJob(job);
-            }
+            _timer.Change(Timeout.Infinite, Timeout.Infinite);
+            _schedules.Sort();
 
             if (!_schedules.Any())
                 return;
 
-            if (_timer == null)
+            var firstJob = _schedules.First();
+            if (firstJob.NextRun <= Now)
             {
-                _timer = new System.Threading.Timer(Timer_Callback, null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+                RunJob(firstJob);
+                if (firstJob.CalculateNextRun == null)
+                {
+                    // probably a ToRunNow().DelayFor() job, there's no CalculateNextRun
+                }
+                else
+                {
+                    firstJob.NextRun = firstJob.CalculateNextRun(Now.AddMilliseconds(1));
+                }
+
+                if (firstJob.NextRun <= Now || firstJob.PendingRunOnce)
+                {
+                    _schedules.Remove(firstJob);
+                }
+
+                firstJob.PendingRunOnce = false;
+                ScheduleJobs();
+                return;
             }
-            _schedules.Sort();
-            Schedule();
+
+            var timerInterval = firstJob.NextRun - Now;
+            if (timerInterval <= TimeSpan.Zero)
+            {
+                ScheduleJobs();
+                return;
+            }
+
+            _timer.Change(timerInterval, timerInterval);
         }
 
-        internal static void StartJob(Schedule schedule)
+        internal static void RunJob(Schedule schedule)
         {
             if (schedule.Disabled)
                 return;
 
             if (!schedule.Reentrant)
             {
-                if (!RunningNonReentrantJobs.TryAdd(schedule.Jobs, true))
+                if (!_runningNonReentrant.TryAdd(schedule.Jobs, true))
                     return;
             }
 
             var id = Guid.NewGuid();
-            _runningSchedules.TryAdd(id, schedule);
+            _running.TryAdd(id, schedule);
 
             var start = Now;
             RaiseJobStart(schedule, start);
@@ -253,125 +364,15 @@ namespace FluentScheduler
                 {
                     stopwatch.Stop();
                     bool notUsed;
-                    RunningNonReentrantJobs.TryRemove(schedule.Jobs, out notUsed);
+                    _runningNonReentrant.TryRemove(schedule.Jobs, out notUsed);
                     Schedule notUsedSchedule;
-                    _runningSchedules.TryRemove(id, out notUsedSchedule);
+                    _running.TryRemove(id, out notUsedSchedule);
                     RaiseJobEnd(schedule, start, stopwatch.Elapsed);
                 }
             }, TaskCreationOptions.PreferFairness);
             task.ContinueWith(t => RaiseJobException(schedule, t), TaskContinuationOptions.OnlyOnFaulted);
         }
 
-        /// <summary>
-        /// Adds a job to the job manager
-        /// </summary>
-        /// <typeparam name="T">Job to schedule</typeparam>
-        /// <param name="jobSchedule">Schedule for the job</param>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
-            Justification = "The 'T' requirement is on purpose.")]
-        public static void AddJob<T>(Action<Schedule> jobSchedule) where T : IJob
-        {
-            if (jobSchedule == null)
-                throw new ArgumentNullException("jobSchedule", "Please specify the job schedule to add to the job manager.");
-
-            var schedule = new Schedule(JobFactory.GetJobInstance<T>())
-            {
-                Name = typeof(T).Name
-            };
-            AddJob(jobSchedule, schedule);
-        }
-
-        /// <summary>
-        /// Adds a job to the job manager
-        /// </summary>
-        /// <param name="jobAction">Job to schedule</param>
-        /// <param name="jobSchedule">Schedule for the job</param>
-        public static void AddJob(Action jobAction, Action<Schedule> jobSchedule)
-        {
-            if (jobSchedule == null)
-                throw new ArgumentNullException("jobSchedule", "Please specify the job schedule to add to the job manager.");
-
-            var schedule = new Schedule(jobAction);
-            AddJob(jobSchedule, schedule);
-        }
-
-        private static void AddJob(Action<Schedule> jobSchedule, Schedule schedule)
-        {
-            jobSchedule(schedule);
-
-            var immediateJobs = new List<Schedule>();
-            AddSchedules(new List<Schedule> { schedule }, immediateJobs, Now);
-            RunAndInitializeSchedule(immediateJobs);
-        }
-
-        public static void RemoveJob(string name)
-        {
-            _schedules.Remove(name);
-        }
-
-        /// <summary>
-        /// Stops the job manager from executing jobs.
-        /// </summary>
-        public static void Stop()
-        {
-            if (_timer != null)
-                _timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
-        }
-
-        /// <summary>
-        /// Restarts the job manager if it had previously been stopped
-        /// </summary>
-        public static void Start()
-        {
-            if (_timer != null)
-                Schedule();
-        }
-
-        static void Timer_Callback(object state)
-        {
-            Schedule();
-        }
-
-        private static void Schedule()
-        {
-            _timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
-
-            var firstJob = _schedules.First();
-            if (firstJob == null)
-            {
-                return;
-            }
-            if (firstJob.NextRun <= Now)
-            {
-                StartJob(firstJob);
-                if (firstJob.CalculateNextRun == null)
-                {
-                    // probably a ToRunNow().DelayFor() job, there's no CalculateNextRun
-                }
-                else
-                {
-                    firstJob.NextRun = firstJob.CalculateNextRun(Now.AddMilliseconds(1));
-                }
-
-                if (firstJob.NextRun <= Now || firstJob.PendingRunOnce)
-                {
-                    _schedules.Remove(firstJob);
-                }
-
-                firstJob.PendingRunOnce = false;
-                _schedules.Sort();
-                Schedule();
-                return;
-            }
-
-            var timerInterval = firstJob.NextRun - Now;
-            if (timerInterval <= TimeSpan.Zero)
-            {
-                Schedule();
-                return;
-            }
-
-            _timer.Change(timerInterval, timerInterval);
-        }
+        #endregion
     }
 }

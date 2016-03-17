@@ -61,7 +61,7 @@ namespace FluentScheduler
         /// </summary>
         public void Execute()
         {
-            JobManager.StartJob(this);
+            JobManager.RunJob(this);
         }
 
         /// <summary>
