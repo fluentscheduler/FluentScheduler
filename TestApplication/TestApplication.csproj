@@ -35,8 +35,13 @@
     <Reference Include="FolderCleaner">
       <HintPath>..\packages\FolderCleaner.1.0.1\lib\FolderCleaner.dll</HintPath>
     </Reference>
-    <Reference Include="LogThis">
-      <HintPath>..\packages\LogThis.2.3.0\lib\LogThis.dll</HintPath>
+    <Reference Include="Fresh, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fresh.2.0.0\lib\Fresh.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="L, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\L.3.0.0\lib\L.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
