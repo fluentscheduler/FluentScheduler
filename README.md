@@ -186,6 +186,15 @@ Unfortunately, not unlike many schedulers, there is no Daylight Saving Time supp
 If you are worried about your jobs not running or running twice due to that, the suggestion is to avoid troublesome time
 ranges or just `UseUtcTime()` on your registry.
 
+## Upgrading from version 3
+
+Since the [Task class] is becoming ubiquitous in .NET (specially because [async and await]), the old `ITask`, `TaskManager` and `ITaskFactory` are now `IJob`, `JobManager` and `IJobManager`.
+
+It's just a rename, they work just as before.
+
+[Task class]:      https://msdn.microsoft.com/library/System.Threading.Tasks.Task
+[async and await]: https://msdn.microsoft.com/library/hh191443
+
 ## Contributing
 
 Feel free to [open an issue] or [submit a pull request].
