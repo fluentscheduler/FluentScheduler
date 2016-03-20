@@ -18,10 +18,11 @@
             OnceIn();
             OnceAt();
 
-            TenMinutes();
             Sleepy();
             Faulty();
+            Removed();
 
+            TenMinutes();
             Hour();
             Day();
             Weekday();
@@ -80,14 +81,6 @@
                 .WithName("[once at]").ToRunOnceAt(23, 50);
         }
 
-        private void TenMinutes()
-        {
-            L.Register("[ten minutes]");
-
-            Schedule(() => L.Log("[ten minutes]", "Ten minutes has passed."))
-                .WithName("[ten minutes]").ToRunEvery(10).Minutes();
-        }
-
         private void Sleepy()
         {
             L.Register("[sleepy]");
@@ -108,6 +101,24 @@
                 L.Register("[faulty]", "I'm going to raise an exception!");
                 throw new Exception("I warned you.");
             }).WithName("[faulty]").ToRunEvery(20).Minutes();
+        }
+
+        private void Removed()
+        {
+            L.Register("[removed]");
+
+            Schedule(() =>
+            {
+                L.Register("[removed]", "SOMETHING WENT WRONG.");
+            }).WithName("[removed]").ToRunOnceAt(0, 2);
+        }
+
+        private void TenMinutes()
+        {
+            L.Register("[ten minutes]");
+
+            Schedule(() => L.Log("[ten minutes]", "Ten minutes has passed."))
+                .WithName("[ten minutes]").ToRunEvery(10).Minutes();
         }
 
         private void Hour()

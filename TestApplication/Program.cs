@@ -17,13 +17,13 @@
 
         private static void ListenForStart()
         {
-            L.Register("[job start]", "\"{0}\" has started.");
+            L.Register("[job start]", "{0} has started.");
             JobManager.JobStart += (schedule, e) => L.Log("[job start]", schedule.Name);
         }
 
         private static void ListenForEnd()
         {
-            L.Register("[job end]", "\"{0}\" has ended{1}.");
+            L.Register("[job end]", "{0} has ended{1}.");
 
             JobManager.JobEnd += (schedule, e) =>
                 L.Log("[job end]", schedule.Name,
@@ -40,6 +40,11 @@
         private static void Initialize()
         {
             JobManager.Initialize(new MyRegistry());
+            JobManager.RemoveJob("[removed]");
+
+            L.Register("[late]");
+            JobManager.AddJob(() => L.Log("[late]", "This was added after the initialize call."),
+                s => s.WithName("[late]").ToRunNow());
         }
 
         private static void Sleep()
