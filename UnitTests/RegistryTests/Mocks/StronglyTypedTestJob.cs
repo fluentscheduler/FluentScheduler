@@ -2,7 +2,7 @@
 {
     using System;
 
-    public abstract class StronglyTypedTestJob : IJob
+    public class StronglyTypedTestJob : IJob
     {
         public void Execute()
         {
