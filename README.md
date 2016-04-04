@@ -62,10 +62,16 @@ protected void Application_Start()
 } 
 ```
 
+It's also possible to schedule jobs after initialization:
+
+```cs
+JobManager.AddJob(() => Console.WriteLine("Late job!"), (s) => s.ToRunEvery(5).Seconds());
+```
+
 [Registry]:          Library/Registry.cs
 [IJob]:              Library/IJob.cs
 [Action]:            https://msdn.microsoft.com/library/System.Action
-[JobManager]:       Library/JobManager.cs
+[JobManager]:        Library/JobManager.cs
 [Application_Start]: https://msdn.microsoft.com/library/ms178473
 
 ## Using it with ASP.NET
