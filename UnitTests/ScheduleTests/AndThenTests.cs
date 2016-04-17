@@ -10,68 +10,60 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     public class AndThenTests
     {
         [TestMethod]
-        public void Should_Be_Able_To_Schedule_Multiple_IJobs()
+        public void Should_Be_Able_To_Schedule_Multiple_Jobs()
         {
             // Arrange
-            var job1 = new Mock<IJob>();
-            var job2 = new Mock<IJob>();
-            job1.Setup(m => m.Execute());
-            job2.Setup(m => m.Execute());
+            var job1 = false;
+            var job2 = false;
 
             // Act
-            var schedule = new Schedule(job1.Object).AndThen(job2.Object);
+            var schedule = new Schedule(() => job1 = true).AndThen(() => job2 = true);
             schedule.Execute();
             while (JobManager.RunningSchedules.Any())
                 Thread.Sleep(1);
 
             // Assert
-            job1.Verify(m => m.Execute(), Times.Once());
-            job2.Verify(m => m.Execute(), Times.Once());
+            Assert.IsTrue(job1);
+            Assert.IsTrue(job2);
         }
 
         [TestMethod]
         public void Should_Be_Able_To_Schedule_Multiple_Simple_Methods()
         {
             // Arrange
-            var job1 = new Mock<IJob>();
-            var job2 = new Mock<IJob>();
-            job1.Setup(m => m.Execute());
-            job2.Setup(m => m.Execute());
+            var job1 = false;
+            var job2 = false;
 
             // Act
-            var schedule = new Schedule(() => job1.Object.Execute()).AndThen(() => job2.Object.Execute());
+            var schedule = new Schedule(() => job1 = true).AndThen(() => job2 = true);
             schedule.Execute();
             while (JobManager.RunningSchedules.Any())
                 Thread.Sleep(1);
 
             // Assert
-            job1.Verify(m => m.Execute(), Times.Once());
-            job2.Verify(m => m.Execute(), Times.Once());
+            Assert.IsTrue(job1);
+            Assert.IsTrue(job2);
         }
 
         [TestMethod]
         public void Should_Execute_Jobs_In_Order()
         {
             // Arrange
-            var job1 = new Mock<IJob>();
-            var job2 = new Mock<IJob>();
-            var job1Runtime = DateTime.MinValue;
-            var job2Runtime = DateTime.MinValue;
+            var job1 = DateTime.MinValue;
+            var job2 = DateTime.MinValue;
 
             // Act
-            job1.Setup(m => m.Execute()).Callback(() =>
+            var schedule = new Schedule(() =>
             {
-                job1Runtime = DateTime.Now;
+                job1 = DateTime.Now;
                 Thread.Sleep(1);
-            });
-            job2.Setup(m => m.Execute()).Callback(() => job2Runtime = DateTime.Now);
-            var schedule = new Schedule(() => job1.Object.Execute()).AndThen(() => job2.Object.Execute());
+            }).AndThen(() => job2 = DateTime.Now);
             schedule.Execute();
             while (JobManager.RunningSchedules.Any())
                 Thread.Sleep(1);
 
             // Assert
-            Assert.IsTrue(job1Runtime.Ticks < job2Runtime.Ticks);
+            Assert.IsTrue(job1.Ticks < job2.Ticks);
         }
     }
 }

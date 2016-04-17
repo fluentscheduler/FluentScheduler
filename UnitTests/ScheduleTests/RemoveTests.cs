@@ -11,11 +11,8 @@
         [TestMethod]
         public void Should_Remove_Named_Job()
         {
-            // Arrange
-            var job = new Mock<IJob>();
-
             // Act
-            var schedule = new Schedule(job.Object).WithName("remove named job");
+            var schedule = new Schedule(() => { }).WithName("remove named job");
             schedule.ToRunNow().AndEvery(1).Seconds();
             JobManager.RemoveJob("remove named job");
 

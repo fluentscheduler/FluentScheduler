@@ -43,9 +43,11 @@
         /// <summary>
         /// Job factory used by the job manager.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1044:PropertiesShouldNotBeWriteOnly",
+            Justification = "Doing that way to not break compatibility with older versions.")]
         public static IJobFactory JobFactory
         {
-            get
+            private get
             {
                 return (_jobFactory = _jobFactory ?? new JobFactory());
             }
@@ -53,6 +55,25 @@
             {
                 _jobFactory = value;
             }
+        }
+
+        internal static Action GetJob<T>() where T : IJob
+        {
+            return () =>
+            {
+                var job = JobFactory.GetJobInstance<T>();
+                try
+                {
+                    job.Execute();
+                }
+                finally
+                {
+                    var disposable = job as IDisposable;
+
+                    if (disposable != null)
+                        disposable.Dispose();
+                }
+            };
         }
 
         #endregion
@@ -210,7 +231,7 @@
             if (jobSchedule == null)
                 throw new ArgumentNullException("jobSchedule");
 
-            AddJob(jobSchedule, new Schedule(JobFactory.GetJobInstance<T>()) { Name = typeof(T).Name });
+            AddJob(jobSchedule, new Schedule(JobManager.GetJob<T>()) { Name = typeof(T).Name });
         }
 
         /// <summary>

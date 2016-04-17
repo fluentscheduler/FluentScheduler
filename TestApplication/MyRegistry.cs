@@ -21,6 +21,7 @@
             Sleepy();
             Faulty();
             Removed();
+            Disposable();
 
             TenMinutes();
             Hour();
@@ -111,6 +112,11 @@
             {
                 L.Register("[removed]", "SOMETHING WENT WRONG.");
             }).WithName("[removed]").ToRunOnceIn(2).Minutes();
+        }
+
+        private void Disposable()
+        {
+            Schedule<DisposableJob>().ToRunOnceIn(10).Seconds();
         }
 
         private void TenMinutes()

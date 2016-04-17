@@ -42,12 +42,6 @@
         /// <summary>
         /// Schedules a new job in the registry.
         /// </summary>
-        /// <param name="job">Job to schedule.</param>
-        public Schedule(IJob job) : this(job.Execute) { }
-
-        /// <summary>
-        /// Schedules a new job in the registry.
-        /// </summary>
         /// <param name="action">Job to schedule.</param>
         public Schedule(Action action) : this(new[] { action }) { }
 
@@ -80,10 +74,7 @@
             Justification = "The 'T' requirement is on purpose.")]
         public Schedule AndThen<T>() where T : IJob
         {
-            //If no job factory has been added to the schedule, use the default.
-            var factory = JobManager.JobFactory ?? new JobFactory();
-
-            Jobs.Add(() => factory.GetJobInstance<T>().Execute());
+            Jobs.Add(JobManager.GetJob<T>());
             return this;
         }
 
@@ -94,16 +85,6 @@
         public Schedule AndThen(Action action)
         {
             Jobs.Add(action);
-            return this;
-        }
-
-        /// <summary>
-        /// Schedules another job to be run with this schedule.
-        /// </summary>
-        /// <param name="job">Job to run.</param>
-        public Schedule AndThen(IJob job)
-        {
-            Jobs.Add(job.Execute);
             return this;
         }
 

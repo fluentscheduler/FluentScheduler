@@ -54,7 +54,7 @@
             Justification = "The 'T' requirement is on purpose.")]
         public Schedule Schedule<T>() where T : IJob
         {
-            var schedule = new Schedule(() => JobManager.JobFactory.GetJobInstance<T>().Execute());
+            var schedule = new Schedule(JobManager.GetJob<T>());
 
             if (_allJobsConfiguredAsNonReentrant)
                 schedule.NonReentrant();
