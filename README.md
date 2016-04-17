@@ -18,8 +18,8 @@ Automated job scheduler with fluent interface.
 
 ## Usage
 
-All job configuration is handled in a [Registry] class.
-You can use classes that implement [IJob] or express your job as an [Action].
+The job configuration is handled in a [Registry] class.
+A job is either an [Action] or a class that inherits [IJob]:
 
 ```cs
 using FluentScheduler;
@@ -52,8 +52,16 @@ public class MyRegistry : Registry
 } 
 ```
 
-You then need to initialize the [JobManager].
-This is usually done in the [Application_Start] method of a web application or when your application is being loaded:
+To check all possible options of scheduling you can use IntelliSense on the go or check this daunting call graph (click to enlarge):
+
+<p align="center">
+    <a href="https://github.com/fluentscheduler/FluentScheduler/raw/master/Assets/call-graph.png">
+        <img alt="call graph" src="Assets/call-graph.png" width="300">
+    </a>
+</p>
+
+With the registry ready you then need to initialize the [JobManager].
+This is usually done as soon as your application is loaded (in the [Application_Start] method of a web application for example):
 
 ```cs
 protected void Application_Start()
@@ -126,7 +134,7 @@ public class SampleJob : IJob, IRegisteredObject
 FluentScheduler makes it easy to use your IoC tool of choice to create job instances.
 Simply implement [IJobFactory].
 
-An example incorporating [StructureMap]:
+An example using [StructureMap]:
 
 ```cs
 using FluentScheduler;
@@ -187,10 +195,10 @@ static void JobExceptionHandler(Task sender, UnhandledExceptionEventArgs e)
 
 ## Daylight Saving Time
 
-Unfortunately, not unlike many schedulers, there is no Daylight Saving Time support (yet).
+Unfortunately, not unlike many schedulers, there is no Daylight Saving Time support yet.
 
 If you are worried about your jobs not running or running twice due to that, the suggestion is to avoid troublesome time
-ranges or just `UseUtcTime()` on your registry.
+ranges or just `UseUtcTime()` in your registry.
 
 ## Upgrading from version 3
 
