@@ -110,7 +110,7 @@
             Schedule(() =>
             {
                 L.Register("[removed]", "SOMETHING WENT WRONG.");
-            }).WithName("[removed]").ToRunOnceAt(0, 2);
+            }).WithName("[removed]").ToRunOnceIn(2).Minutes();
         }
 
         private void TenMinutes()
