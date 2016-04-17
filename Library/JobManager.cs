@@ -211,7 +211,8 @@
         {
             get
             {
-                return _schedules.All();
+                // returning a shallow copy
+                return _schedules.All().ToList();
             }
         }
 
