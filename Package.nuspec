@@ -31,7 +31,9 @@
     <files>
         <file src="PortableLibrary\bin\Release\FluentScheduler.dll" target="lib\dotnet\FluentScheduler.dll" />
         <file src="PortableLibrary\bin\Release\FluentScheduler.pdb" target="lib\dotnet\FluentScheduler.pdb" />
+        <file src="PortableLibrary\bin\Release\FluentScheduler.xml" target="lib\dotnet\FluentScheduler.xml" />
         <file src="Library\bin\Release\FluentScheduler.dll" target="lib\net40\FluentScheduler.dll" />
         <file src="Library\bin\Release\FluentScheduler.pdb" target="lib\net40\FluentScheduler.pdb" />
+        <file src="Library\bin\Release\FluentScheduler.xml" target="lib\net40\FluentScheduler.xml" />
     </files>
 </package>

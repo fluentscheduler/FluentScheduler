@@ -5,22 +5,30 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
+    /// <summary>
+    /// A job schedule.
+    /// </summary>
     public class Schedule
     {
-        public DateTime NextRun { get; set; }
+        /// <summary>
+        /// Date and time of the next run of this job schedule.
+        /// </summary>
+        public DateTime NextRun { get; internal set; }
 
-        public string Name { get; set; }
+        /// <summary>
+        /// Name of this job schedule.
+        /// </summary>
+        public string Name { get; internal set; }
 
+        /// <summary>
+        /// Flag indicating if this job schedule is disabled.
+        /// </summary>
         public bool Disabled { get; private set; }
 
         internal List<Action> Jobs { get; private set; }
 
         internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
 
-        /// <summary>
-        /// The first execution can be delayed by the interval defined here.
-        /// It will only delay the startup (first execution).
-        /// </summary>
         internal TimeSpan DelayRunFor { get; set; }
 
         internal ICollection<Schedule> AdditionalSchedules { get; set; }
@@ -32,21 +40,21 @@
         internal bool Reentrant { get; set; }
 
         /// <summary>
-        /// Schedules the specified job to run
+        /// Schedules a new job in the registry.
         /// </summary>
-        /// <param name="job">Job to run</param>
+        /// <param name="job">Job to schedule.</param>
         public Schedule(IJob job) : this(job.Execute) { }
 
         /// <summary>
-        /// Schedules the specified job to run
+        /// Schedules a new job in the registry.
         /// </summary>
-        /// <param name="action">A parameterless method to run</param>
-        public Schedule(Action action) : this(new Action[] { action }) { }
+        /// <param name="action">Job to schedule.</param>
+        public Schedule(Action action) : this(new[] { action }) { }
 
         /// <summary>
-        /// Schedules the specified job to run
+        /// Schedules a new job in the registry.
         /// </summary>
-        /// <param name="actions">A list of parameterless methods to run</param>
+        /// <param name="actions">Jobs to schedule</param>
         public Schedule(IEnumerable<Action> actions)
         {
             Disabled = false;
@@ -57,7 +65,7 @@
         }
 
         /// <summary>
-        /// Start the job now, regardless of any scheduled start time.
+        /// Executes the job regardless its schedule.
         /// </summary>
         public void Execute()
         {
@@ -65,10 +73,9 @@
         }
 
         /// <summary>
-        /// Schedules another job to be run with this schedule
+        /// Schedules another job to be run with this schedule.
         /// </summary>
-        /// <typeparam name="T">Type of job to run</typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">Job to run.</typeparam>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
             Justification = "The 'T' requirement is on purpose.")]
         public Schedule AndThen<T>() where T : IJob
@@ -81,9 +88,9 @@
         }
 
         /// <summary>
-        /// Schedules another job to be run with this schedule
+        /// Schedules another job to be run with this schedule.
         /// </summary>
-        /// <param name="action">A parameterless method to run</param>
+        /// <param name="action">Job to run.</param>
         public Schedule AndThen(Action action)
         {
             Jobs.Add(action);
@@ -91,9 +98,9 @@
         }
 
         /// <summary>
-        /// Schedules another job to be run with this schedule
+        /// Schedules another job to be run with this schedule.
         /// </summary>
-        /// <param name="job">An instantiated IJob.</param>
+        /// <param name="job">Job to run.</param>
         public Schedule AndThen(IJob job)
         {
             Jobs.Add(job.Execute);
@@ -101,29 +108,26 @@
         }
 
         /// <summary>
-        /// Schedules the specified jobs to run now
+        /// Runs the job now.
         /// </summary>
-        /// <returns></returns>
         public SpecificTimeUnit ToRunNow()
         {
             return new SpecificTimeUnit(this);
         }
 
         /// <summary>
-        /// Schedules the specified jobs to run for the specified interval
+        /// Runs the job according to the given interval.
         /// </summary>
-        /// <param name="interval"></param>
-        /// <returns></returns>
+        /// <param name="interval">Interval to wait.</param>
         public TimeUnit ToRunEvery(int interval)
         {
             return new TimeUnit(this, interval);
         }
 
         /// <summary>
-        /// Schedules the specified jobs to run once, delayed by a specific time interval. 
+        /// Runs the job once after the given interval.
         /// </summary>
-        /// <param name="interval"></param>
-        /// <returns></returns>
+        /// <param name="interval">Interval to wait.</param>
         public TimeUnit ToRunOnceIn(int interval)
         {
             PendingRunOnce = true;
@@ -131,21 +135,19 @@
         }
 
         /// <summary>
-        /// Schedules the specified jobs to run once at the hour and minute specified.  If the hour and minute have passed, the jobs will be executed immediately.
+        /// Runs the job once at the given time.
         /// </summary>
-        /// <param name="hours">0-23: Represents the hour of today</param>
-        /// <param name="minutes">0-59: Represents the minute to run the job</param>
-        /// <returns></returns>
+        /// <param name="hours">The hours (0 through 23).</param>
+        /// <param name="minutes">The minutes (0 through 59).</param>
         public SpecificTimeUnit ToRunOnceAt(int hours, int minutes)
         {
             return ToRunOnceAt(new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, hours, minutes, 0));
         }
 
         /// <summary>
-        /// Schedules the specified jobs to run once at the time specified.  If the time has passed, the job will be executed immediately.
+        /// Runs the job once at the given time.
         /// </summary>
-        /// <param name="time">Time to run the job</param>
-        /// <returns></returns>
+        /// <param name="time">The time to run.</param>
         public SpecificTimeUnit ToRunOnceAt(DateTime time)
         {
             CalculateNextRun = x => (DelayRunFor > TimeSpan.Zero ? time.Add(DelayRunFor) : time);
@@ -155,10 +157,9 @@
         }
 
         /// <summary>
-        /// Provide a name for this schedule
+        /// Assigns a name to this job schedule.
         /// </summary>
-        /// <param name="name">Name of this schedule</param>
-        /// <returns></returns>
+        /// <param name="name">Name to assign</param>
         public Schedule WithName(string name)
         {
             Name = name;
@@ -166,21 +167,25 @@
         }
 
         /// <summary>
-        /// Will not start a new instance of the scheduler if a previous schedule is still running
+        /// Sets this job schedule as non reentrant.
         /// </summary>
-        /// <returns></returns>
         public Schedule NonReentrant()
         {
             Reentrant = false;
             return this;
         }
 
+        /// <summary>
+        /// Disables this job schedule.
+        /// </summary>
         public void Disable()
         {
             Disabled = true;
         }
 
-
+        /// <summary>
+        /// Enables this job schedule.
+        /// </summary>
         public void Enable()
         {
             Disabled = false;

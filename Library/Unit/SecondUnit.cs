@@ -1,10 +1,13 @@
 ﻿namespace FluentScheduler
 {
+    /// <summary>
+    /// Unit of time in seconds.
+    /// </summary>
     public sealed class SecondUnit : ITimeRestrictableUnit
     {
         private readonly int _duration;
 
-        public SecondUnit(Schedule schedule, int duration)
+        internal SecondUnit(Schedule schedule, int duration)
         {
             _duration = duration;
             Schedule = schedule;

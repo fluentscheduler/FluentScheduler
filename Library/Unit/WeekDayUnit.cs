@@ -1,10 +1,13 @@
 namespace FluentScheduler
 {
+    /// <summary>
+    /// Unit of time in weekdays.
+    /// </summary>
     public sealed class WeekdayUnit : ITimeRestrictableUnit
     {
         private readonly int _duration;
 
-        public WeekdayUnit(Schedule schedule, int duration)
+        internal WeekdayUnit(Schedule schedule, int duration)
         {
             _duration = duration < 1 ? 1 : duration;
             Schedule = schedule;
@@ -20,11 +23,10 @@ namespace FluentScheduler
         Schedule ITimeRestrictableUnit.Schedule { get { return this.Schedule; } }
 
         /// <summary>
-        /// Schedules it to run at the hour and minute specified. If the hour and minute have passed it will execute the next scheduled day.
+        /// Runs the job at the given time of day.
         /// </summary>
-        /// <param name="hours">0-23: Represents the hour of the day</param>
-        /// <param name="minutes">0-59: Represents the minute of the day</param>
-        /// <returns></returns>
+        /// <param name="hours">The hours (0 through 23).</param>
+        /// <param name="minutes">The minutes (0 through 59).</param>
         public void At(int hours, int minutes)
         {
             Schedule.CalculateNextRun = x =>

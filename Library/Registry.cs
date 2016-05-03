@@ -6,32 +6,28 @@
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// Used to register all job schedules
+    /// A registry of job schedules.
     /// </summary>
     public class Registry
     {
-        // Schedule(x => // Do something).ToRun...
-        // Schedule<MyJob>().ToRunNow()
-        // Schedule<MyJob>().ToRunNow().And().ToRunEvery()...
-        // Schedule<MyJob>().ToRunEvery(30).Seconds()
-        // Schedule<MyJob>().ToRunEvery(15).Minutes()
-        // Schedule<MyJob>().ToRunEvery(1).Hours().At(15)
-        // Schedule<MyJob>().ToRunEvery(2).Days().At(0, 15)
-        // Schedule<MyJob>().ToRunEvery(1).Months().On(1).OfMonth().At(0, 15)
-        // Schedule<MyJob>().ToRunEvery(1).Months().On(1).Monday().At(0, 15)
-
         private bool _allJobsConfiguredAsNonReentrant;
 
         internal bool UtcTime { get; private set; }
 
         internal List<Schedule> Schedules { get; private set; }
 
+        /// <summary>
+        /// Default ctor.
+        /// </summary>
         public Registry()
         {
             _allJobsConfiguredAsNonReentrant = false;
             Schedules = new List<Schedule>();
         }
 
+        /// <summary>
+        /// Sets all jobs in this schedule as non reentrant.
+        /// </summary>
         public void NonReentrantAsDefault()
         {
             _allJobsConfiguredAsNonReentrant = true;
@@ -42,16 +38,18 @@
             }
         }
 
+        /// <summary>
+        /// Use UTC time rather than local time.
+        /// </summary>
         public void UseUtcTime()
         {
             UtcTime = true;
         }
 
         /// <summary>
-        /// Schedules a job to run
+        /// Schedules a new job in the registry.
         /// </summary>
-        /// <typeparam name="T">Job to schedule</typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">Job to schedule.</typeparam>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
             Justification = "The 'T' requirement is on purpose.")]
         public Schedule Schedule<T>() where T : IJob
@@ -71,10 +69,9 @@
         }
 
         /// <summary>
-        /// Schedules a job to run
+        /// Schedules a new job in the registry.
         /// </summary>
-        /// <param name="action">Job to schedule</param>
-        /// <returns></returns>
+        /// <param name="action">Job to run.</param>
         public Schedule Schedule(Action action)
         {
             var schedule = new Schedule(action);

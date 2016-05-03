@@ -1,6 +1,6 @@
 ﻿namespace FluentScheduler
 {
-    public enum Week
+    internal enum Week
     {
         First,
         Second,

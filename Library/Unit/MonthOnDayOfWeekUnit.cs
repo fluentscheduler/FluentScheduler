@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// Unit of time that represents week and day of week of the month (wow that's confusing).
+    /// </summary>
     public sealed class MonthOnDayOfWeekUnit
     {
         private readonly int _duration;
@@ -10,7 +13,7 @@
 
         private readonly DayOfWeek _dayOfWeek;
 
-        public MonthOnDayOfWeekUnit(Schedule schedule, int duration, Week week, DayOfWeek dayOfWeek)
+        internal MonthOnDayOfWeekUnit(Schedule schedule, int duration, Week week, DayOfWeek dayOfWeek)
         {
             _duration = duration;
             _week = week;
@@ -22,11 +25,11 @@
         internal Schedule Schedule { get; private set; }
 
         /// <summary>
-        /// Schedules to run at the hour and minute specified. If the hour and minute have passed it will execute the next scheduled month.
+        /// Runs the job at the given time of day.
         /// </summary>
-        /// <param name="hours">0-23: Represents the hour of the day</param>
-        /// <param name="minutes">0-59: Represents the minute of the day</param>
-        /// <returns></returns>
+        /// <param name="hours">The hours (0 through 23).</param>
+        /// <param name="minutes">The minutes (0 through 59).</param>
+
         public void At(int hours, int minutes)
         {
             if (_week == Week.Last)

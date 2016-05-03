@@ -1,12 +1,15 @@
 ﻿namespace FluentScheduler
 {
+    /// <summary>
+    /// Unit of time that represents a specific day of the year.
+    /// </summary>
     public sealed class YearOnDayOfYearUnit
     {
         private readonly int _duration;
 
         private readonly int _dayOfYear;
 
-        public YearOnDayOfYearUnit(Schedule schedule, int duration, int dayOfYear)
+        internal YearOnDayOfYearUnit(Schedule schedule, int duration, int dayOfYear)
         {
             _duration = duration;
             _dayOfYear = dayOfYear;
@@ -17,11 +20,10 @@
         internal Schedule Schedule { get; private set; }
 
         /// <summary>
-        /// Schedules it to run at the hour and minute specified. If the hour and minute have passed it will execute the next scheduled year.
+        /// Runs the job at the given time of day.
         /// </summary>
-        /// <param name="hours">0-23: Represents the hour of the day</param>
-        /// <param name="minutes">0-59: Represents the minute of the day</param>
-        /// <returns></returns>
+        /// <param name="hours">The hours (0 through 23).</param>
+        /// <param name="minutes">The minutes (0 through 59).</param>
         public void At(int hours, int minutes)
         {
             Schedule.CalculateNextRun = x =>

@@ -1,10 +1,13 @@
 ﻿namespace FluentScheduler
 {
+    /// <summary>
+    /// Unit of time in minutes.
+    /// </summary>
     public sealed class MinuteUnit : ITimeRestrictableUnit
     {
         private readonly int _duration;
 
-        public MinuteUnit(Schedule schedule, int duration)
+        internal MinuteUnit(Schedule schedule, int duration)
         {
             _duration = duration;
             Schedule = schedule;

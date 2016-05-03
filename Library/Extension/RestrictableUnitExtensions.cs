@@ -2,18 +2,29 @@ namespace FluentScheduler
 {
     using System;
 
+    /// <summary>
+    /// Extension class for restrictable units.
+    /// </summary>
     public static class RestrictableUnitExtensions
     {
-        public static ITimeRestrictableUnit Between(this ITimeRestrictableUnit restrictableUnit, int startHour,
+        /// <summary>
+        /// Runs the job between the given start and end hour of day.
+        /// </summary>
+        /// <param name="unit">The schedule being affected.</param>
+        /// <param name="startHour">The start hours (0 through 23).</param>
+        /// <param name="startMinute">The start minutes (0 through 59).</param>
+        /// <param name="endHour">The end hours (0 through 23).</param>
+        /// <param name="endMinute">The end minutes (0 through 59).</param>
+        public static ITimeRestrictableUnit Between(this ITimeRestrictableUnit unit, int startHour,
             int startMinute, int endHour, int endMinute)
         {
-            if (restrictableUnit == null)
-                throw new ArgumentNullException("restrictableUnit");
+            if (unit == null)
+                throw new ArgumentNullException("unit");
 
             var timeOfDayRunnableCalculator = new TimeOfDayRunnableCalculator(startHour, startMinute, endHour, endMinute);
 
-            var unboundCalculateNextRun = restrictableUnit.Schedule.CalculateNextRun;
-            restrictableUnit.Schedule.CalculateNextRun = x =>
+            var unboundCalculateNextRun = unit.Schedule.CalculateNextRun;
+            unit.Schedule.CalculateNextRun = x =>
             {
                 var nextRun = unboundCalculateNextRun(x);
 
@@ -26,26 +37,30 @@ namespace FluentScheduler
                 return nextRun;
             };
 
-            return restrictableUnit;
+            return unit;
         }
 
-        public static IDayRestrictableUnit WeekdaysOnly(this IDayRestrictableUnit restrictableUnit)
+        /// <summary>
+        /// Runs the job only on weekdays.
+        /// <param name="unit">The schedule being affected</param>
+        /// </summary>
+        public static IDayRestrictableUnit WeekdaysOnly(this IDayRestrictableUnit unit)
         {
-            if (restrictableUnit == null)
-                throw new ArgumentNullException("restrictableUnit");
+            if (unit == null)
+                throw new ArgumentNullException("unit");
 
-            var unboundCalculateNextRun = restrictableUnit.Schedule.CalculateNextRun;
-            restrictableUnit.Schedule.CalculateNextRun = x =>
+            var unboundCalculateNextRun = unit.Schedule.CalculateNextRun;
+            unit.Schedule.CalculateNextRun = x =>
             {
                 var nextRun = unboundCalculateNextRun(x);
 
                 while (!nextRun.IsWeekday())
-                    nextRun = restrictableUnit.DayIncrement(nextRun);
+                    nextRun = unit.DayIncrement(nextRun);
 
                 return nextRun;
             };
 
-            return restrictableUnit;
+            return unit;
         }
     }
 }

@@ -1,10 +1,13 @@
 ﻿namespace FluentScheduler
 {
+    /// <summary>
+    /// Unit of time in hours.
+    /// </summary>
     public sealed class HourUnit : ITimeRestrictableUnit
     {
         private readonly int _duration;
 
-        public HourUnit(Schedule schedule, int duration)
+        internal HourUnit(Schedule schedule, int duration)
         {
             _duration = duration < 1 ? 1 : duration;
             Schedule = schedule;
@@ -20,10 +23,9 @@
         Schedule ITimeRestrictableUnit.Schedule { get { return this.Schedule; } }
 
         /// <summary>
-        /// Schedules to run at the minute specified. If the minute has passed it will execute the next hour.
+        /// Runs the job at the given minute of the hour.
         /// </summary>
-        /// <param name="minutes">0-59: Represents the minute of the hour</param>
-        /// <returns></returns>
+        /// <param name="minutes">The minutes (0 through 59).</param>
         public ITimeRestrictableUnit At(int minutes)
         {
             Schedule.CalculateNextRun = x =>

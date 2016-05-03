@@ -2,11 +2,14 @@
 {
     using System;
 
+    /// <summary>
+    /// Unit of time in days.
+    /// </summary>
     public sealed class DayUnit : IDayRestrictableUnit
     {
         private readonly int _duration;
 
-        public DayUnit(Schedule schedule, int duration)
+        internal DayUnit(Schedule schedule, int duration)
         {
             _duration = duration < 1 ? 1 : duration;
             Schedule = schedule;
@@ -22,11 +25,10 @@
         Schedule IDayRestrictableUnit.Schedule { get { return this.Schedule; } }
 
         /// <summary>
-        /// Schedules to run at the hour and minute specified. If the hour and minute have passed it will execute the next scheduled day.
+        /// Runs the job at the given time of day.
         /// </summary>
-        /// <param name="hours">0-23: Represents the hour of the day</param>
-        /// <param name="minutes">0-59: Represents the minute of the day</param>
-        /// <returns></returns>
+        /// <param name="hours">The hours (0 through 23).</param>
+        /// <param name="minutes">The minutes (0 through 59).</param>
         public IDayRestrictableUnit At(int hours, int minutes)
         {
             Schedule.CalculateNextRun = x =>

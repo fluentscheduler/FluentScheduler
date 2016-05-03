@@ -1,10 +1,13 @@
 ﻿namespace FluentScheduler
 {
+    /// <summary>
+    /// Unit of time in years.
+    /// </summary>
     public sealed class YearUnit
     {
         private readonly int _duration;
 
-        public YearUnit(Schedule schedule, int duration)
+        internal YearUnit(Schedule schedule, int duration)
         {
             _duration = duration;
             Schedule = schedule;
@@ -18,19 +21,18 @@
         internal Schedule Schedule { get; private set; }
 
         /// <summary>
-        /// Schedules it to run on the day specified. If the day has passed it will execute the next scheduled year.
+        /// Runs the job on the given day of the year.
+        /// If the day has passed it schedules to the next year.
         /// </summary>
-        /// <param name="day">1-365: Represents the day of the year</param>
-        /// <returns></returns>
+        /// <param name="day">Day of the year to run the job.</param>
         public YearOnDayOfYearUnit On(int day)
         {
             return new YearOnDayOfYearUnit(Schedule, _duration, day);
         }
 
         /// <summary>
-        /// Schedules it to run on the last day of the year.
+        /// Runs the job on the last day of the year.
         /// </summary>
-        /// <returns></returns>
         public YearOnLastDayOfYearUnit OnTheLastDay()
         {
             return new YearOnLastDayOfYearUnit(Schedule, _duration);

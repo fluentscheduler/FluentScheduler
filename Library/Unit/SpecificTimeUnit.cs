@@ -1,8 +1,11 @@
 ﻿namespace FluentScheduler
 {
-    public class SpecificTimeUnit
+    /// <summary>
+    /// Unit of specific time of the day.
+    /// </summary>
+    public sealed class SpecificTimeUnit
     {
-        public SpecificTimeUnit(Schedule schedule)
+        internal SpecificTimeUnit(Schedule schedule)
         {
             Schedule = schedule;
         }
@@ -10,10 +13,9 @@
         internal Schedule Schedule { get; private set; }
 
         /// <summary>
-        /// Schedules it to run for the specified interval
+        /// Also runs the job according to the given interval.
         /// </summary>
-        /// <param name="interval"></param>
-        /// <returns></returns>
+        /// <param name="interval">Interval to wait.</param>
         public TimeUnit AndEvery(int interval)
         {
             var parent = Schedule.Parent ?? Schedule;

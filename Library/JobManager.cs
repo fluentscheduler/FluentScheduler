@@ -10,7 +10,7 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Controls the timer logic to execute all configured jobs.
+    /// Job manager that handles jobs execution.
     /// </summary>
     public static class JobManager
     {
@@ -40,6 +40,9 @@
 
         private static IJobFactory _jobFactory;
 
+        /// <summary>
+        /// Job factory used by the job manager.
+        /// </summary>
         public static IJobFactory JobFactory
         {
             get
@@ -56,14 +59,23 @@
 
         #region Event handling
 
+        /// <summary>
+        /// Event raised when an exception occurs in a job.
+        /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event GenericEventHandler<JobExceptionInfo, FluentScheduler.UnhandledExceptionEventArgs> JobException;
 
+        /// <summary>
+        /// Event raised when a job starts.
+        /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event GenericEventHandler<JobStartInfo, EventArgs> JobStart;
 
+        /// <summary>
+        /// Evemt raised when a job ends.
+        /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event GenericEventHandler<JobEndInfo, EventArgs> JobEnd;
@@ -117,9 +129,9 @@
         #region Start, stop & initialize
 
         /// <summary>
-        /// Initializes the job manager with all schedules configured in the specified registry
+        /// Initializes the job manager with the jobs to run and starts it.
         /// </summary>
-        /// <param name="registry">Registry containing job schedules</param>
+        /// <param name="registry">Registry of jobs to run</param>
         public static void Initialize(Registry registry)
         {
             if (registry == null)
@@ -131,7 +143,7 @@
         }
 
         /// <summary>
-        /// Restarts the job manager if it had previously been stopped
+        /// Starts the job manager.
         /// </summary>
         public static void Start()
         {
@@ -139,7 +151,7 @@
         }
 
         /// <summary>
-        /// Stops the job manager from executing jobs.
+        /// Stops the job manager.
         /// </summary>
         public static void Stop()
         {
@@ -151,17 +163,17 @@
         #region Exposing schedules
 
         /// <summary>
-        /// Get schedule by name.
+        /// Returns the schedule of the given name.
         /// </summary>
-        /// <param name="name">Schedule name</param>
-        /// <returns>Schedule instance or null if the schedule does not exist</returns>
+        /// <param name="name">Name of the schedule.</param>
+        /// <returns>The schedule of the given name, if any.</returns>
         public static Schedule GetSchedule(string name)
         {
             return _schedules.Get(name);
         }
 
         /// <summary>
-        /// Gets a list of currently schedules currently executing.
+        /// Collection of the currently running schedules.
         /// </summary>
         public static IEnumerable<Schedule> RunningSchedules
         {
@@ -172,8 +184,7 @@
         }
 
         /// <summary>
-        /// The list of all schedules, whether or not they are currently running.
-        /// Use <see cref="GetSchedule"/> to get concrete schedule by name.
+        /// Collection of all schedules.
         /// </summary>
         public static IEnumerable<Schedule> AllSchedules
         {
@@ -188,10 +199,10 @@
         #region Exposing adding & removing jobs (without the registry)
 
         /// <summary>
-        /// Adds a job to the job manager
+        /// Adds a job schedule to the job manager.
         /// </summary>
-        /// <typeparam name="T">Job to schedule</typeparam>
-        /// <param name="jobSchedule">Schedule for the job</param>
+        /// <typeparam name="T">Job to run.</typeparam>
+        /// <param name="jobSchedule">Job schedule to add.</param>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
             Justification = "The 'T' requirement is on purpose.")]
         public static void AddJob<T>(Action<Schedule> jobSchedule) where T : IJob
@@ -203,10 +214,10 @@
         }
 
         /// <summary>
-        /// Adds a job to the job manager
+        /// Adds a job schedule to the job manager.
         /// </summary>
-        /// <param name="jobAction">Job to schedule</param>
-        /// <param name="jobSchedule">Schedule for the job</param>
+        /// <param name="jobAction">Job to run.</param>
+        /// <param name="jobSchedule">Job schedule to add.</param>
         public static void AddJob(Action jobAction, Action<Schedule> jobSchedule)
         {
             if (jobSchedule == null)
@@ -222,6 +233,10 @@
             ScheduleJobs();
         }
 
+        /// <summary>
+        /// Removes the schedule of the given name.
+        /// </summary>
+        /// <param name="name">Name of the schedule.</param>
         public static void RemoveJob(string name)
         {
             _schedules.Remove(name);

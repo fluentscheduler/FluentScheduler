@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Extensions for DelayFor() functionality
+    /// DelayFor extension methods.
     /// </summary>
     public static class DelayForExtensions
     {
@@ -13,91 +13,107 @@
         }
 
         /// <summary>
-        /// Delay first execution for the specified time interval.
+        /// Delays the job for the given interval.
         /// </summary>
-        public static DelayTimeUnit DelayFor(this SpecificTimeUnit time, int interval)
+        /// <param name="unit">The schedule being affected.</param>
+        /// <param name="interval">Interval to wait.</param>
+        public static DelayTimeUnit DelayFor(this SpecificTimeUnit unit, int interval)
         {
-            if (time == null)
-                throw new ArgumentNullException("time");
+            if (unit == null)
+                throw new ArgumentNullException("unit");
 
-            return DelayFor(time.Schedule, interval);
+            return DelayFor(unit.Schedule, interval);
         }
 
         /// <summary>
-        /// Delay first execution for the specified time interval.
+        /// Delays the job for the given interval.
         /// </summary>
-        public static DelayTimeUnit DelayFor(this SecondUnit timeUnit, int interval)
+        /// <param name="unit">The schedule being affected.</param>
+        /// <param name="interval">Interval to wait.</param>
+        public static DelayTimeUnit DelayFor(this SecondUnit unit, int interval)
         {
-            if (timeUnit == null)
-                throw new ArgumentNullException("timeUnit");
+            if (unit == null)
+                throw new ArgumentNullException("unit");
 
-            return DelayFor(timeUnit.Schedule, interval);
+            return DelayFor(unit.Schedule, interval);
         }
 
         /// <summary>
-        /// Delay first execution for the specified time interval.
+        /// Delays the job for the given interval.
         /// </summary>
-        public static DelayTimeUnit DelayFor(this MinuteUnit timeUnit, int interval)
+        /// <param name="unit">The schedule being affected.</param>
+        /// <param name="interval">Interval to wait.</param>
+        public static DelayTimeUnit DelayFor(this MinuteUnit unit, int interval)
         {
-            if (timeUnit == null)
-                throw new ArgumentNullException("timeUnit");
+            if (unit == null)
+                throw new ArgumentNullException("unit");
 
-            return DelayFor(timeUnit.Schedule, interval);
+            return DelayFor(unit.Schedule, interval);
         }
 
         /// <summary>
-        /// Delay first execution for the specified time interval.
+        /// Delays the job for the given interval.
         /// </summary>
-        public static DelayTimeUnit DelayFor(this HourUnit timeUnit, int interval)
+        /// <param name="unit">The schedule being affected.</param>
+        /// <param name="interval">Interval to wait.</param>
+        public static DelayTimeUnit DelayFor(this HourUnit unit, int interval)
         {
-            if (timeUnit == null)
-                throw new ArgumentNullException("timeUnit");
+            if (unit == null)
+                throw new ArgumentNullException("unit");
 
-            return DelayFor(timeUnit.Schedule, interval);
+            return DelayFor(unit.Schedule, interval);
         }
 
         /// <summary>
-        /// Delay first execution for the specified time interval.
+        /// Delays the job for the given interval.
         /// </summary>
-        public static DelayTimeUnit DelayFor(this DayUnit timeUnit, int interval)
+        /// <param name="unit">The schedule being affected.</param>
+        /// <param name="interval">Interval to wait.</param>
+        public static DelayTimeUnit DelayFor(this DayUnit unit, int interval)
         {
-            if (timeUnit == null)
-                throw new ArgumentNullException("timeUnit");
+            if (unit == null)
+                throw new ArgumentNullException("unit");
 
-            return DelayFor(timeUnit.Schedule, interval);
+            return DelayFor(unit.Schedule, interval);
         }
 
         /// <summary>
-        /// Delay first execution for the specified time interval.
+        /// Delays the job for the given interval.
         /// </summary>
-        public static DelayTimeUnit DelayFor(this WeekUnit timeUnit, int interval)
+        /// <param name="unit">The schedule being affected.</param>
+        /// <param name="interval">Interval to wait.</param>
+        public static DelayTimeUnit DelayFor(this WeekUnit unit, int interval)
         {
-            if (timeUnit == null)
-                throw new ArgumentNullException("timeUnit");
+            if (unit == null)
+                throw new ArgumentNullException("unit");
 
-            return DelayFor(timeUnit.Schedule, interval);
+            return DelayFor(unit.Schedule, interval);
         }
 
         /// <summary>
-        /// Delay first execution for the specified time interval.
+        /// Delays the job for the given interval.
         /// </summary>
-        public static DelayTimeUnit DelayFor(this MonthUnit timeUnit, int interval)
+        /// <param name="unit">The schedule being affected.</param>
+        /// <param name="interval">Interval to wait.</param>
+        public static DelayTimeUnit DelayFor(this MonthUnit unit, int interval)
         {
-            if (timeUnit == null)
-                throw new ArgumentNullException("timeUnit");
+            if (unit == null)
+                throw new ArgumentNullException("unit");
 
-            return DelayFor(timeUnit.Schedule, interval);
+            return DelayFor(unit.Schedule, interval);
         }
 
         /// <summary>
-        /// Delay first execution for the specified time interval.
+        /// Delays the job for the given interval.
         /// </summary>
-        public static DelayTimeUnit DelayFor(this YearUnit timeUnit, int interval)
+        /// <param name="unit">The schedule being affected.</param>
+        /// <param name="interval">Interval to wait.</param>
+        public static DelayTimeUnit DelayFor(this YearUnit unit, int interval)
         {
-            if (timeUnit == null)
-                throw new ArgumentNullException("timeUnit");
+            if (unit == null)
+                throw new ArgumentNullException("unit");
 
-            return DelayFor(timeUnit.Schedule, interval);
+            return DelayFor(unit.Schedule, interval);
         }
     }
 }
