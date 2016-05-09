@@ -202,7 +202,7 @@ ranges or just `UseUtcTime()` in your registry.
 
 ## Upgrading from version 3
 
-Since the [Task class] is becoming ubiquitous in .NET (specially because [async and await]), the old `ITask`, `TaskManager` and `ITaskFactory` are now `IJob`, `JobManager` and `IJobManager`.
+Since the [Task class] is becoming ubiquitous in .NET (specially because [async and await]), the old `ITask`, `TaskManager` and `ITaskFactory` are now `IJob`, `JobManager` and `IJobFactory`.
 
 It's just a rename, they work just as before.
 
