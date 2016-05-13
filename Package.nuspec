@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>FluentScheduler</id>
-        <version>4.0.1</version>
+        <version>4.1.0</version>
         <authors>Jim Geurts &lt;jim@biacreations.com&gt;,Talles L &lt;talleslasmar@gmail.com&gt; &amp; further contributors</authors>
         <licenseUrl>https://opensource.org/licenses/BSD-3-Clause</licenseUrl>
         <projectUrl>https://github.com/fluentscheduler/FluentScheduler</projectUrl>
