@@ -4,7 +4,7 @@
     using System;
     using System.Threading;
 
-    class MyRegistry : Registry
+    public class MyRegistry : Registry
     {
         public MyRegistry()
         {
@@ -21,6 +21,7 @@
             Sleepy();
             Faulty();
             Removed();
+            Parameter();
             Disposable();
 
             TenMinutes();
@@ -114,9 +115,14 @@
             }).WithName("[removed]").ToRunOnceIn(2).Minutes();
         }
 
+        private void Parameter()
+        {
+            Schedule(new ParameterJob { Parameter = "Foo" }).WithName("[parameter]").ToRunOnceIn(10).Seconds();
+        }
+
         private void Disposable()
         {
-            Schedule<DisposableJob>().ToRunOnceIn(10).Seconds();
+            Schedule<DisposableJob>().WithName("[disposable").ToRunOnceIn(10).Seconds();
         }
 
         private void TenMinutes()

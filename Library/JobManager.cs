@@ -57,11 +57,15 @@
             }
         }
 
-        internal static Action GetJob<T>() where T : IJob
+        internal static Action GetJobAction<T>() where T : IJob
+        {
+            return GetJobAction(JobFactory.GetJobInstance<T>());
+        }
+
+        internal static Action GetJobAction(IJob job)
         {
             return () =>
             {
-                var job = JobFactory.GetJobInstance<T>();
                 try
                 {
                     job.Execute();
@@ -223,29 +227,48 @@
         /// <summary>
         /// Adds a job schedule to the job manager.
         /// </summary>
-        /// <typeparam name="T">Job to run.</typeparam>
-        /// <param name="jobSchedule">Job schedule to add.</param>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
-            Justification = "The 'T' requirement is on purpose.")]
-        public static void AddJob<T>(Action<Schedule> jobSchedule) where T : IJob
+        /// <param name="job">Job to run.</param>
+        /// <param name="schedule">Job schedule to add.</param>
+        public static void AddJob(Action job, Action<Schedule> schedule)
         {
-            if (jobSchedule == null)
-                throw new ArgumentNullException("jobSchedule");
+            if (job == null)
+                throw new ArgumentNullException("job");
 
-            AddJob(jobSchedule, new Schedule(JobManager.GetJob<T>()) { Name = typeof(T).Name });
+            if (schedule == null)
+                throw new ArgumentNullException("schedule");
+
+            AddJob(schedule, new Schedule(job));
         }
 
         /// <summary>
         /// Adds a job schedule to the job manager.
         /// </summary>
-        /// <param name="jobAction">Job to run.</param>
-        /// <param name="jobSchedule">Job schedule to add.</param>
-        public static void AddJob(Action jobAction, Action<Schedule> jobSchedule)
+        /// <param name="job">Job to run.</param>
+        /// <param name="schedule">Job schedule to add.</param>
+        public static void AddJob(IJob job, Action<Schedule> schedule)
         {
-            if (jobSchedule == null)
-                throw new ArgumentNullException("jobSchedule");
+            if (job == null)
+                throw new ArgumentNullException("job");
 
-            AddJob(jobSchedule, new Schedule(jobAction));
+            if (schedule == null)
+                throw new ArgumentNullException("schedule");
+
+            AddJob(schedule, new Schedule(JobManager.GetJobAction(job)));
+        }
+
+        /// <summary>
+        /// Adds a job schedule to the job manager.
+        /// </summary>
+        /// <typeparam name="T">Job to run.</typeparam>
+        /// <param name="schedule">Job schedule to add.</param>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+            Justification = "The 'T' requirement is on purpose.")]
+        public static void AddJob<T>(Action<Schedule> schedule) where T : IJob
+        {
+            if (schedule == null)
+                throw new ArgumentNullException("schedule");
+
+            AddJob(schedule, new Schedule(JobManager.GetJobAction<T>()) { Name = typeof(T).Name });
         }
 
         private static void AddJob(Action<Schedule> jobSchedule, Schedule schedule)

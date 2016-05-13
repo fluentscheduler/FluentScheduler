@@ -46,6 +46,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ParameterJob.cs" />
     <Compile Include="DisposableJob.cs" />
     <Compile Include="MyRegistry.cs" />
     <Compile Include="Program.cs" />

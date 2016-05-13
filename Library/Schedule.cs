@@ -69,22 +69,38 @@
         /// <summary>
         /// Schedules another job to be run with this schedule.
         /// </summary>
-        /// <typeparam name="T">Job to run.</typeparam>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
-            Justification = "The 'T' requirement is on purpose.")]
-        public Schedule AndThen<T>() where T : IJob
+        /// <param name="job">Job to run.</param>
+        public Schedule AndThen(Action job)
         {
-            Jobs.Add(JobManager.GetJob<T>());
+            if (job == null)
+                throw new ArgumentNullException("job");
+
+            Jobs.Add(job);
             return this;
         }
 
         /// <summary>
         /// Schedules another job to be run with this schedule.
         /// </summary>
-        /// <param name="action">Job to run.</param>
-        public Schedule AndThen(Action action)
+        /// <param name="job">Job to run.</param>
+        public Schedule AndThen(IJob job)
         {
-            Jobs.Add(action);
+            if (job == null)
+                throw new ArgumentNullException("job");
+
+            Jobs.Add(JobManager.GetJobAction(job));
+            return this;
+        }
+
+        /// <summary>
+        /// Schedules another job to be run with this schedule.
+        /// </summary>
+        /// <typeparam name="T">Job to run.</typeparam>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+            Justification = "The 'T' requirement is on purpose.")]
+        public Schedule AndThen<T>() where T : IJob
+        {
+            Jobs.Add(JobManager.GetJobAction<T>());
             return this;
         }
 

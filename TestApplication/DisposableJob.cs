@@ -3,9 +3,9 @@
     using LLibrary;
     using System;
 
-    class DisposableJob : IJob, IDisposable
+    public class DisposableJob : IJob, IDisposable
     {
-        public DisposableJob()
+        static DisposableJob()
         {
             L.Register("[disposable]");
         }

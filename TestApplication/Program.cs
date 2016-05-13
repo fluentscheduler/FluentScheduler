@@ -4,7 +4,7 @@
     using System;
     using System.Threading;
 
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {

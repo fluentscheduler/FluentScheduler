@@ -49,30 +49,39 @@
         /// <summary>
         /// Schedules a new job in the registry.
         /// </summary>
-        /// <typeparam name="T">Job to schedule.</typeparam>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
-            Justification = "The 'T' requirement is on purpose.")]
-        public Schedule Schedule<T>() where T : IJob
+        /// <param name="job">Job to run.</param>
+        public Schedule Schedule(Action job)
         {
-            var schedule = new Schedule(JobManager.GetJob<T>());
+            if (job == null)
+                throw new ArgumentNullException("job");
 
-            if (_allJobsConfiguredAsNonReentrant)
-                schedule.NonReentrant();
-
-            lock (((ICollection)Schedules).SyncRoot)
-            {
-                Schedules.Add(schedule);
-            }
-
-            schedule.Name = typeof(T).Name;
-            return schedule;
+            return Schedule(job, null);
         }
 
         /// <summary>
         /// Schedules a new job in the registry.
         /// </summary>
-        /// <param name="action">Job to run.</param>
-        public Schedule Schedule(Action action)
+        /// <param name="job">Job to run.</param>
+        public Schedule Schedule(IJob job)
+        {
+            if (job == null)
+                throw new ArgumentNullException("job");
+
+            return Schedule(JobManager.GetJobAction(job), null);
+        }
+
+        /// <summary>
+        /// Schedules a new job in the registry.
+        /// </summary>
+        /// <typeparam name="T">Job to schedule.</typeparam>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+            Justification = "The 'T' requirement is on purpose.")]
+        public Schedule Schedule<T>() where T : IJob
+        {
+            return Schedule(JobManager.GetJobAction<T>(), typeof(T).Name);
+        }
+
+        private Schedule Schedule(Action action, string name)
         {
             var schedule = new Schedule(action);
 
@@ -83,6 +92,8 @@
             {
                 Schedules.Add(schedule);
             }
+
+            schedule.Name = name; 
 
             return schedule;
         }
