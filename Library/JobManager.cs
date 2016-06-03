@@ -59,7 +59,18 @@
 
         internal static Action GetJobAction<T>() where T : IJob
         {
-            return GetJobAction(JobFactory.GetJobInstance<T>());
+            return () =>
+            {
+                var job = JobFactory.GetJobInstance<T>();
+                try
+                {
+                    job.Execute();
+                }
+                finally
+                {
+                    DisposeIfNeeded(job);
+                }
+            };
         }
 
         internal static Action GetJobAction(IJob job)
@@ -72,12 +83,17 @@
                 }
                 finally
                 {
-                    var disposable = job as IDisposable;
-
-                    if (disposable != null)
-                        disposable.Dispose();
+                    DisposeIfNeeded(job);
                 }
             };
+        }
+
+        private static void DisposeIfNeeded(IJob job)
+        {
+            var disposable = job as IDisposable;
+
+            if (disposable != null)
+                disposable.Dispose();
         }
 
         #endregion
