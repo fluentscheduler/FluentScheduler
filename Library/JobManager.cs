@@ -360,7 +360,7 @@
                     }
                     else
                     {
-                        childSchedule.NextRun = childSchedule.CalculateNextRun(Now.Add(schedule.DelayRunFor));
+                        childSchedule.NextRun = childSchedule.CalculateNextRun(Now.Add(childSchedule.DelayRunFor));
                         _schedules.Add(childSchedule);
                     }
                 }
