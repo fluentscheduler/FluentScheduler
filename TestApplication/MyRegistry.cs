@@ -14,16 +14,14 @@
 
             NonReentrant();
             Reentrant();
+            Disable();
 
-            OnceIn();
-            OnceAt();
-
-            Sleepy();
             Faulty();
             Removed();
             Parameter();
             Disposable();
 
+            FiveMinutes();
             TenMinutes();
             Hour();
             Day();
@@ -63,35 +61,16 @@
             }).WithName("[reentrant]").ToRunNow().AndEvery(1).Minutes();
         }
 
-        private void OnceIn()
+        private void Disable()
         {
-            L.Register("[once in]");
+            L.Register("[disable]");
 
             Schedule(() =>
             {
                 JobManager.RemoveJob("[reentrant]");
                 JobManager.RemoveJob("[non reentrant]");
-                L.Log("[once in]", "Disabled the reentrant and non reentrant jobs.");
-            }).WithName("[once in]").ToRunOnceIn(3).Minutes();
-        }
-
-        private void OnceAt()
-        {
-            L.Register("[once at]");
-
-            Schedule(() => L.Log("[once at]", "It's almost midnight."))
-                .WithName("[once at]").ToRunOnceAt(23, 50);
-        }
-
-        private void Sleepy()
-        {
-            L.Register("[sleepy]");
-
-            Schedule(() =>
-            {
-                L.Log("[sleepy]", "Sleeping...");
-                Thread.Sleep(new TimeSpan(0, 7, 30));
-            }).WithName("[sleepy]").ToRunEvery(15).Minutes();
+                L.Log("[disable]", "Disabled the reentrant and non reentrant jobs.");
+            }).WithName("[disable]").ToRunOnceIn(3).Minutes();
         }
 
         private void Faulty()
@@ -123,6 +102,14 @@
         private void Disposable()
         {
             Schedule<DisposableJob>().WithName("[disposable").ToRunOnceIn(10).Seconds();
+        }
+
+        private void FiveMinutes()
+        {
+            L.Register("[five minutes]");
+
+            Schedule(() => L.Log("[five minutes]", "Five minutes has passed."))
+                .WithName("[five minutes]").ToRunOnceAt(DateTime.Now.AddMinutes(5)).AndEvery(5).Minutes();
         }
 
         private void TenMinutes()

@@ -26,7 +26,7 @@
 
         private static readonly ConcurrentDictionary<Guid, Schedule> _running = new ConcurrentDictionary<Guid, Schedule>();
 
-        private static DateTime Now
+        internal static DateTime Now
         {
             get
             {

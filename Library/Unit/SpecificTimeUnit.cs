@@ -1,4 +1,6 @@
-﻿namespace FluentScheduler
+﻿using System;
+
+namespace FluentScheduler
 {
     /// <summary>
     /// Unit of specific time of the day.
@@ -25,8 +27,17 @@
                 {
                     Parent = parent,
                     Reentrant = parent.Reentrant,
-                    Name = parent.Name
+                    Name = parent.Name,
                 };
+
+            if (parent.CalculateNextRun != null)
+            {
+                var now = JobManager.Now;
+                var delay = parent.CalculateNextRun(now) - now;
+
+                if (delay > TimeSpan.Zero)
+                    child.DelayRunFor = delay;
+            }
 
             child.Parent.AdditionalSchedules.Add(child);
             return child.ToRunEvery(interval);
