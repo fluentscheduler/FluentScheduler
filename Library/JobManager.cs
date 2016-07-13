@@ -405,7 +405,10 @@
                 return;
             }
 
-            _timer.Change(timerInterval, timerInterval);
+            if (timerInterval.Ticks >= int.MaxValue)
+                _timer.Change(new TimeSpan(1, 0, 0, 0), new TimeSpan(1, 0, 0, 0));
+            else
+                _timer.Change(timerInterval, timerInterval);
         }
 
         internal static void RunJob(Schedule schedule)
