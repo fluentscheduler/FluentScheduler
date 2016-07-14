@@ -16,6 +16,8 @@
     {
         #region Internal fields
 
+        private const uint _maxTimerInterval = (uint)0xfffffffe;
+
         private static bool _useUtc = false;
 
         private static Timer _timer = new Timer(state => ScheduleJobs(), null, Timeout.Infinite, Timeout.Infinite);
@@ -396,14 +398,20 @@
                 return;
             }
 
-            var timerInterval = firstJob.NextRun - Now;
-            if (timerInterval <= TimeSpan.Zero)
+            var interval = firstJob.NextRun - Now;
+
+            if (interval <= TimeSpan.Zero)
             {
                 ScheduleJobs();
                 return;
             }
+            else
+            {
+                if (interval.TotalMilliseconds > _maxTimerInterval)
+                    interval = TimeSpan.FromMilliseconds(_maxTimerInterval);
 
-            _timer.Change(timerInterval, timerInterval);
+                _timer.Change(interval, interval);
+            }
         }
 
         internal static void RunJob(Schedule schedule)
