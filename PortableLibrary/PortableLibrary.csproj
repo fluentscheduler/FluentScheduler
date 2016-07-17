@@ -46,12 +46,6 @@
     <Compile Include="..\Library\Enum\Week.cs">
       <Link>Enum\Week.cs</Link>
     </Compile>
-    <Compile Include="..\Library\Event\GenericEventHandler.cs">
-      <Link>Event\GenericEventHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\Library\Event\UnhandledExceptionEventArgs.cs">
-      <Link>Event\UnhandledExceptionEventArgs.cs</Link>
-    </Compile>
     <Compile Include="..\Library\Extension\DateTimeExtensions.cs">
       <Link>Extension\DateTimeExtensions.cs</Link>
     </Compile>
@@ -61,14 +55,14 @@
     <Compile Include="..\Library\Extension\RestrictableUnitExtensions.cs">
       <Link>Extension\RestrictableUnitExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Library\Info\JobEndInfo.cs">
-      <Link>Information\JobEndInfo.cs</Link>
+    <Compile Include="..\Library\Event\JobEndInfo.cs">
+      <Link>Event\JobEndInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Library\Info\JobExceptionInfo.cs">
-      <Link>Information\JobExceptionInfo.cs</Link>
+    <Compile Include="..\Library\Event\JobExceptionInfo.cs">
+      <Link>Event\JobExceptionInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Library\Info\JobStartInfo.cs">
-      <Link>Information\JobStartInfo.cs</Link>
+    <Compile Include="..\Library\Event\JobStartInfo.cs">
+      <Link>Event\JobStartInfo.cs</Link>
     </Compile>
     <Compile Include="..\Library\Unit\DayUnit.cs">
       <Link>Unit\DayUnit.cs</Link>

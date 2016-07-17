@@ -53,21 +53,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension\DelayForExtensions.cs" />
-    <Compile Include="Event\GenericEventHandler.cs" />
     <Compile Include="Unit\IDayRestrictableUnit.cs" />
     <Compile Include="Unit\ITimeRestrictableUnit.cs" />
     <Compile Include="Unit\MinuteUnit.cs" />
     <Compile Include="Extension\RestrictableUnitExtensions.cs" />
     <Compile Include="Unit\SecondUnit.cs" />
-    <Compile Include="Info\JobExceptionInfo.cs" />
+    <Compile Include="Event\JobExceptionInfo.cs" />
     <Compile Include="Unit\DelayTimeUnit.cs" />
     <Compile Include="Enum\TimeOfDayRunnable.cs" />
     <Compile Include="Util\TimeOfDayRunnableCalculator.cs" />
     <Compile Include="Unit\WeekdayUnit.cs" />
     <Compile Include="Util\ScheduleCollection.cs" />
     <Compile Include="JobFactory.cs" />
-    <Compile Include="Info\JobEndInfo.cs" />
-    <Compile Include="Info\JobStartInfo.cs" />
+    <Compile Include="Event\JobEndInfo.cs" />
+    <Compile Include="Event\JobStartInfo.cs" />
     <Compile Include="Registry.cs" />
     <Compile Include="Extension\DateTimeExtensions.cs" />
     <Compile Include="IJob.cs" />
@@ -88,7 +87,6 @@
     <Compile Include="JobManager.cs" />
     <Compile Include="Schedule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Event\UnhandledExceptionEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="keyfile.snk" />

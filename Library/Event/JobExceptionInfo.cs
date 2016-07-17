@@ -1,6 +1,6 @@
 ﻿namespace FluentScheduler
 {
-    using System.Threading.Tasks;
+    using System;
 
     /// <summary>
     /// Information of an exception occurred in a job.
@@ -13,8 +13,8 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Job's task.
+        /// Job's exception.
         /// </summary>
-        public Task Task { get; set; }
+        public Exception Exception { get; set; }
     }
 }

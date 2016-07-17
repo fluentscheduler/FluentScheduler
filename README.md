@@ -173,24 +173,14 @@ protected void Application_Start()
 
 ## Unexpected exceptions
 
-To observe unhandled exceptions from your scheduled jobs, you will need to hook the [JobException] event on
+To observe unhandled exceptions from your scheduled jobs, you will need to hook the JobException event on
 [JobManager].
 That event will give you access to the underlying [System.Threading.Tasks.Task] and thrown exception details.
 
 ```cs
-protected void Application_Start()
-{
-    JobManager.JobException += JobExceptionHandler;
-    JobManager.Initialize(new JobRegistry());
-}
-
-static void JobExceptionHandler(Task sender, UnhandledExceptionEventArgs e)
-{
-    Log.Fatal("An error happened with a scheduled job: " + e.ExceptionObject);
-}
+JobManager.JobException += (info) => Log.Fatal("An error just happened with a scheduled job: " + info.Exception);
 ```
 
-[JobException]:                Library/JobManager.cs#L32
 [System.Threading.Tasks.Task]: https://msdn.microsoft.com/library/System.Threading.Tasks.Task
 
 ## Daylight Saving Time

@@ -18,23 +18,22 @@
         private static void ListenForStart()
         {
             L.Register("[job start]", "{0} has started.");
-            JobManager.JobStart += (schedule, e) => L.Log("[job start]", schedule.Name);
+            JobManager.JobStart += (info) => L.Log("[job start]", info.Name);
         }
 
         private static void ListenForEnd()
         {
             L.Register("[job end]", "{0} has ended{1}.");
 
-            JobManager.JobEnd += (schedule, e) =>
-                L.Log("[job end]", schedule.Name,
-                    schedule.Duration > TimeSpan.FromSeconds(1) ?
-                    " with duration of " + schedule.Duration : string.Empty);
+            JobManager.JobEnd += (info) =>
+                L.Log("[job end]", info.Name,
+                    info.Duration > TimeSpan.FromSeconds(1) ? " with duration of " + info.Duration : string.Empty);
         }
 
         private static void ListenForException()
         {
             L.Register("[job exception]", "An error just happened:" + Environment.NewLine + "{0}");
-            JobManager.JobException += (sender, e) => L.Log("[job exception]", e.ExceptionObject);
+            JobManager.JobException += (info) => L.Log("[job exception]", info.Exception);
         }
 
         private static void Initialize()

@@ -105,63 +105,61 @@
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
-        public static event GenericEventHandler<JobExceptionInfo, FluentScheduler.UnhandledExceptionEventArgs> JobException;
+        public static event Action<JobExceptionInfo> JobException;
 
         /// <summary>
         /// Event raised when a job starts.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
-        public static event GenericEventHandler<JobStartInfo, EventArgs> JobStart;
+        public static event Action<JobStartInfo> JobStart;
 
         /// <summary>
         /// Evemt raised when a job ends.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
-        public static event GenericEventHandler<JobEndInfo, EventArgs> JobEnd;
+        public static event Action<JobEndInfo> JobEnd;
 
         private static void RaiseJobException(Schedule schedule, Task t)
         {
-            var handler = JobException;
-            if (handler != null && t.Exception != null)
+            if (JobException != null && t.Exception != null)
             {
-                var info = new JobExceptionInfo
-                {
-                    Name = schedule.Name,
-                    Task = t
-                };
-                handler(info, new FluentScheduler.UnhandledExceptionEventArgs(t.Exception.InnerException, true));
+                JobException(
+                    new JobExceptionInfo
+                    {
+                        Name = schedule.Name,
+                        Exception = t.Exception.InnerException,
+                    }
+                );
             }
         }
         private static void RaiseJobStart(Schedule schedule, DateTime startTime)
         {
-            var handler = JobStart;
-            if (handler != null)
+            if (JobStart != null)
             {
-                var info = new JobStartInfo
-                {
-                    Name = schedule.Name,
-                    StartTime = startTime
-                };
-                handler(info, new EventArgs());
+                JobStart(
+                    new JobStartInfo
+                    {
+                        Name = schedule.Name,
+                        StartTime = startTime,
+                    }
+                );
             }
         }
         private static void RaiseJobEnd(Schedule schedule, DateTime startTime, TimeSpan duration)
         {
-            var handler = JobEnd;
-            if (handler != null)
+            if (JobEnd != null)
             {
-                var info = new JobEndInfo
-                {
-                    Name = schedule.Name,
-                    StartTime = startTime,
-                    Duration = duration
-                };
-                if (schedule.NextRun != default(DateTime))
-                    info.NextRun = schedule.NextRun;
-
-                handler(info, new EventArgs());
+                JobEnd(
+                    new JobEndInfo
+                    {
+                        Name = schedule.Name,
+                        StartTime = startTime,
+                        Duration = duration,
+                        NextRun = schedule.NextRun,
+                    }
+                );
             }
         }
 
