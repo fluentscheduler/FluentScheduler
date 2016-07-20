@@ -190,14 +190,16 @@ Unfortunately, not unlike many schedulers, there is no Daylight Saving Time supp
 If you are worried about your jobs not running or running twice due to that, the suggestion is to avoid troublesome time
 ranges or just `UseUtcTime()` in your registry.
 
-## Upgrading from version 3
+## Major changes
 
-Since the [Task class] is becoming ubiquitous in .NET (specially because [async and await]), the old `ITask`, `TaskManager` and `ITaskFactory` are now `IJob`, `JobManager` and `IJobFactory`.
+**Version 4 to 5**
 
-It's just a rename, they work just as before.
+* `AndEvery` only starts after `ToRunOnceAt` has been fired;
+* Simplified event data types and signatures.
 
-[Task class]:      https://msdn.microsoft.com/library/System.Threading.Tasks.Task
-[async and await]: https://msdn.microsoft.com/library/hh191443
+**Version 3 to 4**
+
+* Renamed `ITask`, `TaskManager` and `ITaskFactory` to `IJob`, `JobManager` and `IJobFactory`.
 
 ## Contributing
 
