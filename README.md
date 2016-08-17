@@ -17,7 +17,8 @@ Automated job scheduler with fluent interface.
 * [Dependency Injection](#dependency-injection)
 * [Unexpected exceptions](#unexpected-exceptions)
 * [Daylight Saving Time](#daylight-saving-time)
-* [Running jobs weekly](#running-jobs-weekly)
+* [Weekly jobs](#weekly-jobs)
+* [Concurrent jobs](#concurrent-jobs)
 * [Major changes](#major-changes)
 * [Contributing](#contributing)
 
@@ -217,7 +218,7 @@ Unfortunately, not unlike many schedulers, there is no Daylight Saving Time supp
 If you are worried about your jobs not running or running twice due to that, the suggestion is to avoid troublesome time
 ranges or just `UseUtcTime()` in your registry.
 
-## Running jobs weekly
+## Weekly jobs
 
 Let's suppose it's 10:00 of a Monday morning and you want to start a job that runs every Monday at 14:00.
 Should the first run of your job be today or only on the next week Monday?
@@ -234,6 +235,30 @@ Or if you want the latter (making sure that at least one week has passed):
 ```cs
 // Every "one" weeks
 Schedule<MyJob>().ToRunEvery(1).Weeks().On(DayOfWeek.Monday).At(14, 0);
+```
+
+## Concurrent jobs
+
+By default, the library allows a schedule to run in parallel with a previously triggered execution of the
+same schedule.
+
+If you don't want such behaviour you can set a specific schedule as non-reentrant:
+
+```cs
+public class MyRegistry : Registry
+{
+    Schedule<MyJob>().NonReentrant().ToRunEvery(2).Seconds();
+}
+```
+
+Or you can set it on all schedules:
+
+```cs
+public class MyRegistry : Registry
+{
+    NonReentrantAsDefault();
+    Schedule<MyJob>().ToRunEvery(2).Seconds();
+}
 ```
 
 ## Major changes
