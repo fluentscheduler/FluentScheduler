@@ -145,7 +145,7 @@ public class SampleJob : IJob, IRegisteredObject
 [HostingEnvironment]:               https://msdn.microsoft.com/library/System.Web.Hosting.HostingEnvironment
 [here's a great explanation on it]: http://haacked.com/archive/2011/10/16/the-dangers-of-implementing-recurring-background-tasks-in-asp-net.aspx
 
-# Using it with .NET Core
+## Using it with .NET Core
 
 FluentScheduler supports .NET Core, just add the dependency to `project.json` and run `dotnet restore`.
 
