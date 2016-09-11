@@ -1,4 +1,4 @@
-version: 5.0.1
+version: 5.0.1-alpha-{build}
 branches:
   only:
   - master
