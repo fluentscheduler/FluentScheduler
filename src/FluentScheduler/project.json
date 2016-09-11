@@ -1,0 +1,32 @@
+{
+  "title": "FluentScheduler",
+  "version": "5.0.0",
+  "authors": [ "Jim Geurts <jim@biacreations.com>", "Talles L <talleslasmar@gmail.com>", "further contributors" ],
+  "description": "Automated job scheduler with fluent interface.",
+  "buildOptions": {
+    "optimize": true,
+    "outputName": "FluentScheduler",
+    "xmlDoc": false
+  },
+  "packOptions": {
+    "owners": [ "Jim Geurts <jim@biacreations.com>", "Talles L <talleslasmar@gmail.com>" ],
+    "requireLicenseAcceptance": false,
+    "summary": "Automated job scheduler with fluent interface.",
+    "tags": [ "background", "cron", "job", "schedule", "task" ],
+    "projectUrl": "https://github.com/fluentscheduler/FluentScheduler",
+    "licenseUrl": "https://opensource.org/licenses/BSD-3-Clause",
+    "iconUrl": "https://raw.githubusercontent.com/fluentscheduler/FluentScheduler/master/Assets/logo-200x200.png",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/fluentscheduler/FluentScheduler"
+    }
+  },
+  "frameworks": {
+    "net45": {},
+    "netstandard1.3": {
+      "dependencies": {
+        "NETStandard.Library": "1.6.0"
+      }
+    }
+  }
+}
