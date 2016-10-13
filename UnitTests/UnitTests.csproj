@@ -50,6 +50,7 @@
     <Compile Include="RegistryTests\DefaultAllJobsAsNonReentrantTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RegistryTests\JobFactoryTests.cs" />
     <Compile Include="RegistryTests\Mocks\RegistryWithFutureJobsConfigured.cs" />
     <Compile Include="RegistryTests\Mocks\RegistryWithPreviousJobsConfigured.cs" />
     <Compile Include="RegistryTests\Mocks\StronglyTypedTestJob.cs" />
