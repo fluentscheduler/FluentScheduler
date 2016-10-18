@@ -95,6 +95,20 @@
         /// <summary>
         /// Schedules another job to be run with this schedule.
         /// </summary>
+        /// <param name="job">Job to run.</param>
+        public Schedule AndThen(Func<IJob> job)
+        {
+            if (job == null)
+                throw new ArgumentNullException("job");
+
+            Jobs.Add(JobManager.GetJobAction(job));
+            return this;
+        }
+
+
+        /// <summary>
+        /// Schedules another job to be run with this schedule.
+        /// </summary>
         /// <typeparam name="T">Job to run.</typeparam>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
             Justification = "The 'T' requirement is on purpose.")]

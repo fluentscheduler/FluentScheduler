@@ -90,6 +90,23 @@
             };
         }
 
+        internal static Action GetJobAction(Func<IJob> jobFactory)
+        {
+            return () =>
+            {
+                var job = jobFactory();
+                if (job == null) return;
+                try
+                {
+                    job.Execute();
+                }
+                finally
+                {
+                    DisposeIfNeeded(job);
+                }
+            };
+        }
+
         private static void DisposeIfNeeded(IJob job)
         {
             var disposable = job as IDisposable;
