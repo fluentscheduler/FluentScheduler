@@ -87,6 +87,28 @@
             };
         }
 
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly",
+            Justification = "It is spelled correctly.")]
+        internal static Action GetJobAction(Func<IJob> jobFactory)
+        {
+            return () =>
+            {
+                var job = jobFactory();
+
+                if (job == null)
+                    throw new InvalidOperationException("The given Func<IJob> returned null.");
+
+                try
+                {
+                    job.Execute();
+                }
+                finally
+                {
+                    DisposeIfNeeded(job);
+                }
+            };
+        }
+
         private static void DisposeIfNeeded(IJob job)
         {
             var disposable = job as IDisposable;

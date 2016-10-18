@@ -51,7 +51,10 @@ public class MyRegistry : Registry
 
         // Schedule a more complex action to run immediately and on an monthly interval
         Schedule<MyComplexJob>().ToRunNow().AndEvery(1).Months().OnTheFirst(DayOfWeek.Monday).At(3, 0);
-        
+
+        // Schedule a job using a factory method and pass parameters to the constructor.
+        Schedule(() => new MyComplexJob("Foo", DateTime.Now)).ToRunNow().AndEvery(2).Seconds();
+                
         // Schedule multiple jobs to be run in a single schedule
         Schedule<MyJob>().AndThen<MyOtherJob>().ToRunNow().AndEvery(5).Minutes();
     }
