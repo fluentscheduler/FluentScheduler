@@ -26,7 +26,7 @@
 
         private static readonly ConcurrentDictionary<List<Action>, bool> _runningNonReentrant = new ConcurrentDictionary<List<Action>, bool>();
 
-        private static readonly ConcurrentDictionary<Guid, Schedule> _running = new ConcurrentDictionary<Guid, Schedule>();
+        private static readonly ConcurrentDictionary<Guid, Tuple<Schedule, Task>> _running = new ConcurrentDictionary<Guid, Tuple<Schedule, Task>>();
 
         internal static DateTime Now
         {
@@ -199,6 +199,15 @@
             _timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
+        /// <summary>
+        /// Stops the job manager and blocks until all running schedules finishes.
+        /// </summary>
+        public static void StopAndBlock()
+        {
+            Stop();
+            Task.WaitAll(_running.Select(kvp => kvp.Value.Item2).ToArray());
+        }
+
         #endregion
 
         #region Exposing schedules
@@ -220,7 +229,7 @@
         {
             get
             {
-                return _running.Values.ToList();
+                return _running.Values.Select(t => t.Item1).ToList();
             }
         }
 
@@ -414,6 +423,7 @@
             }
         }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "https://blogs.msdn.microsoft.com/pfxteam/2012/03/25/do-i-need-to-dispose-of-tasks/")]
         internal static void RunJob(Schedule schedule)
         {
             if (schedule.Disabled)
@@ -426,11 +436,9 @@
             }
 
             var id = Guid.NewGuid();
-            _running.TryAdd(id, schedule);
 
             var start = Now;
-            RaiseJobStart(schedule, start);
-            var task = Task.Factory.StartNew(() =>
+            var task = new Task(() =>
             {
                 var stopwatch = new Stopwatch();
                 try
@@ -444,15 +452,19 @@
                 }
                 finally
                 {
+                    bool notUsed1;
+                    Tuple<Schedule, Task> notUsed2;
+
                     stopwatch.Stop();
-                    bool notUsed;
-                    _runningNonReentrant.TryRemove(schedule.Jobs, out notUsed);
-                    Schedule notUsedSchedule;
-                    _running.TryRemove(id, out notUsedSchedule);
+                    _runningNonReentrant.TryRemove(schedule.Jobs, out notUsed1);
+                    _running.TryRemove(id, out notUsed2);
                     RaiseJobEnd(schedule, start, stopwatch.Elapsed);
                 }
             }, TaskCreationOptions.PreferFairness);
             task.ContinueWith(t => RaiseJobException(schedule, t), TaskContinuationOptions.OnlyOnFaulted);
+            _running.TryAdd(id, new Tuple<Schedule, Task>(schedule, task));
+            RaiseJobStart(schedule, start);
+            task.Start();
         }
 
         #endregion
