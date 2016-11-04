@@ -15,23 +15,13 @@
         <tags>background cron job schedule task</tags>
         <dependencies>
             <group targetFramework=".NETFramework4.0" />
-            <group targetFramework="dotnet0.0">
-                <dependency id="System.Collections" version="4.0.10" />
-                <dependency id="System.Collections.Concurrent" version="4.0.10" />
-                <dependency id="System.Linq" version="4.0.0" />
-                <dependency id="System.Resources.ResourceManager" version="4.0.0" />
-                <dependency id="System.Runtime" version="4.0.20" />
-                <dependency id="System.Runtime.Extensions" version="4.0.10" />
-                <dependency id="System.Threading" version="4.0.10" />
-                <dependency id="System.Threading.Tasks" version="4.0.10" />
-                <dependency id="System.Threading.Timer" version="4.0.0" />
-            </group>
+            <group targetFramework=".NETStandard1.5" />
         </dependencies>
     </metadata>
     <files>
-        <file src="PortableLibrary\bin\Release\FluentScheduler.dll" target="lib\dotnet\FluentScheduler.dll" />
-        <file src="PortableLibrary\bin\Release\FluentScheduler.pdb" target="lib\dotnet\FluentScheduler.pdb" />
-        <file src="PortableLibrary\bin\Release\FluentScheduler.xml" target="lib\dotnet\FluentScheduler.xml" />
+        <file src="PortableLibrary\bin\Release\FluentScheduler.dll" target="lib\netstandard1.5\FluentScheduler.dll" />
+        <file src="PortableLibrary\bin\Release\FluentScheduler.pdb" target="lib\netstandard1.5\FluentScheduler.pdb" />
+        <file src="PortableLibrary\bin\Release\FluentScheduler.xml" target="lib\netstandard1.5\FluentScheduler.xml" />
         <file src="Library\bin\Release\FluentScheduler.dll" target="lib\net40\FluentScheduler.dll" />
         <file src="Library\bin\Release\FluentScheduler.pdb" target="lib\net40\FluentScheduler.pdb" />
         <file src="Library\bin\Release\FluentScheduler.xml" target="lib\net40\FluentScheduler.xml" />
