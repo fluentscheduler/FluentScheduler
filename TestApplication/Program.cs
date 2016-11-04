@@ -8,22 +8,11 @@
     {
         static void Main(string[] args)
         {
-            var registry = new Registry();
-            registry.Schedule(() =>
-            {
-                Console.WriteLine("{0} No sleep.", DateTime.Now);
-            }).ToRunNow();
-
-            registry.Schedule(() =>
-            {
-                Thread.Sleep(3000);
-                Console.WriteLine("{0} Short sleep.", DateTime.Now);
-            }).ToRunNow();
-
-            JobManager.Initialize(registry);
-            JobManager.StopAndBlock();
-
-            Console.WriteLine("{0} Stopped.", DateTime.Now);
+            ListenForStart();
+            ListenForEnd();
+            ListenForException();
+            Initialize();
+            Sleep();
         }
 
         private static void ListenForStart()
