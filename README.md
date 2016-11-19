@@ -151,11 +151,9 @@ FluentScheduler supports .NET Core, just add the dependency to `project.json` an
 
 ```json
   "dependencies": {
-    "FluentScheduler": "5.0.0"
+    "FluentScheduler": "<desired version>"
   }
 ```
-
-There's no support for ASP.NET Core at the moment ([#94](https://github.com/fluentscheduler/FluentScheduler/issues/94)).
 
 ## Dependency Injection
 
