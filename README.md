@@ -14,6 +14,7 @@ Automated job scheduler with fluent interface.
 * [Usage](#usage)
 * [Using it with ASP.NET](#using-it-with-aspnet)
 * [Using it with .NET Core](#using-it-with-net-core)
+* [Stopping the scheduler](#stopping-the-scheduler)
 * [Dependency Injection](#dependency-injection)
 * [Unexpected exceptions](#unexpected-exceptions)
 * [Daylight Saving Time](#daylight-saving-time)
@@ -154,6 +155,11 @@ FluentScheduler supports .NET Core, just add the dependency to `project.json` an
     "FluentScheduler": "<desired version>"
   }
 ```
+
+## Stopping the Scheduler
+
+If you just want to stop the scheduler, call `JobManager.Stop()`.
+If you want to both stop the scheduler and wait the currently running jobs to finish, call `JobManager.StopAndBlock()`.
 
 ## Dependency Injection
 
