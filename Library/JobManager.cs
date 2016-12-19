@@ -1,7 +1,6 @@
 ﻿namespace FluentScheduler
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
@@ -24,9 +23,7 @@
 
         private static ScheduleCollection _schedules = new ScheduleCollection();
 
-        private static readonly ConcurrentDictionary<List<Action>, bool> _runningNonReentrant = new ConcurrentDictionary<List<Action>, bool>();
-
-        private static readonly ConcurrentDictionary<Guid, Tuple<Schedule, Task>> _running = new ConcurrentDictionary<Guid, Tuple<Schedule, Task>>();
+        private static readonly ISet<Tuple<Schedule, Task>> _running = new HashSet<Tuple<Schedule, Task>>();
 
         internal static DateTime Now
         {
@@ -123,48 +120,6 @@
             Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event Action<JobEndInfo> JobEnd;
 
-        private static void RaiseJobException(Schedule schedule, Task t)
-        {
-            if (JobException != null && t.Exception != null)
-            {
-                JobException(
-                    new JobExceptionInfo
-                    {
-                        Name = schedule.Name,
-                        Exception = t.Exception.InnerException,
-                    }
-                );
-            }
-        }
-        private static void RaiseJobStart(Schedule schedule, DateTime startTime)
-        {
-            if (JobStart != null)
-            {
-                JobStart(
-                    new JobStartInfo
-                    {
-                        Name = schedule.Name,
-                        StartTime = startTime,
-                    }
-                );
-            }
-        }
-        private static void RaiseJobEnd(Schedule schedule, DateTime startTime, TimeSpan duration)
-        {
-            if (JobEnd != null)
-            {
-                JobEnd(
-                    new JobEndInfo
-                    {
-                        Name = schedule.Name,
-                        StartTime = startTime,
-                        Duration = duration,
-                        NextRun = schedule.NextRun,
-                    }
-                );
-            }
-        }
-
         #endregion
 
         #region Start, stop & initialize
@@ -205,7 +160,7 @@
         public static void StopAndBlock()
         {
             Stop();
-            Task.WaitAll(_running.Select(kvp => kvp.Value.Item2).ToArray());
+            Task.WaitAll(_running.Select(t => t.Item2).ToArray());
         }
 
         #endregion
@@ -229,7 +184,7 @@
         {
             get
             {
-                return _running.Values.Select(t => t.Item1).ToList();
+                return _running.Select(t => t.Item1).ToList();
             }
         }
 
@@ -423,47 +378,66 @@
             }
         }
 
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "https://blogs.msdn.microsoft.com/pfxteam/2012/03/25/do-i-need-to-dispose-of-tasks/")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "That's OK since we're raising the JobException event with it."),
+        SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "https://blogs.msdn.microsoft.com/pfxteam/2012/03/25/do-i-need-to-dispose-of-tasks/")]
         internal static void RunJob(Schedule schedule)
         {
             if (schedule.Disabled)
                 return;
 
-            if (!schedule.Reentrant)
-            {
-                if (!_runningNonReentrant.TryAdd(schedule.Jobs, true))
-                    return;
-            }
+            if (!schedule.Reentrant && _running.Any(t => t.Item1 == schedule))
+                return;
 
-            var id = Guid.NewGuid();
+            Tuple<Schedule, Task> tuple = null;
 
-            var start = Now;
             var task = new Task(() =>
             {
+                var start = Now;
+
+                JobStart(
+                    new JobStartInfo
+                    {
+                        Name = schedule.Name,
+                        StartTime = start,
+                    }
+                );
+
                 var stopwatch = new Stopwatch();
+
                 try
                 {
                     stopwatch.Start();
-                    foreach (var action in schedule.Jobs)
-                    {
-                        var subTask = Task.Factory.StartNew(action);
-                        subTask.Wait();
-                    }
+                    schedule.Jobs.ForEach(action => Task.Factory.StartNew(action).Wait());
+                }
+                catch (Exception e)
+                {
+                    JobException(
+                       new JobExceptionInfo
+                       {
+                           Name = schedule.Name,
+                           Exception = e,
+                       }
+                   );
                 }
                 finally
                 {
-                    bool notUsed1;
-                    Tuple<Schedule, Task> notUsed2;
-
-                    stopwatch.Stop();
-                    _runningNonReentrant.TryRemove(schedule.Jobs, out notUsed1);
-                    _running.TryRemove(id, out notUsed2);
-                    RaiseJobEnd(schedule, start, stopwatch.Elapsed);
+                    _running.Remove(tuple);
+                    JobEnd(
+                        new JobEndInfo
+                        {
+                            Name = schedule.Name,
+                            StartTime = start,
+                            Duration = stopwatch.Elapsed,
+                            NextRun = schedule.NextRun,
+                        }
+                    );
                 }
             }, TaskCreationOptions.PreferFairness);
-            task.ContinueWith(t => RaiseJobException(schedule, t), TaskContinuationOptions.OnlyOnFaulted);
-            _running.TryAdd(id, new Tuple<Schedule, Task>(schedule, task));
-            RaiseJobStart(schedule, start);
+
+            tuple = new Tuple<Schedule, Task>(schedule, task);
+
+            _running.Add(tuple);
+
             task.Start();
         }
 

@@ -45,22 +45,17 @@
         /// <param name="action">Job to schedule.</param>
         public Schedule(Action action) : this(new[] { action }) { }
 
-        internal Schedule(List<Action> actions)
-        {
-            Disabled = false;
-            Jobs = actions;
-            AdditionalSchedules = new List<Schedule>();
-            PendingRunOnce = false;
-            Reentrant = true;
-        }
-
         /// <summary>
         /// Schedules a new job in the registry.
         /// </summary>
         /// <param name="actions">Jobs to schedule</param>
         public Schedule(IEnumerable<Action> actions)
-            : this(actions.ToList())
         {
+            Disabled = false;
+            Jobs = actions.ToList();
+            AdditionalSchedules = new List<Schedule>();
+            PendingRunOnce = false;
+            Reentrant = true;
         }
 
         /// <summary>
