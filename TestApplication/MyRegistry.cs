@@ -8,8 +8,6 @@
     {
         public MyRegistry()
         {
-            NonReentrantAsDefault();
-
             Welcome();
 
             NonReentrant();
@@ -39,6 +37,7 @@
                 .AndThen(() => Console.WriteLine("{0}You can check what's happening in the log file at \"{1}\"",
                     Environment.NewLine, L.Directory));
         }
+
         private void NonReentrant()
         {
             L.Register("[non reentrant]");
@@ -70,7 +69,7 @@
                 JobManager.RemoveJob("[reentrant]");
                 JobManager.RemoveJob("[non reentrant]");
                 L.Log("[disable]", "Disabled the reentrant and non reentrant jobs.");
-            }).WithName("[disable]").ToRunOnceIn(3).Minutes();
+            }).WithName("[disable]").ToRunOnceIn(200).Seconds();
         }
 
         private void Faulty()
