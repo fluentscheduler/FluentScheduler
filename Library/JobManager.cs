@@ -394,13 +394,14 @@
             {
                 var start = Now;
 
-                JobStart(
-                    new JobStartInfo
-                    {
-                        Name = schedule.Name,
-                        StartTime = start,
-                    }
-                );
+                if (JobStart != null)
+                    JobStart(
+                        new JobStartInfo
+                        {
+                            Name = schedule.Name,
+                            StartTime = start,
+                        }
+                    );
 
                 var stopwatch = new Stopwatch();
 
@@ -411,26 +412,29 @@
                 }
                 catch (Exception e)
                 {
-                    JobException(
-                       new JobExceptionInfo
-                       {
-                           Name = schedule.Name,
-                           Exception = e,
-                       }
-                   );
+                    if (JobException != null)
+                        JobException(
+                           new JobExceptionInfo
+                           {
+                               Name = schedule.Name,
+                               Exception = e,
+                           }
+                       );
                 }
                 finally
                 {
                     _running.Remove(tuple);
-                    JobEnd(
-                        new JobEndInfo
-                        {
-                            Name = schedule.Name,
-                            StartTime = start,
-                            Duration = stopwatch.Elapsed,
-                            NextRun = schedule.NextRun,
-                        }
-                    );
+
+                    if (JobException != null)
+                        JobEnd(
+                            new JobEndInfo
+                            {
+                                Name = schedule.Name,
+                                StartTime = start,
+                                Duration = stopwatch.Elapsed,
+                                NextRun = schedule.NextRun,
+                            }
+                        );
                 }
             }, TaskCreationOptions.PreferFairness);
 
