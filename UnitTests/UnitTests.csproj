@@ -100,6 +100,7 @@
     </Compile>
     <Compile Include="ScheduleTests\MonthsOnTheThirdTests.cs" />
     <Compile Include="ScheduleTests\MonthsTests.cs" />
+    <Compile Include="ScheduleTests\MonthsWeekDaysOnlyTests.cs" />
     <Compile Include="ScheduleTests\NonReentrantTests.cs" />
     <Compile Include="ScheduleTests\RemoveTests.cs" />
     <Compile Include="ScheduleTests\SecondsTests.cs" />
