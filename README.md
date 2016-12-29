@@ -11,6 +11,7 @@
 
 Automated job scheduler with fluent interface.
 
+* [Hi, maintainer here](#hi-maintainer-here)
 * [Usage](#usage)
 * [Using it with ASP.NET](#using-it-with-aspnet)
 * [Using it with .NET Core](#using-it-with-net-core)
@@ -20,13 +21,30 @@ Automated job scheduler with fluent interface.
 * [Daylight Saving Time](#daylight-saving-time)
 * [Weekly jobs](#weekly-jobs)
 * [Concurrent jobs](#concurrent-jobs)
-* [Major changes](#major-changes)
 * [Contributing](#contributing)
 
 [build]:     https://ci.appveyor.com/project/TallesL/fluentscheduler
 [build-img]: https://ci.appveyor.com/api/projects/status/github/fluentscheduler/fluentscheduler?svg=true
 [nuget]:     https://www.nuget.org/packages/FluentScheduler
 [nuget-img]: https://badge.fury.io/nu/fluentscheduler.svg
+
+## Hi, maintainer here
+
+The current implementation of FluentScheduler relies heavily on the [JobManager] class and, due that, many features of the library get 'entangled' in one another in this overused static class.
+Needless to say that this is bad for both maintaining current features and implementing new ones.
+
+On this year (2017), I'm planning to redesign the inner workings of the library to address this issue, by making the [Schedule] class less 'anemic' while taking off some of the burden on JobManager that I've mentioned.
+
+Until there, please keep suggesting new features and reporting bugs on [issues], but I'll refrain from implement new features until this redesign is out.
+
+Last but not least, **there's an important non reentrancy fix on version 5.1.2**.
+Please update to this version if you rely on `NonReentrant` or `NonReentrantAsDefault`.
+
+Thank you for reading!
+
+[JobManager]: Library/JobManager.cs
+[Schedule]:   Library/Schedule.cs
+[issues]:     https://github.com/fluentscheduler/FluentScheduler/issues
 
 ## Usage
 
@@ -96,7 +114,6 @@ JobManager.AddJob(() => Console.WriteLine("Late job!"), (s) => s.ToRunEvery(5).S
 [Registry]:          Library/Registry.cs
 [IJob]:              Library/IJob.cs
 [Action]:            https://msdn.microsoft.com/library/System.Action
-[JobManager]:        Library/JobManager.cs
 [Application_Start]: https://msdn.microsoft.com/library/ms178473
 
 ## Using it with ASP.NET
@@ -264,17 +281,6 @@ public class MyRegistry : Registry
     Schedule<MyJob>().ToRunEvery(2).Seconds();
 }
 ```
-
-## Major changes
-
-**Version 4 to 5**
-
-* `AndEvery` only starts after `ToRunOnceAt` has been fired;
-* Simplified event data types and signatures.
-
-**Version 3 to 4**
-
-* Renamed `ITask`, `TaskManager` and `ITaskFactory` to `IJob`, `JobManager` and `IJobFactory`.
 
 ## Contributing
 
