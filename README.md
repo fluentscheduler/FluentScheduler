@@ -37,8 +37,9 @@ On this year (2017), I'm planning to redesign the inner workings of the library 
 
 Until there, please keep suggesting new features and reporting bugs on [issues], but I'll refrain from implement new features until this redesign is out.
 
-Last but not least, **there's an important non reentrancy fix on version 5.1.2**.
+Last but not least, **there's an important non reentrancy fix on version 5.1.3**.
 Please update to this version if you rely on `NonReentrant` or `NonReentrantAsDefault`.
+I made some bad mistakes prior to this version, I apologize for any trouble it may have caused.
 
 Thank you for reading!
 
