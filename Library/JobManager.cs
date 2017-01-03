@@ -160,7 +160,11 @@
         public static void StopAndBlock()
         {
             Stop();
-            Task.WaitAll(_running.Select(t => t.Item2).ToArray());
+
+            lock (_running)
+            {
+                Task.WaitAll(_running.Select(t => t.Item2).ToArray());
+            }
         }
 
         #endregion
@@ -184,7 +188,10 @@
         {
             get
             {
-                return _running.Select(t => t.Item1).ToList();
+                lock (_running)
+                {
+                    return _running.Select(t => t.Item1).ToList();
+                }
             }
         }
 
@@ -385,8 +392,11 @@
             if (schedule.Disabled)
                 return;
 
-            if (!schedule.Reentrant && _running.Any(t => t.Item1 == schedule))
-                return;
+            lock (_running)
+            {
+                if (!schedule.Reentrant && _running.Any(t => t.Item1 == schedule))
+                    return;
+            }
 
             Tuple<Schedule, Task> tuple = null;
 
@@ -423,7 +433,10 @@
                 }
                 finally
                 {
-                    _running.Remove(tuple);
+                    lock (_running)
+                    {
+                        _running.Remove(tuple);
+                    }
 
                     if (JobEnd != null)
                         JobEnd(
@@ -440,7 +453,10 @@
 
             tuple = new Tuple<Schedule, Task>(schedule, task);
 
-            _running.Add(tuple);
+            lock (_running)
+            {
+                _running.Add(tuple);
+            }
 
             task.Start();
         }
