@@ -16,6 +16,14 @@
         }
 
         /// <summary>
+        /// Sets the interval to milloseconds.
+        /// </summary>
+        public MillisecondUnit Milliseconds()
+        {
+            return new MillisecondUnit(_schedule, _duration);
+        }
+
+        /// <summary>
         /// Sets the interval to seconds.
         /// </summary>
         public SecondUnit Seconds()

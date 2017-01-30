@@ -79,6 +79,9 @@
     <Compile Include="..\Library\Unit\ITimeRestrictableUnit.cs">
       <Link>Unit\ITimeRestrictableUnit.cs</Link>
     </Compile>
+    <Compile Include="..\Library\Unit\MillisecondUnit.cs">
+      <Link>Unit\MillisecondUnit.cs</Link>
+    </Compile>
     <Compile Include="..\Library\Unit\MinuteUnit.cs">
       <Link>Unit\MinuteUnit.cs</Link>
     </Compile>

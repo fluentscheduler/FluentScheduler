@@ -102,6 +102,7 @@
     <Compile Include="ScheduleTests\MonthsTests.cs" />
     <Compile Include="ScheduleTests\NonReentrantTests.cs" />
     <Compile Include="ScheduleTests\RemoveTests.cs" />
+    <Compile Include="ScheduleTests\MillisecondsTests.cs" />
     <Compile Include="ScheduleTests\SecondsTests.cs" />
     <Compile Include="ScheduleTests\SpecificRunTimeTests.cs" />
     <Compile Include="ScheduleTests\WeekDaysTests.cs" />
