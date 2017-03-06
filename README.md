@@ -295,6 +295,7 @@ public class MyRegistry : Registry
 ## Contributing
 
 Feel free to [open an issue] or [submit a pull request].
+To make sure your pull request doesn't go in vain (gets declined), open an issue first discussing it (before actually implementing it).
 
 When sending a patch remember to [Run All Tests (Ctrl + R, A)] and [Run Code Analysis on Solution (Alt + F11)] if
 possible.
