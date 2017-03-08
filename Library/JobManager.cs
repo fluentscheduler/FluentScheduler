@@ -161,10 +161,20 @@
         {
             Stop();
 
-            lock (_running)
+            var tasks = new Task[0];
+
+            // Even though Stop() was just called, a scheduling may be happening right now, that's why the loop.
+            // Simply waiting for the tasks inside the lock causes a deadlock (a task may try to remove itself from
+            // running, but it can't access the collection, it's blocked by the wait).
+            do
             {
-                Task.WaitAll(_running.Select(t => t.Item2).ToArray());
-            }
+                lock (_running)
+                {
+                    tasks = _running.Select(t => t.Item2).ToArray();
+                }
+
+                Task.WaitAll(tasks);
+            } while (tasks.Any());
         }
 
         #endregion
