@@ -11,7 +11,6 @@
 
 Automated job scheduler with fluent interface.
 
-* [Hi, maintainer here](#hi-maintainer-here)
 * [Usage](#usage)
 * [Using it with ASP.NET](#using-it-with-aspnet)
 * [Using it with .NET Core](#using-it-with-net-core)
@@ -28,25 +27,6 @@ Automated job scheduler with fluent interface.
 [build-img]: https://ci.appveyor.com/api/projects/status/github/fluentscheduler/fluentscheduler?svg=true
 [nuget]:     https://www.nuget.org/packages/FluentScheduler
 [nuget-img]: https://badge.fury.io/nu/fluentscheduler.svg
-
-## Hi, maintainer here
-
-The current implementation of FluentScheduler relies heavily on the [JobManager] class and, due that, many features of the library get 'entangled' in one another in this overused static class.
-Needless to say that this is bad for both maintaining current features and implementing new ones.
-
-On this year (2017), I'm planning to redesign the inner workings of the library to address this issue, by making the [Schedule] class less 'anemic' while taking off some of the burden on JobManager that I've mentioned.
-
-Until there, please keep suggesting new features and reporting bugs on [issues], but I'll refrain from implement new features until this redesign is out.
-
-Last but not least, **there's an important non reentrancy fix on version 5.1.3**.
-Please update to this version if you rely on `NonReentrant` or `NonReentrantAsDefault`.
-I made some bad mistakes prior to this version, I apologize for any trouble it may have caused.
-
-Thank you for reading!
-
-[JobManager]: Library/JobManager.cs
-[Schedule]:   Library/Schedule.cs
-[issues]:     https://github.com/fluentscheduler/FluentScheduler/issues
 
 ## Usage
 
@@ -113,6 +93,7 @@ It's also possible to schedule jobs after initialization:
 JobManager.AddJob(() => Console.WriteLine("Late job!"), (s) => s.ToRunEvery(5).Seconds());
 ```
 
+[JobManager]: Library/JobManager.cs
 [Registry]:          Library/Registry.cs
 [IJob]:              Library/IJob.cs
 [Action]:            https://msdn.microsoft.com/library/System.Action
