@@ -404,7 +404,8 @@
 
             lock (_running)
             {
-                if (!schedule.Reentrant && _running.Any(t => t.Item1 == schedule))
+                if (schedule.Reentrant != null &&
+                    _running.Any(t => ReferenceEquals(t.Item1.Reentrant, schedule.Reentrant)))
                     return;
             }
 

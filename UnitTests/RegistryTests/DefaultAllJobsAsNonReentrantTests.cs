@@ -11,7 +11,7 @@
         {
             var registry = new RegistryWithPreviousJobsConfigured();
             foreach (var schedule in registry.Schedules)
-                Assert.IsFalse(schedule.Reentrant);
+                Assert.IsNotNull(schedule.Reentrant);
         }
 
         [TestMethod]
@@ -19,7 +19,7 @@
         {
             var registry = new RegistryWithFutureJobsConfigured();
             foreach (var schedule in registry.Schedules)
-                Assert.IsFalse(schedule.Reentrant);
+                Assert.IsNotNull(schedule.Reentrant);
         }
     }
 }

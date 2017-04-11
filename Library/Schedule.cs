@@ -37,7 +37,7 @@
 
         internal bool PendingRunOnce { get; set; }
 
-        internal bool Reentrant { get; set; }
+        internal object Reentrant { get; set; }
 
         /// <summary>
         /// Schedules a new job in the registry.
@@ -55,7 +55,7 @@
             Jobs = actions.ToList();
             AdditionalSchedules = new List<Schedule>();
             PendingRunOnce = false;
-            Reentrant = true;
+            Reentrant = null;
         }
 
         /// <summary>
@@ -168,7 +168,7 @@
         /// </summary>
         public Schedule NonReentrant()
         {
-            Reentrant = false;
+            Reentrant = Reentrant ?? new object();
             return this;
         }
 

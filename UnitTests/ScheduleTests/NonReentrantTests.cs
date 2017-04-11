@@ -7,27 +7,28 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     public class NonReentrantTests
     {
         [TestMethod]
-        public void Should_Be_True_By_Default()
+        public void Should_Be_Null_By_Default()
         {
             // Act
             var schedule = new Schedule(() => { });
             schedule.ToRunNow();
 
             // Assert
-            Assert.IsTrue(schedule.Reentrant);
+            Assert.IsNull(schedule.Reentrant);
         }
 
         [TestMethod]
-        public void Should_Default_Reentrent_Parameter_For_Child_Schedules()
+        public void Should_Default_Reentrant_Parameter_For_Child_Schedules()
         {
             // Act
             var schedule = new Schedule(() => { });
             schedule.ToRunNow().AndEvery(1).Minutes();
 
             // Assert
-            Assert.IsTrue(schedule.Reentrant);
+            Assert.IsNull(schedule.Reentrant);
+
             foreach (var child in schedule.AdditionalSchedules)
-                Assert.IsTrue(child.Reentrant);
+                Assert.IsNull(child.Reentrant);
         }
 
         [TestMethod]
@@ -38,9 +39,9 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             schedule.NonReentrant().ToRunNow().AndEvery(1).Minutes();
 
             // Assert
-            Assert.IsFalse(schedule.Reentrant);
+            Assert.IsNotNull(schedule.Reentrant);
             foreach (var child in schedule.AdditionalSchedules)
-                Assert.IsFalse(child.Reentrant);
+                Assert.AreEqual(schedule.Reentrant, child.Reentrant);
         }
     }
 }
