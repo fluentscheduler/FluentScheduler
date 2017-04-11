@@ -81,6 +81,18 @@
             return Schedule(JobManager.GetJobAction<T>(), typeof(T).Name);
         }
 
+        /// <summary>
+        /// Schedules a new job in the registry.
+        /// </summary>
+        /// <param name="job">Factory method creating a IJob instance to run.</param>
+        public Schedule Schedule(Func<IJob> job)
+        {
+            if (job == null)
+                throw new ArgumentNullException("job");
+
+            return Schedule(JobManager.GetJobAction(job), null);
+        }
+
         private Schedule Schedule(Action action, string name)
         {
             var schedule = new Schedule(action);
