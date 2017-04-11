@@ -130,12 +130,21 @@
         /// <param name="registry">Registry of jobs to run</param>
         public static void Initialize(Registry registry)
         {
+            InitializeWithoutStarting(registry);
+            Start();
+        }
+
+        /// <summary>
+        /// Initializes the job manager with the jobs without starting it.
+        /// </summary>
+        /// <param name="registry">Registry of jobs to run</param>
+        public static void InitializeWithoutStarting(Registry registry)
+        {
             if (registry == null)
                 throw new ArgumentNullException("registry");
 
             _useUtc = registry.UtcTime;
             CalculateNextRun(registry.Schedules).ToList().ForEach(RunJob);
-            ScheduleJobs();
         }
 
         /// <summary>
