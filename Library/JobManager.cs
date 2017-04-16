@@ -447,6 +447,7 @@
                 var start = Now;
 
                 if (JobStart != null)
+                {
                     JobStart(
                         new JobStartInfo
                         {
@@ -454,6 +455,7 @@
                             StartTime = start,
                         }
                     );
+                }
 
                 var stopwatch = new Stopwatch();
 
@@ -465,6 +467,12 @@
                 catch (Exception e)
                 {
                     if (JobException != null)
+                    {
+                        var aggregate = e as AggregateException;
+
+                        if (aggregate != null && aggregate.InnerExceptions.Count == 1)
+                            e = aggregate.InnerExceptions.Single();
+
                         JobException(
                            new JobExceptionInfo
                            {
@@ -472,6 +480,7 @@
                                Exception = e,
                            }
                        );
+                    }
                 }
                 finally
                 {
@@ -481,6 +490,7 @@
                     }
 
                     if (JobEnd != null)
+                    {
                         JobEnd(
                             new JobEndInfo
                             {
@@ -490,6 +500,7 @@
                                 NextRun = schedule.NextRun,
                             }
                         );
+                    }
                 }
             }, TaskCreationOptions.PreferFairness);
 
