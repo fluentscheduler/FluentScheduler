@@ -35,6 +35,19 @@
 
         #endregion
 
+        #region UTC
+
+        /// <summary>
+        /// Use UTC time rather than local time.
+        /// It's recommended to call this method before any other library interaction to avoid mixed dates.
+        /// </summary>
+        public static void UseUtcTime()
+        {
+            _useUtc = true;
+        }
+
+        #endregion
+
         #region Job factory
 
         private static IJobFactory _jobFactory;
@@ -165,7 +178,6 @@
             if (registry == null)
                 throw new ArgumentNullException("registry");
 
-            _useUtc = registry.UtcTime;
             CalculateNextRun(registry.Schedules).ToList().ForEach(RunJob);
         }
 

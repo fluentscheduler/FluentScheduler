@@ -12,8 +12,6 @@
     {
         private bool _allJobsConfiguredAsNonReentrant;
 
-        internal bool UtcTime { get; private set; }
-
         internal List<Schedule> Schedules { get; private set; }
 
         /// <summary>
@@ -36,14 +34,6 @@
                 foreach (var schedule in Schedules)
                     schedule.NonReentrant();
             }
-        }
-
-        /// <summary>
-        /// Use UTC time rather than local time.
-        /// </summary>
-        public void UseUtcTime()
-        {
-            UtcTime = true;
         }
 
         /// <summary>

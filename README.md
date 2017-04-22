@@ -231,7 +231,7 @@ That's why the least interval you can set is one second.
 Unfortunately, not unlike many schedulers, there is no Daylight Saving Time support yet.
 
 If you are worried about your jobs not running or running twice due to that, the suggestion is to avoid troublesome time
-ranges or just `UseUtcTime()` in your registry.
+ranges or just call `JobManager.UseUtcTime()` before using the library.
 
 ## Weekly jobs
 
