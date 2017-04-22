@@ -162,23 +162,23 @@
         /// <summary>
         /// Initializes the job manager with the jobs to run and starts it.
         /// </summary>
-        /// <param name="registry">Registry of jobs to run</param>
-        public static void Initialize(Registry registry)
+        /// <param name="registries">Registries of jobs to run</param>
+        public static void Initialize(params Registry[] registries)
         {
-            InitializeWithoutStarting(registry);
+            InitializeWithoutStarting(registries);
             Start();
         }
 
         /// <summary>
         /// Initializes the job manager with the jobs without starting it.
         /// </summary>
-        /// <param name="registry">Registry of jobs to run</param>
-        public static void InitializeWithoutStarting(Registry registry)
+        /// <param name="registries">Registries of jobs to run</param>
+        public static void InitializeWithoutStarting(params Registry[] registries)
         {
-            if (registry == null)
-                throw new ArgumentNullException("registry");
+            if (registries == null)
+                throw new ArgumentNullException("registries");
 
-            CalculateNextRun(registry.Schedules).ToList().ForEach(RunJob);
+            CalculateNextRun(registries.SelectMany(r => r.Schedules)).ToList().ForEach(RunJob);
         }
 
         /// <summary>
