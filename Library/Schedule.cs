@@ -152,7 +152,10 @@
         /// <param name="minutes">The minutes (0 through 59).</param>
         public SpecificTimeUnit ToRunOnceAt(int hours, int minutes)
         {
-            return ToRunOnceAt(new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, hours, minutes, 0));
+            var dateTime =
+                new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, hours, minutes, 0);
+
+            return ToRunOnceAt(dateTime < JobManager.Now ? dateTime.AddDays(1) : dateTime);
         }
 
         /// <summary>
