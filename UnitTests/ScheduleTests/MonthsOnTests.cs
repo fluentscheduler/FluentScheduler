@@ -40,11 +40,11 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
         }
 
         [TestMethod]
-        public void Should_Not_Fail_If_Specified_Day_Does_Not_Exist_In_Month()
+        public void Should_Pick_Last_Day_If_Specified_Day_Does_Not_Exist_In_Month()
         {
             // Arrange
             var input = new DateTime(2000, 2, 1, 1, 23, 25);
-            var expected = new DateTime(2000, 3, 2);
+            var expected = new DateTime(2000, 2, 29);
 
             // Act
             var schedule = new Schedule(() => { });

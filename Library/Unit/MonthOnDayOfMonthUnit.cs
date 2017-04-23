@@ -37,9 +37,19 @@
         {
             Schedule.CalculateNextRun = x =>
             {
-                var nextRun = x.Date.First().AddDays(_dayOfMonth - 1).AddHours(hours).AddMinutes(minutes);
-                return x > nextRun ? x.Date.First().AddMonths(_duration).AddDays(_dayOfMonth - 1).AddHours(hours).AddMinutes(minutes) : nextRun;
+                Func<DateTime, DateTime> calculate = y =>
+                {
+                    var day = Math.Min(_dayOfMonth, DateTime.DaysInMonth(y.Year, y.Month));
+                    return y.AddDays(day - 1).AddHours(hours).AddMinutes(minutes);
+                };
+
+                var date = x.Date.First();
+                var runThisMonth = calculate(date);
+                var runAfterThisMonth = calculate(date.AddMonths(_duration));
+
+                return x > runThisMonth ? runAfterThisMonth : runThisMonth;
             };
+
             return this;
         }
     }
