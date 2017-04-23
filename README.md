@@ -283,9 +283,22 @@ To make sure your pull request doesn't go in vain (gets declined), open an issue
 
 When sending a patch remember to [Run All Tests (Ctrl + R, A)] and [Run Code Analysis on Solution (Alt + F11)] if
 possible.
-And, of course, be consistent with the existing code!
+And, of course, be consistent with the existing code.
+
+You can also help others in need for support, there's a ["help wanted"] label to sign those issues.                                                                           
+Right now most of them are about problems on different environments (other than vanilla .NET in Windows):
+
+* Azure ([#80])
+* .NET Core ([#118])
+* Xamarin ([#140])
+* UWP ([#145])
 
 [open an issue]:                             https://github.com/fluentscheduler/FluentScheduler/issues
 [submit a pull request]:                     https://github.com/fluentscheduler/FluentScheduler/pulls
 [Run All Tests (Ctrl + R, A)]:               https://msdn.microsoft.com/library/ms182470
 [Run Code Analysis on Solution (Alt + F11)]: https://msdn.microsoft.com/library/bb907198
+["help wanted"]:                             https://github.com/fluentscheduler/FluentScheduler/issues?q=label:"help%20wanted"
+[#80]:                                       https://github.com/fluentscheduler/FluentScheduler/issues/80
+[#118]:                                      https://github.com/fluentscheduler/FluentScheduler/issues/118
+[#140]:                                      https://github.com/fluentscheduler/FluentScheduler/issues/140
+[#145]:                                      https://github.com/fluentscheduler/FluentScheduler/issues/145
