@@ -315,7 +315,6 @@
         {
             jobSchedule(schedule);
             CalculateNextRun(new Schedule[] { schedule }).ToList().ForEach(RunJob);
-            ScheduleJobs();
         }
 
         /// <summary>
