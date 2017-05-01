@@ -113,9 +113,6 @@
     <Compile Include="Utilities\DateTimeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Library\Library.csproj">
       <Project>{434FED39-4EC1-4797-BB2D-246432B3D4FD}</Project>
       <Name>Library</Name>
