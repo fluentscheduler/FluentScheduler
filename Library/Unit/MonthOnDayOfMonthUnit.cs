@@ -23,7 +23,7 @@
 
         Schedule IDayRestrictableUnit.Schedule { get { return this.Schedule; } }
 
-        public DateTime DayIncrement(DateTime increment)
+        DateTime IDayRestrictableUnit.DayIncrement(DateTime increment)
         {
             return increment.AddDays(_duration);
         }
