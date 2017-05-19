@@ -291,7 +291,6 @@ Right now most of them are about problems on different environments (other than 
 * Azure ([#80])
 * .NET Core ([#118])
 * Xamarin ([#140])
-* UWP ([#145])
 
 [open an issue]:                             https://github.com/fluentscheduler/FluentScheduler/issues
 [submit a pull request]:                     https://github.com/fluentscheduler/FluentScheduler/pulls
@@ -301,4 +300,3 @@ Right now most of them are about problems on different environments (other than 
 [#80]:                                       https://github.com/fluentscheduler/FluentScheduler/issues/80
 [#118]:                                      https://github.com/fluentscheduler/FluentScheduler/issues/118
 [#140]:                                      https://github.com/fluentscheduler/FluentScheduler/issues/140
-[#145]:                                      https://github.com/fluentscheduler/FluentScheduler/issues/145
