@@ -15,13 +15,13 @@
         <tags>background cron job schedule task</tags>
         <dependencies>
             <group targetFramework=".NETFramework4.0" />
-            <group targetFramework=".NETStandard1.5" />
+            <group targetFramework=".NETStandard1.4" />
         </dependencies>
     </metadata>
     <files>
-        <file src="PortableLibrary\bin\Release\FluentScheduler.dll" target="lib\netstandard1.5\FluentScheduler.dll" />
-        <file src="PortableLibrary\bin\Release\FluentScheduler.pdb" target="lib\netstandard1.5\FluentScheduler.pdb" />
-        <file src="PortableLibrary\bin\Release\FluentScheduler.xml" target="lib\netstandard1.5\FluentScheduler.xml" />
+        <file src="PortableLibrary\bin\Release\FluentScheduler.dll" target="lib\netstandard1.4\FluentScheduler.dll" />
+        <file src="PortableLibrary\bin\Release\FluentScheduler.pdb" target="lib\netstandard1.4\FluentScheduler.pdb" />
+        <file src="PortableLibrary\bin\Release\FluentScheduler.xml" target="lib\netstandard1.4\FluentScheduler.xml" />
         <file src="Library\bin\Release\FluentScheduler.dll" target="lib\net40\FluentScheduler.dll" />
         <file src="Library\bin\Release\FluentScheduler.pdb" target="lib\net40\FluentScheduler.pdb" />
         <file src="Library\bin\Release\FluentScheduler.xml" target="lib\net40\FluentScheduler.xml" />
