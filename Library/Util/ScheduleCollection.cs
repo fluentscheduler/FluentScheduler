@@ -67,6 +67,14 @@
             }
         }
 
+        internal void RemoveAll()
+        {
+            lock (_lock)
+            {
+                _schedules.Clear();
+            }
+        }
+
         internal Schedule First()
         {
             lock (_lock)

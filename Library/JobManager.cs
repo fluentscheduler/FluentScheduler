@@ -327,6 +327,14 @@
             _schedules.Remove(name);
         }
 
+        /// <summary>
+        /// Removes all schedules.
+        /// </summary>
+        public static void RemoveAllJobs()
+        {
+            _schedules.RemoveAll();
+        }
+
         #endregion
 
         #region Calculating, scheduling & running

@@ -20,6 +20,23 @@
         }
 
         [TestMethod]
+        public void Should_Remove_All_Jobs()
+        {
+            // Act
+            JobManager.AddJob(() => { }, s => s.ToRunNow());
+            JobManager.AddJob(() => { }, s => s.ToRunNow());
+            JobManager.AddJob(() => { }, s => s.ToRunNow());
+            JobManager.AddJob(() => { }, s => s.ToRunNow());
+            JobManager.AddJob(() => { }, s => s.ToRunNow());
+            JobManager.AddJob(() => { }, s => s.ToRunNow());
+
+            JobManager.RemoveAllJobs();
+
+            // Assert
+            Assert.IsTrue(JobManager.AllSchedules.Count() == 0);
+        }
+
+        [TestMethod]
         public void Should_Remove_LongRunning_Job_But_Keep_Running()
         {
             // Act
