@@ -1,7 +1,7 @@
 ﻿namespace FluentScheduler
 {
     /// <summary>
-    /// Unit of time in seconds.
+    /// Unit of time in milliseconds.
     /// </summary>
     public sealed class MillisecondUnit : ITimeRestrictableUnit
     {
