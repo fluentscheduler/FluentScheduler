@@ -22,7 +22,7 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run now and delay for 500 milliseconds").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
