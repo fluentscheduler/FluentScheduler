@@ -16,6 +16,16 @@
         }
 
         /// <summary>
+        /// Sets the interval to milliseconds.
+        /// <para />
+        /// Note: Precision timing is not guaranteed.  Low intervals may result in high error.
+        /// </summary>
+        public MillisecondUnit Milliseconds()
+        {
+            return new MillisecondUnit(_schedule, _duration);
+        }
+
+        /// <summary>
         /// Sets the interval to seconds.
         /// </summary>
         public SecondUnit Seconds()

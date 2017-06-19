@@ -8,6 +8,26 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     public class DelayFor_ToRunOnceAt_Tests
     {
         [TestMethod]
+        public void Should_Delay_ToRunOnceAt_For_500_Milliseconds()
+        {
+            // Arrange
+            var now = DateTime.Now;
+            var expected = now.AddMilliseconds(500);
+
+            // Act
+            JobManager.AddJob(
+                () => { },
+                s => s.WithName("run once at x and delay for 500 milliseconds")
+                    .ToRunOnceAt(now)
+                    .DelayFor(500).Milliseconds()
+            );
+            var actual = JobManager.GetSchedule("run once at x and delay for 500 milliseconds").NextRun;
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void Should_Delay_ToRunOnceAt_For_2_Seconds()
         {
             // Arrange
