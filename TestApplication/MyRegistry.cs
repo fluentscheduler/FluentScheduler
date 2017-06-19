@@ -19,6 +19,7 @@
             Parameter();
             Disposable();
 
+            FiveHundredMilliseconds();
             FiveMinutes();
             TenMinutes();
             Hour();
@@ -101,6 +102,14 @@
         private void Disposable()
         {
             Schedule<DisposableJob>().WithName("[disposable").ToRunOnceIn(10).Seconds();
+        }
+
+        private void FiveHundredMilliseconds()
+        {
+            L.Register("[five hundred milliseconds]");
+
+            Schedule(() => L.Log("[five hundred milliseconds]", "Five hundred milliseconds have passed."))
+                .WithName("[five hundred milliseconds]").ToRunOnceAt(DateTime.Now.AddMilliseconds(500)).AndEvery(500).Milliseconds();
         }
 
         private void FiveMinutes()

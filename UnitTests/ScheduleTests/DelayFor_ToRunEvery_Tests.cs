@@ -8,6 +8,25 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     public class DelayFor_ToRunEvery_Tests
     {
         [TestMethod]
+        public void Should_Delay_ToRunEvery_For_500_Milliseconds()
+        {
+            // Arrange
+            var expected = DateTime.Now.AddMilliseconds(600);
+
+            // Act
+            JobManager.AddJob(
+                () => { },
+                s => s.WithName("run every 500 milliseconds and delay for 100 milliseconds")
+                    .ToRunEvery(500).Milliseconds()
+                    .DelayFor(100).Milliseconds()
+            );
+            var actual = JobManager.GetSchedule("run every 500 milliseconds and delay for 100 milliseconds").NextRun;
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void Should_Delay_ToRunEvery_For_2_Seconds()
         {
             // Arrange

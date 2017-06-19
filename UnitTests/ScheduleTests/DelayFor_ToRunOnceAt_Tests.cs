@@ -8,6 +8,24 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
     public class DelayFor_ToRunNow_Tests
     {
         [TestMethod]
+        public void Should_Delay_ToRunNow_For_500_Milliseconds()
+        {
+            // Arrange
+            var expected = DateTime.Now.AddMilliseconds(500);
+
+            // Act
+            JobManager.AddJob(
+                () => { },
+                x => x.WithName("run now and delay for 500 milliseconds")
+                    .ToRunNow().DelayFor(500).Milliseconds()
+            );
+            var actual = JobManager.GetSchedule("run now and delay for 500 milliseconds").NextRun;
+
+            // Assert
+            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+        }
+
+        [TestMethod]
         public void Should_Delay_ToRunNow_For_2_Seconds()
         {
             // Arrange

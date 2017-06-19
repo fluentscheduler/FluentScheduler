@@ -57,6 +57,7 @@
     <Compile Include="Unit\ITimeRestrictableUnit.cs" />
     <Compile Include="Unit\MinuteUnit.cs" />
     <Compile Include="Extension\RestrictableUnitExtensions.cs" />
+    <Compile Include="Unit\MillisecondUnit.cs" />
     <Compile Include="Unit\SecondUnit.cs" />
     <Compile Include="Event\JobExceptionInfo.cs" />
     <Compile Include="Unit\DelayTimeUnit.cs" />
