@@ -101,15 +101,15 @@
 
         private void Disposable()
         {
-            Schedule<DisposableJob>().WithName("[disposable").ToRunOnceIn(10).Seconds();
+            Schedule<DisposableJob>().WithName("[disposable]").ToRunOnceIn(10).Seconds();
         }
 
         private void FiveHundredMilliseconds()
         {
-            L.Register("[five hundred milliseconds]");
+            L.Register("[half a second]");
 
-            Schedule(() => L.Log("[five hundred milliseconds]", "Five hundred milliseconds have passed."))
-                .WithName("[five hundred milliseconds]").ToRunOnceAt(DateTime.Now.AddMilliseconds(500)).AndEvery(500).Milliseconds();
+            Schedule(() => L.Log("[half a second]", "Half a second has passed."))
+                .WithName("[half a second]").ToRunOnceIn(500).Milliseconds();
         }
 
         private void FiveMinutes()

@@ -17,8 +17,7 @@
 
         /// <summary>
         /// Sets the interval to milliseconds.
-        /// <para />
-        /// Note: Precision timing is not guaranteed.  Low intervals may result in high error.
+        /// The timing may not be accurated when used with very low intervals.
         /// </summary>
         public MillisecondUnit Milliseconds()
         {
