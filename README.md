@@ -72,14 +72,6 @@ registry.Schedule<MyComplexJob>().ToRunNow().AndEvery(1).Months().OnTheFirst(Day
 registry.Schedule<MyJob>().AndThen<MyOtherJob>().ToRunNow().AndEvery(5).Minutes();
 ```
 
-To check all possible options of scheduling you can use IntelliSense on the go or check this daunting call graph (click to enlarge):
-
-<p align="center">
-    <a href="https://github.com/fluentscheduler/FluentScheduler/raw/master/Assets/call-graph.png">
-        <img alt="call graph" src="Assets/call-graph.png" width="300">
-    </a>
-</p>
-
 With the registry ready you then need to initialize the [JobManager].
 This is usually done as soon as your application is loaded (in the [Application_Start] method of a web application for example):
 
