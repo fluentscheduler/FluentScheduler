@@ -17,7 +17,7 @@ Automated job scheduler with fluent interface.
 * [Stopping the scheduler](#stopping-the-scheduler)
 * [Dependency Injection](#dependency-injection)
 * [Unexpected exceptions](#unexpected-exceptions)
-* [Not milliseconds](#not-milliseconds)
+* [Milliseconds Accuracy](#milliseconds-accuracy)
 * [Daylight Saving Time](#daylight-saving-time)
 * [Weekly jobs](#weekly-jobs)
 * [Concurrent jobs](#concurrent-jobs)
@@ -210,13 +210,13 @@ JobManager.JobException += (info) => Log.Fatal("An error just happened with a sc
 
 [System.Threading.Tasks.Task]: https://msdn.microsoft.com/library/System.Threading.Tasks.Task
 
-## Not milliseconds
+## Milliseconds Accuracy
 
 The aim of the library is ease of use and flexibility, and not millisecond precision.
 
-While we make *best efforts* to ensure the library efficiency, we don't test it for milliseconds.
-Guaranteeing such precision can be tricky considering the time the library spends 'with itself'.
-That's why the least interval you can set is one second.
+While we make *best efforts* to ensure the library's efficiency, we don't test it for millisecond accuracy.
+Guaranteeing such precision can be tricky considering the time the library has to spend 'with itself'.
+As such, we provide a millisecond time unit; however, timing may not be accurate when using low intervals.
 
 ## Daylight Saving Time
 
