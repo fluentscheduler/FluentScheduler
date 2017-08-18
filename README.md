@@ -281,7 +281,7 @@ You can also help others in need for support, there's a ["help wanted"] label to
 Right now most of them are about problems on different environments (other than vanilla .NET in Windows):
 
 * Azure ([#80])
-* .NET Core ([#118])
+* .NET Core/Standard ([#118], [#159])
 * Xamarin ([#140])
 
 [open an issue]:                             https://github.com/fluentscheduler/FluentScheduler/issues
@@ -292,3 +292,4 @@ Right now most of them are about problems on different environments (other than 
 [#80]:                                       https://github.com/fluentscheduler/FluentScheduler/issues/80
 [#118]:                                      https://github.com/fluentscheduler/FluentScheduler/issues/118
 [#140]:                                      https://github.com/fluentscheduler/FluentScheduler/issues/140
+[#159]:                                      https://github.com/fluentscheduler/FluentScheduler/issues/159
