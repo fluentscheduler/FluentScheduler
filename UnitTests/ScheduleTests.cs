@@ -7,17 +7,62 @@
     public class ScheduleTests
     {
         [TestMethod]
-        public void SimpleSchedule()
+        public void Start()
         {
-            var expected = 2;
-            var actual = 0;
+            // Arrange
+            var calls = 0;
+            var schedule = new Schedule(() => ++calls, run => run.Now().AndEvery(1).Seconds());
 
-            var schedule = new Schedule(() => ++actual, run => run.Every(1).Seconds());
+            // Act
+            var returned = schedule.Start();
+            var running = schedule.Running;
 
-            schedule.Start();
+            // Assert
+            Assert.AreEqual(1, calls);
+            Assert.AreEqual(true, returned);
+            Assert.AreEqual(true, running);
 
-            Thread.Sleep(2100);
-            Assert.AreEqual(expected, actual);
+            // Act
+            returned = schedule.Start();
+            running = schedule.Running;
+
+            // Assert
+            Assert.AreEqual(false, returned);
+            Assert.AreEqual(true, running);
+
+            // Act
+            Thread.Sleep(1000);
+
+            // Assert
+            Assert.AreEqual(2, calls);
+        }
+
+        [TestMethod]
+        public void Stop()
+        {
+            // Arrange
+            var calls = 0;
+            var schedule = new Schedule(() => ++calls, run => run.Now().AndEvery(1).Seconds());
+
+            // Act
+            var returned = schedule.Start();
+            var running = schedule.Running;
+
+            Thread.Sleep(200);
+
+            // Assert
+            Assert.AreEqual(1, calls);
+            Assert.AreEqual(true, returned);
+            Assert.AreEqual(true, running);
+
+            // Act
+            returned = schedule.StopAndBlock();
+            running = schedule.Running;
+
+            // Assert
+            Assert.AreEqual(1, calls);
+            Assert.AreEqual(true, returned);
+            Assert.AreEqual(false, running);
         }
     }
 }
