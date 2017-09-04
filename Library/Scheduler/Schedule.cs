@@ -1,6 +1,7 @@
 ﻿namespace FluentScheduler
 {
     using System;
+    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -15,6 +16,8 @@
 
         private readonly object _lock;
 
+        private Task _task;
+
         private CancellationTokenSource _tokenSource;
 
         /// <summary>
@@ -28,24 +31,102 @@
             _job = job;
             _calculator = new TimeCalculator();
             _lock = new object();
+            _task = null;
+            _tokenSource = null;
 
             specifier(new RunSpecifier(_calculator));
         }
 
         /// <summary>
-        /// Starts the schedule.
-        /// If the schedule already started it does nothing.
+        /// True if the schedule is started, false otherwise.
         /// </summary>
-        public void Start()
+        public bool Running
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return _Running();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Starts the schedule.
+        /// </summary>
+        /// <returns>
+        /// True if the schedule is started, false if the scheduled was already started and the call did nothing
+        /// </returns>
+        public bool Start()
         {
             lock (_lock)
             {
-                _tokenSource = new CancellationTokenSource();
+                if (_Running())
+                    return false;
 
-                #pragma warning disable CS4014
-                Run(_tokenSource.Token);
-                #pragma warning restore CS4014
+                _tokenSource = new CancellationTokenSource();
+                _task = Run(_tokenSource.Token);
+
+                return true;
             }
+        }
+
+        /// <summary>
+        /// Stops the schedule.
+        /// This calls doesn't block (it doesn't wait for the running job to end its execution).
+        /// </summary>
+        /// <returns>
+        /// True if the schedule is stopped, false if the scheduled wasn't started and the call did nothing
+        /// </returns>
+        public bool Stop()
+        {
+            return _Stop(false, null);
+        }
+
+        /// <summary>
+        /// Stops the schedule.
+        /// This calls blocks (it waits for the running job to end its execution).
+        /// </summary>
+        /// <returns>
+        /// True if the schedule is stopped, false if the scheduled wasn't started and the call did nothing
+        /// </returns>
+        public bool StopAndBlock()
+        {
+            return _Stop(false, null);
+        }
+
+        /// <summary>
+        /// Stops the schedule.
+        /// This calls blocks (it waits for the running job to end its execution).
+        /// </summary>
+        /// <param name="millisecondsTimeout">Milliseconds to wait</param>
+        /// <returns>
+        /// True if the schedule is stopped, false if the scheduled wasn't started and the call did nothing
+        /// </returns>
+        public bool StopAndBlock(int millisecondsTimeout)
+        {
+            return _Stop(false, millisecondsTimeout);
+        }
+
+        /// <summary>
+        /// Stops the schedule.
+        /// This calls blocks (it waits for the running job to end its execution).
+        /// </summary>
+        /// <param name="timeout">Time to wait</param>
+        /// <returns>
+        /// True if the schedule stopped, false if the scheduled wasn't started and the call did nothing
+        /// </returns>
+        public bool StopAndBlock(TimeSpan timeout)
+        {
+            return _Stop(false, timeout.Milliseconds);
+        }
+
+        private TimeSpan? CalculateDelay()
+        {
+            var now = DateTime.Now;
+            var next = _calculator.Calculate(now);
+
+            return next.HasValue ? next.Value - now : null as TimeSpan?;
         }
 
         private async Task Run(CancellationToken token)
@@ -59,17 +140,40 @@
 
             _job();
 
-            #pragma warning disable CS4014
-            Run(token);
-            #pragma warning restore CS4014
+            _task = Run(token);
         }
 
-        private TimeSpan? CalculateDelay()
+        private bool _Running()
         {
-            var now = DateTime.Now;
-            var next = _calculator.Calculate(now);
+            Debug.Assert(
+                (_task == null && _tokenSource == null) ||
+                (_task != null && _tokenSource != null)
+            );
 
-            return next.HasValue ? next.Value - now : null as TimeSpan?;
+            return _task != null;
+        }
+
+        private bool _Stop(bool block, int? timeout)
+        {
+            lock (_lock)
+            {
+                if (!_Running())
+                    return false;
+
+                _tokenSource.Cancel();
+                _tokenSource.Dispose();
+
+                if (block && timeout.HasValue)
+                    _task.Wait(timeout.Value);
+
+                if (block && !timeout.HasValue)
+                    _task.Wait();
+
+                _task = null;
+                _tokenSource = null;
+
+                return true;
+            }
         }
     }
 }

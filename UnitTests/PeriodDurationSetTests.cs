@@ -17,40 +17,40 @@
 
             // Act
             run.Now().AndEvery(10).Seconds();
+            var calculated = calculator.Calculate(now);
 
             // Assert
-            DateTime? expected = now;
-            var actual = calculator.Calculate(now);
+            Assert.AreEqual(now, calculated);
 
-            Assert.AreEqual(expected, actual);
+            // Act
+            calculated = calculator.Calculate(now);
 
-            actual = calculator.Calculate(now);
-            expected = expected.Value.AddSeconds(10);
-
-            Assert.AreEqual(expected, actual);
+            // Assert
+            Assert.AreEqual(now.AddSeconds(10), calculated);
         }
 
         [TestMethod]
         public void OnceAtAndEvery()
         {
             // Arrange
-            var now = new DateTime(2000, 10, 10, 10, 10, 10);
+            var now = DateTime.Now;
+            var at = new DateTime(2000, 10, 10, 10, 10, 10);
+
             var calculator = new TimeCalculator();
             var run = new RunSpecifier(calculator);
 
             // Act
-            run.OnceAt(now).AndEvery(10).Seconds();
+            run.OnceAt(at).AndEvery(10).Seconds();
+            var calculated = calculator.Calculate(now);
 
             // Assert
-            DateTime? expected = now;
-            var actual = calculator.Calculate(DateTime.Now);
+            Assert.AreEqual(at, calculated);
 
-            Assert.AreEqual(expected, actual);
+            // Act
+            calculated = calculator.Calculate(now);
 
-            expected = expected.Value.AddSeconds(10);
-            actual = calculator.Calculate(now);
-
-            Assert.AreEqual(expected, actual);
+            // Assert
+            Assert.AreEqual(now.AddSeconds(10), calculated);
         }
     }
 }
