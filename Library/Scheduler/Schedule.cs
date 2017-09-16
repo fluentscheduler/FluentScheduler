@@ -52,6 +52,21 @@
         }
 
         /// <summary>
+        /// Date and time of the next job run.
+        /// </summary>
+        public DateTime? NextRun { get; private set; }
+
+        /// <summary>
+        /// Event raised when the job starts.
+        /// </summary>
+        public event EventHandler<JobStartedEventArgs> JobStarted;
+
+        /// <summary>
+        /// Evemt raised when the job ends.
+        /// </summary>
+        public event EventHandler<JobEndedEventArgs> JobEnded;
+
+        /// <summary>
         /// Starts the schedule.
         /// </summary>
         /// <returns>
@@ -63,6 +78,8 @@
             {
                 if (_Running())
                     return false;
+
+                CalculateNextRun();
 
                 _tokenSource = new CancellationTokenSource();
                 _task = Run(_tokenSource.Token);
@@ -121,30 +138,62 @@
             return _Stop(false, timeout.Milliseconds);
         }
 
-        private TimeSpan? CalculateDelay()
+        private void CalculateNextRun()
         {
-            var now = DateTime.Now;
-            var next = _calculator.Calculate(now);
-
-            return next.HasValue ? next.Value - now : null as TimeSpan?;
+            NextRun = _calculator.Calculate(DateTime.Now);
         }
 
         private async Task Run(CancellationToken token)
         {
-            var delay = CalculateDelay();
-
-            if (!delay.HasValue)
+            // checking if it's supposed to run
+            // it assumes that CalculateNextRun has been called previously from somewhere else
+            if (!NextRun.HasValue)
                 return;
 
-            await Task.Delay(delay.Value, token);
+            // calculating delay
+            var delay = NextRun.Value - DateTime.Now;
 
-            _job();
+            // delaying until it's time to run
+            await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token);
 
+            // used on both JobStarted and JobEnded events
+            var startTime = DateTime.Now;
+
+            // raising JobStarted event
+            JobStarted?.Invoke(this, new JobStartedEventArgs(startTime));
+
+            // used on JobEnded event
+            Exception exception = null;
+
+            try
+            {
+                // running the job
+                _job();
+            }
+            catch (Exception e)
+            {
+                // catching the exception if any
+                exception = e;
+            }
+
+            // used on JobEnded event
+            var endTime = DateTime.Now;
+
+            // calculating the next run
+            // used on both JobEnded event and for the next run of this method
+            CalculateNextRun();
+
+            // raising JobEnded event
+            JobEnded?.Invoke(this, new JobEndedEventArgs(exception, startTime, endTime, NextRun));
+
+            // recursive call
+            // note that the NextRun was already calculated in this run
             _task = Run(token);
         }
 
         private bool _Running()
         {
+            // task and token source should be both null or both not null
             Debug.Assert(
                 (_task == null && _tokenSource == null) ||
                 (_task != null && _tokenSource != null)
