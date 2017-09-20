@@ -47,7 +47,7 @@ Check the ["help wanted"] label!
 **Want to implement something yourself?**
 Discuss it first in an [new] or [existing] issue, then open a [pull request]!
 
-[documentation]: http://fluentscheduler.readthedocs.io
+[documentation]: http://fluentscheduler.github.io
 [issues]:        https://github.com/fluentscheduler/FluentScheduler/issues
 ["help wanted"]: https://github.com/fluentscheduler/FluentScheduler/labels/help%20wanted
 [new]:           https://github.com/fluentscheduler/FluentScheduler/issues/new
