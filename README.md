@@ -1,3 +1,12 @@
+**This is a work in progress, if you want the production ready version of the library check the main repository:
+[fluentscheduler/FluentScheduler](https://github.com/fluentscheduler/FluentScheduler).**
+
+Here lies a redesign of the library addressing many issues of the current implementation.
+If you want to contribute with the redesign please
+[join the discussion](https://github.com/fluentscheduler/redesign/issues)!
+
+---
+
 <p align="center">
     <a href="#fluentscheduler">
         <img alt="logo" height="150px" src="https://raw.githubusercontent.com/fluentscheduler/FluentScheduler/logo/logo.png">
