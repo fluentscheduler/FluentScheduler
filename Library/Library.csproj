@@ -39,14 +39,14 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fluent\1 - Once\OnceSet.cs" />
-    <Compile Include="Fluent\2 - Duration\PeriodDurationSet.cs" />
-    <Compile Include="Fluent\1 - Once\OnceDurationSet.cs" />
-    <Compile Include="Fluent\0 - Run\RunSpecifier.cs" />
+    <Compile Include="Fluent\2 - Once\OnceSet.cs" />
+    <Compile Include="Fluent\3 - Duration\PeriodDurationSet.cs" />
+    <Compile Include="Fluent\2 - Once\OnceDurationSet.cs" />
+    <Compile Include="Fluent\1 - Run\RunSpecifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scheduler\EventArgs\JobEndedEventArgs.cs" />
     <Compile Include="Scheduler\EventArgs\JobStartedEventArgs.cs" />
-    <Compile Include="Scheduler\TimeCalculator.cs" />
+    <Compile Include="Fluent\TimeCalculator.cs" />
     <Compile Include="Scheduler\Schedule.cs" />
   </ItemGroup>
   <ItemGroup />
