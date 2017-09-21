@@ -71,75 +71,58 @@
         public event EventHandler<JobEndedEventArgs> JobEnded;
 
         /// <summary>
-        /// Starts the schedule.
+        /// Starts the schedule or does nothing if it's already running.
         /// </summary>
-        /// <returns>
-        /// True if the schedule is started, false if the scheduled was already started and the call did nothing
-        /// </returns>
-        public bool Start()
+        public void Start()
         {
             lock (_lock)
             {
                 if (_Running())
-                    return false;
+                    return;
 
                 CalculateNextRun();
 
                 _tokenSource = new CancellationTokenSource();
                 _task = Run(_tokenSource.Token);
-
-                return true;
             }
         }
 
         /// <summary>
-        /// Stops the schedule.
+        /// Stops the schedule or does nothing if it's not running.
         /// This calls doesn't block (it doesn't wait for the running job to end its execution).
         /// </summary>
-        /// <returns>
-        /// True if the schedule is stopped, false if the scheduled wasn't started and the call did nothing
-        /// </returns>
-        public bool Stop() => _Stop(false, null);
+        public void Stop() => _Stop(false, null);
 
         /// <summary>
-        /// Stops the schedule.
+        /// Stops the schedule or does nothing if it's not running.
         /// This calls blocks (it waits for the running job to end its execution).
         /// </summary>
-        /// <returns>
-        /// True if the schedule is stopped, false if the scheduled wasn't started and the call did nothing
-        /// </returns>
-        public bool StopAndBlock() => _Stop(false, null);
+        public void StopAndBlock() => _Stop(false, null);
 
         /// <summary>
-        /// Stops the schedule.
+        /// Stops the schedule or does nothing if it's not running.
         /// This calls blocks (it waits for the running job to end its execution).
         /// </summary>
         /// <param name="timeout">Milliseconds to wait</param>
-        /// <returns>
-        /// True if the schedule is stopped, false if the scheduled wasn't started and the call did nothing
-        /// </returns>
-        public bool StopAndBlock(int timeout)
+        public void StopAndBlock(int timeout)
         {
             if (timeout < 0)
                 throw new ArgumentOutOfRangeException($"\"{nameof(timeout)}\" should be positive.");
 
-            return _Stop(false, timeout);
+            _Stop(false, timeout);
         }
 
         /// <summary>
-        /// Stops the schedule.
+        /// Stops the schedule or does nothing if it's not running.
         /// This calls blocks (it waits for the running job to end its execution).
         /// </summary>
         /// <param name="timeout">Time to wait</param>
-        /// <returns>
-        /// True if the schedule stopped, false if the scheduled wasn't started and the call did nothing
-        /// </returns>
-        public bool StopAndBlock(TimeSpan timeout)
+        public void StopAndBlock(TimeSpan timeout)
         {
             if (timeout < TimeSpan.Zero)
                 throw new ArgumentOutOfRangeException($"\"{nameof(timeout)}\" should be positive.");
 
-            return _Stop(false, timeout.Milliseconds);
+            _Stop(false, timeout.Milliseconds);
         }
 
         private void CalculateNextRun() => NextRun = _calculator.Calculate(DateTime.Now);
@@ -203,12 +186,12 @@
             return _task != null;
         }
 
-        private bool _Stop(bool block, int? timeout)
+        private void _Stop(bool block, int? timeout)
         {
             lock (_lock)
             {
                 if (!_Running())
-                    return false;
+                    return;
 
                 _tokenSource.Cancel();
                 _tokenSource.Dispose();
@@ -221,8 +204,6 @@
 
                 _task = null;
                 _tokenSource = null;
-
-                return true;
             }
         }
     }

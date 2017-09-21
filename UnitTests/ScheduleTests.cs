@@ -15,23 +15,12 @@
             var schedule = new Schedule(() => ++calls, run => run.Now().AndEvery(1).Seconds());
 
             // Act
-            var returned = schedule.Start();
-            var running = schedule.Running;
-
+            schedule.Start();
             Thread.Sleep(100);
 
             // Assert
             Assert.AreEqual(1, calls);
-            Assert.AreEqual(true, returned);
-            Assert.AreEqual(true, running);
-
-            // Act
-            returned = schedule.Start();
-            running = schedule.Running;
-
-            // Assert
-            Assert.AreEqual(false, returned);
-            Assert.AreEqual(true, running);
+            Assert.IsTrue(schedule.Running);
 
             // Act
             Thread.Sleep(1000);
@@ -48,24 +37,19 @@
             var schedule = new Schedule(() => ++calls, run => run.Now().AndEvery(1).Seconds());
 
             // Act
-            var returned = schedule.Start();
-            var running = schedule.Running;
-
+            schedule.Start();
             Thread.Sleep(100);
 
             // Assert
             Assert.AreEqual(1, calls);
-            Assert.AreEqual(true, returned);
-            Assert.AreEqual(true, running);
+            Assert.IsTrue(schedule.Running);
 
             // Act
-            returned = schedule.StopAndBlock();
-            running = schedule.Running;
+            schedule.StopAndBlock();
 
             // Assert
             Assert.AreEqual(1, calls);
-            Assert.AreEqual(true, returned);
-            Assert.AreEqual(false, running);
+            Assert.IsFalse(schedule.Running);
         }
 
         [TestMethod]
@@ -81,7 +65,6 @@
 
             // Act
             schedule.Start();
-
             Thread.Sleep(100);
 
             // Assert
@@ -107,7 +90,6 @@
 
             // Act
             schedule.Start();
-
             Thread.Sleep(100);
 
             // Assert
