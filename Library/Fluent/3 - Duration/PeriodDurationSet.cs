@@ -1,5 +1,8 @@
 ﻿namespace FluentScheduler
 {
+    /// <summary>
+    /// Duration of "period" run has been set, but not its unit.
+    /// </summary>
     public class PeriodDurationSet
     {
         private readonly int _duration;
@@ -12,31 +15,49 @@
             _calculator = calculator;
         }
 
+        /// <summary>
+        /// Sets the unit as seconds.
+        /// </summary>
         public void Seconds()
         {
             _calculator.PeriodCalculations.Add(now => now.AddSeconds(_duration));
         }
 
+        /// <summary>
+        /// Sets the unit as minutes.
+        /// </summary>
         public void Minutes()
         {
             _calculator.PeriodCalculations.Add(now => now.AddMinutes(_duration));
         }
 
+        /// <summary>
+        /// Sets the unit as hours.
+        /// </summary>
         public void Hours()
         {
             _calculator.PeriodCalculations.Add(now => now.AddSeconds(_duration));
         }
 
+        /// <summary>
+        /// Sets the unit as days.
+        /// </summary>
         public void Days()
         {
             _calculator.PeriodCalculations.Add(now => now.AddDays(_duration));
         }
 
+        /// <summary>
+        /// Sets the unit as months.
+        /// </summary>
         public void Months()
         {
             _calculator.PeriodCalculations.Add(now => now.AddMonths(_duration));
         }
 
+        /// <summary>
+        /// Sets the unit as years.
+        /// </summary>
         public void Years()
         {
             _calculator.PeriodCalculations.Add(now => now.AddYears(_duration));
