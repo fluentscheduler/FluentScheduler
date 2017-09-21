@@ -14,12 +14,16 @@
             _calculator = calculator;
         }
 
-        public PeriodDurationSet Every(int duration)
+        /// <summary>
+        /// Runs the job according to the given interval.
+        /// </summary>
+        /// <param name="interval">Interval (without unit) to wait</param>
+        public PeriodDurationSet Every(int interval)
         {
-            if (duration < 0)
-                throw new ArgumentOutOfRangeException($"\"{nameof(duration)}\" should be positive.");
+            if (interval < 0)
+                throw new ArgumentOutOfRangeException($"\"{nameof(interval)}\" should be positive.");
 
-            return new PeriodDurationSet(duration, _calculator);
+            return new PeriodDurationSet(interval, _calculator);
         }
 
         /// <summary>
@@ -34,8 +38,8 @@
         /// <summary>
         /// Runs the job once at the given time time of day.
         /// </summary>
-        /// <param name="hours">The hours (0 to 23).</param>
-        /// <param name="minutes">The minutes (0 to 59).</param>
+        /// <param name="hours">The hours (0 to 23)</param>
+        /// <param name="minutes">The minutes (0 to 59)</param>
         public OnceSet OnceAt(int hours, int minutes)
         {
             if (hours < 0 || hours > 23)
@@ -75,13 +79,17 @@
             return new OnceSet(_calculator);
         }
 
-        public OnceDurationSet OnceIn(int duration)
+        /// <summary>
+        /// Runs the job once after the given delay.
+        /// </summary>
+        /// <param name="delay">Delay (without unit) to wait</param>
+        public OnceDurationSet OnceIn(int delay)
         {
-            if (duration < 0)
-                throw new ArgumentOutOfRangeException($"\"{nameof(duration)}\" should be positive.");
+            if (delay < 0)
+                throw new ArgumentOutOfRangeException($"\"{nameof(delay)}\" should be positive.");
 
             _calculator.OnceCalculation = now => now;
-            return new OnceDurationSet(duration, _calculator);
+            return new OnceDurationSet(delay, _calculator);
         }
 
         /// <summary>

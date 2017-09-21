@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// The "once" run has been set.
+    /// </summary>
     public class OnceSet
     {
         private readonly TimeCalculator _calculator;
@@ -11,12 +14,16 @@
             _calculator = calculator;
         }
 
-        public PeriodDurationSet AndEvery(int duration)
+        /// <summary>
+        /// Runs the job according to the given interval.
+        /// </summary>
+        /// <param name="interval">Interval (without unit) to wait</param>
+        public PeriodDurationSet AndEvery(int interval)
         {
-            if (duration < 0)
-                throw new ArgumentOutOfRangeException($"\"{nameof(duration)}\" should be positive.");
+            if (interval < 0)
+                throw new ArgumentOutOfRangeException($"\"{nameof(interval)}\" should be positive.");
 
-            return new PeriodDurationSet(duration, _calculator);
+            return new PeriodDurationSet(interval, _calculator);
         }
     }
 }
