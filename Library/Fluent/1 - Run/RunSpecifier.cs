@@ -16,6 +16,9 @@
 
         public PeriodDurationSet Every(int duration)
         {
+            if (duration < 0)
+                throw new ArgumentOutOfRangeException($"\"{nameof(duration)}\" should be positive.");
+
             return new PeriodDurationSet(duration, _calculator);
         }
 
@@ -35,6 +38,12 @@
         /// <param name="minutes">The minutes (0 to 59).</param>
         public OnceSet OnceAt(int hours, int minutes)
         {
+            if (hours < 0 || hours > 23)
+                throw new ArgumentOutOfRangeException($"\"{nameof(hours)}\" should be in the 0 to 23 range.");
+
+            if (minutes < 0 || minutes > 59)
+                throw new ArgumentOutOfRangeException($"\"{nameof(minutes)}\" should be in the 0 to 59 range.");
+
             OnceAt(new TimeSpan(hours, minutes, 0));
             return new OnceSet(_calculator);
         }
@@ -68,6 +77,9 @@
 
         public OnceDurationSet OnceIn(int duration)
         {
+            if (duration < 0)
+                throw new ArgumentOutOfRangeException($"\"{nameof(duration)}\" should be positive.");
+
             _calculator.OnceCalculation = now => now;
             return new OnceDurationSet(duration, _calculator);
         }
@@ -78,6 +90,9 @@
         /// <param name="delay">Delay to wait</param>
         public OnceSet OnceIn(TimeSpan delay)
         {
+            if (delay < TimeSpan.Zero)
+                throw new ArgumentOutOfRangeException($"\"{nameof(delay)}\" should be positive.");
+
             _calculator.OnceCalculation = now => now.Add(delay);
             return new OnceSet(_calculator);
         }
