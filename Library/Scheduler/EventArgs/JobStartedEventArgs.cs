@@ -7,10 +7,7 @@
     /// </summary>
     public class JobStartedEventArgs : EventArgs
     {
-        internal JobStartedEventArgs(DateTime startTime)
-        {
-            StartTime = startTime;
-        }
+        internal JobStartedEventArgs(DateTime startTime) => StartTime = startTime;
 
         /// <summary>
         /// Date and time of the job start.

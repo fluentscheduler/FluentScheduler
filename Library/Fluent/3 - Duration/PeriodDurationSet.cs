@@ -18,49 +18,31 @@
         /// <summary>
         /// Sets the unit as seconds.
         /// </summary>
-        public void Seconds()
-        {
-            _calculator.PeriodCalculations.Add(now => now.AddSeconds(_duration));
-        }
+        public void Seconds() => _calculator.PeriodCalculations.Add(now => now.AddSeconds(_duration));
 
         /// <summary>
         /// Sets the unit as minutes.
         /// </summary>
-        public void Minutes()
-        {
-            _calculator.PeriodCalculations.Add(now => now.AddMinutes(_duration));
-        }
+        public void Minutes() => _calculator.PeriodCalculations.Add(now => now.AddMinutes(_duration));
 
         /// <summary>
         /// Sets the unit as hours.
         /// </summary>
-        public void Hours()
-        {
-            _calculator.PeriodCalculations.Add(now => now.AddSeconds(_duration));
-        }
+        public void Hours() => _calculator.PeriodCalculations.Add(now => now.AddSeconds(_duration));
 
         /// <summary>
         /// Sets the unit as days.
         /// </summary>
-        public void Days()
-        {
-            _calculator.PeriodCalculations.Add(now => now.AddDays(_duration));
-        }
+        public void Days() => _calculator.PeriodCalculations.Add(now => now.AddDays(_duration));
 
         /// <summary>
         /// Sets the unit as months.
         /// </summary>
-        public void Months()
-        {
-            _calculator.PeriodCalculations.Add(now => now.AddMonths(_duration));
-        }
+        public void Months() => _calculator.PeriodCalculations.Add(now => now.AddMonths(_duration));
 
         /// <summary>
         /// Sets the unit as years.
         /// </summary>
-        public void Years()
-        {
-            _calculator.PeriodCalculations.Add(now => now.AddYears(_duration));
-        }
+        public void Years() => _calculator.PeriodCalculations.Add(now => now.AddYears(_duration));
     }
 }

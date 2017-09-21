@@ -9,10 +9,7 @@
     {
         private readonly TimeCalculator _calculator;
 
-        internal RunSpecifier(TimeCalculator calculator)
-        {
-            _calculator = calculator;
-        }
+        internal RunSpecifier(TimeCalculator calculator) => _calculator = calculator;
 
         /// <summary>
         /// Runs the job according to the given interval.
