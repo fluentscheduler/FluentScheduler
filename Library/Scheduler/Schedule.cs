@@ -137,8 +137,12 @@
             // calculating delay
             var delay = NextRun.Value - DateTime.Now;
 
-            // delaying until it's time to run
+            // delaying until it's time to run or a cancellation was requested
             await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token);
+
+            // checking if a cancellation was requested
+            if (token.IsCancellationRequested)
+                return;
 
             // used on both JobStarted and JobEnded events
             var startTime = DateTime.Now;
