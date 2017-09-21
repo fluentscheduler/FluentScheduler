@@ -13,10 +13,7 @@
         internal IList<Func<DateTime, DateTime>> PeriodCalculations { get; private set; } =
             new List<Func<DateTime, DateTime>>();
 
-        internal DateTime? Calculate(DateTime now)
-        {
-            return CalculateOnce(now) ?? CalculatePeriod(now);
-        }
+        internal DateTime? Calculate(DateTime now) => CalculateOnce(now) ?? CalculatePeriod(now);
 
         private DateTime? CalculateOnce(DateTime now)
         {

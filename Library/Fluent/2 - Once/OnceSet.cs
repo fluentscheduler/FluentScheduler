@@ -9,10 +9,7 @@
     {
         private readonly TimeCalculator _calculator;
 
-        internal OnceSet(TimeCalculator calculator)
-        {
-            _calculator = calculator;
-        }
+        internal OnceSet(TimeCalculator calculator) => _calculator = calculator;
 
         /// <summary>
         /// Runs the job according to the given interval.

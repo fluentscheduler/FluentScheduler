@@ -99,10 +99,7 @@
         /// <returns>
         /// True if the schedule is stopped, false if the scheduled wasn't started and the call did nothing
         /// </returns>
-        public bool Stop()
-        {
-            return _Stop(false, null);
-        }
+        public bool Stop() => _Stop(false, null);
 
         /// <summary>
         /// Stops the schedule.
@@ -111,10 +108,7 @@
         /// <returns>
         /// True if the schedule is stopped, false if the scheduled wasn't started and the call did nothing
         /// </returns>
-        public bool StopAndBlock()
-        {
-            return _Stop(false, null);
-        }
+        public bool StopAndBlock() => _Stop(false, null);
 
         /// <summary>
         /// Stops the schedule.
@@ -148,10 +142,7 @@
             return _Stop(false, timeout.Milliseconds);
         }
 
-        private void CalculateNextRun()
-        {
-            NextRun = _calculator.Calculate(DateTime.Now);
-        }
+        private void CalculateNextRun() => NextRun = _calculator.Calculate(DateTime.Now);
 
         private async Task Run(CancellationToken token)
         {
