@@ -28,7 +28,11 @@
         /// <returns>A schedule for the given job</returns>
         public Schedule(Action job, Action<RunSpecifier> specifier)
         {
-            _job = job;
+            _job = job ?? throw new ArgumentNullException(nameof(job));
+
+            if (specifier == null)
+                throw new ArgumentNullException(nameof(specifier));
+
             _calculator = new TimeCalculator();
             _lock = new object();
             _task = null;
@@ -116,13 +120,16 @@
         /// Stops the schedule.
         /// This calls blocks (it waits for the running job to end its execution).
         /// </summary>
-        /// <param name="millisecondsTimeout">Milliseconds to wait</param>
+        /// <param name="timeout">Milliseconds to wait</param>
         /// <returns>
         /// True if the schedule is stopped, false if the scheduled wasn't started and the call did nothing
         /// </returns>
-        public bool StopAndBlock(int millisecondsTimeout)
+        public bool StopAndBlock(int timeout)
         {
-            return _Stop(false, millisecondsTimeout);
+            if (timeout < 0)
+                throw new ArgumentOutOfRangeException($"\"{nameof(timeout)}\" should be positive.");
+
+            return _Stop(false, timeout);
         }
 
         /// <summary>
@@ -135,6 +142,9 @@
         /// </returns>
         public bool StopAndBlock(TimeSpan timeout)
         {
+            if (timeout < TimeSpan.Zero)
+                throw new ArgumentOutOfRangeException($"\"{nameof(timeout)}\" should be positive.");
+
             return _Stop(false, timeout.Milliseconds);
         }
 
