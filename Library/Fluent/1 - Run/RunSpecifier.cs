@@ -28,7 +28,7 @@
         /// </summary>
         public OnceSet Now()
         {
-            _calculator.OnceCalculation = now => now;
+            _calculator.OnceCalculation = last => last;
             return new OnceSet(_calculator);
         }
 
@@ -57,10 +57,10 @@
         {
             timeOfDay = new TimeSpan(timeOfDay.Hours, timeOfDay.Minutes, timeOfDay.Seconds);
 
-            _calculator.OnceCalculation = now =>
+            _calculator.OnceCalculation = last =>
             {
-                var result = now.Date.Add(timeOfDay);
-                return result > now ? result : result.AddDays(1);
+                var result = last.Date.Add(timeOfDay);
+                return result > last ? result : result.AddDays(1);
             };
 
             return new OnceSet(_calculator);
@@ -72,7 +72,7 @@
         /// <param name="dateTime">Date and time to run</param>
         public OnceSet OnceAt(DateTime dateTime)
         {
-            _calculator.OnceCalculation = now => dateTime;
+            _calculator.OnceCalculation = last => dateTime;
             return new OnceSet(_calculator);
         }
 
@@ -85,7 +85,7 @@
             if (delay < 0)
                 throw new ArgumentOutOfRangeException($"\"{nameof(delay)}\" should be positive.");
 
-            _calculator.OnceCalculation = now => now;
+            _calculator.OnceCalculation = last => last;
             return new OnceDurationSet(delay, _calculator);
         }
 
@@ -98,7 +98,7 @@
             if (delay < TimeSpan.Zero)
                 throw new ArgumentOutOfRangeException($"\"{nameof(delay)}\" should be positive.");
 
-            _calculator.OnceCalculation = now => now.Add(delay);
+            _calculator.OnceCalculation = last => last.Add(delay);
             return new OnceSet(_calculator);
         }
     }

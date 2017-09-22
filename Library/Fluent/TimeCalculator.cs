@@ -13,23 +13,23 @@
         internal IList<Func<DateTime, DateTime>> PeriodCalculations { get; private set; } =
             new List<Func<DateTime, DateTime>>();
 
-        internal DateTime? Calculate(DateTime now) => CalculateOnce(now) ?? CalculatePeriod(now);
+        internal DateTime? Calculate(DateTime last) => CalculateOnce(last) ?? CalculatePeriod(last);
 
-        private DateTime? CalculateOnce(DateTime now)
+        private DateTime? CalculateOnce(DateTime last)
         {
             if (!_firstCalculation)
                 return null;
 
             _firstCalculation = false;
-            return OnceCalculation?.Invoke(now);
+            return OnceCalculation?.Invoke(last);
         }
 
-        private DateTime? CalculatePeriod(DateTime now)
+        private DateTime? CalculatePeriod(DateTime last)
         {
             if (!PeriodCalculations.Any())
                 return null;
 
-            var next = now;
+            var next = last;
 
             foreach (var calc in PeriodCalculations)
                 next = calc(next);
