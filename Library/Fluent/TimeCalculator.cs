@@ -13,6 +13,8 @@
         internal IList<Func<DateTime, DateTime>> PeriodCalculations { get; private set; } =
             new List<Func<DateTime, DateTime>>();
 
+        internal void Reset() => _firstCalculation = true;
+
         internal DateTime? Calculate(DateTime last) => CalculateOnce(last) ?? CalculatePeriod(last);
 
         private DateTime? CalculateOnce(DateTime last)

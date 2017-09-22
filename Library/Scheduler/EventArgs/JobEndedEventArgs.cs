@@ -16,7 +16,7 @@
         }
 
         /// <summary>
-        /// Null if the job didn't throw an exception, the exception object otherwise.
+        /// Null if the job did not throw an exception, the exception object otherwise.
         /// </summary>
         public Exception Exception { get; }
 

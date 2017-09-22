@@ -12,11 +12,11 @@
     {
         private readonly Action _job;
 
-        private readonly TimeCalculator _calculator;
-
         private readonly object _lock;
 
         private Task _task;
+
+        private TimeCalculator _calculator;
 
         private CancellationTokenSource _tokenSource;
 
@@ -24,7 +24,7 @@
         /// Creates a new schedule for the given job.
         /// </summary>
         /// <param name="job">Job to be scheduled</param>
-        /// <param name="specifier">Fluent specifier that determines when the job should run</param>
+        /// <param name="specifier">Scheduling of this schedule</param>
         /// <returns>A schedule for the given job</returns>
         public Schedule(Action job, Action<RunSpecifier> specifier)
         {
@@ -33,9 +33,9 @@
             if (specifier == null)
                 throw new ArgumentNullException(nameof(specifier));
 
-            _calculator = new TimeCalculator();
             _lock = new object();
             _task = null;
+            _calculator = new TimeCalculator();
             _tokenSource = null;
 
             specifier(new RunSpecifier(_calculator));
@@ -71,6 +71,40 @@
         public event EventHandler<JobEndedEventArgs> JobEnded;
 
         /// <summary>
+        /// Resets the scheduling of this schedule.
+        /// You must not call this method if the schedule is running.
+        /// </summary>
+        public void ResetScheduling()
+        {
+            lock (_lock)
+            {
+                if (_Running())
+                    throw new InvalidOperationException("You cannot change the scheduling of a running schedule.");
+
+                NextRun = null;
+                _calculator.Reset();
+            }
+        }
+
+        /// <summary>
+        /// Changes the scheduling of this schedule.
+        /// You must not call this method if the schedule is running.
+        /// </summary>
+        /// <param name="specifier">Scheduling of this schedule</param>
+        public void SetScheduling(Action<RunSpecifier> specifier)
+        {
+            if (specifier == null)
+                throw new ArgumentNullException(nameof(specifier));
+
+            if (_Running())
+                throw new InvalidOperationException("You cannot change the scheduling of a running schedule.");
+
+            NextRun = null;
+            _calculator = new TimeCalculator();
+            specifier(new RunSpecifier(_calculator));
+        }
+
+        /// <summary>
         /// Starts the schedule or does nothing if it's already running.
         /// </summary>
         public void Start()
@@ -89,7 +123,7 @@
 
         /// <summary>
         /// Stops the schedule or does nothing if it's not running.
-        /// This calls doesn't block (it doesn't wait for the running job to end its execution).
+        /// This calls does not block.
         /// </summary>
         public void Stop() => _Stop(false, null);
 
