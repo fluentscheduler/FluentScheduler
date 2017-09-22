@@ -80,7 +80,7 @@
                 if (_Running())
                     return;
 
-                CalculateNextRun();
+                CalculateNextRun(DateTime.Now);
 
                 _tokenSource = new CancellationTokenSource();
                 _task = Run(_tokenSource.Token);
@@ -125,7 +125,7 @@
             _Stop(false, timeout.Milliseconds);
         }
 
-        private void CalculateNextRun() => NextRun = _calculator.Calculate(DateTime.Now);
+        private void CalculateNextRun(DateTime last) => NextRun = _calculator.Calculate(last);
 
         private async Task Run(CancellationToken token)
         {
@@ -169,7 +169,7 @@
 
             // calculating the next run
             // used on both JobEnded event and for the next run of this method
-            CalculateNextRun();
+            CalculateNextRun(startTime);
 
             // raising JobEnded event
             JobEnded?.Invoke(this, new JobEndedEventArgs(exception, startTime, endTime, NextRun));

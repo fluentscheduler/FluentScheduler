@@ -18,31 +18,31 @@
         /// <summary>
         /// Sets the unit as seconds.
         /// </summary>
-        public void Seconds() => _calculator.OnceCalculation = now => now.AddSeconds(_duration);
+        public void Seconds() => _calculator.OnceCalculation = last => last.AddSeconds(_duration);
 
         /// <summary>
         /// Sets the unit as minutes.
         /// </summary>
-        public void Minutes() => _calculator.OnceCalculation = now => now.AddMinutes(_duration);
+        public void Minutes() => _calculator.OnceCalculation = last => last.AddMinutes(_duration);
 
         /// <summary>
         /// Sets the unit as hours.
         /// </summary>
-        public void Hours() => _calculator.OnceCalculation = now => now.AddHours(_duration);
+        public void Hours() => _calculator.OnceCalculation = last => last.AddHours(_duration);
 
         /// <summary>
         /// Sets the unit as days.
         /// </summary>
-        public void Days() => _calculator.OnceCalculation = now => now.AddDays(_duration);
+        public void Days() => _calculator.OnceCalculation = last => last.AddDays(_duration);
 
         /// <summary>
         /// Sets the unit as months.
         /// </summary>
-        public void Months() => _calculator.OnceCalculation = now => now.AddMonths(_duration);
+        public void Months() => _calculator.OnceCalculation = last => last.AddMonths(_duration);
 
         /// <summary>
         /// Sets the unit as years.
         /// </summary>
-        public void Years() => _calculator.OnceCalculation = now => now.AddYears(_duration);
+        public void Years() => _calculator.OnceCalculation = last => last.AddYears(_duration);
     }
 }
