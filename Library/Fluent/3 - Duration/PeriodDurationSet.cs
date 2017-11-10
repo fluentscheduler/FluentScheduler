@@ -38,11 +38,12 @@
         /// <summary>
         /// Sets the unit as months.
         /// </summary>
-        public void Months() => _calculator.PeriodCalculations.Add(last => last.AddMonths(_duration));
-
-        /// <summary>
-        /// Sets the unit as years.
-        /// </summary>
-        public void Years() => _calculator.PeriodCalculations.Add(last => last.AddYears(_duration));
+        public MonthUnit Months()
+        {
+            _calculator.PeriodCalculations.Add(last => last.AddMonths(_duration));
+            return new MonthUnit(_calculator);
+        }
     }
 }
+
+
