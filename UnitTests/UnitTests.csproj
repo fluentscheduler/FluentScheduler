@@ -48,10 +48,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PeriodDurationSetTests.cs" />
-    <Compile Include="ScheduleTests.cs" />
+    <Compile Include="Fluent\3 - Duration\Month\MonthOnDayofWeekUnitTests.cs" />
+    <Compile Include="Fluent\3 - Duration\PeriodDurationSetTests.cs" />
+    <Compile Include="Scheduler\ScheduleTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="OnceSetTests.cs" />
+    <Compile Include="Fluent\2 - Once\OnceSetTests.cs" />
+    <Compile Include="Fluent\3 - Duration\Month\MonthUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
