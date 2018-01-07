@@ -112,12 +112,22 @@ public class SampleJob : IJob, IRegisteredObject
 
     public void Execute()
     {
-        lock (_lock)
+        try
         {
-            if (_shuttingDown)
-                return;
+            lock (_lock)
+            {
+                if (_shuttingDown)
+                {
+                    return;
+                }
 
-            // Do work, son!
+                // Do work, son!
+            }
+        }
+        finally
+        {
+            // Always unregister the job when done.
+            HostingEnvironment.UnregisterObject(this);
         }
     }
 
