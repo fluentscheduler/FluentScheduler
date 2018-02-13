@@ -33,16 +33,15 @@
         /// <summary>
         /// Sets the unit as days.
         /// </summary>
-        public void Days() => _calculator.OnceCalculation = last => last.AddDays(_duration);
+        public TimeSet Days()
+        {
+            _calculator.OnceCalculation = last => last.AddDays(_duration);
+            return new TimeSet(_calculator);
+        } 
 
         /// <summary>
         /// Sets the unit as months.
         /// </summary>
         public void Months() => _calculator.OnceCalculation = last => last.AddMonths(_duration);
-
-        /// <summary>
-        /// Sets the unit as years.
-        /// </summary>
-        public void Years() => _calculator.OnceCalculation = last => last.AddYears(_duration);
     }
 }

@@ -13,52 +13,52 @@
         /// Runs the job on the given day of the month.
         /// </summary>
         /// <param name="day">The day (1 through the number of days in month)</param>
-        public MonthOnDayOfWeekUnit On(int day)
+        public TimeSet On(int day)
         {
             _calculator.PeriodCalculations.Add(
                 last => new DateTime(last.Year, last.Month, day, last.Hour, last.Minute, last.Second));
 
-            return new MonthOnDayOfWeekUnit(_calculator);
+            return new TimeSet(_calculator);
         }
 
         /// <summary>
         /// Runs the job on the given day of week on the first week of the month.
         /// </summary>
         /// <param name="day">The day of the week</param>
-        public MonthOnDayOfWeekUnit OnTheFirstDay(DayOfWeek day)
+        public TimeSet OnTheFirstDay(DayOfWeek day)
         {
             _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 1));
-            return new MonthOnDayOfWeekUnit(_calculator);
+            return new TimeSet(_calculator);
         }
 
         /// <summary>
         /// Runs the job on the given day of week on the second week of the month.
         /// </summary>
         /// <param name="day">The day of the week</param>
-        public MonthOnDayOfWeekUnit OnTheSecondDay(DayOfWeek day)
+        public TimeSet OnTheSecondDay(DayOfWeek day)
         {
             _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 2));
-            return new MonthOnDayOfWeekUnit(_calculator);
+            return new TimeSet(_calculator);
         }
 
         /// <summary>
         /// Runs the job on the given day of week on the third week of the month.
         /// </summary>
         /// <param name="day">The day of the week</param>
-        public MonthOnDayOfWeekUnit OnTheThirdDay(DayOfWeek day)
+        public TimeSet OnTheThirdDay(DayOfWeek day)
         {
             _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 3));
-            return new MonthOnDayOfWeekUnit(_calculator);
+            return new TimeSet(_calculator);
         }
 
         /// <summary>
         /// Runs the job on the given day of week on the fourth week of the month.
         /// </summary>
         /// <param name="day">The day of the week</param>
-        public MonthOnDayOfWeekUnit OnTheFourthDay(DayOfWeek day)
+        public TimeSet OnTheFourthDay(DayOfWeek day)
         {
             _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 4));
-            return new MonthOnDayOfWeekUnit(_calculator);
+            return new TimeSet(_calculator);
         }
 
         private static DateTime Next(int year, int month, DayOfWeek dayOfWeek, int occurrence) =>

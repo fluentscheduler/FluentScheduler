@@ -2,11 +2,11 @@
 {
     using System;
 
-    public class MonthOnDayOfWeekUnit
+    public class TimeSet
     {
         private readonly TimeCalculator _calculator;
 
-        internal MonthOnDayOfWeekUnit(TimeCalculator calculator) => _calculator = calculator;
+        internal TimeSet(TimeCalculator calculator) => _calculator = calculator;
 
         /// <summary>
         /// Runs the job at the given time of day.

@@ -24,6 +24,27 @@
         }
 
         /// <summary>
+        /// Runs the job according to the given interval.
+        /// </summary>
+        /// <param name="day">Day to run the job</param>
+        public TimeSet Every(DayOfWeek day)
+        {
+            _calculator.PeriodCalculations.Add(last => last.AddDays(last.DayOfWeek - day));
+
+            return new TimeSet(_calculator);
+        }
+
+        /// <summary>
+        /// Runs the job every weekday
+        /// </summary>
+        public TimeSet EveryWeekday() => new DayUnit(_calculator).Weekday();
+
+        /// <summary>
+        /// Runs the job every weekend
+        /// </summary>
+        public TimeSet EveryWeekend() => new DayUnit(_calculator).Weekend();
+
+        /// <summary>
         /// Runs the job now.
         /// </summary>
         public OnceSet Now()
