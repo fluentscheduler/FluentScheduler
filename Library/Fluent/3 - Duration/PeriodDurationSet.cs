@@ -33,7 +33,12 @@
         /// <summary>
         /// Sets the unit as days.
         /// </summary>
-        public void Days() => _calculator.PeriodCalculations.Add(last => last.AddDays(_duration));
+        public TimeSet Days()
+        {
+            _calculator.PeriodCalculations.Add(last => last.AddDays(_duration));
+
+            return new TimeSet(_calculator);
+        }
 
         /// <summary>
         /// Sets the unit as months.
