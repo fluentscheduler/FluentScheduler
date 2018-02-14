@@ -37,11 +37,16 @@
         {
             _calculator.OnceCalculation = last => last.AddDays(_duration);
             return new TimeSet(_calculator);
-        } 
+        }
 
         /// <summary>
         /// Sets the unit as months.
         /// </summary>
-        public void Months() => _calculator.OnceCalculation = last => last.AddMonths(_duration);
+        public MonthUnit Months()
+        {
+            _calculator.OnceCalculation = last => last.AddMonths(_duration);
+
+            return new MonthUnit(_calculator);
+        }
     }
 }
