@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fluent\2 - Once\OnceSet.cs" />
-    <Compile Include="Fluent\3 - Duration\DayUnit.cs" />
+    <Compile Include="Fluent\3 - Duration\Day\DayUnit.cs" />
     <Compile Include="Fluent\3 - Duration\TimeSet.cs" />
     <Compile Include="Fluent\3 - Duration\Month\MonthUnit.cs" />
     <Compile Include="Fluent\3 - Duration\PeriodDurationSet.cs" />
