@@ -52,8 +52,6 @@
     <Compile Include="Fluent\TimeCalculator.cs" />
     <Compile Include="Scheduler\Schedule.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Fluent\3 - Duration\NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
