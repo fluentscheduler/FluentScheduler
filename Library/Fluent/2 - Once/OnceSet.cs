@@ -5,7 +5,7 @@
     /// <summary>
     /// The "once" run has been set.
     /// </summary>
-    public class OnceSet
+    public class OnceSet                                    
     {
         private readonly TimeCalculator _calculator;
 
