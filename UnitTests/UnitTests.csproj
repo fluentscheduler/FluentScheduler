@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fluent\2 - Once\OnceSetTests.cs" />
+    <Compile Include="Fluent\3 - Duration\Day\DayUnitTests.cs" />
     <Compile Include="Fluent\3 - Duration\TimeSetUnitTests.cs" />
     <Compile Include="Fluent\3 - Duration\PeriodDurationSetTests.cs" />
     <Compile Include="Scheduler\ScheduleTests.cs" />
