@@ -1,152 +1,60 @@
 ﻿namespace FluentScheduler.UnitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
+	using Microsoft.VisualStudio.TestTools.UnitTesting;
+	using System;
 
-    [TestClass]
-    public class OnceSetTests
-    {
-        [TestMethod]
-        public void Now()
-        {
-            // Arrange
-            var now = DateTime.Now;
+	[TestClass]
+	public class OnceSetTests
+	{
 
-            var calculator = new TimeCalculator();
-            var run = new RunSpecifier(calculator);
+		[TestMethod]
+		public void AndEveryDayOfWeek()
+		{
+			// Arrange
+			var friday = new DateTime(2018, 2, 16);
+			var monday = new DateTime(2018, 2, 19);
+			var sunday = new DateTime(2018, 2, 25);
 
-            // Act
-            run.Now();
-            var calculated = calculator.Calculate(now);
+			var calculator = new TimeCalculator();
+			var run = new OnceSet(calculator);
 
-            // Assert
-            Assert.AreEqual(now, calculated);
+			// Act
+			run.AndEvery(DayOfWeek.Sunday);
+			var calculated = calculator.Calculate(friday);
 
-            // Act
-            calculated = calculator.Calculate(now);
+			// Assert
+			var expected = new DateTime(2018, 2, 18);
+			Assert.AreEqual(expected, calculated);
 
-            // Assert
-            Assert.AreEqual(null, calculated);
-        }
+			//Act
+			calculated = calculator.Calculate(monday);
 
-        [TestMethod]
-        public void OnceAtHoursMinutes()
-        {
-            // Arrange
-            var now = DateTime.Today;
-            var hours = 13;
-            var minutes = 50;
+			// Assert
+			expected = new DateTime(2018, 2, 25);
+			Assert.AreEqual(expected, calculated);
 
-            var calculator = new TimeCalculator();
-            var run = new RunSpecifier(calculator);
+			// Act
+			calculated = calculator.Calculate(sunday);
 
-            // Act
-            run.OnceAt(hours, minutes);
-            var calculated = calculator.Calculate(now);
+			// Assert
+			Assert.AreEqual(sunday, calculated);
 
-            // Assert
-            Assert.AreEqual(now.Date.AddHours(hours).AddMinutes(minutes), calculated);
+		}
 
-            // Act
-            calculated = calculator.Calculate(now);
+		[TestMethod]
+		public void EveryInterval()
+		{
+			var now = DateTime.Today;
 
-            // Assert
-            Assert.AreEqual(null, calculated);
-        }
+			var calculator = new TimeCalculator();
+			var run = new OnceSet(calculator);
 
-        [TestMethod]
-        public void OnceAtTimeSpan()
-        {
-            // Arrange
-            var now = DateTime.Today;
-            var at = new TimeSpan(13, 50, 0);
+			// Act
+			run.AndEvery(10).Seconds();
+			var calculated = calculator.Calculate(now);
 
-            var calculator = new TimeCalculator();
-            var run = new RunSpecifier(calculator);
-
-            // Act
-            run.OnceAt(at);
-            var calculated = calculator.Calculate(now);
-
-            // Assert
-            Assert.AreEqual(now.Add(at), calculated);
-
-            // Act
-            calculated = calculator.Calculate(now);
-
-            // Assert
-            Assert.AreEqual(null, calculated);
-        }
-
-        [TestMethod]
-        public void OnceAtDateTime()
-        {
-            // Arrange
-            var now = DateTime.Now;
-            var at = new DateTime(2000, 10, 10, 10, 10, 10);
-
-            var calculator = new TimeCalculator();
-            var run = new RunSpecifier(calculator);
-
-            // Act
-            run.OnceAt(at);
-            var calculated = calculator.Calculate(now);
-
-            // Assert
-            Assert.AreEqual(at, calculated);
-
-            // Act
-            calculated = calculator.Calculate(now);
-
-            // Assert
-            Assert.AreEqual(null, calculated);
-        }
-
-        [TestMethod]
-        public void OnceIn()
-        {
-            // Arrange
-            var now = DateTime.Today;
-
-            var calculator = new TimeCalculator();
-            var run = new RunSpecifier(calculator);
-
-            // Act
-            run.OnceIn(10).Seconds();
-            var actual = calculator.Calculate(now);
-
-            // Assert
-            Assert.AreEqual(now.AddSeconds(10), actual);
-
-            // Act
-            actual = calculator.Calculate(now);
-
-            // Assert
-            Assert.AreEqual(null, actual);
-        }
-
-        [TestMethod]
-        public void OnceInTimeSpan()
-        {
-            // Arrange
-            var now = DateTime.Today;
-            var time = TimeSpan.FromSeconds(10);
-
-            var calculator = new TimeCalculator();
-            var run = new RunSpecifier(calculator);
-
-            // Act
-            run.OnceIn(time);
-            var calculated = calculator.Calculate(now);
-
-            // Assert
-            Assert.AreEqual(now.Add(time), calculated);
-
-            // Act
-            calculated = calculator.Calculate(now);
-
-            // Assert
-            Assert.AreEqual(null, calculated);
-        }
-    }
+			// Assert
+			Assert.AreEqual(now.AddSeconds(10), calculated);
+		}
+	}
 }
