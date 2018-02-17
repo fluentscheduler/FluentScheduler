@@ -11,17 +11,17 @@
         {
             // Arrange
             var calculator = new TimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var run = new TimeSet(calculator);
 
             var now = DateTime.Now;
 
             // Act
-            run.Every(1).Months().OnTheFirstDay(DayOfWeek.Friday).At(now.Hour, now.Minute);
+            run.At(now.Hour, now.Minute);
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.Hour, calculated.Value.Hour);
-            Assert.AreEqual(now.Minute, calculated.Value.Minute);
+            Assert.AreEqual(now.AddHours(now.Hour).Hour, calculated.Value.Hour);
+            Assert.AreEqual(now.AddMinutes(now.Minute).Minute, calculated.Value.Minute);
         }
 
         [TestMethod]
@@ -29,18 +29,18 @@
         {
             // Arrange
             var calculator = new TimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var run = new TimeSet(calculator);
 
             var now = DateTime.Now;
             var timeSpan = new TimeSpan(12, 30, 0);
 
             // Act
-            run.Every(1).Months().OnTheFirstDay(DayOfWeek.Friday).At(timeSpan);
+            run.At(timeSpan);
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(timeSpan.Hours, calculated.Value.Hour);
-            Assert.AreEqual(timeSpan.Minutes, calculated.Value.Minute);
+            Assert.AreEqual(now.AddHours(timeSpan.Hours).Hour, calculated.Value.Hour);
+            Assert.AreEqual(now.AddMinutes(timeSpan.Minutes).Minute, calculated.Value.Minute);
         }
     }
 }
