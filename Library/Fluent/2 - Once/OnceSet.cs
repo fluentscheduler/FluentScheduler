@@ -29,7 +29,13 @@
         /// <param name="day">Day to run the job</param>
         public TimeSet AndEvery(DayOfWeek day)
         {
-            _calculator.PeriodCalculations.Add(last => last.AddDays(last.DayOfWeek - day));
+            _calculator.PeriodCalculations.Add(last => 
+			{
+				if (last.DayOfWeek != day)
+					last = last.AddDays(7 - (int)last.DayOfWeek);
+
+				return last;
+			});
 
             return new TimeSet(_calculator);
         }

@@ -52,21 +52,5 @@
             // Assert
             Assert.AreEqual(now.AddSeconds(10), calculated);
         }
-
-        public void EveryWeekday()
-        {
-            // Arrange
-            var sunday = new DateTime(DayOfWeek.Sunday);
-
-            var calculator = new TimeCalculator();
-            var run = new RunSpecifier(calculator);
-
-            // Act
-            run.EveryWeekday();
-            var calculated = calculator.Calculate(sunday);
-
-            // Assert
-            
-        }
-    }
+	}
 }
