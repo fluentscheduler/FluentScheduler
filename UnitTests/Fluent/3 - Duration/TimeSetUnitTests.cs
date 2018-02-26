@@ -4,7 +4,7 @@
     using System;
 
     [TestClass]
-    public class MonthOnDayofWeekUnitTestscs
+    public class TimeSetUnitTests
     {
         [TestMethod]
         public void At()
@@ -20,8 +20,8 @@
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddHours(now.Hour).Hour, calculated.Value.Hour);
-            Assert.AreEqual(now.AddMinutes(now.Minute).Minute, calculated.Value.Minute);
+            Assert.AreEqual(now.Hour, calculated.Value.Hour);
+            Assert.AreEqual(now.Minute, calculated.Value.Minute);
         }
 
         [TestMethod]
@@ -39,8 +39,8 @@
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddHours(timeSpan.Hours).Hour, calculated.Value.Hour);
-            Assert.AreEqual(now.AddMinutes(timeSpan.Minutes).Minute, calculated.Value.Minute);
+            Assert.AreEqual(now.Hour, calculated.Value.Hour);
+            Assert.AreEqual(now.Minute, calculated.Value.Minute);
         }
     }
 }
