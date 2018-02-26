@@ -93,15 +93,18 @@
         /// <param name="specifier">Scheduling of this schedule</param>
         public void SetScheduling(Action<RunSpecifier> specifier)
         {
-            if (specifier == null)
-                throw new ArgumentNullException(nameof(specifier));
+            lock (_lock)
+            {
+                if (specifier == null)
+                    throw new ArgumentNullException(nameof(specifier));
 
-            if (_Running())
-                throw new InvalidOperationException("You cannot change the scheduling of a running schedule.");
+                if (_Running())
+                    throw new InvalidOperationException("You cannot change the scheduling of a running schedule.");
 
-            NextRun = null;
-            _calculator = new TimeCalculator();
-            specifier(new RunSpecifier(_calculator));
+                NextRun = null;
+                _calculator = new TimeCalculator();
+                specifier(new RunSpecifier(_calculator));
+            }
         }
 
         /// <summary>
