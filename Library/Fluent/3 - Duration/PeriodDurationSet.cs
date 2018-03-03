@@ -33,17 +33,26 @@
         /// <summary>
         /// Sets the unit as days.
         /// </summary>
-        public TimeSet Days()
+        public PeriodOnceSet Days()
         {
             _calculator.PeriodCalculations.Add(last => last.AddDays(_duration));
 
-            return new TimeSet(_calculator);
+            return new PeriodOnceSet(_calculator);
         }
 
-        /// <summary>
-        /// Sets the unit as months.
-        /// </summary>
-        public MonthUnit Months()
+		/// <summary>
+		/// Sets the unit as weeks.
+		/// </summary>
+		public WeekUnit Weeks()
+		{
+			_calculator.PeriodCalculations.Add(last => last.AddDays(7 * _duration));
+			return new WeekUnit(_calculator);
+		}
+
+		/// <summary>
+		/// Sets the unit as months.
+		/// </summary>
+		public MonthUnit Months()
         {
             _calculator.PeriodCalculations.Add(last => last.AddMonths(_duration));
             return new MonthUnit(_calculator);

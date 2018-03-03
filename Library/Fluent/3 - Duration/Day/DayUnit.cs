@@ -11,7 +11,7 @@
         /// <summary>
         /// Runs the job only on weekdays.
         /// </summary>
-       public TimeSet Weekday()
+       public PeriodOnceSet Weekday()
        {
             _calculator.PeriodCalculations.Add(last =>
             {
@@ -21,13 +21,13 @@
                 return last;
             });
 
-            return new TimeSet(_calculator);
+            return new PeriodOnceSet(_calculator);
         }
 
         /// <summary>
         /// Runs the job only on the weekends.
         /// </summary>
-        public TimeSet Weekend()
+        public PeriodOnceSet Weekend()
         {
             _calculator.PeriodCalculations.Add(last =>
             {
@@ -37,7 +37,7 @@
                 return last;
             });
 
-            return new TimeSet(_calculator);
+            return new PeriodOnceSet(_calculator);
         }
     }
 }
