@@ -43,10 +43,10 @@
 		/// <summary>
 		/// Sets the unit as weeks.
 		/// </summary>
-		public WeekUnit Weeks()
+		public PeriodOnceSet Weeks()
 		{
 			_calculator.PeriodCalculations.Add(last => last.AddDays(7 * _duration));
-			return new WeekUnit(_calculator);
+			return new PeriodOnceSet(_calculator);
 		}
 
 		/// <summary>

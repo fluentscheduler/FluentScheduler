@@ -41,9 +41,9 @@
   <ItemGroup>
     <Compile Include="Fluent\2 - Once\OnceSet.cs" />
     <Compile Include="Fluent\3 - Duration\Day\DayUnit.cs" />
-    <Compile Include="Fluent\3 - Duration\TimeSet.cs" />
     <Compile Include="Fluent\3 - Duration\Month\MonthUnit.cs" />
     <Compile Include="Fluent\3 - Duration\PeriodDurationSet.cs" />
+    <Compile Include="Fluent\3 - Duration\PeriodOnceSet.cs" />
     <Compile Include="Fluent\2 - Once\OnceDurationSet.cs" />
     <Compile Include="Fluent\1 - Run\RunSpecifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
