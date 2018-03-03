@@ -13,52 +13,52 @@
         /// Runs the job on the given day of the month.
         /// </summary>
         /// <param name="day">The day (1 through the number of days in month)</param>
-        public TimeSet On(int day)
+        public PeriodOnceSet On(int day)
         {
             _calculator.PeriodCalculations.Add(
                 last => new DateTime(last.Year, last.Month, day, last.Hour, last.Minute, last.Second));
 
-            return new TimeSet(_calculator);
+            return new PeriodOnceSet(_calculator);
         }
 
         /// <summary>
         /// Runs the job on the given day of week on the first week of the month.
         /// </summary>
         /// <param name="day">The day of the week</param>
-        public TimeSet OnTheFirstDay(DayOfWeek day)
+        public PeriodOnceSet OnTheFirstDay(DayOfWeek day)
         {
             _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 1));
-            return new TimeSet(_calculator);
+            return new PeriodOnceSet(_calculator);
         }
 
         /// <summary>
         /// Runs the job on the given day of week on the second week of the month.
         /// </summary>
         /// <param name="day">The day of the week</param>
-        public TimeSet OnTheSecondDay(DayOfWeek day)
+        public PeriodOnceSet OnTheSecondDay(DayOfWeek day)
         {
             _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 2));
-            return new TimeSet(_calculator);
+            return new PeriodOnceSet(_calculator);
         }
 
         /// <summary>
         /// Runs the job on the given day of week on the third week of the month.
         /// </summary>
         /// <param name="day">The day of the week</param>
-        public TimeSet OnTheThirdDay(DayOfWeek day)
+        public PeriodOnceSet OnTheThirdDay(DayOfWeek day)
         {
             _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 3));
-            return new TimeSet(_calculator);
+            return new PeriodOnceSet(_calculator);
         }
 
         /// <summary>
         /// Runs the job on the given day of week on the fourth week of the month.
         /// </summary>
         /// <param name="day">The day of the week</param>
-        public TimeSet OnTheFourthDay(DayOfWeek day)
+        public PeriodOnceSet OnTheFourthDay(DayOfWeek day)
         {
             _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 4));
-            return new TimeSet(_calculator);
+            return new PeriodOnceSet(_calculator);
         }
 
         private static DateTime Next(int year, int month, DayOfWeek dayOfWeek, int occurrence) =>
