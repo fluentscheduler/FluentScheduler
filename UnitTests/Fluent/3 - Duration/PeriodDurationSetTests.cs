@@ -1,56 +1,112 @@
 ﻿namespace FluentScheduler.UnitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
+	using Microsoft.VisualStudio.TestTools.UnitTesting;
+	using System;
 
-    [TestClass]
-    public class PeriodDurationSetTests
-    {
-        [TestMethod]
-        public void NowAndEvery()
-        {
-            // Arrange
-            var now = DateTime.Now;
+	[TestClass]
+	public class PeriodDurationSetTests
+	{
 
-            var calculator = new TimeCalculator();
-            var run = new RunSpecifier(calculator);
+		[TestMethod]
+		public void Seconds()
+		{
+			// Arrange
+			var now = DateTime.Now;
 
-            // Act
-            run.Now().AndEvery(10).Seconds();
-            var calculated = calculator.Calculate(now);
+			var calculator = new TimeCalculator();
+			var run = new RunSpecifier(calculator);
 
-            // Assert
-            Assert.AreEqual(now, calculated);
+			// Act
+			run.Every(5).Seconds();
+			var calculated = calculator.Calculate(now);
 
-            // Act
-            calculated = calculator.Calculate(now);
+			// Assert
+			Assert.AreEqual(now.AddSeconds(5).Second, calculated.Value.Second);
+		}
 
-            // Assert
-            Assert.AreEqual(now.AddSeconds(10), calculated);
-        }
+		[TestMethod]
+		public void Minutes()
+		{
+			// Arrange
+			var now = DateTime.Now;
 
-        [TestMethod]
-        public void OnceAtAndEvery()
-        {
-            // Arrange
-            var now = DateTime.Now;
-            var at = new DateTime(2000, 10, 10, 10, 10, 10);
+			var calculator = new TimeCalculator();
+			var run = new RunSpecifier(calculator);
 
-            var calculator = new TimeCalculator();
-            var run = new RunSpecifier(calculator);
+			// Act
+			run.Every(5).Minutes();
+			var calculated = calculator.Calculate(now);
 
-            // Act
-            run.OnceAt(at).AndEvery(10).Seconds();
-            var calculated = calculator.Calculate(now);
+			// Assert
+			Assert.AreEqual(now.AddMinutes(5).Minute, calculated.Value.Minute);
+		}
 
-            // Assert
-            Assert.AreEqual(at, calculated);
+		[TestMethod]
+		public void Hours()
+		{
+			// Arrange
+			var now = DateTime.Now;
 
-            // Act
-            calculated = calculator.Calculate(now);
+			var calculator = new TimeCalculator();
+			var run = new RunSpecifier(calculator);
 
-            // Assert
-            Assert.AreEqual(now.AddSeconds(10), calculated);
-        }
+			// Act
+			run.Every(5).Hours();
+			var calculated = calculator.Calculate(now);
+
+			// Assert
+			Assert.AreEqual(now.AddHours(5).Hour, calculated.Value.Hour);
+		}
+
+		[TestMethod]
+		public void Days()
+		{
+			// Arrange
+			var now = DateTime.Now;
+
+			var calculator = new TimeCalculator();
+			var run = new RunSpecifier(calculator);
+
+			// Act
+			run.Every(5).Days();
+			var calculated = calculator.Calculate(now);
+
+			// Assert
+			Assert.AreEqual(now.AddDays(5).Day, calculated.Value.Day);
+		}
+
+		[TestMethod]
+		public void Weeks()
+		{
+			// Arrange
+			var now = DateTime.Now;
+
+			var calculator = new TimeCalculator();
+			var run = new RunSpecifier(calculator);
+
+			// Act
+			run.Every(5).Weeks();
+			var calculated = calculator.Calculate(now);
+
+			// Assert
+			Assert.AreEqual(now.AddDays(35), calculated.Value);
+		}
+
+		[TestMethod]
+		public void Months()
+		{
+			// Arrange
+			var now = DateTime.Now;
+
+			var calculator = new TimeCalculator();
+			var run = new RunSpecifier(calculator);
+
+			// Act
+			run.Every(5).Months();
+			var calculated = calculator.Calculate(now);
+
+			// Assert
+			Assert.AreEqual(now.AddMonths(5).Month, calculated.Value.Month);
+		}
 	}
 }

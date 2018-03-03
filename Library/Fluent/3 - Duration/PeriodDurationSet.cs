@@ -28,7 +28,7 @@
         /// <summary>
         /// Sets the unit as hours.
         /// </summary>
-        public void Hours() => _calculator.PeriodCalculations.Add(last => last.AddSeconds(_duration));
+        public void Hours() => _calculator.PeriodCalculations.Add(last => last.AddHours(_duration));
 
         /// <summary>
         /// Sets the unit as days.

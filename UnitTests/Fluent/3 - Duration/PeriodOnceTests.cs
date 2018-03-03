@@ -39,8 +39,8 @@
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.Hour, calculated.Value.Hour);
-            Assert.AreEqual(now.Minute, calculated.Value.Minute);
+            Assert.AreEqual(timeSpan.Hours, calculated.Value.Hour);
+            Assert.AreEqual(timeSpan.Minutes, calculated.Value.Minute);
         }
     }
 }
