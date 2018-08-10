@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading.Tasks;
+using FluentScheduler.Helpers;
 using FluentScheduler.Unit;
 
 namespace FluentScheduler
@@ -26,7 +28,7 @@ namespace FluentScheduler
     /// </summary>
     public bool Disabled { get; private set; }
 
-    internal List<Action> Jobs { get; }
+    internal List<Func<Task>> Jobs { get; }
 
     internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
 
@@ -43,14 +45,20 @@ namespace FluentScheduler
     /// <summary>
     /// Schedules a new job in the registry.
     /// </summary>
-    /// <param name="action">Job to schedule.</param>
-    public Schedule(Action action) : this(new[] { action }) { }
+    /// <param name="func">Job to schedule.</param>
+    public Schedule(Func<Task> func) 
+      : this(new[] { func })
+    { }
+
+    public Schedule(Action action) 
+      : this(() => TaskHelpers.ExecuteSynchronously(action))
+    { }
 
     /// <summary>
     /// Schedules a new job in the registry.
     /// </summary>
     /// <param name="actions">Jobs to schedule</param>
-    public Schedule(IEnumerable<Action> actions)
+    public Schedule(IEnumerable<Func<Task>> actions)
     {
       this.Disabled = false;
       this.Jobs = actions.ToList();
@@ -71,7 +79,7 @@ namespace FluentScheduler
     /// Schedules another job to be run with this schedule.
     /// </summary>
     /// <param name="job">Job to run.</param>
-    public Schedule AndThen(Action job)
+    public Schedule AndThen(Func<Task> job)
     {
       if (job == null)
         throw new ArgumentNullException(nameof(job));
@@ -80,16 +88,12 @@ namespace FluentScheduler
       return this;
     }
 
-    /// <summary>
-    /// Schedules another job to be run with this schedule.
-    /// </summary>
-    /// <param name="job">Job to run.</param>
-    public Schedule AndThen(IJob job)
+    public Schedule AndThen(Action job)
     {
       if (job == null)
         throw new ArgumentNullException(nameof(job));
 
-      this.Jobs.Add(JobManager.GetJobAction(job));
+      this.Jobs.Add(() => TaskHelpers.ExecuteSynchronously(job));
       return this;
     }
 
@@ -97,12 +101,25 @@ namespace FluentScheduler
     /// Schedules another job to be run with this schedule.
     /// </summary>
     /// <param name="job">Job to run.</param>
-    public Schedule AndThen(Func<IJob> job)
+    public Schedule AndThen(IFluentJob job)
     {
       if (job == null)
         throw new ArgumentNullException(nameof(job));
 
-      this.Jobs.Add(JobManager.GetJobAction(job));
+      this.Jobs.Add(JobManager.GetJobFunction(job));
+      return this;
+    }
+
+    /// <summary>
+    /// Schedules another job to be run with this schedule.
+    /// </summary>
+    /// <param name="job">Job to run.</param>
+    public Schedule AndThen(Func<IFluentJob> job)
+    {
+      if (job == null)
+        throw new ArgumentNullException(nameof(job));
+
+      this.Jobs.Add(JobManager.GetJobFunction(job));
       return this;
     }
 
@@ -113,9 +130,9 @@ namespace FluentScheduler
     /// <typeparam name="T">Job to run.</typeparam>
     [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
         Justification = "The 'T' requirement is on purpose.")]
-    public Schedule AndThen<T>() where T : IJob
+    public Schedule AndThen<T>() where T : IFluentJob
     {
-      this.Jobs.Add(JobManager.GetJobAction<T>());
+      this.Jobs.Add(JobManager.GetJobFunction<T>());
       return this;
     }
 

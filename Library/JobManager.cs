@@ -1,4 +1,6 @@
 ﻿using FluentScheduler.Event;
+using FluentScheduler.Extension;
+using FluentScheduler.Helpers;
 using FluentScheduler.Util;
 
 namespace FluentScheduler
@@ -67,14 +69,14 @@ namespace FluentScheduler
       }
     }
 
-    internal static Action GetJobAction<T>() where T : IJob
+    internal static Func<Task> GetJobFunction<T>() where T : IFluentJob
     {
-      return () =>
+      return async () =>
       {
         var job = JobFactory.GetJobInstance<T>();
         try
         {
-          job.Execute();
+          await job.ExecuteAsync();
         }
         finally
         {
@@ -83,13 +85,13 @@ namespace FluentScheduler
       };
     }
 
-    internal static Action GetJobAction(IJob job)
+    internal static Func<Task> GetJobFunction(IFluentJob job)
     {
-      return () =>
+      return async () =>
       {
         try
         {
-          job.Execute();
+          await job.ExecuteAsync();
         }
         finally
         {
@@ -98,20 +100,20 @@ namespace FluentScheduler
       };
     }
 
-    [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly",
-        Justification = "It is spelled correctly.")]
-    internal static Action GetJobAction(Func<IJob> jobFactory)
+    internal static Func<Task> GetJobFunction(Func<IFluentJob> jobFactory)
     {
-      return () =>
+      return async () =>
       {
         var job = jobFactory();
 
         if (job == null)
-          throw new InvalidOperationException("The given Func<IJob> returned null.");
+        {
+          throw new InvalidOperationException("The given Func<IFluentJob> returned null.");
+        }
 
         try
         {
-          job.Execute();
+          await job.ExecuteAsync();
         }
         finally
         {
@@ -120,7 +122,7 @@ namespace FluentScheduler
       };
     }
 
-    private static void DisposeIfNeeded(IJob job)
+    private static void DisposeIfNeeded(IFluentJob job)
     {
       var disposable = job as IDisposable;
 
@@ -260,7 +262,7 @@ namespace FluentScheduler
     /// </summary>
     /// <param name="job">Job to run.</param>
     /// <param name="schedule">Job schedule to add.</param>
-    public static void AddJob(Action job, Action<Schedule> schedule)
+    public static void AddJob(Func<Task> job, Action<Schedule> schedule)
     {
       if (job == null)
         throw new ArgumentNullException(nameof(job));
@@ -276,7 +278,7 @@ namespace FluentScheduler
     /// </summary>
     /// <param name="job">Job to run.</param>
     /// <param name="schedule">Job schedule to add.</param>
-    public static void AddJob(IJob job, Action<Schedule> schedule)
+    public static void AddJob(Action job, Action<Schedule> schedule)
     {
       if (job == null)
         throw new ArgumentNullException(nameof(job));
@@ -284,7 +286,23 @@ namespace FluentScheduler
       if (schedule == null)
         throw new ArgumentNullException(nameof(schedule));
 
-      AddJob(schedule, new Schedule(GetJobAction(job)));
+      AddJob(schedule, new Schedule(() => TaskHelpers.ExecuteSynchronously(job)));
+    }
+
+    /// <summary>
+    /// Adds a job schedule to the job manager.
+    /// </summary>
+    /// <param name="job">Job to run.</param>
+    /// <param name="schedule">Job schedule to add.</param>
+    public static void AddJob(IFluentJob job, Action<Schedule> schedule)
+    {
+      if (job == null)
+        throw new ArgumentNullException(nameof(job));
+
+      if (schedule == null)
+        throw new ArgumentNullException(nameof(schedule));
+
+      AddJob(schedule, new Schedule(GetJobFunction(job)));
     }
 
     /// <summary>
@@ -299,7 +317,7 @@ namespace FluentScheduler
       if (schedule == null)
         throw new ArgumentNullException(nameof(schedule));
 
-      AddJob(schedule, new Schedule(GetJobAction<T>()) { Name = typeof(T).Name });
+      AddJob(schedule, new Schedule(GetJobFunction<T>()) { Name = typeof(T).Name });
     }
 
     private static void AddJob(Action<Schedule> jobSchedule, Schedule schedule)
@@ -469,7 +487,7 @@ namespace FluentScheduler
         try
         {
           stopwatch.Start();
-          schedule.Jobs.ForEach(action => Task.Factory.StartNew(action).Wait());
+          schedule.Jobs.ForEach(func => Task.Factory.StartNew(func).Wait());
         }
         catch (Exception e)
         {

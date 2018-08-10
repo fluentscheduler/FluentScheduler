@@ -77,11 +77,13 @@
     {
       L.Register("[faulty]");
 
-      Schedule(() =>
+      void Run()
       {
         L.Register("[faulty]", "I'm going to raise an exception!");
         throw new Exception("I warned you.");
-      }).WithName("[faulty]").ToRunEvery(20).Minutes();
+      }
+
+      this.Schedule((Action)Run).WithName("[faulty]").ToRunEvery(20).Minutes();
     }
 
     private void Removed()

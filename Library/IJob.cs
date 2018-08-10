@@ -5,7 +5,7 @@
   /// If you are relying on the library to instantiate the job, make sure you implement a parameterless constructor
   /// (else you will be getting a System.MissingMethodException).
   /// </summary>
-  public interface IJob
+  public interface IJob : IFluentJob
   {
     /// <summary>
     /// Executes the job.

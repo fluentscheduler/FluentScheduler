@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using FluentScheduler.Helpers;
 
 [assembly: InternalsVisibleTo("FluentScheduler.Tests.UnitTests")]
 
@@ -43,7 +45,7 @@ namespace FluentScheduler
     /// Schedules a new job in the registry.
     /// </summary>
     /// <param name="job">Job to run.</param>
-    public Schedule Schedule(Action job)
+    public Schedule Schedule(Func<Task> job)
     {
       if (job == null)
         throw new ArgumentNullException(nameof(job));
@@ -51,16 +53,24 @@ namespace FluentScheduler
       return this.Schedule(job, null);
     }
 
-    /// <summary>
-    /// Schedules a new job in the registry.
-    /// </summary>
-    /// <param name="job">Job to run.</param>
-    public Schedule Schedule(IJob job)
+    public Schedule Schedule(Action job)
     {
       if (job == null)
         throw new ArgumentNullException(nameof(job));
 
-      return this.Schedule(JobManager.GetJobAction(job), null);
+      return this.Schedule(() => TaskHelpers.ExecuteSynchronously(job), null);
+    }
+
+    /// <summary>
+    /// Schedules a new job in the registry.
+    /// </summary>
+    /// <param name="job">Job to run.</param>
+    public Schedule Schedule(IFluentJob job)
+    {
+      if (job == null)
+        throw new ArgumentNullException(nameof(job));
+
+      return this.Schedule(JobManager.GetJobFunction(job), null);
     }
 
     /// <summary>
@@ -69,26 +79,26 @@ namespace FluentScheduler
     /// <typeparam name="T">Job to schedule.</typeparam>
     [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
         Justification = "The 'T' requirement is on purpose.")]
-    public Schedule Schedule<T>() where T : IJob
+    public Schedule Schedule<T>() where T : IFluentJob
     {
-      return this.Schedule(JobManager.GetJobAction<T>(), typeof(T).Name);
+      return this.Schedule(JobManager.GetJobFunction<T>(), typeof(T).Name);
     }
 
     /// <summary>
     /// Schedules a new job in the registry.
     /// </summary>
     /// <param name="job">Factory method creating a IJob instance to run.</param>
-    public Schedule Schedule(Func<IJob> job)
+    public Schedule Schedule(Func<IFluentJob> job)
     {
       if (job == null)
         throw new ArgumentNullException(nameof(job));
 
-      return this.Schedule(JobManager.GetJobAction(job), null);
+      return this.Schedule(JobManager.GetJobFunction(job), null);
     }
 
-    private Schedule Schedule(Action action, string name)
+    private Schedule Schedule(Func<Task> func, string name)
     {
-      var schedule = new Schedule(action);
+      var schedule = new Schedule(func);
 
       if (_allJobsConfiguredAsNonReentrant)
         schedule.NonReentrant();
