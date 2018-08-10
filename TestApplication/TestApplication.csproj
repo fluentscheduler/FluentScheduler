@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFrameworks>net471</TargetFrameworks>
     <PackageId>FluentScheduler.Tests.TestApplication</PackageId>
     <RootNamespace>FluentScheduler.Tests.TestApplication</RootNamespace>
     <AssemblyName>FluentScheduler.Tests.TestApplication</AssemblyName>

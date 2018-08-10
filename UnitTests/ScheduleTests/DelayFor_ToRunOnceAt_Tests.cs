@@ -1,9 +1,9 @@
 using System;
-using FluentScheduler.Extension;
-using FluentScheduler.Tests.UnitTests.Utilities;
+using Moong.FluentScheduler.Extension;
+using Moong.FluentScheduler.Tests.UnitTests.Utilities;
 using Xunit;
 
-namespace FluentScheduler.Tests.UnitTests.ScheduleTests
+namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
 {
   public class DelayFor_ToRunNow_Tests
   {

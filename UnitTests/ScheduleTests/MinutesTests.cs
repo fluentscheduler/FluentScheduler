@@ -1,8 +1,8 @@
 using System;
-using FluentScheduler.Extension;
+using Moong.FluentScheduler.Extension;
 using Xunit;
 
-namespace FluentScheduler.Tests.UnitTests.ScheduleTests
+namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
 {
   public class MinutesTests
   {

@@ -1,9 +1,10 @@
-﻿namespace FluentScheduler.Tests.TestApplication
-{
-  using LLibrary;
-  using System;
-  using System.Threading;
+﻿using LLibrary;
+using System;
+using System.Threading;
+using Moong.FluentScheduler;
 
+namespace FluentScheduler.Tests.TestApplication
+{
   public class MyRegistry : Registry
   {
     public MyRegistry()

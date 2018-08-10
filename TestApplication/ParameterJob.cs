@@ -1,4 +1,6 @@
-﻿namespace FluentScheduler.Tests.TestApplication
+﻿using Moong.FluentScheduler;
+
+namespace FluentScheduler.Tests.TestApplication
 {
   using LLibrary;
 

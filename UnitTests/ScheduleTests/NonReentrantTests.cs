@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace FluentScheduler.Tests.UnitTests.ScheduleTests
+namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
 {
   public class NonReentrantTests
   {

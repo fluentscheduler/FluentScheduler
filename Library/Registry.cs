@@ -6,13 +6,13 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Moong.FluentScheduler.Helpers;
 
-[assembly: InternalsVisibleTo("FluentScheduler.Tests.UnitTests")]
-
+[assembly: InternalsVisibleTo("Moong.FluentScheduler.Tests.UnitTests")]
 namespace Moong.FluentScheduler
 {
   /// <summary>
   /// A registry of job schedules.
   /// </summary>
+
   public class Registry
   {
     private bool _allJobsConfiguredAsNonReentrant;
@@ -34,7 +34,7 @@ namespace Moong.FluentScheduler
     public void NonReentrantAsDefault()
     {
       _allJobsConfiguredAsNonReentrant = true;
-      lock (((ICollection)this.Schedules).SyncRoot)
+      lock (((ICollection) this.Schedules).SyncRoot)
       {
         foreach (var schedule in this.Schedules)
           schedule.NonReentrant();
@@ -103,7 +103,7 @@ namespace Moong.FluentScheduler
       if (_allJobsConfiguredAsNonReentrant)
         schedule.NonReentrant();
 
-      lock (((ICollection)this.Schedules).SyncRoot)
+      lock (((ICollection) this.Schedules).SyncRoot)
       {
         this.Schedules.Add(schedule);
       }

@@ -1,7 +1,7 @@
-﻿namespace FluentScheduler.Tests.UnitTests.RegistryTests.Mocks
-{
-  using System;
+﻿using System;
 
+namespace Moong.FluentScheduler.Tests.UnitTests.RegistryTests.Mocks
+{
   public class DisposableJob : IJob, IDisposable
   {
     public DisposableJob()

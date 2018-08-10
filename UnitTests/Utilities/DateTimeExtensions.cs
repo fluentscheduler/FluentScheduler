@@ -1,7 +1,7 @@
-﻿namespace FluentScheduler.Tests.UnitTests.Utilities
-{
-  using System;
+﻿using System;
 
+namespace Moong.FluentScheduler.Tests.UnitTests.Utilities
+{
   public static class DateTimeExtensions
   {
     public static DateTime WithoutMilliseconds(this DateTime dateTime)

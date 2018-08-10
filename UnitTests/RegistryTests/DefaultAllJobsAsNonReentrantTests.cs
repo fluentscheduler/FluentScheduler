@@ -1,7 +1,7 @@
-﻿using FluentScheduler.Tests.UnitTests.RegistryTests.Mocks;
+﻿using Moong.FluentScheduler.Tests.UnitTests.RegistryTests.Mocks;
 using Xunit;
 
-namespace FluentScheduler.Tests.UnitTests.RegistryTests
+namespace Moong.FluentScheduler.Tests.UnitTests.RegistryTests
 {
   public class DefaultAllJobsAsNonReentrantTests
   {

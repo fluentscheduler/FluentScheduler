@@ -1,4 +1,4 @@
-﻿namespace FluentScheduler.Tests.UnitTests.RegistryTests.Mocks
+﻿namespace Moong.FluentScheduler.Tests.UnitTests.RegistryTests.Mocks
 {
   public class CtorJob : IJob
   {
