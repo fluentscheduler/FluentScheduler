@@ -1,34 +1,33 @@
-﻿namespace FluentScheduler.Tests.UnitTests.RegistryTests
+﻿using System.Threading.Tasks;
+using Moong.FluentScheduler.Tests.UnitTests.RegistryTests.Mocks;
+using Xunit;
+
+namespace Moong.FluentScheduler.Tests.UnitTests.RegistryTests
 {
-    using FluentScheduler.Tests.UnitTests.RegistryTests.Mocks;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Threading;
-
-	[TestClass]
-	public class JobConstructionTests
+ public class JobConstructionTests
+  {
+    [Fact]
+    public async Task Should_Call_Ctor()
     {
-        [TestMethod]
-        public void Should_Call_Ctor()
-        {
-            JobManager.AddJob<CtorJob>(s => s.ToRunNow());
-            Thread.Sleep(50);
-            Assert.AreEqual(1, CtorJob.Calls);
+      JobManager.Instance.AddJob<CtorJob>(s => s.ToRunNow());
+      await Task.Delay(50);
+      Assert.Equal(1, CtorJob.Calls);
 
-            JobManager.AddJob<CtorJob>(s => s.ToRunNow());
-            Thread.Sleep(50);
-            Assert.AreEqual(2, CtorJob.Calls);
+      JobManager.Instance.AddJob<CtorJob>(s => s.ToRunNow());
+      await Task.Delay(50);
+      Assert.Equal(2, CtorJob.Calls);
 
-            JobManager.AddJob<CtorJob>(s => s.ToRunNow());
-            Thread.Sleep(50);
-            Assert.AreEqual(3, CtorJob.Calls);
-        }
+      JobManager.Instance.AddJob<CtorJob>(s => s.ToRunNow());
+      await Task.Delay(50);
+      Assert.Equal(3, CtorJob.Calls);
+    }
 
-		[TestMethod]
-		public void Should_Call_Dispose()
-        {
-            JobManager.AddJob<DisposableJob>(s => s.ToRunNow());
-            Thread.Sleep(50);
-            Assert.IsTrue(DisposableJob.Disposed);
-		}
-	}
+    [Fact]
+    public async Task Should_Call_Dispose()
+    {
+      JobManager.Instance.AddJob<DisposableJob>(s => s.ToRunNow());
+      await Task.Delay(50);
+      Assert.True(DisposableJob.Disposed);
+    }
+  }
 }

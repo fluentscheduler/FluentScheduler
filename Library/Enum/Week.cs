@@ -1,11 +1,11 @@
-﻿namespace FluentScheduler
+﻿namespace Moong.FluentScheduler.Enum
 {
-    internal enum Week
-    {
-        First,
-        Second,
-        Third,
-        Fourth,
-        Last,
-    }
+  internal enum Week
+  {
+    First,
+    Second,
+    Third,
+    Fourth,
+    Last,
+  }
 }

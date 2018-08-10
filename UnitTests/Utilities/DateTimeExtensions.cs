@@ -1,12 +1,12 @@
-﻿namespace FluentScheduler.Tests.UnitTests.Utilities
-{
-    using System;
+﻿using System;
 
-    public static class DateTimeExtensions
+namespace Moong.FluentScheduler.Tests.UnitTests.Utilities
+{
+  public static class DateTimeExtensions
+  {
+    public static DateTime WithoutMilliseconds(this DateTime dateTime)
     {
-        public static DateTime WithoutMilliseconds(this DateTime dateTime)
-        {
-            return dateTime.AddTicks(-(dateTime.Ticks % TimeSpan.TicksPerSecond));
-        }
+      return dateTime.AddTicks(-(dateTime.Ticks % TimeSpan.TicksPerSecond));
     }
+  }
 }
