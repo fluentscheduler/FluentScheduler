@@ -15,23 +15,29 @@ namespace Moong.FluentScheduler
   /// <summary>
   /// Job manager that handles jobs execution.
   /// </summary>
-  public static class JobManager
+  public class JobManager
   {
     #region Internal fields
 
     private const uint _maxTimerInterval = (uint) 0xfffffffe;
 
-    private static bool _useUtc = false;
+    private bool _useUtc;
+    private readonly Timer _timer;
+    private readonly ScheduleCollection _schedules = new ScheduleCollection();
+    private readonly ConcurrentSet<Tuple<Schedule, Task>> _running = new ConcurrentSet<Tuple<Schedule, Task>>();
 
-    private static readonly Timer _timer = new Timer(state => ScheduleJobs(), null, Timeout.Infinite, Timeout.Infinite);
+    internal DateTime Now => _useUtc ? DateTime.UtcNow : DateTime.Now;
 
-    private static readonly ScheduleCollection _schedules = new ScheduleCollection();
-
-    private static readonly ISet<Tuple<Schedule, Task>> _running = new HashSet<Tuple<Schedule, Task>>();
-
-    internal static DateTime Now => _useUtc ? DateTime.UtcNow : DateTime.Now;
-
+    private static Lazy<JobManager> _lazy = new Lazy<JobManager>(() => new JobManager(), true);
     #endregion
+
+
+    private JobManager()
+    {
+      _timer = new Timer(state => this.ScheduleJobs(), null, Timeout.Infinite, Timeout.Infinite);
+    }
+
+    public static JobManager Instance => _lazy.Value;
 
     #region UTC
 
@@ -39,7 +45,7 @@ namespace Moong.FluentScheduler
     /// Use UTC time rather than local time.
     /// It's recommended to call this method before any other library interaction to avoid mixed dates.
     /// </summary>
-    public static void UseUtcTime()
+    public void UseUtcTime()
     {
       _useUtc = true;
     }
@@ -48,14 +54,14 @@ namespace Moong.FluentScheduler
 
     #region Job factory
 
-    private static IJobFactory _jobFactory;
+    private IJobFactory _jobFactory;
 
     /// <summary>
     /// Job factory used by the job manager.
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1044:PropertiesShouldNotBeWriteOnly",
         Justification = "Doing that way to not break compatibility with older versions.")]
-    public static IJobFactory JobFactory
+    public IJobFactory JobFactory
     {
       private get
       {
@@ -68,23 +74,23 @@ namespace Moong.FluentScheduler
       }
     }
 
-    internal static Func<Task> GetJobFunction<T>() where T : IFluentJob
+    internal Func<Task> GetJobFunction<T>() where T : IFluentJob
     {
       return async () =>
       {
-        var job = JobFactory.GetJobInstance<T>();
+        var job = this.JobFactory.GetJobInstance<T>();
         try
         {
           await job.ExecuteAsync();
         }
         finally
         {
-          DisposeIfNeeded(job);
+          this.DisposeIfNeeded(job);
         }
       };
     }
 
-    internal static Func<Task> GetJobFunction(IFluentJob job)
+    internal Func<Task> GetJobFunction(IFluentJob job)
     {
       return async () =>
       {
@@ -94,12 +100,12 @@ namespace Moong.FluentScheduler
         }
         finally
         {
-          DisposeIfNeeded(job);
+          this.DisposeIfNeeded(job);
         }
       };
     }
 
-    internal static Func<Task> GetJobFunction(Func<IFluentJob> jobFactory)
+    internal Func<Task> GetJobFunction(Func<IFluentJob> jobFactory)
     {
       return async () =>
       {
@@ -116,12 +122,12 @@ namespace Moong.FluentScheduler
         }
         finally
         {
-          DisposeIfNeeded(job);
+          this.DisposeIfNeeded(job);
         }
       };
     }
 
-    private static void DisposeIfNeeded(IFluentJob job)
+    private void DisposeIfNeeded(IFluentJob job)
     {
       var disposable = job as IDisposable;
 
@@ -137,21 +143,21 @@ namespace Moong.FluentScheduler
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
         Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
-    public static event Action<JobExceptionInfo> JobException;
+    public event Action<JobExceptionInfo> JobException;
 
     /// <summary>
     /// Event raised when a job starts.
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
         Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
-    public static event Action<JobStartInfo> JobStart;
+    public event Action<JobStartInfo> JobStart;
 
     /// <summary>
     /// Evemt raised when a job ends.
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
         Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
-    public static event Action<JobEndInfo> JobEnd;
+    public event Action<JobEndInfo> JobEnd;
 
     #endregion
 
@@ -161,36 +167,37 @@ namespace Moong.FluentScheduler
     /// Initializes the job manager with the jobs to run and starts it.
     /// </summary>
     /// <param name="registries">Registries of jobs to run</param>
-    public static void Initialize(params Registry[] registries)
+    public void Initialize(params Registry[] registries)
     {
-      InitializeWithoutStarting(registries);
-      Start();
+      this.InitializeWithoutStarting(registries);
+      this.Start();
     }
 
     /// <summary>
     /// Initializes the job manager with the jobs without starting it.
     /// </summary>
     /// <param name="registries">Registries of jobs to run</param>
-    public static void InitializeWithoutStarting(params Registry[] registries)
+    public void InitializeWithoutStarting(params Registry[] registries)
     {
       if (registries == null)
         throw new ArgumentNullException(nameof(registries));
 
-      CalculateNextRun(registries.SelectMany(r => r.Schedules)).ToList().ForEach(RunJob);
+      this.CalculateNextRun(registries.SelectMany(r => r.Schedules)).ToList()
+        .ForEach(this.RunJob);
     }
 
     /// <summary>
     /// Starts the job manager.
     /// </summary>
-    public static void Start()
+    public void Start()
     {
-      ScheduleJobs();
+      this.ScheduleJobs();
     }
 
     /// <summary>
     /// Stops the job manager.
     /// </summary>
-    public static void Stop()
+    public void Stop()
     {
       _timer.Change(Timeout.Infinite, Timeout.Infinite);
     }
@@ -198,25 +205,17 @@ namespace Moong.FluentScheduler
     /// <summary>
     /// Stops the job manager and blocks until all running schedules finishes.
     /// </summary>
-    public static void StopAndBlock()
+    public async Task StopAndBlock()
     {
-      Stop();
-
-      Task[] tasks;
-
+      this.Stop();
       // Even though Stop() was just called, a scheduling may be happening right now, that's why the loop.
       // Simply waiting for the tasks inside the lock causes a deadlock (a task may try to remove itself from
       // running, but it can't access the collection, it's blocked by the wait).
       do
       {
-        lock (_running)
-        {
-          tasks = _running.Select(t => t.Item2).ToArray();
-        }
-
-        Task.WaitAll(tasks);
+        await Task.WhenAll(_running.Select(t => t.Item2));
       }
- while (tasks.Any());
+      while (_running.Any());
     }
 
     #endregion
@@ -228,7 +227,7 @@ namespace Moong.FluentScheduler
     /// </summary>
     /// <param name="name">Name of the schedule.</param>
     /// <returns>The schedule of the given name, if any.</returns>
-    public static Schedule GetSchedule(string name)
+    public Schedule GetSchedule(string name)
     {
       return _schedules.Get(name);
     }
@@ -236,21 +235,12 @@ namespace Moong.FluentScheduler
     /// <summary>
     /// Collection of the currently running schedules.
     /// </summary>
-    public static IEnumerable<Schedule> RunningSchedules
-    {
-      get
-      {
-        lock (_running)
-        {
-          return _running.Select(t => t.Item1).ToList();
-        }
-      }
-    }
+    public IEnumerable<Schedule> RunningSchedules => _running.Select(t => t.Item1).ToList();
 
     /// <summary>
     /// Collection of all schedules.
     /// </summary>
-    public static IEnumerable<Schedule> AllSchedules => _schedules.All().ToList();
+    public IEnumerable<Schedule> AllSchedules => _schedules.All().ToList();
 
     #endregion
 
@@ -261,15 +251,19 @@ namespace Moong.FluentScheduler
     /// </summary>
     /// <param name="job">Job to run.</param>
     /// <param name="schedule">Job schedule to add.</param>
-    public static void AddJob(Func<Task> job, Action<Schedule> schedule)
+    public void AddJob(Func<Task> job, Action<Schedule> schedule)
     {
       if (job == null)
+      {
         throw new ArgumentNullException(nameof(job));
+      }
 
       if (schedule == null)
+      {
         throw new ArgumentNullException(nameof(schedule));
+      }
 
-      AddJob(schedule, new Schedule(job));
+      this.AddJob(schedule, new Schedule(job));
     }
 
     /// <summary>
@@ -277,7 +271,7 @@ namespace Moong.FluentScheduler
     /// </summary>
     /// <param name="job">Job to run.</param>
     /// <param name="schedule">Job schedule to add.</param>
-    public static void AddJob(Action job, Action<Schedule> schedule)
+    public void AddJob(Action job, Action<Schedule> schedule)
     {
       if (job == null)
         throw new ArgumentNullException(nameof(job));
@@ -285,7 +279,7 @@ namespace Moong.FluentScheduler
       if (schedule == null)
         throw new ArgumentNullException(nameof(schedule));
 
-      AddJob(schedule, new Schedule(() => TaskHelpers.ExecuteSynchronously(job)));
+      this.AddJob(schedule, new Schedule(() => TaskHelpers.ExecuteSynchronously(job)));
     }
 
     /// <summary>
@@ -293,7 +287,7 @@ namespace Moong.FluentScheduler
     /// </summary>
     /// <param name="job">Job to run.</param>
     /// <param name="schedule">Job schedule to add.</param>
-    public static void AddJob(IFluentJob job, Action<Schedule> schedule)
+    public void AddJob(IFluentJob job, Action<Schedule> schedule)
     {
       if (job == null)
         throw new ArgumentNullException(nameof(job));
@@ -301,7 +295,7 @@ namespace Moong.FluentScheduler
       if (schedule == null)
         throw new ArgumentNullException(nameof(schedule));
 
-      AddJob(schedule, new Schedule(GetJobFunction(job)));
+      this.AddJob(schedule, new Schedule(this.GetJobFunction(job)));
     }
 
     /// <summary>
@@ -309,28 +303,26 @@ namespace Moong.FluentScheduler
     /// </summary>
     /// <typeparam name="T">Job to run.</typeparam>
     /// <param name="schedule">Job schedule to add.</param>
-    [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
-        Justification = "The 'T' requirement is on purpose.")]
-    public static void AddJob<T>(Action<Schedule> schedule) where T : IJob
+    public void AddJob<T>(Action<Schedule> schedule) where T : IJob
     {
       if (schedule == null)
         throw new ArgumentNullException(nameof(schedule));
 
-      AddJob(schedule, new Schedule(GetJobFunction<T>()) { Name = typeof(T).Name });
+      this.AddJob(schedule, new Schedule(this.GetJobFunction<T>()) { Name = typeof(T).Name });
     }
 
-    private static void AddJob(Action<Schedule> jobSchedule, Schedule schedule)
+    private void AddJob(Action<Schedule> jobSchedule, Schedule schedule)
     {
       jobSchedule(schedule);
-      CalculateNextRun(new[] { schedule }).ToList().ForEach(RunJob);
-      ScheduleJobs();
+      this.CalculateNextRun(new[] { schedule }).ToList().ForEach(this.RunJob);
+      this.ScheduleJobs();
     }
 
     /// <summary>
     /// Removes the schedule of the given name.
     /// </summary>
     /// <param name="name">Name of the schedule.</param>
-    public static void RemoveJob(string name)
+    public void RemoveJob(string name)
     {
       _schedules.Remove(name);
     }
@@ -338,7 +330,7 @@ namespace Moong.FluentScheduler
     /// <summary>
     /// Removes all schedules.
     /// </summary>
-    public static void RemoveAllJobs()
+    public void RemoveAllJobs()
     {
       _schedules.RemoveAll();
     }
@@ -347,7 +339,7 @@ namespace Moong.FluentScheduler
 
     #region Calculating, scheduling & running
 
-    private static IEnumerable<Schedule> CalculateNextRun(IEnumerable<Schedule> schedules)
+    private IEnumerable<Schedule> CalculateNextRun(IEnumerable<Schedule> schedules)
     {
       foreach (var schedule in schedules)
       {
@@ -356,7 +348,7 @@ namespace Moong.FluentScheduler
           if (schedule.DelayRunFor > TimeSpan.Zero)
           {
             // delayed job
-            schedule.NextRun = Now.Add(schedule.DelayRunFor);
+            schedule.NextRun = this.Now.Add(schedule.DelayRunFor);
             _schedules.Add(schedule);
           }
           else
@@ -368,7 +360,7 @@ namespace Moong.FluentScheduler
           var hasAdded = false;
           foreach (var child in schedule.AdditionalSchedules.Where(x => x.CalculateNextRun != null))
           {
-            var nextRun = child.CalculateNextRun(Now.Add(child.DelayRunFor).AddMilliseconds(1));
+            var nextRun = child.CalculateNextRun(this.Now.Add(child.DelayRunFor).AddMilliseconds(1));
             if (!hasAdded || schedule.NextRun > nextRun)
             {
               schedule.NextRun = nextRun;
@@ -378,7 +370,7 @@ namespace Moong.FluentScheduler
         }
         else
         {
-          schedule.NextRun = schedule.CalculateNextRun(Now.Add(schedule.DelayRunFor));
+          schedule.NextRun = schedule.CalculateNextRun(this.Now.Add(schedule.DelayRunFor));
           _schedules.Add(schedule);
         }
 
@@ -389,7 +381,7 @@ namespace Moong.FluentScheduler
             if (childSchedule.DelayRunFor > TimeSpan.Zero)
             {
               // delayed job
-              childSchedule.NextRun = Now.Add(childSchedule.DelayRunFor);
+              childSchedule.NextRun = this.Now.Add(childSchedule.DelayRunFor);
               _schedules.Add(childSchedule);
             }
             else
@@ -400,14 +392,14 @@ namespace Moong.FluentScheduler
           }
           else
           {
-            childSchedule.NextRun = childSchedule.CalculateNextRun(Now.Add(childSchedule.DelayRunFor));
+            childSchedule.NextRun = childSchedule.CalculateNextRun(this.Now.Add(childSchedule.DelayRunFor));
             _schedules.Add(childSchedule);
           }
         }
       }
     }
 
-    private static void ScheduleJobs()
+    private void ScheduleJobs()
     {
       _timer.Change(Timeout.Infinite, Timeout.Infinite);
       _schedules.Sort();
@@ -416,33 +408,33 @@ namespace Moong.FluentScheduler
         return;
 
       var firstJob = _schedules.First();
-      if (firstJob.NextRun <= Now)
+      if (firstJob.NextRun <= this.Now)
       {
-        RunJob(firstJob);
+        this.RunJob(firstJob);
         if (firstJob.CalculateNextRun == null)
         {
           // probably a ToRunNow().DelayFor() job, there's no CalculateNextRun
         }
         else
         {
-          firstJob.NextRun = firstJob.CalculateNextRun(Now.AddMilliseconds(1));
+          firstJob.NextRun = firstJob.CalculateNextRun(this.Now.AddMilliseconds(1));
         }
 
-        if (firstJob.NextRun <= Now || firstJob.PendingRunOnce)
+        if (firstJob.NextRun <= this.Now || firstJob.PendingRunOnce)
         {
           _schedules.Remove(firstJob);
         }
 
         firstJob.PendingRunOnce = false;
-        ScheduleJobs();
+        this.ScheduleJobs();
         return;
       }
 
-      var interval = firstJob.NextRun - Now;
+      var interval = firstJob.NextRun - this.Now;
 
       if (interval <= TimeSpan.Zero)
       {
-        ScheduleJobs();
+        this.ScheduleJobs();
       }
       else
       {
@@ -453,49 +445,47 @@ namespace Moong.FluentScheduler
       }
     }
 
-    [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "That's OK since we're raising the JobException event with it."),
-    SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "https://blogs.msdn.microsoft.com/pfxteam/2012/03/25/do-i-need-to-dispose-of-tasks/")]
-    internal static void RunJob(Schedule schedule)
+    internal void RunJob(Schedule schedule)
     {
       if (schedule.Disabled)
         return;
 
-      lock (_running)
+      if (schedule.Reentrant != null && _running.Any(t => ReferenceEquals(t.Item1.Reentrant, schedule.Reentrant)))
       {
-        if (schedule.Reentrant != null &&
-            _running.Any(t => ReferenceEquals(t.Item1.Reentrant, schedule.Reentrant)))
-          return;
+        return;
       }
 
       Tuple<Schedule, Task> tuple = null;
 
-      var task = new Task(() =>
+      var task = Task.Run(async () =>
       {
-        var start = Now;
+        var start = this.Now;
 
-        JobStart?.Invoke(
+        this.JobStart?.Invoke(
           new JobStartInfo
           {
             Name = schedule.Name,
             StartTime = start,
-          }
-          );
+          });
 
         var stopwatch = new Stopwatch();
 
         try
         {
           stopwatch.Start();
-          schedule.Jobs.ForEach(func => Task.Factory.StartNew(func).Wait());
+          foreach (var scheduleJob in schedule.Jobs)
+          {
+            await scheduleJob();
+          }
         }
         catch (Exception e)
         {
-          if (JobException != null)
+          if (this.JobException != null)
           {
             if (e is AggregateException aggregate && aggregate.InnerExceptions.Count == 1)
               e = aggregate.InnerExceptions.Single();
 
-            JobException(
+            this.JobException(
                      new JobExceptionInfo
                      {
                        Name = schedule.Name,
@@ -506,31 +496,25 @@ namespace Moong.FluentScheduler
         }
         finally
         {
-          lock (_running)
+          if (tuple != null)
           {
             _running.Remove(tuple);
           }
 
-          JobEnd?.Invoke(
+          this.JobEnd?.Invoke(
             new JobEndInfo
             {
               Name = schedule.Name,
               StartTime = start,
               Duration = stopwatch.Elapsed,
               NextRun = schedule.NextRun,
-            }
-            );
+            });
         }
-      }, TaskCreationOptions.PreferFairness);
+      });
 
       tuple = new Tuple<Schedule, Task>(schedule, task);
+      _running.Add(tuple);
 
-      lock (_running)
-      {
-        _running.Add(tuple);
-      }
-
-      task.Start();
     }
 
     #endregion

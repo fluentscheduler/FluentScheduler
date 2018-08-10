@@ -70,7 +70,7 @@ namespace Moong.FluentScheduler
       if (job == null)
         throw new ArgumentNullException(nameof(job));
 
-      return this.Schedule(JobManager.GetJobFunction(job), null);
+      return this.Schedule(JobManager.Instance.GetJobFunction(job), null);
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ namespace Moong.FluentScheduler
         Justification = "The 'T' requirement is on purpose.")]
     public Schedule Schedule<T>() where T : IFluentJob
     {
-      return this.Schedule(JobManager.GetJobFunction<T>(), typeof(T).Name);
+      return this.Schedule(JobManager.Instance.GetJobFunction<T>(), typeof(T).Name);
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ namespace Moong.FluentScheduler
       if (job == null)
         throw new ArgumentNullException(nameof(job));
 
-      return this.Schedule(JobManager.GetJobFunction(job), null);
+      return this.Schedule(JobManager.Instance.GetJobFunction(job), null);
     }
 
     private Schedule Schedule(Func<Task> func, string name)

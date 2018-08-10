@@ -32,7 +32,7 @@ namespace Moong.FluentScheduler.Unit
 
       if (parent.CalculateNextRun != null)
       {
-        var now = JobManager.Now;
+        var now = JobManager.Instance.Now;
         var delay = parent.CalculateNextRun(now) - now;
 
         if (delay > TimeSpan.Zero)

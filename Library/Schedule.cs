@@ -72,7 +72,7 @@ namespace Moong.FluentScheduler
     /// </summary>
     public void Execute()
     {
-      JobManager.RunJob(this);
+      JobManager.Instance.RunJob(this);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ namespace Moong.FluentScheduler
       if (job == null)
         throw new ArgumentNullException(nameof(job));
 
-      this.Jobs.Add(JobManager.GetJobFunction(job));
+      this.Jobs.Add(JobManager.Instance.GetJobFunction(job));
       return this;
     }
 
@@ -119,7 +119,7 @@ namespace Moong.FluentScheduler
       if (job == null)
         throw new ArgumentNullException(nameof(job));
 
-      this.Jobs.Add(JobManager.GetJobFunction(job));
+      this.Jobs.Add(JobManager.Instance.GetJobFunction(job));
       return this;
     }
 
@@ -132,7 +132,7 @@ namespace Moong.FluentScheduler
         Justification = "The 'T' requirement is on purpose.")]
     public Schedule AndThen<T>() where T : IFluentJob
     {
-      this.Jobs.Add(JobManager.GetJobFunction<T>());
+      this.Jobs.Add(JobManager.Instance.GetJobFunction<T>());
       return this;
     }
 
@@ -173,7 +173,7 @@ namespace Moong.FluentScheduler
       var dateTime =
           new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, hours, minutes, 0);
 
-      return this.ToRunOnceAt(dateTime < JobManager.Now ? dateTime.AddDays(1) : dateTime);
+      return this.ToRunOnceAt(dateTime < JobManager.Instance.Now ? dateTime.AddDays(1) : dateTime);
     }
 
     /// <summary>

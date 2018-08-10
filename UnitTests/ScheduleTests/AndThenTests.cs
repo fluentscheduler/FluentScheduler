@@ -17,7 +17,7 @@ namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
       // Act
       var schedule = new Schedule(() => job1 = true).AndThen(() => job2 = true);
       schedule.Execute();
-      while (JobManager.RunningSchedules.Any())
+      while (JobManager.Instance.RunningSchedules.Any())
         await Task.Delay(1);
 
       // Assert
@@ -35,7 +35,7 @@ namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
       // Act
       var schedule = new Schedule(() => job1 = true).AndThen(() => job2 = true);
       schedule.Execute();
-      while (JobManager.RunningSchedules.Any())
+      while (JobManager.Instance.RunningSchedules.Any())
         await Task.Delay(1);
 
       // Assert
@@ -51,17 +51,25 @@ namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
       var job2 = DateTime.MinValue;
 
       // Act
-      var schedule = new Schedule(async () =>
+      var schedule = new Schedule(() =>
       {
         job1 = DateTime.Now;
-        await Task.Delay(1);
-      }).AndThen(() => job2 = DateTime.Now);
+        return Task.Delay(10);
+      }).AndThen(() =>
+      {
+        job2 = DateTime.Now;
+        return Task.Delay(10);
+      });
+
       schedule.Execute();
-      while (JobManager.RunningSchedules.Any())
+      while (JobManager.Instance.RunningSchedules.Any())
+      {
         await Task.Delay(1);
+      }
+       
 
       // Assert
-      Assert.True(job1.Ticks < job2.Ticks);
+      Assert.True(job1.Ticks < job2.Ticks, $"{job1.Ticks} < {job2.Ticks}");
     }
   }
 }

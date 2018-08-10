@@ -14,12 +14,12 @@ namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
       var expected = DateTime.Now.AddMilliseconds(500);
 
       // Act
-      JobManager.AddJob(
+      JobManager.Instance.AddJob(
           () => { },
           x => x.WithName("run now and delay for 500 milliseconds")
               .ToRunNow().DelayFor(500).Milliseconds()
       );
-      var actual = JobManager.GetSchedule("run now and delay for 500 milliseconds").NextRun;
+      var actual = JobManager.Instance.GetSchedule("run now and delay for 500 milliseconds").NextRun;
 
       // Assert
       Assert.True(Math.Abs((expected - actual).TotalMilliseconds) < 10);
@@ -32,12 +32,12 @@ namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
       var expected = DateTime.Now.AddSeconds(2);
 
       // Act
-      JobManager.AddJob(
+      JobManager.Instance.AddJob(
           () => { },
           x => x.WithName("run now and delay for 2 seconds")
               .ToRunNow().DelayFor(2).Seconds()
       );
-      var actual = JobManager.GetSchedule("run now and delay for 2 seconds").NextRun;
+      var actual = JobManager.Instance.GetSchedule("run now and delay for 2 seconds").NextRun;
 
       // Assert
       Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -50,12 +50,12 @@ namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
       var expected = DateTime.Now.AddMinutes(2);
 
       // Act
-      JobManager.AddJob(
+      JobManager.Instance.AddJob(
           () => { },
           s => s.WithName("run now and delay for 2 minutes")
               .ToRunNow().DelayFor(2).Minutes()
       );
-      var actual = JobManager.GetSchedule("run now and delay for 2 minutes").NextRun;
+      var actual = JobManager.Instance.GetSchedule("run now and delay for 2 minutes").NextRun;
 
       // Assert
       Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -68,12 +68,12 @@ namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
       var expected = DateTime.Now.AddHours(2);
 
       // Act
-      JobManager.AddJob(
+      JobManager.Instance.AddJob(
           () => { },
           s => s.WithName("run now and delay for 2 hours")
               .ToRunNow().DelayFor(2).Hours()
       );
-      var actual = JobManager.GetSchedule("run now and delay for 2 hours").NextRun;
+      var actual = JobManager.Instance.GetSchedule("run now and delay for 2 hours").NextRun;
 
       // Assert
       Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -86,12 +86,12 @@ namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
       var expected = DateTime.Now.AddDays(2);
 
       // Act
-      JobManager.AddJob(
+      JobManager.Instance.AddJob(
           () => { },
           s => s.WithName("run now and delay for 2 days")
               .ToRunNow().DelayFor(2).Days()
       );
-      var actual = JobManager.GetSchedule("run now and delay for 2 days").NextRun;
+      var actual = JobManager.Instance.GetSchedule("run now and delay for 2 days").NextRun;
 
       // Assert
       Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -104,13 +104,13 @@ namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
       var expected = DateTime.Now.AddDays(14);
 
       // Act
-      JobManager.AddJob(
+      JobManager.Instance.AddJob(
           () => { },
           s => s.WithName("run now and delay for 2 weeks")
           .ToRunNow().DelayFor(2).Weeks()
       );
 
-      var actual = JobManager.GetSchedule("run now and delay for 2 weeks").NextRun;
+      var actual = JobManager.Instance.GetSchedule("run now and delay for 2 weeks").NextRun;
 
       // Assert
       Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -123,12 +123,12 @@ namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
       var expected = DateTime.Now.AddMonths(2);
 
       // Act
-      JobManager.AddJob(
+      JobManager.Instance.AddJob(
           () => { },
           s => s.WithName("run now and delay for 2 months")
               .ToRunNow().DelayFor(2).Months()
       );
-      var actual = JobManager.GetSchedule("run now and delay for 2 months").NextRun;
+      var actual = JobManager.Instance.GetSchedule("run now and delay for 2 months").NextRun;
 
       // Assert
       Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
@@ -141,12 +141,12 @@ namespace Moong.FluentScheduler.Tests.UnitTests.ScheduleTests
       var expected = DateTime.Now.AddYears(2);
 
       // Act
-      JobManager.AddJob(
+      JobManager.Instance.AddJob(
           () => { },
           s => s.WithName("run now and delay for 2 years")
               .ToRunNow().DelayFor(2).Years()
       );
-      var actual = JobManager.GetSchedule("run now and delay for 2 years").NextRun;
+      var actual = JobManager.Instance.GetSchedule("run now and delay for 2 years").NextRun;
 
       // Assert
       Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
