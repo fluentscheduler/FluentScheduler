@@ -20,14 +20,14 @@ namespace FluentScheduler.Tests.TestApplication
     private static void ListenForStart()
     {
       L.Register("[job start]", "{0} has started.");
-      JobManager.JobStart += (info) => L.Log("[job start]", info.Name);
+      JobManager.Instance.JobStart += (info) => L.Log("[job start]", info.Name);
     }
 
     private static void ListenForEnd()
     {
       L.Register("[job end]", "{0} has ended{1}.");
 
-      JobManager.JobEnd += (info) =>
+      JobManager.Instance.JobEnd += (info) =>
           L.Log("[job end]", info.Name,
               info.Duration > TimeSpan.FromSeconds(1) ? " with duration of " + info.Duration : string.Empty);
     }
@@ -35,16 +35,16 @@ namespace FluentScheduler.Tests.TestApplication
     private static void ListenForException()
     {
       L.Register("[job exception]", "An error just happened:" + Environment.NewLine + "{0}");
-      JobManager.JobException += (info) => L.Log("[job exception]", info.Exception);
+      JobManager.Instance.JobException += (info) => L.Log("[job exception]", info.Exception);
     }
 
     private static void Initialize()
     {
-      JobManager.Initialize(new MyRegistry());
-      JobManager.RemoveJob("[removed]");
+      JobManager.Instance.Initialize(new MyRegistry());
+      JobManager.Instance.RemoveJob("[removed]");
 
       L.Register("[late]");
-      JobManager.AddJob(() => L.Log("[late]", "This was added after the initialize call."),
+      JobManager.Instance.AddJob(() => L.Log("[late]", "This was added after the initialize call."),
           s => s.WithName("[late]").ToRunNow());
     }
 

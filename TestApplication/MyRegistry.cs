@@ -68,8 +68,8 @@ namespace FluentScheduler.Tests.TestApplication
 
       Schedule(() =>
       {
-        JobManager.RemoveJob("[reentrant]");
-        JobManager.RemoveJob("[non reentrant]");
+        JobManager.Instance.RemoveJob("[reentrant]");
+        JobManager.Instance.RemoveJob("[non reentrant]");
         L.Log("[disable]", "Disabled the reentrant and non reentrant jobs.");
       }).WithName("[disable]").ToRunOnceIn(200).Seconds();
     }
