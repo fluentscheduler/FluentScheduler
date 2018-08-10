@@ -1,7 +1,7 @@
 ﻿using System;
-using FluentScheduler.Extension;
+using Moong.FluentScheduler.Extension;
 
-namespace FluentScheduler.Unit
+namespace Moong.FluentScheduler.Unit
 {
   /// <summary>
   /// Unit of time that represents day of the week.

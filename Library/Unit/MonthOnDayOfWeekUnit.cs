@@ -1,8 +1,8 @@
 ﻿using System;
-using FluentScheduler.Enum;
-using FluentScheduler.Extension;
+using Moong.FluentScheduler.Enum;
+using Moong.FluentScheduler.Extension;
 
-namespace FluentScheduler.Unit
+namespace Moong.FluentScheduler.Unit
 {
   /// <summary>
   /// Unit of time that represents week and day of week of the month (wow that's confusing).

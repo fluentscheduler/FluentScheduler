@@ -1,4 +1,4 @@
-﻿namespace FluentScheduler
+﻿namespace Moong.FluentScheduler
 {
   /// <summary>
   /// Some work to be done.

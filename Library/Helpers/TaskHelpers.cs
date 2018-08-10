@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace FluentScheduler.Helpers
+namespace Moong.FluentScheduler.Helpers
 {
   public static class TaskHelpers
   {

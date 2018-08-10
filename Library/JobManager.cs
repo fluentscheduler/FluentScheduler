@@ -1,18 +1,17 @@
-﻿using FluentScheduler.Event;
-using FluentScheduler.Extension;
-using FluentScheduler.Helpers;
-using FluentScheduler.Util;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Moong.FluentScheduler.Event;
+using Moong.FluentScheduler.Extension;
+using Moong.FluentScheduler.Helpers;
+using Moong.FluentScheduler.Util;
 
-namespace FluentScheduler
+namespace Moong.FluentScheduler
 {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Diagnostics.CodeAnalysis;
-  using System.Linq;
-  using System.Threading;
-  using System.Threading.Tasks;
-
   /// <summary>
   /// Job manager that handles jobs execution.
   /// </summary>

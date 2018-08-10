@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentScheduler
+namespace Moong.FluentScheduler
 {
   /// <summary>
   /// A job factory.

@@ -1,6 +1,6 @@
-﻿using FluentScheduler.Extension;
+﻿using Moong.FluentScheduler.Extension;
 
-namespace FluentScheduler.Unit
+namespace Moong.FluentScheduler.Unit
 {
   /// <summary>
   /// Unit of time that represents last day of the month.

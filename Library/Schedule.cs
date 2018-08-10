@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentScheduler.Helpers;
-using FluentScheduler.Unit;
+using Moong.FluentScheduler.Helpers;
+using Moong.FluentScheduler.Unit;
 
-namespace FluentScheduler
+namespace Moong.FluentScheduler
 {
   /// <summary>
   /// A job schedule.

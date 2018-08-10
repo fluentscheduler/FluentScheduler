@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentScheduler.Helpers;
+using Moong.FluentScheduler.Helpers;
 
-namespace FluentScheduler.Extension
+namespace Moong.FluentScheduler.Extension
 {
   internal static class FluentJobExtensions
   {

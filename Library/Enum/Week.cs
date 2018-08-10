@@ -1,4 +1,4 @@
-﻿namespace FluentScheduler.Enum
+﻿namespace Moong.FluentScheduler.Enum
 {
   internal enum Week
   {

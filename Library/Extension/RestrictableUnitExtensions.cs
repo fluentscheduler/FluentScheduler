@@ -1,9 +1,9 @@
 using System;
-using FluentScheduler.Enum;
-using FluentScheduler.Unit;
-using FluentScheduler.Util;
+using Moong.FluentScheduler.Enum;
+using Moong.FluentScheduler.Unit;
+using Moong.FluentScheduler.Util;
 
-namespace FluentScheduler.Extension
+namespace Moong.FluentScheduler.Extension
 {
   /// <summary>
   /// Extension class for restrictable units.

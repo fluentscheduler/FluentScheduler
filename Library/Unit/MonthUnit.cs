@@ -1,7 +1,7 @@
 ﻿using System;
-using FluentScheduler.Enum;
+using Moong.FluentScheduler.Enum;
 
-namespace FluentScheduler.Unit
+namespace Moong.FluentScheduler.Unit
 {
   /// <summary>
   /// Unit of time in months.

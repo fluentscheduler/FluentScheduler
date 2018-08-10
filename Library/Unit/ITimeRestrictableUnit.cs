@@ -1,4 +1,4 @@
-namespace FluentScheduler.Unit
+namespace Moong.FluentScheduler.Unit
 {
   /// <summary>
   /// Common interface of units that can be restricted by time.

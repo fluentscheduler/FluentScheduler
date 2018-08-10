@@ -1,7 +1,7 @@
 ﻿using System;
-using FluentScheduler.Enum;
+using Moong.FluentScheduler.Enum;
 
-namespace FluentScheduler.Extension
+namespace Moong.FluentScheduler.Extension
 {
 // Some borrowed from http://datetimeextensions.codeplex.com
   internal static class DateTimeExtensions

@@ -1,4 +1,4 @@
-﻿namespace FluentScheduler
+﻿namespace Moong.FluentScheduler
 {
   public interface IFluentJob
   {

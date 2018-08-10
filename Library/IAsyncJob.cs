@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FluentScheduler
+namespace Moong.FluentScheduler
 {
   public interface IAsyncJob : IFluentJob
   {

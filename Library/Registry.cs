@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using FluentScheduler.Helpers;
+using Moong.FluentScheduler.Helpers;
 
 [assembly: InternalsVisibleTo("FluentScheduler.Tests.UnitTests")]
 
-namespace FluentScheduler
+namespace Moong.FluentScheduler
 {
   /// <summary>
   /// A registry of job schedules.

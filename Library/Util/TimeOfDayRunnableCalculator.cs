@@ -1,7 +1,7 @@
 using System;
-using FluentScheduler.Enum;
+using Moong.FluentScheduler.Enum;
 
-namespace FluentScheduler.Util
+namespace Moong.FluentScheduler.Util
 {
   internal class TimeOfDayRunnableCalculator
   {

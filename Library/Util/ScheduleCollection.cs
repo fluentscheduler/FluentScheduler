@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FluentScheduler.Util
+namespace Moong.FluentScheduler.Util
 {
   internal class ScheduleCollection
   {

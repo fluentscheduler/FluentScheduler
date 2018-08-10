@@ -4,14 +4,14 @@
     <TargetFrameworks>netstandard2.0;net471</TargetFrameworks>
     <Product>Library</Product>
     <Description>Automated job scheduler with fluent interface.</Description>
-    <PackageId>FluentScheduler</PackageId>
+    <PackageId>Moong.FluentScheduler</PackageId>
     <Authors>Jim Geurts &lt;jim@biacreations.com&gt;,Talles L &lt;talleslasmar@gmail.com&gt; &amp; further contributors</Authors>
-    <Version>5.3.0</Version>
+    <Version>1.0.0</Version>
     <CodeAnalysisRuleSet>Rules.ruleset</CodeAnalysisRuleSet>
-    <AssemblyName>FluentScheduler</AssemblyName>
-    <RootNamespace>FluentScheduler</RootNamespace>
-    <PackageIconUrl>https://raw.githubusercontent.com/fluentscheduler/FluentScheduler/master/Assets/logo-200x200.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/fluentscheduler/FluentScheduler</PackageProjectUrl>
+    <AssemblyName>Moong.FluentScheduler</AssemblyName>
+    <RootNamespace>Moong.FluentScheduler</RootNamespace>
+    <PackageIconUrl>https://raw.githubusercontent.com/moongdev/FluentScheduler/master/Assets/logo-200x200.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/moongdev/FluentScheduler.git</PackageProjectUrl>
     <PackageLicenseUrl>https://opensource.org/licenses/BSD-3-Clause</PackageLicenseUrl>
     <PackageTags>background cron job schedule task</PackageTags>
   </PropertyGroup>

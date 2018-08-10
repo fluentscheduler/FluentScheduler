@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;net471</TargetFrameworks>
     <IsPackable>false</IsPackable>
-    <AssemblyName>FluentScheduler.Tests.UnitTests</AssemblyName>
-    <RootNamespace>FluentScheduler.Tests.UnitTests</RootNamespace>
+    <AssemblyName>Moong.FluentScheduler.Tests.UnitTests</AssemblyName>
+    <RootNamespace>Moong.FluentScheduler.Tests.UnitTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

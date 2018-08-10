@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentScheduler.Event
+namespace Moong.FluentScheduler.Event
 {
   /// <summary>
   /// Information of a job start.

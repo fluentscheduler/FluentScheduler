@@ -1,7 +1,7 @@
 ﻿using System;
-using FluentScheduler.Unit;
+using Moong.FluentScheduler.Unit;
 
-namespace FluentScheduler.Extension
+namespace Moong.FluentScheduler.Extension
 {
   /// <summary>
   /// DelayFor extension methods.

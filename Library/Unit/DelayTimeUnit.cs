@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentScheduler.Unit
+namespace Moong.FluentScheduler.Unit
 {
   /// <summary>
   /// Unit used to represent delay.
