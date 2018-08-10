@@ -1,21 +1,18 @@
-﻿namespace FluentScheduler
+﻿namespace FluentScheduler.Unit
 {
-    /// <summary>
-    /// Unit of time in minutes.
-    /// </summary>
-    public sealed class MinuteUnit : ITimeRestrictableUnit
+  /// <summary>
+  /// Unit of time in minutes.
+  /// </summary>
+  public sealed class MinuteUnit : ITimeRestrictableUnit
+  {
+    internal MinuteUnit(Schedule schedule, int duration)
     {
-        private readonly int _duration;
-
-        internal MinuteUnit(Schedule schedule, int duration)
-        {
-            _duration = duration;
-            Schedule = schedule;
-            Schedule.CalculateNextRun = x => x.AddMinutes(_duration);
-        }
-
-        internal Schedule Schedule { get; private set; }
-
-        Schedule ITimeRestrictableUnit.Schedule { get { return this.Schedule; } }
+      this.Schedule = schedule;
+      this.Schedule.CalculateNextRun = x => x.AddMinutes(duration);
     }
+
+    internal Schedule Schedule { get; }
+
+    Schedule ITimeRestrictableUnit.Schedule => this.Schedule;
+  }
 }

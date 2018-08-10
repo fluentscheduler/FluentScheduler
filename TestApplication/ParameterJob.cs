@@ -1,19 +1,19 @@
 ﻿namespace FluentScheduler.Tests.TestApplication
 {
-    using LLibrary;
+  using LLibrary;
 
-    public class ParameterJob : IJob
+  public class ParameterJob : IJob
+  {
+    public string Parameter { get; set; }
+
+    static ParameterJob()
     {
-        public string Parameter { get; set; }
-
-        static ParameterJob()
-        {
-            L.Register("[parameter]", "Just executed with parameter \"{0}\".");
-        }
-
-        public void Execute()
-        {
-            L.Log("[parameter]", Parameter);
-        }
+      L.Register("[parameter]", "Just executed with parameter \"{0}\".");
     }
+
+    public void Execute()
+    {
+      L.Log("[parameter]", Parameter);
+    }
+  }
 }

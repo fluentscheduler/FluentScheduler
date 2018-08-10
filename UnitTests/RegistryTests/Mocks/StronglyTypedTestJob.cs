@@ -1,12 +1,12 @@
 ﻿namespace FluentScheduler.Tests.UnitTests.RegistryTests.Mocks
 {
-    using System;
+  using System;
 
-    public class StronglyTypedTestJob : IJob
+  public class StronglyTypedTestJob : IJob
+  {
+    public void Execute()
     {
-        public void Execute()
-        {
-            Console.WriteLine("Hi");
-        }
+      Console.WriteLine("Hi");
     }
+  }
 }

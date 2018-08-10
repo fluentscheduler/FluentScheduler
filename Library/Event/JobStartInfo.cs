@@ -1,20 +1,20 @@
-﻿namespace FluentScheduler
+﻿using System;
+
+namespace FluentScheduler.Event
 {
-    using System;
+  /// <summary>
+  /// Information of a job start.
+  /// </summary>
+  public class JobStartInfo
+  {
+    /// <summary>
+    /// Name of the job.
+    /// </summary>
+    public string Name { get; set; }
 
     /// <summary>
-    /// Information of a job start.
+    /// Date and time of the start.
     /// </summary>
-    public class JobStartInfo
-    {
-        /// <summary>
-        /// Name of the job.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Date and time of the start.
-        /// </summary>
-        public DateTime StartTime { get; set; }
-    }
+    public DateTime StartTime { get; set; }
+  }
 }
