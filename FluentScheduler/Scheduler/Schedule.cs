@@ -21,7 +21,7 @@
         public Schedule(Action job, Action<RunSpecifier> specifier) => Internal = new InternalSchedule(job, specifier);
 
         /// <summary>
-        /// True if the schedule is started, false otherwise.
+        /// True if the schedule is running, false otherwise.
         /// </summary>
         public bool Running
         {
@@ -65,6 +65,7 @@
         {
             lock (Internal.RunningLock)
             {
+                Internal.ShouldNotBeRunning();
                 Internal.ResetScheduling();
             }
         }
@@ -78,6 +79,7 @@
         {
             lock (Internal.RunningLock)
             {
+                Internal.ShouldNotBeRunning();
                 Internal.SetScheduling(specifier);
             }
         }
@@ -95,7 +97,7 @@
 
         /// <summary>
         /// Stops the schedule or does nothing if it's not running.
-        /// This calls does not block.
+        /// This call does not block.
         /// </summary>
         public void Stop()
         {
@@ -107,7 +109,7 @@
 
         /// <summary>
         /// Stops the schedule or does nothing if it's not running.
-        /// This calls blocks (it waits for the running job to end its execution).
+        /// This call blocks (it waits for the running job to end its execution).
         /// </summary>
         public void StopAndBlock()
         {
@@ -119,7 +121,7 @@
 
         /// <summary>
         /// Stops the schedule or does nothing if it's not running.
-        /// This calls blocks (it waits for the running job to end its execution).
+        /// This call blocks (it waits for the running job to end its execution).
         /// </summary>
         /// <param name="timeout">Milliseconds to wait</param>
         public void StopAndBlock(int timeout)
@@ -132,7 +134,7 @@
 
         /// <summary>
         /// Stops the schedule or does nothing if it's not running.
-        /// This calls blocks (it waits for the running job to end its execution).
+        /// This call blocks (it waits for the running job to end its execution).
         /// </summary>
         /// <param name="timeout">Time to wait</param>
         public void StopAndBlock(TimeSpan timeout)
