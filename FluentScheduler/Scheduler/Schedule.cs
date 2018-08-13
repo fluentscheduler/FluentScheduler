@@ -49,7 +49,7 @@
         }
 
         /// <summary>
-        /// Evemt raised when the job ends.
+        /// Event raised when the job ends.
         /// </summary>
         public event EventHandler<JobEndedEventArgs> JobEnded
         {
