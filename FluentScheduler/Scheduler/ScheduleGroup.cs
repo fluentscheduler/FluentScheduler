@@ -139,12 +139,12 @@ namespace FluentScheduler
         /// </summary>
         /// <param name="schedules">Schedules to operate on</param>
         /// <returns>The schedule and its next run date and time</returns>
-        public static (Schedule, DateTime?) NextRun(this IEnumerable<Schedule> schedules)
+        public static (Schedule, DateTime)? NextRun(this IEnumerable<Schedule> schedules)
         {
             var _schedules = schedules.ToList();
 
             if (!_schedules.Any())
-                throw new ArgumentException();
+                return null;
 
             var next = 0;
             var times = Select(_schedules, i => i.NextRun).ToList();
@@ -155,7 +155,10 @@ namespace FluentScheduler
                     next = i;
             }
 
-            return (_schedules[next], times[next]);
+            if (!times[next].HasValue)
+                return null;
+
+            return (_schedules[next], times[next].Value);
         }
 
         private static void ForEach(
@@ -167,7 +170,6 @@ namespace FluentScheduler
 
             try
             {
-
                 foreach (var _toRun in toRun)
                 {
                     if (parallel)
