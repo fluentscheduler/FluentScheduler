@@ -108,7 +108,7 @@ namespace FluentScheduler
             var delay = NextRun.Value - DateTime.Now;
 
             // delaying until it's time to run or a cancellation was requested
-            await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token);
+            await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token).ContinueWith(_ => {});
 
             // checking if a cancellation was requested
             if (token.IsCancellationRequested)
