@@ -10,15 +10,7 @@
     /// </summary>
     public class Schedule
     {
-        private readonly Action _job;
-
-        private readonly object _lock;
-
-        private Task _task;
-
-        private TimeCalculator _calculator;
-
-        private CancellationTokenSource _tokenSource;
+        internal InternalSchedule Internal { get; private set; }
 
         /// <summary>
         /// Creates a new schedule for the given job.
@@ -26,20 +18,7 @@
         /// <param name="job">Job to be scheduled</param>
         /// <param name="specifier">Scheduling of this schedule</param>
         /// <returns>A schedule for the given job</returns>
-        public Schedule(Action job, Action<RunSpecifier> specifier)
-        {
-            _job = job ?? throw new ArgumentNullException(nameof(job));
-
-            if (specifier == null)
-                throw new ArgumentNullException(nameof(specifier));
-
-            _lock = new object();
-            _task = null;
-            _calculator = new TimeCalculator();
-            _tokenSource = null;
-
-            specifier(new RunSpecifier(_calculator));
-        }
+        public Schedule(Action job, Action<RunSpecifier> specifier) => Internal = new InternalSchedule(job, specifier);
 
         /// <summary>
         /// True if the schedule is started, false otherwise.
@@ -48,9 +27,9 @@
         {
             get
             {
-                lock (_lock)
+                lock (Internal.RunningLock)
                 {
-                    return _Running();
+                    return Internal.Running();
                 }
             }
         }
@@ -58,17 +37,25 @@
         /// <summary>
         /// Date and time of the next job run.
         /// </summary>
-        public DateTime? NextRun { get; private set; }
+        public DateTime? NextRun { get => Internal.NextRun; }
 
         /// <summary>
         /// Event raised when the job starts.
         /// </summary>
-        public event EventHandler<JobStartedEventArgs> JobStarted;
+        public event EventHandler<JobStartedEventArgs> JobStarted
+        {
+            add => Internal.JobStarted += value;
+            remove => Internal.JobStarted -= value;
+        }
 
         /// <summary>
         /// Evemt raised when the job ends.
         /// </summary>
-        public event EventHandler<JobEndedEventArgs> JobEnded;
+        public event EventHandler<JobEndedEventArgs> JobEnded
+        {
+            add => Internal.JobEnded += value;
+            remove => Internal.JobEnded -= value;
+        }
 
         /// <summary>
         /// Resets the scheduling of this schedule.
@@ -76,13 +63,9 @@
         /// </summary>
         public void ResetScheduling()
         {
-            lock (_lock)
+            lock (Internal.RunningLock)
             {
-                if (_Running())
-                    throw new InvalidOperationException("You cannot change the scheduling of a running schedule.");
-
-                NextRun = null;
-                _calculator.Reset();
+                Internal.ResetScheduling();
             }
         }
 
@@ -93,17 +76,9 @@
         /// <param name="specifier">Scheduling of this schedule</param>
         public void SetScheduling(Action<RunSpecifier> specifier)
         {
-            lock (_lock)
+            lock (Internal.RunningLock)
             {
-                if (specifier == null)
-                    throw new ArgumentNullException(nameof(specifier));
-
-                if (_Running())
-                    throw new InvalidOperationException("You cannot change the scheduling of a running schedule.");
-
-                NextRun = null;
-                _calculator = new TimeCalculator();
-                specifier(new RunSpecifier(_calculator));
+                Internal.SetScheduling(specifier);
             }
         }
 
@@ -112,15 +87,9 @@
         /// </summary>
         public void Start()
         {
-            lock (_lock)
+            lock (Internal.RunningLock)
             {
-                if (_Running())
-                    return;
-
-                CalculateNextRun(DateTime.Now);
-
-                _tokenSource = new CancellationTokenSource();
-                _task = Run(_tokenSource.Token);
+                Internal.Start();
             }
         }
 
@@ -128,13 +97,25 @@
         /// Stops the schedule or does nothing if it's not running.
         /// This calls does not block.
         /// </summary>
-        public void Stop() => _Stop(false, null);
+        public void Stop()
+        {
+            lock (Internal.RunningLock)
+            {
+                Internal.Stop(false, null);
+            }
+        }
 
         /// <summary>
         /// Stops the schedule or does nothing if it's not running.
         /// This calls blocks (it waits for the running job to end its execution).
         /// </summary>
-        public void StopAndBlock() => _Stop(false, null);
+        public void StopAndBlock()
+        {
+            lock (Internal.RunningLock)
+            {
+                Internal.Stop(false, null);
+            }
+        }
 
         /// <summary>
         /// Stops the schedule or does nothing if it's not running.
@@ -143,10 +124,10 @@
         /// <param name="timeout">Milliseconds to wait</param>
         public void StopAndBlock(int timeout)
         {
-            if (timeout < 0)
-                throw new ArgumentOutOfRangeException($"\"{nameof(timeout)}\" should be positive.");
-
-            _Stop(false, timeout);
+            lock (Internal.RunningLock)
+            {
+                Internal.Stop(false, timeout);
+            }
         }
 
         /// <summary>
@@ -156,95 +137,9 @@
         /// <param name="timeout">Time to wait</param>
         public void StopAndBlock(TimeSpan timeout)
         {
-            if (timeout < TimeSpan.Zero)
-                throw new ArgumentOutOfRangeException($"\"{nameof(timeout)}\" should be positive.");
-
-            _Stop(false, timeout.Milliseconds);
-        }
-
-        private void CalculateNextRun(DateTime last) => NextRun = _calculator.Calculate(last);
-
-        private async Task Run(CancellationToken token)
-        {
-            // checking if it's supposed to run
-            // it assumes that CalculateNextRun has been called previously from somewhere else
-            if (!NextRun.HasValue)
-                return;
-
-            // calculating delay
-            var delay = NextRun.Value - DateTime.Now;
-
-            // delaying until it's time to run or a cancellation was requested
-            await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token);
-
-            // checking if a cancellation was requested
-            if (token.IsCancellationRequested)
-                return;
-
-            // used on both JobStarted and JobEnded events
-            var startTime = DateTime.Now;
-
-            // raising JobStarted event
-            JobStarted?.Invoke(this, new JobStartedEventArgs(startTime));
-
-            // used on JobEnded event
-            Exception exception = null;
-
-            try
+            lock (Internal.RunningLock)
             {
-                // running the job
-                _job();
-            }
-            catch (Exception e)
-            {
-                // catching the exception if any
-                exception = e;
-            }
-
-            // used on JobEnded event
-            var endTime = DateTime.Now;
-
-            // calculating the next run
-            // used on both JobEnded event and for the next run of this method
-            CalculateNextRun(startTime);
-
-            // raising JobEnded event
-            JobEnded?.Invoke(this, new JobEndedEventArgs(exception, startTime, endTime, NextRun));
-
-            // recursive call
-            // note that the NextRun was already calculated in this run
-            _task = Run(token);
-        }
-
-        private bool _Running()
-        {
-            // task and token source should be both null or both not null
-            Debug.Assert(
-                (_task == null && _tokenSource == null) ||
-                (_task != null && _tokenSource != null)
-            );
-
-            return _task != null;
-        }
-
-        private void _Stop(bool block, int? timeout)
-        {
-            lock (_lock)
-            {
-                if (!_Running())
-                    return;
-
-                _tokenSource.Cancel();
-                _tokenSource.Dispose();
-
-                if (block && timeout.HasValue)
-                    _task.Wait(timeout.Value);
-
-                if (block && !timeout.HasValue)
-                    _task.Wait();
-
-                _task = null;
-                _tokenSource = null;
+                Internal.Stop(false, timeout.Milliseconds);
             }
         }
     }
