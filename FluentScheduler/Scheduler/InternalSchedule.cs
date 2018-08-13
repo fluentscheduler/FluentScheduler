@@ -32,8 +32,6 @@ namespace FluentScheduler
 
         internal void ResetScheduling()
         {
-            ShouldNotBeRunning();
-
             NextRun = null;
             _calculator.Reset();
         }
@@ -43,12 +41,16 @@ namespace FluentScheduler
             if (specifier == null)
                 throw new ArgumentNullException(nameof(specifier));
 
-            ShouldNotBeRunning();
-
             NextRun = null;
             _calculator = new TimeCalculator();
 
             specifier(new RunSpecifier(_calculator));
+        }
+
+        internal void ShouldNotBeRunning()
+        {
+            if (Running())
+                throw new InvalidOperationException("You cannot change the scheduling of a running schedule.");
         }
 
         internal bool Running()
@@ -91,12 +93,6 @@ namespace FluentScheduler
 
             _task = null;
             _tokenSource = null;
-        }
-
-        private void ShouldNotBeRunning()
-        {
-            if (Running())
-                throw new InvalidOperationException("You cannot change the scheduling of a running schedule.");
         }
 
         private void CalculateNextRun(DateTime last) => NextRun = _calculator.Calculate(last);
