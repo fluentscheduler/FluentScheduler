@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>5.3.1</Version>
+    <Authors>Jim Geurts &lt;jim@biacreations.com&gt;,Talles L &lt;talleslasmar@gmail.com&gt; &amp; further contributors</Authors>
+    <PackageLicenseUrl>https://opensource.org/licenses/BSD-3-Clause</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/fluentscheduler/FluentScheduler</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/fluentscheduler/FluentScheduler/master/Assets/logo-200x200.png</PackageIconUrl>
+    <Description>Automated job scheduler with fluent interface.</Description>
+    <PackageTags>background cron job schedule task</PackageTags>
+  </PropertyGroup>
+</Project>
