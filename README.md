@@ -1,6 +1,6 @@
 <p align="center">
     <a href="#fluentscheduler">
-        <img alt="logo" src="Assets/logo-200x200.png">
+        <img alt="logo" src="Logo/logo-200x200.png">
     </a>
 </p>
 
