@@ -1,0 +1,17 @@
+site_name: FluentScheduler
+
+nav:
+  - Home: index.md
+  - Creating schedules: creating-schedules.md
+  - Starting, stopping and resetting: starting-stopping-and-resetting.md
+  - Changing the scheduling: changing-the-scheduling.md
+  - Listening for events: listening-for-events.md
+  - Managing multiple schedules: managing-multiple-schedules.md
+  - Reentrancy: reentrancy.md
+  - Cron expressions: cron-expressions.md
+  - Daylight savings: daylight-savings.md
+  - More examples: more-examples.md
+  - Contributing: contributing.md
+
+theme:
+  name: readthedocs
