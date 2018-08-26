@@ -24,12 +24,12 @@ If you want to contribute with the redesign please
 
 # FluentScheduler
 
-Automated job scheduler with fluent interface.
+Automated job scheduler with fluent interface for the .NET platform.
 
 ```cs
 var schedule = new Schedule(
     () => Console.WriteLine("5 minutes just passed."),
-    run => run.Now().AndEvery(5).Minutes()
+    run => run.Every(5).Minutes()
 );
 
 schedule.Start();

@@ -1,4 +1,8 @@
 site_name: FluentScheduler
+site_url: http://fluentscheduler.github.io
+site_description: Automated job scheduler with fluent interface.
+
+plugins: []
 
 nav:
   - Home: index.md
@@ -15,3 +19,4 @@ nav:
 
 theme:
   name: readthedocs
+  custom_dir: docs/custom
