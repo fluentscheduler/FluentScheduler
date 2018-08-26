@@ -9,7 +9,7 @@ If you want to contribute with the redesign please
 
 <p align="center">
     <a href="#fluentscheduler">
-        <img alt="logo" height="150px" src="https://raw.githubusercontent.com/fluentscheduler/FluentScheduler/logo/logo.png">
+        <img alt="logo" src="https://raw.githubusercontent.com/fluentscheduler/FluentScheduler/master/Logo/logo-200x200.png">
     </a>
 </p>
 
