@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Collections.Generic;
 
-    internal class TimeCalculator
+    internal class TimeCalculator : ITimeCalculator
     {
         private bool _firstCalculation = true;
 
@@ -13,9 +13,13 @@
         internal IList<Func<DateTime, DateTime>> PeriodCalculations { get; private set; } =
             new List<Func<DateTime, DateTime>>();
 
-        internal void Reset() => _firstCalculation = true;
+        internal TimeCalculator() { }
 
-        internal DateTime? Calculate(DateTime last) => CalculateOnce(last) ?? CalculatePeriod(last);
+        internal TimeCalculator(Action<RunSpecifier> specifier) => specifier(new RunSpecifier(this));
+
+        public void Reset() => _firstCalculation = true;
+
+        public DateTime? Calculate(DateTime last) => CalculateOnce(last) ?? CalculatePeriod(last);
 
         private DateTime? CalculateOnce(DateTime last)
         {
