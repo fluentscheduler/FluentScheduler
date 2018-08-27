@@ -10,7 +10,7 @@
         public void On()
         {
             // Arrange
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new RunSpecifier(calculator);
 
             var now = DateTime.Now;
@@ -28,7 +28,7 @@
         public void OnTheFirstDay()
         {
             // Arrange
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new RunSpecifier(calculator);
 
             var now = new DateTime(2017, 10, 27);
@@ -47,7 +47,7 @@
         public void OnTheSecondDay()
         {
             // Arrange
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new RunSpecifier(calculator);
 
             var now = new DateTime(2017, 10, 27);
@@ -66,7 +66,7 @@
         public void OnTheThirdDay()
         {
             // Arrange
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new RunSpecifier(calculator);
 
             var now = new DateTime(2017, 10, 27);
@@ -85,7 +85,7 @@
         public void OnTheFourthDay()
         {
             // Arrange
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new RunSpecifier(calculator);
 
             var now = new DateTime(2017, 10, 27);

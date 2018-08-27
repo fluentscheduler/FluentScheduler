@@ -4,9 +4,9 @@
 
     public class PeriodOnceSet
     {
-        private readonly TimeCalculator _calculator;
+        private readonly FluentTimeCalculator _calculator;
 
-        internal PeriodOnceSet(TimeCalculator calculator) => _calculator = calculator;
+        internal PeriodOnceSet(FluentTimeCalculator calculator) => _calculator = calculator;
 
         /// <summary>
         /// Runs the job at the given time of day (military format).

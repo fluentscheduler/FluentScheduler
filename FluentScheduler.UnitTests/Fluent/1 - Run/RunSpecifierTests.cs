@@ -12,7 +12,7 @@
 			// Arrange
 			var now = DateTime.Now;
 
-			var calculator = new TimeCalculator();
+			var calculator = new FluentTimeCalculator();
 			var run = new RunSpecifier(calculator);
 
 			// Act
@@ -36,7 +36,7 @@
 			var now = DateTime.Now;
 			var at = new DateTime(2000, 10, 10, 10, 10, 10);
 
-			var calculator = new TimeCalculator();
+			var calculator = new FluentTimeCalculator();
 			var run = new RunSpecifier(calculator);
 
 			// Act
@@ -59,7 +59,7 @@
             // Arrange
             var now = DateTime.Now;
 
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new RunSpecifier(calculator);
 
             // Act
@@ -84,7 +84,7 @@
             var hours = 13;
             var minutes = 50;
 
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new RunSpecifier(calculator);
 
             // Act
@@ -108,7 +108,7 @@
             var now = DateTime.Today;
             var at = new TimeSpan(13, 50, 0);
 
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new RunSpecifier(calculator);
 
             // Act
@@ -132,7 +132,7 @@
             var now = DateTime.Now;
             var at = new DateTime(2000, 10, 10, 10, 10, 10);
 
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new RunSpecifier(calculator);
 
             // Act
@@ -155,7 +155,7 @@
             // Arrange
             var now = DateTime.Today;
 
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new RunSpecifier(calculator);
 
             // Act
@@ -179,7 +179,7 @@
             var now = DateTime.Today;
             var time = TimeSpan.FromSeconds(10);
 
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new RunSpecifier(calculator);
 
             // Act

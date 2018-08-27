@@ -10,7 +10,7 @@
         public void At()
         {
             // Arrange
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new PeriodOnceSet(calculator);
 
             var now = DateTime.Now;
@@ -28,7 +28,7 @@
         public void AtTimeSpan()
         {
             // Arrange
-            var calculator = new TimeCalculator();
+            var calculator = new FluentTimeCalculator();
             var run = new PeriodOnceSet(calculator);
 
             var now = DateTime.Now;

@@ -63,7 +63,7 @@ namespace FluentScheduler
         /// <param name="schedules">Schedules to operate on</param>
         /// <param name="specifier">Scheduling of this schedule</param>
         public static void SetScheduling(this IEnumerable<Schedule> schedules, Action<RunSpecifier> specifier) =>
-            ForEach(schedules, false, i => i.ShouldNotBeRunning(), i => i.SetScheduling(new TimeCalculator(specifier)));
+            ForEach(schedules, false, i => i.ShouldNotBeRunning(), i => i.SetScheduling(new FluentTimeCalculator(specifier)));
 
         /// <summary>
         /// Starts the schedules that are not already running.
