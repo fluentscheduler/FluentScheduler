@@ -7,9 +7,9 @@
     /// </summary>
     public class RunSpecifier
     {
-        private readonly TimeCalculator _calculator;
+        private readonly FluentTimeCalculator _calculator;
 
-        internal RunSpecifier(TimeCalculator calculator) => _calculator = calculator;
+        internal RunSpecifier(FluentTimeCalculator calculator) => _calculator = calculator;
 
         /// <summary>
         /// Runs the job according to the given interval.

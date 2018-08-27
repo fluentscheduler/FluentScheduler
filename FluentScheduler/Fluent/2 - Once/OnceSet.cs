@@ -7,9 +7,9 @@
     /// </summary>
     public class OnceSet                                    
     {
-        private readonly TimeCalculator _calculator;
+        private readonly FluentTimeCalculator _calculator;
 
-        internal OnceSet(TimeCalculator calculator) => _calculator = calculator;
+        internal OnceSet(FluentTimeCalculator calculator) => _calculator = calculator;
 
         /// <summary>
         /// Runs the job according to the given interval.

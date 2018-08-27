@@ -13,7 +13,7 @@
 			// Arrange
 			var now = DateTime.Now;
 
-			var calculator = new TimeCalculator();
+			var calculator = new FluentTimeCalculator();
 			var run = new RunSpecifier(calculator);
 
 			// Act
@@ -30,7 +30,7 @@
 			// Arrange
 			var now = DateTime.Now;
 
-			var calculator = new TimeCalculator();
+			var calculator = new FluentTimeCalculator();
 			var run = new RunSpecifier(calculator);
 
 			// Act
@@ -47,7 +47,7 @@
 			// Arrange
 			var now = DateTime.Now;
 
-			var calculator = new TimeCalculator();
+			var calculator = new FluentTimeCalculator();
 			var run = new RunSpecifier(calculator);
 
 			// Act
@@ -64,7 +64,7 @@
 			// Arrange
 			var now = DateTime.Now;
 
-			var calculator = new TimeCalculator();
+			var calculator = new FluentTimeCalculator();
 			var run = new RunSpecifier(calculator);
 
 			// Act
@@ -81,7 +81,7 @@
 			// Arrange
 			var now = DateTime.Now;
 
-			var calculator = new TimeCalculator();
+			var calculator = new FluentTimeCalculator();
 			var run = new RunSpecifier(calculator);
 
 			// Act
@@ -98,7 +98,7 @@
 			// Arrange
 			var now = DateTime.Now;
 
-			var calculator = new TimeCalculator();
+			var calculator = new FluentTimeCalculator();
 			var run = new RunSpecifier(calculator);
 
 			// Act

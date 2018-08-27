@@ -15,7 +15,7 @@
 			var monday = new DateTime(2018, 2, 19);
 			var sunday = new DateTime(2018, 2, 25);
 
-			var calculator = new TimeCalculator();
+			var calculator = new FluentTimeCalculator();
 			var run = new OnceSet(calculator);
 
 			// Act
@@ -46,7 +46,7 @@
 		{
 			var now = DateTime.Today;
 
-			var calculator = new TimeCalculator();
+			var calculator = new FluentTimeCalculator();
 			var run = new OnceSet(calculator);
 
 			// Act

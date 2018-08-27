@@ -5,9 +5,9 @@
 
     public class MonthUnit
     {
-        private readonly TimeCalculator _calculator;
+        private readonly FluentTimeCalculator _calculator;
 
-        internal MonthUnit(TimeCalculator calculator) => _calculator = calculator;
+        internal MonthUnit(FluentTimeCalculator calculator) => _calculator = calculator;
 
         /// <summary>
         /// Runs the job on the given day of the month.

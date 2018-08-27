@@ -4,9 +4,9 @@
 
 	public class DayUnit
     {
-       private readonly TimeCalculator _calculator;
+       private readonly FluentTimeCalculator _calculator;
 
-       internal DayUnit(TimeCalculator calculator) => _calculator = calculator;
+       internal DayUnit(FluentTimeCalculator calculator) => _calculator = calculator;
 
         /// <summary>
         /// Runs the job only on weekdays.

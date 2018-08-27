@@ -9,13 +9,13 @@ namespace FluentScheduler
     {
         private readonly Action _job;
 
-        private ITimeCalculator _calculator;
+        private IFluentTimeCalculator _calculator;
 
         private Task _task;
 
         private CancellationTokenSource _tokenSource;
 
-        internal InternalSchedule(Action job, ITimeCalculator calculator)
+        internal InternalSchedule(Action job, IFluentTimeCalculator calculator)
         {
             _job = job ?? throw new ArgumentNullException(nameof(job));
 
@@ -36,7 +36,7 @@ namespace FluentScheduler
             _calculator.Reset();
         }
 
-        internal void SetScheduling(ITimeCalculator calculator)
+        internal void SetScheduling(IFluentTimeCalculator calculator)
         {
             NextRun = null;
             _calculator = calculator;

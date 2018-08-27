@@ -7,9 +7,9 @@
     {
         private readonly int _duration;
 
-        private readonly TimeCalculator _calculator;
+        private readonly FluentTimeCalculator _calculator;
 
-        internal PeriodDurationSet(int duration, TimeCalculator calculator)
+        internal PeriodDurationSet(int duration, FluentTimeCalculator calculator)
         {
             _duration = duration;
             _calculator = calculator;

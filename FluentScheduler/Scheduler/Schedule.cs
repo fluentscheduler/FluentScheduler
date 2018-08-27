@@ -19,7 +19,7 @@
         /// <param name="specifier">Scheduling of this schedule</param>
         /// <returns>A schedule for the given job</returns>
         public Schedule(Action job, Action<RunSpecifier> specifier) =>
-            Internal = new InternalSchedule(job, new TimeCalculator(specifier));
+            Internal = new InternalSchedule(job, new FluentTimeCalculator(specifier));
 
         /// <summary>
         /// True if the schedule is running, false otherwise.
@@ -83,7 +83,7 @@
                 if (specifier == null)
                     throw new ArgumentNullException(nameof(specifier));
 
-                Internal.SetScheduling(new TimeCalculator(specifier));
+                Internal.SetScheduling(new FluentTimeCalculator(specifier));
             }
         }
 
