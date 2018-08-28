@@ -141,6 +141,33 @@ namespace FluentScheduler.UnitTests
         }
 
         [TestMethod]
+        public void ResetScheduling()
+        {
+            // Arrange
+            var calls = 0;
+            var expectedCalls = 4;
+
+            var scheduleGroup = new List<Schedule>
+            {
+                new Schedule(() => { calls++; } , run => run.Now()),
+                new Schedule(() => { calls++; } , run => run.Now()),
+            };
+
+            // Act
+            scheduleGroup.Start();
+            Thread.Sleep(100);
+
+            scheduleGroup.Stop();
+            scheduleGroup.ResetScheduling();
+
+            scheduleGroup.Start();
+            Thread.Sleep(100);
+
+            // Assert
+            Assert.AreEqual(expectedCalls, calls);
+        }
+
+        [TestMethod]
         public void ListenJobStarted()
         {
             // Arrange
