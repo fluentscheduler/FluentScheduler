@@ -19,12 +19,10 @@ namespace FluentScheduler.UnitTests
             };
 
             // Act
-            ScheduleGroup.Start(scheduleCollection);
+            scheduleCollection.Start();
 
             // Assert
             Assert.IsTrue(scheduleCollection.AllRunning());
-
-            ScheduleGroup.Stop(scheduleCollection);
         }
 
          [TestMethod]
@@ -56,7 +54,7 @@ namespace FluentScheduler.UnitTests
         public void AnyRunning()
         {
             // Arrange
-            var scheduleCollection = new List<Schedule>
+            var scheduleGroup = new List<Schedule>
             {
                 new Schedule(() => { } , run => run.Now().AndEvery(1).Seconds()),
                 new Schedule(() => { } , run => run.Now().AndEvery(1).Seconds()),
@@ -64,10 +62,10 @@ namespace FluentScheduler.UnitTests
             };
 
             // Act
-            ScheduleGroup.Start(scheduleCollection);
+            scheduleGroup.Start();
 
             // Assert
-            Assert.IsTrue(scheduleCollection.AnyRunning());
+            Assert.IsTrue(scheduleGroup.AnyRunning());
         }
 
         [TestMethod]
@@ -140,6 +138,29 @@ namespace FluentScheduler.UnitTests
 
             // Assert
             Assert.AreEqual(now.AddMinutes(3).Minute, scheduleGroup[0].NextRun.Value.Minute);
+        }
+
+        [TestMethod]
+        public void ListenJobStarted()
+        {
+            // Arrange
+            var calls = 0;
+            var expectedCalls = 2;
+
+            var scheduleGroup = new List<Schedule>
+            {
+                new Schedule(() => { } , run => run.Now()),
+                new Schedule(() => { } , run => run.Now()),
+            };
+
+            // Act
+            scheduleGroup.ListenJobStarted((_, e) => calls++);
+            scheduleGroup.Start();
+
+            Thread.Sleep(100);
+
+            // Assert
+            Assert.AreEqual(expectedCalls, calls);
         }
     }
 }
