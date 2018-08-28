@@ -17,8 +17,8 @@ namespace FluentScheduler
         /// <param name="schedules">Schedules to operate on</param>
         /// <param name="handler">Event handler for the job start</param>
         public static void ListenJobStarted(
-            this IEnumerable<Schedule> schedules, EventHandler<JobEndedEventArgs> handler) =>
-            ForEach(schedules, false, i => i.JobEnded += handler);
+            this IEnumerable<Schedule> schedules, EventHandler<JobStartedEventArgs> handler) =>
+            ForEach(schedules, false, i => i.JobStarted += handler);
 
         /// <summary>
         /// Listens for the event raised when the job ends.
