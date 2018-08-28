@@ -106,7 +106,7 @@
         {
             lock (Internal.RunningLock)
             {
-                Internal.Stop(false, null);
+                Internal.Stop(false);
             }
         }
 
@@ -118,7 +118,7 @@
         {
             lock (Internal.RunningLock)
             {
-                Internal.Stop(false, null);
+                Internal.Stop(false);
             }
         }
 
