@@ -78,7 +78,7 @@ namespace FluentScheduler
         /// </summary>
         /// <param name="schedules">Schedules to operate on</param>
         public static void Stop(this IEnumerable<Schedule> schedules) =>
-            ForEach(schedules, false, i => i.Stop(false, null));
+            ForEach(schedules, false, i => i.Stop(false));
 
         /// <summary>
         /// Stops the schedules that are running.
@@ -86,7 +86,7 @@ namespace FluentScheduler
         /// </summary>
         /// <param name="schedules">Schedules to operate on</param>
         public static void StopAndBlock(this IEnumerable<Schedule> schedules) =>
-            ForEach(schedules, true, i => i.Stop(true, null));
+            ForEach(schedules, true, i => i.Stop(true));
 
         /// <summary>
         /// Stops the schedules that are running.

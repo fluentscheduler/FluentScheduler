@@ -69,7 +69,7 @@ namespace FluentScheduler
             _task = Run(_tokenSource.Token);
         }
 
-        internal void Stop(bool block, int? timeout)
+        internal void Stop(bool block, int? timeout = null)
         {
             if (timeout.HasValue && timeout < 0)
                 throw new ArgumentOutOfRangeException($"\"{nameof(timeout)}\" should be positive.");
