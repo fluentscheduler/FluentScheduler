@@ -195,5 +195,28 @@
             // Assert
             Assert.AreEqual(null, calculated);
         }
+
+        [TestMethod]
+        public void EveryWeekday()
+        {
+             // Arrange
+            var now = new DateTime(2018, 08, 31);
+
+            var calculator = new FluentTimeCalculator();
+            var run = new RunSpecifier(calculator);
+
+            // Act
+            run.EveryWeekday();
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Assert.AreEqual(now, calculated);
+
+            // Act
+            calculated = calculator.Calculate(now.AddDays(1));
+
+            // Assert
+            Assert.AreEqual(now.AddDays(3), calculated);
+        }
 	}
 }

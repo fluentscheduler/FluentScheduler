@@ -27,7 +27,7 @@
         /// <param name="day">The day of the week</param>
         public PeriodOnceSet OnTheFirstDay(DayOfWeek day)
         {
-            _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 1));
+            _calculator.PeriodCalculations.Add(last => SelectNthDay(last.Date.Year, last.Date.Month, day, 1));
             return new PeriodOnceSet(_calculator);
         }
 
@@ -37,7 +37,7 @@
         /// <param name="day">The day of the week</param>
         public PeriodOnceSet OnTheSecondDay(DayOfWeek day)
         {
-            _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 2));
+            _calculator.PeriodCalculations.Add(last => SelectNthDay(last.Date.Year, last.Date.Month, day, 2));
             return new PeriodOnceSet(_calculator);
         }
 
@@ -47,7 +47,7 @@
         /// <param name="day">The day of the week</param>
         public PeriodOnceSet OnTheThirdDay(DayOfWeek day)
         {
-            _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 3));
+            _calculator.PeriodCalculations.Add(last => SelectNthDay(last.Date.Year, last.Date.Month, day, 3));
             return new PeriodOnceSet(_calculator);
         }
 
@@ -57,11 +57,11 @@
         /// <param name="day">The day of the week</param>
         public PeriodOnceSet OnTheFourthDay(DayOfWeek day)
         {
-            _calculator.PeriodCalculations.Add(last => Next(last.Date.Year, last.Date.Month, day, 4));
+            _calculator.PeriodCalculations.Add(last => SelectNthDay(last.Date.Year, last.Date.Month, day, 4));
             return new PeriodOnceSet(_calculator);
         }
 
-        private static DateTime Next(int year, int month, DayOfWeek dayOfWeek, int occurrence) =>
+        private static DateTime SelectNthDay(int year, int month, DayOfWeek dayOfWeek, int occurrence) =>
             Enumerable.Range(1, 7)
                 .Select(day => new DateTime(year, month, day))
                 .First(dateTime => dateTime.DayOfWeek == dayOfWeek)
