@@ -199,7 +199,7 @@
         [TestMethod]
         public void EveryWeekday()
         {
-             // Arrange
+            // Arrange
             var now = new DateTime(2018, 08, 31);
 
             var calculator = new FluentTimeCalculator();
@@ -245,7 +245,6 @@
             calculated = calculator.Calculate(calculated.Value.AddDays(1));
 
             // Assert
-
             Assert.AreEqual(now.AddDays(8), calculated);
         }
 	}
