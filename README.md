@@ -147,7 +147,11 @@ public class SampleJob : IJob, IRegisteredObject
 
 ## Using it with .NET Core
 
-FluentScheduler supports .NET Core, just add the dependency to `project.json` and run `dotnet restore`:
+FluentScheduler supports .NET Core, for .NET Core 1.1 and later  add Nuget package
+
+```Install-Package FluentScheduler```
+
+For older .NET Core versions add the dependency to `project.json` and run `dotnet restore`:
 
 ```json
   "dependencies": {
