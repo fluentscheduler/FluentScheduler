@@ -13,7 +13,6 @@ Automated job scheduler with fluent interface.
 
 * [Usage](#usage)
 * [Using it with ASP.NET](#using-it-with-aspnet)
-* [Using it with .NET Core](#using-it-with-net-core)
 * [Stopping the scheduler](#stopping-the-scheduler)
 * [Unexpected exceptions](#unexpected-exceptions)
 * [Concurrent jobs](#concurrent-jobs)
@@ -144,16 +143,6 @@ public class SampleJob : IJob, IRegisteredObject
 
 [IRegisteredObject]: https://msdn.microsoft.com/library/System.Web.Hosting.IRegisteredObject
 [HostingEnvironment]: https://msdn.microsoft.com/library/System.Web.Hosting.HostingEnvironment
-
-## Using it with .NET Core
-
-FluentScheduler supports .NET Core, just add the dependency to `project.json` and run `dotnet restore`:
-
-```json
-  "dependencies": {
-    "FluentScheduler": "<desired version>"
-  }
-```
 
 ## Stopping the Scheduler
 
