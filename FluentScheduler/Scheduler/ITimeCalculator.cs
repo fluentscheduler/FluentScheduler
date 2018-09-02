@@ -2,7 +2,7 @@ namespace FluentScheduler
 {
     using System;
 
-   internal interface IFluentTimeCalculator
+   internal interface ITimeCalculator
    {
         void Reset();
 
