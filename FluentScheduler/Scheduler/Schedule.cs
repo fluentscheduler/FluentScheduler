@@ -12,12 +12,20 @@
     {
         internal InternalSchedule Internal { get; private set; }
 
+
         /// <summary>
         /// Creates a new schedule for the given job.
         /// </summary>
         /// <param name="job">Job to be scheduled</param>
-        /// <param name="specifier">Scheduling of this schedule</param>
-        /// <returns>A schedule for the given job</returns>
+        /// <param name="cronExpression">The scheduling as a cron expression</param>
+        public Schedule(Action job, string cronExpression) =>
+            Internal = new InternalSchedule(job, new CronTimeCalculator(cronExpression));
+
+        /// <summary>
+        /// Creates a new schedule for the given job.
+        /// </summary>
+        /// <param name="job">Job to be scheduled</param>
+        /// <param name="specifier">The scheduling as a fluent call</param>
         public Schedule(Action job, Action<RunSpecifier> specifier) =>
             Internal = new InternalSchedule(job, new FluentTimeCalculator(specifier));
 
