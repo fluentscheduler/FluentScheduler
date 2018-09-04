@@ -149,7 +149,7 @@ namespace FluentScheduler
             var next = 0;
             var times = Select(_schedules, i => i.NextRun).ToList();
 
-            foreach (var i in Enumerable.Range(1, times.Count))
+            foreach (var i in Enumerable.Range(0, times.Count))
             {
                 if (i < times.Count)
                 {
