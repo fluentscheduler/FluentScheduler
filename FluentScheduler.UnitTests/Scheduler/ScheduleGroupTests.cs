@@ -81,14 +81,12 @@ namespace FluentScheduler.UnitTests
 
             // Act
             scheduleGroup.Start();
-            // scheduleGroup.Stop();
             
-            // Change this assert to IsTrue and uncomment last line to simulate this cute bug 
             // Assert
             Assert.IsFalse(scheduleGroup.AllStopped());
 
             // Act
-            scheduleGroup.Stop();
+            scheduleGroup.StopAndBlock();
 
             // Assert
             Assert.IsTrue(scheduleGroup.AllStopped());
@@ -107,14 +105,12 @@ namespace FluentScheduler.UnitTests
 
             // Act
             scheduleGroup.Start();
-            //scheduleGroup[0].Stop();
 
-            // Change this assert to IsTrue and uncomment last line to simulate this cute bug 
             // Assert
             Assert.IsFalse(scheduleGroup.AnyStopped());
 
             // Act
-            scheduleGroup[0].Stop();
+            scheduleGroup[0].StopAndBlock();
 
             // Assert
             Assert.IsTrue(scheduleGroup.AnyStopped());
@@ -136,6 +132,8 @@ namespace FluentScheduler.UnitTests
             scheduleGroup.SetScheduling(newRun => newRun.Every(3).Minutes());
             scheduleGroup.Start();
 
+            scheduleGroup.StopAndBlock();
+
             // Assert
             Assert.AreEqual(now.AddMinutes(3).Minute, scheduleGroup[0].NextRun.Value.Minute);
         }
@@ -144,27 +142,28 @@ namespace FluentScheduler.UnitTests
         public void ResetScheduling()
         {
             // Arrange
-            var calls = 0;
-            var expectedCalls = 4;
+            var now = DateTime.Now;
 
             var scheduleGroup = new List<Schedule>
             {
-                new Schedule(() => { calls++; } , run => run.Now()),
-                new Schedule(() => { calls++; } , run => run.Now()),
+                new Schedule(() => { } , run => run.Now().AndEvery(1).Months()),
+                new Schedule(() => { } , run => run.Now().AndEvery(1).Months())
             };
 
             // Act
-            scheduleGroup.Start();
+            
+            var stopped = scheduleGroup.AllStopped();
+
             Thread.Sleep(100);
 
             scheduleGroup.Stop();
             scheduleGroup.ResetScheduling();
 
             scheduleGroup.Start();
-            Thread.Sleep(100);
+            var nextRun = scheduleGroup.NextRun();
 
             // Assert
-            Assert.AreEqual(expectedCalls, calls);
+            Assert.AreEqual(now.Day, nextRun.Value.Item2.Day);
         }
 
         [TestMethod]
@@ -182,9 +181,10 @@ namespace FluentScheduler.UnitTests
 
             // Act
             scheduleGroup.ListenJobStarted((_, e) => calls++);
-            scheduleGroup.Start();
 
+            scheduleGroup.Start();
             Thread.Sleep(100);
+            scheduleGroup.StopAndBlock();
 
             // Assert
             Assert.AreEqual(expectedCalls, calls);
@@ -207,18 +207,17 @@ namespace FluentScheduler.UnitTests
 
             // Act
             scheduleGroup.ListenJobStarted(jobStartedEvent);
+
             scheduleGroup.Start();
-
             Thread.Sleep(100);
-
             scheduleGroup.StopAndBlock();
-            scheduleGroup.ResetScheduling();
 
+            scheduleGroup.ResetScheduling();
             scheduleGroup.UnlistenJobStarted(jobStartedEvent);
 
             scheduleGroup.Start();
-
             Thread.Sleep(100);
+            scheduleGroup.StopAndBlock();
 
             // Assert
             Assert.AreEqual(expectedCalls, calls);
@@ -239,9 +238,10 @@ namespace FluentScheduler.UnitTests
 
             // Act
             scheduleGroup.ListenJobEnded((_, e) => calls++);
-            scheduleGroup.Start();
 
+            scheduleGroup.Start();
             Thread.Sleep(100);
+            scheduleGroup.StopAndBlock();
 
             // Assert
             Assert.AreEqual(expectedCalls, calls);
@@ -264,18 +264,17 @@ namespace FluentScheduler.UnitTests
 
             // Act
             scheduleGroup.ListenJobEnded(jobEndedEvent);
+
             scheduleGroup.Start();
-
             Thread.Sleep(100);
-
             scheduleGroup.StopAndBlock();
-            scheduleGroup.ResetScheduling();
 
+            scheduleGroup.ResetScheduling();
             scheduleGroup.UnlistenJobEnded(jobEndedEvent);
 
             scheduleGroup.Start();
-
             Thread.Sleep(100);
+            scheduleGroup.StopAndBlock();
 
             // Assert
             Assert.AreEqual(expectedCalls, calls);
