@@ -14,8 +14,9 @@
 
             var monday = new DateTime(2018, 02, 19);
 
-            var calculator = new FluentTimeCalculator();
-            var run = new DayUnit(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new DayUnit(fluentCalculator);
 
             // Act
             run.Weekday();
@@ -46,8 +47,9 @@
             var saturday = new DateTime(2018, 02, 17);
             var sunday = new DateTime(2018, 02, 18);
 
-            var calculator = new FluentTimeCalculator();
-            var run = new DayUnit(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new DayUnit(fluentCalculator);
 
             // Act
             run.Weekend();

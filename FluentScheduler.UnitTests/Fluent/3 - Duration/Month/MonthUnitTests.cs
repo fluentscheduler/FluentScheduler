@@ -10,8 +10,9 @@
         public void On()
         {
             // Arrange
-            var calculator = new FluentTimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
 
             var now = DateTime.Now;
             var expectedDay = 3;
@@ -28,8 +29,9 @@
         public void OnTheFirstDay()
         {
             // Arrange
-            var calculator = new FluentTimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
 
             var now = new DateTime(2017, 10, 27);
             var expectedDate = new DateTime(2017, 11, 3);
@@ -47,8 +49,9 @@
         public void OnTheSecondDay()
         {
             // Arrange
-            var calculator = new FluentTimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
 
             var now = new DateTime(2017, 10, 27);
             var expectedDate = new DateTime(2017, 11, 10);
@@ -66,8 +69,9 @@
         public void OnTheThirdDay()
         {
             // Arrange
-            var calculator = new FluentTimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
 
             var now = new DateTime(2017, 10, 27);
             var expectedDate = new DateTime(2017, 11, 17);
@@ -85,8 +89,9 @@
         public void OnTheFourthDay()
         {
             // Arrange
-            var calculator = new FluentTimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
 
             var now = new DateTime(2017, 10, 27);
             var expectedDate = new DateTime(2017, 11, 24);
