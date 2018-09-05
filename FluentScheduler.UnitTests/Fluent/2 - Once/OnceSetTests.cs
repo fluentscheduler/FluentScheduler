@@ -15,8 +15,9 @@
             var monday = new DateTime(2018, 2, 19);
             var sunday = new DateTime(2018, 2, 25);
 
-            var calculator = new FluentTimeCalculator();
-            var run = new OnceSet(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new OnceSet(fluentCalculator);
 
             // Act
             run.AndEvery(DayOfWeek.Sunday);
@@ -46,8 +47,9 @@
         {
             var now = DateTime.Today;
 
-            var calculator = new FluentTimeCalculator();
-            var run = new OnceSet(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new OnceSet(fluentCalculator);
 
             // Act
             run.AndEvery(10).Seconds();

@@ -10,8 +10,9 @@
         public void At()
         {
             // Arrange
-            var calculator = new FluentTimeCalculator();
-            var run = new PeriodOnceSet(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new PeriodOnceSet(fluentCalculator);
 
             var now = DateTime.Now;
 
@@ -28,8 +29,9 @@
         public void AtTimeSpan()
         {
             // Arrange
-            var calculator = new FluentTimeCalculator();
-            var run = new PeriodOnceSet(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new PeriodOnceSet(fluentCalculator);
 
             var now = DateTime.Now;
             var timeSpan = new TimeSpan(12, 30, 0);

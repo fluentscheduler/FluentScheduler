@@ -13,8 +13,9 @@
             // Arrange
             var now = DateTime.Now;
 
-            var calculator = new FluentTimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
 
             // Act
             run.Every(5).Seconds();
@@ -30,8 +31,9 @@
             // Arrange
             var now = DateTime.Now;
 
-            var calculator = new FluentTimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
 
             // Act
             run.Every(5).Minutes();
@@ -47,8 +49,9 @@
             // Arrange
             var now = DateTime.Now;
 
-            var calculator = new FluentTimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
 
             // Act
             run.Every(5).Hours();
@@ -64,8 +67,9 @@
             // Arrange
             var now = DateTime.Now;
 
-            var calculator = new FluentTimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
 
             // Act
             run.Every(5).Days();
@@ -81,8 +85,9 @@
             // Arrange
             var now = DateTime.Now;
 
-            var calculator = new FluentTimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
 
             // Act
             run.Every(5).Weeks();
@@ -98,8 +103,9 @@
             // Arrange
             var now = DateTime.Now;
 
-            var calculator = new FluentTimeCalculator();
-            var run = new RunSpecifier(calculator);
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
 
             // Act
             run.Every(5).Months();
