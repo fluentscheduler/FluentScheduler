@@ -22,7 +22,7 @@
                 throw new ArgumentOutOfRangeException($"\"{nameof(minute)}\" should be in the 0 to 59 range.");
 
             _calculator.PeriodCalculations.Add(last =>
-				new DateTime(last.Year, last.Month, last.Day, hour, minute, 0));
+                new DateTime(last.Year, last.Month, last.Day, hour, minute, 0));
         }
 
         /// <summary>
@@ -31,6 +31,6 @@
         /// <param name="time">Time of day</param>
         public void At(TimeSpan time) =>
             _calculator.PeriodCalculations.Add(last =>
-					new DateTime(last.Year, last.Month, last.Day, time.Hours, time.Minutes, time.Seconds));
+                    new DateTime(last.Year, last.Month, last.Day, time.Hours, time.Minutes, time.Seconds));
     }
 }
