@@ -30,12 +30,12 @@
         public PeriodOnceSet AndEvery(DayOfWeek day)
         {
             _calculator.PeriodCalculations.Add(last => 
-			{
-				if (last.DayOfWeek != day)
-					last = last.AddDays(7 - (int)last.DayOfWeek);
+            {
+                if (last.DayOfWeek != day)
+                    last = last.AddDays(7 - (int)last.DayOfWeek);
 
-				return last;
-			});
+                return last;
+            });
 
             return new PeriodOnceSet(_calculator);
         }

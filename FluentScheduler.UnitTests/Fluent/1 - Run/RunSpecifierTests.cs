@@ -6,54 +6,54 @@
     [TestClass]
     public class RunSpecifierTests
     {
-		[TestMethod]
-		public void NowAndEvery()
-		{
-			// Arrange
-			var now = DateTime.Now;
+        [TestMethod]
+        public void NowAndEvery()
+        {
+            // Arrange
+            var now = DateTime.Now;
 
-			var calculator = new FluentTimeCalculator();
-			var run = new RunSpecifier(calculator);
+            var calculator = new FluentTimeCalculator();
+            var run = new RunSpecifier(calculator);
 
-			// Act
-			run.Now().AndEvery(10).Seconds();
-			var calculated = calculator.Calculate(now);
+            // Act
+            run.Now().AndEvery(10).Seconds();
+            var calculated = calculator.Calculate(now);
 
-			// Assert
-			Assert.AreEqual(now, calculated);
+            // Assert
+            Assert.AreEqual(now, calculated);
 
-			// Act
-			calculated = calculator.Calculate(now);
+            // Act
+            calculated = calculator.Calculate(now);
 
-			// Assert
-			Assert.AreEqual(now.AddSeconds(10), calculated);
-		}
+            // Assert
+            Assert.AreEqual(now.AddSeconds(10), calculated);
+        }
 
-		[TestMethod]
-		public void OnceAtAndEvery()
-		{
-			// Arrange
-			var now = DateTime.Now;
-			var at = new DateTime(2000, 10, 10, 10, 10, 10);
+        [TestMethod]
+        public void OnceAtAndEvery()
+        {
+            // Arrange
+            var now = DateTime.Now;
+            var at = new DateTime(2000, 10, 10, 10, 10, 10);
 
-			var calculator = new FluentTimeCalculator();
-			var run = new RunSpecifier(calculator);
+            var calculator = new FluentTimeCalculator();
+            var run = new RunSpecifier(calculator);
 
-			// Act
-			run.OnceAt(at).AndEvery(10).Seconds();
-			var calculated = calculator.Calculate(now);
+            // Act
+            run.OnceAt(at).AndEvery(10).Seconds();
+            var calculated = calculator.Calculate(now);
 
-			// Assert
-			Assert.AreEqual(at, calculated);
+            // Assert
+            Assert.AreEqual(at, calculated);
 
-			// Act
-			calculated = calculator.Calculate(now);
+            // Act
+            calculated = calculator.Calculate(now);
 
-			// Assert
-			Assert.AreEqual(now.AddSeconds(10), calculated);
-		}
+            // Assert
+            Assert.AreEqual(now.AddSeconds(10), calculated);
+        }
 
-		[TestMethod]
+        [TestMethod]
         public void Now()
         {
             // Arrange
@@ -247,5 +247,5 @@
             // Assert
             Assert.AreEqual(now.AddDays(8), calculated);
         }
-	}
+    }
 }

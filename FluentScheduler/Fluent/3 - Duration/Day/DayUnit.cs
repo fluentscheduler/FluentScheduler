@@ -1,8 +1,8 @@
 ﻿namespace FluentScheduler
 {
-	using System;
+    using System;
 
-	public class DayUnit
+    public class DayUnit
     {
        private readonly FluentTimeCalculator _calculator;
 
