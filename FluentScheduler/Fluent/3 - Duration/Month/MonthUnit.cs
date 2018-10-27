@@ -61,6 +61,50 @@
             return new PeriodOnceSet(_calculator);
         }
 
+        /// <summary>
+        /// Runs the job on the last given week of day before the given day of month.
+        /// </summary>
+        /// <param name="dayOfWeek">The day of the week</param>
+        /// <param name="dayOfMonth">The day of the month</param>
+        public PeriodOnceSet LastWeekdayBefore(DayOfWeek dayOfWeek, int dayOfMonth)
+        {
+            _calculator.PeriodCalculations.Add(last => 
+            {
+                var next = new DateTime(last.Year, last.Month, dayOfMonth);
+                
+                while (next.DayOfWeek != dayOfWeek)
+                {
+                    next = next.AddDays(-1);
+                }
+
+                return next;
+            });
+
+            return new PeriodOnceSet(_calculator);
+        }
+
+        /// <summary>
+        /// Runs the job on the first given week of day after the given day of month.
+        /// </summary>
+        /// <param name="dayOfWeek">The day of the week</param>
+        /// <param name="dayOfMonth">The day of the month</param>
+        public PeriodOnceSet FirstWeekdayAfter(DayOfWeek dayOfWeek, int dayOfMonth)
+        {
+            _calculator.PeriodCalculations.Add(last => 
+            {
+                var next = new DateTime(last.Year, last.Month, dayOfMonth);
+                
+                while (next.DayOfWeek != dayOfWeek)
+                {
+                    next = next.AddDays(+1);
+                }
+
+                return next;
+            });
+
+            return new PeriodOnceSet(_calculator);
+        }
+
         private static DateTime SelectNthDay(int year, int month, DayOfWeek dayOfWeek, int occurrence) =>
             Enumerable.Range(1, 7)
                 .Select(day => new DateTime(year, month, day))

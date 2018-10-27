@@ -104,5 +104,89 @@
             Assert.AreEqual(DayOfWeek.Friday, calculated.Value.DayOfWeek);
             Assert.AreEqual(expectedDate, calculated.Value.Date);
         }
+
+        [TestMethod]
+        public void LastWeekdayBefore()
+        {
+            // Arrange
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            var now = new DateTime(2018, 10, 20);
+            var expectedDate = new DateTime(2018, 10, 18);
+            var dayOfWeek = DayOfWeek.Thursday;
+
+            // Act
+            run.Every(0).Months().LastWeekdayBefore(dayOfWeek, 20);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Assert.AreEqual(dayOfWeek, calculated.Value.DayOfWeek);
+            Assert.AreEqual(expectedDate, calculated.Value.Date);
+        }
+
+        [TestMethod]
+        public void LastWeekdayBeforeAt()
+        {
+            // Arrange
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            var now = new DateTime(2018, 10, 20);
+            var expectedDate = new DateTime(2018, 10, 18, 9, 15, 0);
+            var dayOfWeek = DayOfWeek.Thursday;
+
+            // Act
+            run.Every(0).Months().LastWeekdayBefore(dayOfWeek, 20).At(9, 15);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Assert.AreEqual(dayOfWeek, calculated.Value.DayOfWeek);
+            Assert.AreEqual(expectedDate, calculated.Value);
+        }
+
+        [TestMethod]
+        public void FirstWeekdayAfter()
+        {
+            // Arrange
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            var now = new DateTime(2018, 10, 20);
+            var expectedDate = new DateTime(2018, 10, 25);
+            var dayOfWeek = DayOfWeek.Thursday;
+
+            // Act
+            run.Every(0).Months().FirstWeekdayAfter(dayOfWeek, 20);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Assert.AreEqual(dayOfWeek, calculated.Value.DayOfWeek);
+            Assert.AreEqual(expectedDate, calculated.Value.Date);
+        }
+
+        [TestMethod]
+        public void FirstWeekdayAfterAt()
+        {
+            // Arrange
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            var now = new DateTime(2018, 10, 20);
+            var expectedDate = new DateTime(2018, 10, 25, 9, 15, 0);
+            var dayOfWeek = DayOfWeek.Thursday;
+
+            // Act
+            run.Every(0).Months().FirstWeekdayAfter(dayOfWeek, 20).At(9, 15);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Assert.AreEqual(dayOfWeek, calculated.Value.DayOfWeek);
+            Assert.AreEqual(expectedDate, calculated.Value);
+        }
     }
 }
