@@ -76,6 +76,8 @@
     <Compile Include="ScheduleTests\MinutesTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ScheduleTests\MonthsOnTheLastWeekDayTests.cs" />
+    <Compile Include="ScheduleTests\MonthsOnWeekDayTests.cs" />
     <Compile Include="ScheduleTests\MonthsOnTests.cs">
       <SubType>Code</SubType>
     </Compile>

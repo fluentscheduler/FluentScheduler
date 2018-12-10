@@ -28,11 +28,28 @@
         }
 
         /// <summary>
+        /// Runs the job on the given week day of the month.
+        /// </summary>
+        /// <param name="weekDay">The week day (1 through the number of week days in month).</param>
+        public MonthOnWeekDayOfMonthUnit OnWeekDay(int weekDay)
+        {
+            return new MonthOnWeekDayOfMonthUnit(Schedule, _duration, weekDay);
+        }
+
+        /// <summary>
         /// Runs the job on the last day of the month.
         /// </summary>
         public MonthOnLastDayOfMonthUnit OnTheLastDay()
         {
             return new MonthOnLastDayOfMonthUnit(Schedule, _duration);
+        }
+
+        /// <summary>
+        /// Runs the job on the last week day of the month.
+        /// </summary>
+        public MonthOnLastWeekDayOfMonthUnit OnTheLastWeekDay()
+        {
+            return new MonthOnLastWeekDayOfMonthUnit(Schedule, _duration);
         }
 
         /// <summary>

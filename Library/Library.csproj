@@ -52,6 +52,8 @@
     <Compile Include="Unit\MinuteUnit.cs" />
     <Compile Include="Extension\RestrictableUnitExtensions.cs" />
     <Compile Include="Unit\MillisecondUnit.cs" />
+    <Compile Include="Unit\MonthOnLastWeekDayOfMonthUnit.cs" />
+    <Compile Include="Unit\MonthOnWeekDayOfMonthUnit.cs" />
     <Compile Include="Unit\SecondUnit.cs" />
     <Compile Include="Event\JobExceptionInfo.cs" />
     <Compile Include="Unit\DelayTimeUnit.cs" />

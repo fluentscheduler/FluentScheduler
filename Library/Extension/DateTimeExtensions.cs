@@ -21,6 +21,14 @@
             return current.First().AddDays(daysInMonth - 1);
         }
 
+        internal static DateTime LastWeekDay(this DateTime current)
+        {
+            var lastDay = current.Last();
+            while (!lastDay.IsWeekday())
+                lastDay = lastDay.AddDays(-1);
+            return lastDay;
+        }
+
         internal static DateTime Last(this DateTime current, DayOfWeek dayOfWeek)
         {
             var last = current.Last();
@@ -52,8 +60,24 @@
             return current.AddDays(offsetDays);
         }
 
+        internal static DateTime PreviousNWeekday(this DateTime current, int toAdvance)
+        {
+            while (toAdvance <= -1)
+            {
+                toAdvance++;
+                current = current.AddDays(-1);
+
+                while (!current.IsWeekday())
+                    current = current.AddDays(-1);
+            }
+            return current;
+        }
+
         internal static DateTime NextNWeekday(this DateTime current, int toAdvance)
         {
+            while (!current.IsWeekday())
+                current = current.AddDays(1);
+
             while (toAdvance >= 1)
             {
                 toAdvance--;

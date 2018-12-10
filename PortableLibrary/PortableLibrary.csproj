@@ -91,6 +91,12 @@
     <Compile Include="..\Library\Unit\MonthOnLastDayOfMonthUnit.cs">
       <Link>Unit\MonthOnLastDayOfMonthUnit.cs</Link>
     </Compile>
+    <Compile Include="..\Library\Unit\MonthOnLastWeekDayOfMonthUnit.cs">
+      <Link>Unit\MonthOnLastWeekDayOfMonthUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Unit\MonthOnWeekDayOfMonthUnit.cs">
+      <Link>Unit\MonthOnWeekDayOfMonthUnit.cs</Link>
+    </Compile>
     <Compile Include="..\Library\Unit\MonthUnit.cs">
       <Link>Unit\MonthUnit.cs</Link>
     </Compile>
