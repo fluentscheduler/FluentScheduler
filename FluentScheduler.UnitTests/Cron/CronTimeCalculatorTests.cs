@@ -15,7 +15,7 @@ namespace FluentScheduler.UnitTests
             var calculator = (ITimeCalculator)cronCalculator;
 
             var date = new DateTime(2018, 12, 22);
-            var expected =  date.AddHours(4).AddMinutes(5);
+            var expected =  new DateTime(2018, 12, 22, 4, 5, 0);
 
             // Act
             var calculated = calculator.Calculate(date);
@@ -32,7 +32,7 @@ namespace FluentScheduler.UnitTests
             var calculator = (ITimeCalculator)cronCalculator;
 
             var date = new DateTime(2018, 12, 22);
-            var expected =  date.AddMonths(7).AddDays(10).AddMinutes(5);
+            var expected =  new DateTime(2019, 8, 1, 0, 5, 0);
 
             // Act
             var calculated = calculator.Calculate(date);
@@ -49,7 +49,7 @@ namespace FluentScheduler.UnitTests
             var calculator = (ITimeCalculator)cronCalculator;
 
             var date = new DateTime(2018, 12, 22);
-            var expected =  date.AddDays(1).AddHours(4).AddMinutes(5);
+            var expected =  new DateTime(2018, 12, 23, 4, 5, 0);
 
             // Act
             var calculated = calculator.Calculate(date);
