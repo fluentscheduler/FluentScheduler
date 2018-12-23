@@ -31,6 +31,25 @@
         }
 
         [TestMethod]
+        public void EveryDayOfWeek()
+        {
+            // Arrange
+            var date = new DateTime(2018, 12, 23);
+            var expected = new DateTime(2018, 12, 28);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            // Act
+            run.Every(DayOfWeek.Friday);
+            var calculated = calculator.Calculate(date);
+
+            // Assert
+            Assert.AreEqual(expected, calculated);
+        }
+
+        [TestMethod]
         public void OnceAtAndEvery()
         {
             // Arrange
