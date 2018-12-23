@@ -45,7 +45,9 @@
         [TestMethod]
         public void EveryInterval()
         {
-            var now = DateTime.Today;
+            // Arrange
+            var date = new DateTime(2018, 12, 23);
+            var expected = date.AddSeconds(10);
 
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
@@ -53,10 +55,48 @@
 
             // Act
             run.AndEvery(10).Seconds();
-            var calculated = calculator.Calculate(now);
+            var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(now.AddSeconds(10), calculated);
+            Assert.AreEqual(expected, calculated);
+        }
+
+        [TestMethod]
+        public void AndEveryWeekday()
+        {
+            // Arrange
+            var date = new DateTime(2018, 12, 22);
+            var expected = new DateTime(2018, 12, 24);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new OnceSet(fluentCalculator);
+
+            // Act
+            run.AndEveryWeekday();
+            var calculated = calculator.Calculate(date);
+
+            // Assert
+            Assert.AreEqual(expected, calculated);
+        }
+
+        [TestMethod]
+        public void AndEveryWeekend()
+        {
+            // Arrange
+            var date = new DateTime(2018, 12, 24);
+            var expected = new DateTime(2018, 12, 29);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new OnceSet(fluentCalculator);
+
+            // Act
+            run.AndEveryWeekend();
+            var calculated = calculator.Calculate(date);
+
+            // Assert
+            Assert.AreEqual(expected, calculated);
         }
     }
 }
