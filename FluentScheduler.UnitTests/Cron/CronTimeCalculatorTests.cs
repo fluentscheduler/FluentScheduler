@@ -76,7 +76,7 @@ namespace FluentScheduler.UnitTests
         }
 
         [TestMethod]
-        public void At1415OnDayOfMonth1()
+        public void At1415OnJanuaryFirst()
         {
             // Arrange
             var cronCalculator = new CronTimeCalculator("15 14 1 * *");
