@@ -17,7 +17,7 @@
         /// <param name="interval">Interval (without unit) to wait</param>
         public PeriodDurationSet Every(int interval)
         {
-            if (interval < 0)
+            if (interval <= 0)
                 throw new ArgumentOutOfRangeException($"\"{nameof(interval)}\" should be positive.");
 
             return new PeriodDurationSet(interval, _calculator);
@@ -103,7 +103,7 @@
         /// <param name="delay">Delay (without unit) to wait</param>
         public OnceDurationSet OnceIn(int delay)
         {
-            if (delay < 0)
+            if (delay <= 0)
                 throw new ArgumentOutOfRangeException($"\"{nameof(delay)}\" should be positive.");
 
             _calculator.OnceCalculation = last => last;
