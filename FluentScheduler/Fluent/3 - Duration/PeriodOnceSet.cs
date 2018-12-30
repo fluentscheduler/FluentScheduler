@@ -38,6 +38,13 @@
         /// <param name="time">Time of day</param>
         public void At(TimeSpan time) =>
             _calculator.PeriodCalculations.Add(last =>
-                    new DateTime(last.Year, last.Month, last.Day, time.Hours, time.Minutes, time.Seconds));
+            {
+                var now = DateTime.Now;
+                var next = new DateTime(last.Year, last.Month, last.Day).Add(time);
+
+                return now.TimeOfDay < next.TimeOfDay ?
+                    new DateTime(now.Year, now.Month, now.Day).Add(time) :
+                    next;
+            });
     }
 }
