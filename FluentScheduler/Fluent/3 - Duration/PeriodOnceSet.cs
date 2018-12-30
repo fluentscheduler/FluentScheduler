@@ -21,30 +21,24 @@
             if (minute < 0 || minute > 59)
                 throw new ArgumentOutOfRangeException($"\"{nameof(minute)}\" should be in the 0 to 59 range.");
 
-            _calculator.PeriodCalculations.Add(last =>
-            {
-                var now = DateTime.Now;
-                var next = new DateTime(last.Year, last.Month, last.Day, hour, minute, 0);
-
-                return now.TimeOfDay < next.TimeOfDay ?
-                    new DateTime(now.Year, now.Month, now.Day, hour, minute, 0) :
-                    next;
-            });
+            _calculator.PeriodCalculations.Add(last => GetEarlierDate(last, new TimeSpan(hour, minute, 0)));
         }
 
         /// <summary>
         /// Runs the job at the given time of day.
         /// </summary>
         /// <param name="time">Time of day</param>
-        public void At(TimeSpan time) =>
-            _calculator.PeriodCalculations.Add(last =>
-            {
-                var now = DateTime.Now;
-                var next = new DateTime(last.Year, last.Month, last.Day).Add(time);
+        public void At(TimeSpan time) => _calculator.PeriodCalculations.Add(last => GetEarlierDate(last, time));
 
-                return now.TimeOfDay < next.TimeOfDay ?
-                    new DateTime(now.Year, now.Month, now.Day).Add(time) :
-                    next;
-            });
+        private DateTime GetEarlierDate(DateTime last, TimeSpan time)
+        {
+            var now = DateTime.Now;
+
+            var next = new DateTime(last.Year, last.Month, last.Day).Add(time);
+
+            return now.TimeOfDay < next.TimeOfDay ?
+                new DateTime(now.Year, now.Month, now.Day).Add(time) :
+                next;
+        }
     }
 }
