@@ -225,7 +225,7 @@ Schedule<MyJob>().ToRunEvery(1).Weeks().On(DayOfWeek.Monday).At(14, 0);
 
 ## Dependency Injection
 
-Currently, the library supports dependency injection of jobs (via IJobFactory). However, you shouldn't use it, it's on its way to be deprecated ([here's why](https://github.com/fluentscheduler/FluentScheduler/issues/71#issuecomment-307287249)).
+Currently, the library supports dependency injection of jobs (via IJobFactory). However, you shouldn't use it, it's bad idea on its way to be deprecated.
 
 ## Contributing
 
