@@ -32,10 +32,11 @@
             {
                 Func<DateTime, DateTime> calculate = y =>
                 {
-                    var lastWeekDayOfMonth = y.LastWeekDay();
                     var weekDay = this.weekDayOfMonth > 0
-                                      ? y.NextNWeekday(this.weekDayOfMonth - 1)
+                                      ? y.AddDays(-1).NextNWeekday(this.weekDayOfMonth)
                                       : y.PreviousNWeekday(this.weekDayOfMonth);
+
+                    var lastWeekDayOfMonth = y.LastWeekDay();
                     if (weekDay > lastWeekDayOfMonth)
                         weekDay = lastWeekDayOfMonth;
 

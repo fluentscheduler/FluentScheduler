@@ -23,6 +23,38 @@ namespace FluentScheduler.Tests.UnitTests.ScheduleTests
         }
 
         [TestMethod]
+        public void Should_Pick_First_WeekDay()
+        {
+            // Arrange
+            var input    = new DateTime(2000, 1, 1); // Saturday
+            var expected = new DateTime(2000, 1, 3); // Monday
+
+            // Act
+            var schedule = new Schedule(() => { });
+            schedule.ToRunEvery(1).Months().OnWeekDay(1);
+            var actual = schedule.CalculateNextRun(input);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Should_Pick_First_Day_Having_0()
+        {
+            // Arrange
+            var input    = new DateTime(2000, 1, 1);
+            var expected = new DateTime(2000, 1, 1);
+
+            // Act
+            var schedule = new Schedule(() => { });
+            schedule.ToRunEvery(1).Months().OnWeekDay(0);
+            var actual = schedule.CalculateNextRun(input);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void Should_Default_To_00_00_If_At_Is_Not_Defined()
         {
             // Arrange
