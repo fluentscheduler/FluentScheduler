@@ -31,6 +31,25 @@
         }
 
         [TestMethod]
+        public void EveryTimeSpan()
+        {
+            // Arrange
+            var now = DateTime.Now;
+            var time = new TimeSpan(1, 3, 0);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            // Act
+            run.Every(time);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Assert.AreEqual(now.Add(time), calculated);
+        }
+
+        [TestMethod]
         public void EveryDayOfWeek()
         {
             // Arrange
