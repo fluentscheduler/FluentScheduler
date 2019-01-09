@@ -34,6 +34,16 @@
             return new PeriodOnceSet(_calculator);
         }
 
+        public void Every(TimeSpan time)
+        {
+            var timeOfDay = new TimeSpan(time.Hours, time.Minutes, time.Seconds);
+
+             if (timeOfDay < TimeSpan.Zero)
+                throw new ArgumentOutOfRangeException($"\"{nameof(time)}\" should be positive.");
+
+            _calculator.PeriodCalculations.Add(last => last.Add(timeOfDay));
+        }
+
         /// <summary>
         /// Runs the job every weekday
         /// </summary>
