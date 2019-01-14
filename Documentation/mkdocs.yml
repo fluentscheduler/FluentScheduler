@@ -14,6 +14,7 @@ nav:
   - Reentrancy: reentrancy.md
   - Cron expressions: cron-expressions.md
   - Daylight savings: daylight-savings.md
+  - UTC: utc.md
   - More examples: more-examples.md
   - Contributing: contributing.md
 
