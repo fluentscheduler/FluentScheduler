@@ -12,7 +12,7 @@ namespace FluentScheduler
                 return null;
             }
 
-            var next = schedule.CalculateNextRun(following);
+            var next = schedule.CalculateNextRun(following.AddTicks(1));
 
             if (next > following)
             {
