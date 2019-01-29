@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension\DelayForExtensions.cs" />
+    <Compile Include="Extension\ScheduleExtensions.cs" />
     <Compile Include="Unit\IDayRestrictableUnit.cs" />
     <Compile Include="Unit\ITimeRestrictableUnit.cs" />
     <Compile Include="Unit\MinuteUnit.cs" />
