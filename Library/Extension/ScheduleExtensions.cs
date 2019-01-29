@@ -1,6 +1,7 @@
 namespace FluentScheduler
 {
     using System;
+    using System.Linq;
 
     public static class ScheduleExtensions
     {
