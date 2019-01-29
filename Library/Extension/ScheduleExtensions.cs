@@ -7,6 +7,11 @@ namespace FluentScheduler
     {
         public static DateTime? FindNextRun(this Schedule schedule, DateTime following)
         {
+            if(schedule == null)
+            {
+                return null;
+            }
+
             var next = schedule.CalculateNextRun(following);
 
             if (next > following)
