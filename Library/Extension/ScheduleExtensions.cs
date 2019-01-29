@@ -2,7 +2,7 @@ namespace FluentScheduler
 {
     using System;
 
-    internal static class ScheduleExtensions
+    public static class ScheduleExtensions
     {
         public static DateTime? FindNextRun(this Schedule schedule, DateTime following)
         {
