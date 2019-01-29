@@ -27,7 +27,7 @@
 
         internal List<Action> Jobs { get; private set; }
 
-        public Func<DateTime, DateTime> CalculateNextRun { get; internal set; }
+        internal Func<DateTime, DateTime> CalculateNextRun { get; set; }
 
         internal TimeSpan DelayRunFor { get; set; }
 
