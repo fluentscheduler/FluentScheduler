@@ -120,6 +120,10 @@ namespace FluentScheduler
             // used on both JobStarted and JobEnded events
             var startTime = Calculator.Now();
 
+            // calculating the next run
+            // used on both JobEnded event and for the next run of this method
+            CalculateNextRun(startTime);
+
             // raising JobStarted event
             JobStarted?.Invoke(this, new JobStartedEventArgs(startTime));
 
@@ -139,10 +143,6 @@ namespace FluentScheduler
 
             // used on JobEnded event
             var endTime = Calculator.Now();
-
-            // calculating the next run
-            // used on both JobEnded event and for the next run of this method
-            CalculateNextRun(startTime);
 
             // raising JobEnded event
             JobEnded?.Invoke(this, new JobEndedEventArgs(exception, startTime, endTime, NextRun));
