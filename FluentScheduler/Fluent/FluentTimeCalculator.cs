@@ -19,6 +19,8 @@
 
         void ITimeCalculator.Reset() => _firstCalculation = true;
 
+        Func<DateTime> ITimeCalculator.Now { get; set; } = () => DateTime.Now;
+
         DateTime? ITimeCalculator.Calculate(DateTime last) => CalculateOnce(last) ?? CalculatePeriod(last);
 
         private DateTime? CalculateOnce(DateTime last)
