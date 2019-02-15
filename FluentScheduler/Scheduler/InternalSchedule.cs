@@ -63,7 +63,7 @@ namespace FluentScheduler
             if (Running())
                 return;
 
-            CalculateNextRun(DateTime.Now);
+            CalculateNextRun(_calculator.Now());
 
             _tokenSource = new CancellationTokenSource();
             _task = Run(_tokenSource.Token);
@@ -100,7 +100,7 @@ namespace FluentScheduler
                 return;
 
             // calculating delay
-            var delay = NextRun.Value - DateTime.Now;
+            var delay = NextRun.Value - _calculator.Now();
 
             // delaying until it's time to run or a cancellation was requested
             await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token).ContinueWith(_ => {});
@@ -110,7 +110,7 @@ namespace FluentScheduler
                 return;
 
             // used on both JobStarted and JobEnded events
-            var startTime = DateTime.Now;
+            var startTime = _calculator.Now();
 
             // raising JobStarted event
             JobStarted?.Invoke(this, new JobStartedEventArgs(startTime));
@@ -130,7 +130,7 @@ namespace FluentScheduler
             }
 
             // used on JobEnded event
-            var endTime = DateTime.Now;
+            var endTime = _calculator.Now();
 
             // calculating the next run
             // used on both JobEnded event and for the next run of this method
