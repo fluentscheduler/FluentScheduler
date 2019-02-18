@@ -95,5 +95,93 @@
             // Assert
             Assert.AreEqual("Some exception.", exception.Message);
         }
+
+        [TestMethod]
+        public void UseUtc()
+        {
+            // Arrange
+            var expectedNow = DateTime.UtcNow;
+            var schedule = new Schedule(() => { }, run => run.Now());
+
+            // Act
+            schedule.UseUtc();
+            var resultedNow = schedule.Internal.Calculator.Now();
+
+            // Assert
+            Assert.AreEqual(expectedNow.Hour, resultedNow.Hour);
+            Assert.AreEqual(expectedNow.Minute, resultedNow.Minute);
+        }
+
+        [TestMethod]
+        public void DoNotUseUtc()
+        {
+            // Arrange
+            var expectedNow = DateTime.Now;
+            var schedule = new Schedule(() => { }, run => run.Now());
+
+            // Act
+            var resultedNow = schedule.Internal.Calculator.Now();
+
+            // Assert
+            Assert.AreEqual(expectedNow.Hour, resultedNow.Hour);
+            Assert.AreEqual(expectedNow.Minute, resultedNow.Minute);
+        }
+
+        [TestMethod]
+        public void DoNotUseUtcAfterStart()
+        {
+            // Arrange
+            var expectedNow = DateTime.Now;
+            var schedule = new Schedule(() => { }, run => run.Now());
+
+            // Act
+            schedule.Start();
+            schedule.UseUtc();
+
+            var resultedNow = schedule.Internal.Calculator.Now();
+
+            // Assert
+            Assert.AreEqual(expectedNow.Hour, resultedNow.Hour);
+            Assert.AreEqual(expectedNow.Minute, resultedNow.Minute);
+        }
+
+
+        [TestMethod]
+        public void UseUtcBeforeStart()
+        {
+            // Arrange
+            var expectedNow = DateTime.UtcNow;
+            var schedule = new Schedule(() => { }, run => run.Now());
+
+            // Act
+            schedule.UseUtc();
+            schedule.Start();
+
+            var resultedNow = schedule.Internal.Calculator.Now();
+
+            // Assert
+            Assert.AreEqual(expectedNow.Hour, resultedNow.Hour);
+            Assert.AreEqual(expectedNow.Minute, resultedNow.Minute);
+        }
+
+        [TestMethod]
+        public void UseUtcAfterStop()
+        {
+            // Arrange
+            var expectedNow = DateTime.UtcNow;
+            var schedule = new Schedule(() => { }, run => run.Now());
+
+            // Act
+            schedule.Start();
+            schedule.StopAndBlock();
+            schedule.UseUtc();
+            schedule.Start();
+
+            var resultedNow = schedule.Internal.Calculator.Now();
+
+            // Assert
+            Assert.AreEqual(expectedNow.Hour, resultedNow.Hour);
+            Assert.AreEqual(expectedNow.Minute, resultedNow.Minute);
+        }
     }
 }
