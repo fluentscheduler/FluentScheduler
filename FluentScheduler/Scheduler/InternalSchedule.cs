@@ -7,9 +7,9 @@ namespace FluentScheduler
 
     internal class InternalSchedule
     {
-        private readonly Action _job;
+        internal ITimeCalculator Calculator;
 
-        private ITimeCalculator _calculator;
+        private readonly Action _job;
 
         private Task _task;
 
@@ -33,13 +33,13 @@ namespace FluentScheduler
         internal void ResetScheduling()
         {
             NextRun = null;
-            _calculator.Reset();
+            Calculator.Reset();
         }
 
         internal void SetScheduling(ITimeCalculator calculator)
         {
             NextRun = null;
-            _calculator = calculator;
+            Calculator = calculator;
         }
 
         internal void ShouldNotBeRunning()
@@ -63,7 +63,7 @@ namespace FluentScheduler
             if (Running())
                 return;
 
-            CalculateNextRun(_calculator.Now());
+            CalculateNextRun(Calculator.Now());
 
             _tokenSource = new CancellationTokenSource();
             _task = Run(_tokenSource.Token);
@@ -90,7 +90,15 @@ namespace FluentScheduler
             _tokenSource = null;
         }
 
-        private void CalculateNextRun(DateTime last) => NextRun = _calculator.Calculate(last);
+        internal void UseUtc()
+        {
+            if (Running())
+                return;
+
+            Calculator.Now = () => DateTime.UtcNow;
+        }
+
+        private void CalculateNextRun(DateTime last) => NextRun = Calculator.Calculate(last);
 
         private async Task Run(CancellationToken token)
         {
@@ -100,7 +108,7 @@ namespace FluentScheduler
                 return;
 
             // calculating delay
-            var delay = NextRun.Value - _calculator.Now();
+            var delay = NextRun.Value - Calculator.Now();
 
             // delaying until it's time to run or a cancellation was requested
             await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token).ContinueWith(_ => {});
@@ -110,7 +118,7 @@ namespace FluentScheduler
                 return;
 
             // used on both JobStarted and JobEnded events
-            var startTime = _calculator.Now();
+            var startTime = Calculator.Now();
 
             // raising JobStarted event
             JobStarted?.Invoke(this, new JobStartedEventArgs(startTime));
@@ -130,7 +138,7 @@ namespace FluentScheduler
             }
 
             // used on JobEnded event
-            var endTime = _calculator.Now();
+            var endTime = Calculator.Now();
 
             // calculating the next run
             // used on both JobEnded event and for the next run of this method

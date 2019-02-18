@@ -67,6 +67,18 @@
         }
 
         /// <summary>
+        /// Sets the scheduling to use UTC time system.
+        /// You must not call this method if the schedule is running.
+        /// </summary>
+        public void UseUtc()
+        {
+            lock (Internal.RunningLock)
+            {
+                Internal.UseUtc();
+            }
+        }
+
+        /// <summary>
         /// Resets the scheduling of this schedule.
         /// You must not call this method if the schedule is running.
         /// </summary>
