@@ -126,7 +126,7 @@
         {
             lock (Internal.RunningLock)
             {
-                Internal.Stop(false);
+                Internal.Stop(true);
             }
         }
 
@@ -151,7 +151,7 @@
         {
             lock (Internal.RunningLock)
             {
-                Internal.Stop(false, timeout);
+                Internal.Stop(true, timeout);
             }
         }
 
@@ -164,7 +164,7 @@
         {
             lock (Internal.RunningLock)
             {
-                Internal.Stop(false, timeout.Milliseconds);
+                Internal.Stop(true, timeout.Milliseconds);
             }
         }
     }
