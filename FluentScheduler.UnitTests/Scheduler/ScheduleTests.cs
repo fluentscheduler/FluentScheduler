@@ -30,7 +30,40 @@
         }
 
         [TestMethod]
+        public void StartCron()
+        {
+            // Arrange
+            var now = DateTime.Now.AddMinutes(1);
+            var schedule = new Schedule(() => { }, "* * * * *");
+
+            // Act
+            schedule.Start();
+            Thread.Sleep(100);
+
+            // Assert
+            Assert.AreEqual(now.Hour, schedule.NextRun.Value.Hour);
+            Assert.AreEqual(now.Minute, schedule.NextRun.Value.Minute);
+        }
+
+        [TestMethod]
         public void Stop()
+        {
+            // Arrange
+            var schedule = new Schedule(() => { }, run => run.Now().AndEvery(1).Seconds());
+
+            // Act
+            schedule.Start();
+
+            Thread.Sleep(100);
+
+            schedule.Stop();
+
+            // Assert
+            Assert.IsFalse(schedule.Running);
+        }
+
+        [TestMethod]
+        public void StopAndBlock()
         {
             // Arrange
             var calls = 0;
@@ -50,6 +83,52 @@
             // Assert
             Assert.AreEqual(1, calls);
             Assert.IsFalse(schedule.Running);
+        }
+
+        [TestMethod]
+        public void SetScheduling()
+        {
+            // Arrange
+            var calls = 0;
+            var expectedCalls = 2;
+            var schedule = new Schedule(() => calls++, run => run.Now().AndEvery(1).Days());
+
+            // Act
+            schedule.Start();
+
+            Thread.Sleep(100);
+
+            schedule.StopAndBlock();
+            schedule.SetScheduling(run => run.Now());
+            schedule.Start();
+
+            Thread.Sleep(100);
+
+            // Assert
+            Assert.AreEqual(expectedCalls, calls);
+        }
+
+        [TestMethod]
+        public void ResetScheduling()
+        {
+            // Arrange
+            var calls = 0;
+            var expectedCalls = 2;
+            var schedule = new Schedule(() => calls++, run => run.Now());
+
+            // Act
+            schedule.Start();
+
+            Thread.Sleep(100);
+
+            schedule.StopAndBlock();
+            schedule.ResetScheduling();
+            schedule.Start();
+
+            Thread.Sleep(100);
+
+            // Assert
+            Assert.AreEqual(expectedCalls, calls);
         }
 
         [TestMethod]
