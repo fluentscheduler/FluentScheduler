@@ -1,6 +1,7 @@
 ﻿namespace FluentScheduler
 {
     using System;
+    using System.Collections.Generic;
 
     public class PeriodOnceSet
     {
@@ -13,7 +14,7 @@
         /// </summary>
         /// <param name="hour">The hours (0 through 23).</param>
         /// <param name="minute">The minutes (0 through 59).</param>
-        public void At(int hour, int minute)
+        public ExceptionUnit At(int hour, int minute)
         {
             if (hour < 0 || hour > 23)
                 throw new ArgumentOutOfRangeException($"\"{nameof(hour)}\" should be in the 0 to 23 range.");
@@ -21,24 +22,42 @@
             if (minute < 0 || minute > 59)
                 throw new ArgumentOutOfRangeException($"\"{nameof(minute)}\" should be in the 0 to 59 range.");
 
-            _calculator.PeriodCalculations.Add(last => GetEarlierDate(last, new TimeSpan(hour, minute, 0)));
+            _calculator.PeriodCalculations.Add(last => EarlierDate(last, new TimeSpan(hour, minute, 0)));
+
+            return new ExceptionUnit(_calculator);
         }
 
         /// <summary>
         /// Runs the job at the given time of day.
         /// </summary>
-        /// <param name="time">Time of day</param>
-        public void At(TimeSpan time) => _calculator.PeriodCalculations.Add(last => GetEarlierDate(last, time));
-
-        private DateTime GetEarlierDate(DateTime last, TimeSpan time)
+        /// <param name="timeCollection">Time of day</param>
+        public ExceptionUnit At(params TimeSpan[] timeCollection)
         {
-            var now = DateTime.Now;
+            _calculator.PeriodCalculations.Add(last => EarlierDate(last, timeCollection));
 
-            var next = new DateTime(last.Year, last.Month, last.Day).Add(time);
+            return new ExceptionUnit(_calculator);
+        }
 
-            return now.TimeOfDay < next.TimeOfDay ?
-                new DateTime(now.Year, now.Month, now.Day).Add(time) :
-                next;
+        internal DateTime EarlierDate(DateTime last, params TimeSpan[] timeCollection)
+        {
+            var now = ((ITimeCalculator)_calculator).Now();
+            var calculatedDate = new DateTime();
+
+            foreach (var time in timeCollection)
+            {
+                var current = new DateTime(now.Year, now.Month, now.Day).Add(time);
+                var next = new DateTime(last.Year, last.Month, last.Day).Add(time);
+
+                if (current.Date < last.Date)
+                {
+                    calculatedDate = next;
+                    break;
+                }
+
+                calculatedDate = current.TimeOfDay >= now.TimeOfDay ? current : next;
+            }
+
+            return calculatedDate;
         }
     }
 }
