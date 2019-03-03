@@ -4,7 +4,7 @@ namespace FluentScheduler.UnitTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class ExceptionUnitTests
+    public class RestrictionUnitTests
     {
         [TestMethod]
         public void Except()
@@ -20,7 +20,7 @@ namespace FluentScheduler.UnitTests
 
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
-            var run = new ExceptionUnit(fluentCalculator); 
+            var run = new RestrictionUnit(fluentCalculator); 
 
             // Act
             run.Except(exceptionalDays);
@@ -40,7 +40,7 @@ namespace FluentScheduler.UnitTests
 
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
-            var run = new ExceptionUnit(fluentCalculator); 
+            var run = new RestrictionUnit(fluentCalculator); 
 
             // Act
             run.Except(exceptionalDays);
@@ -69,11 +69,11 @@ namespace FluentScheduler.UnitTests
 
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
-            var run = new ExceptionUnit(fluentCalculator); 
+            var run = new RestrictionUnit(fluentCalculator); 
 
             // Act / Assert
             run.Except(allDays);
             calculator.Calculate(now);
         }
-    }   
+    }
 }
