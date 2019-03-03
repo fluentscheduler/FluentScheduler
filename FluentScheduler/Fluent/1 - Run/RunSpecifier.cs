@@ -27,11 +27,11 @@
         /// Runs the job according to the given interval.
         /// </summary>
         /// <param name="day">Day to run the job</param>
-        public PeriodOnceSet Every(DayOfWeek day)
+        public RestrictionUnit Every(DayOfWeek day)
         {
             _calculator.PeriodCalculations.Add(last => last.AddDays(day - last.DayOfWeek));
 
-            return new PeriodOnceSet(_calculator);
+            return new RestrictionUnit(_calculator);
         }
 
         public void Every(TimeSpan time)
@@ -47,12 +47,12 @@
         /// <summary>
         /// Runs the job every weekday
         /// </summary>
-        public PeriodOnceSet EveryWeekday() => new DayUnit(_calculator).Weekday();
+        public RestrictionUnit EveryWeekday() => new DayUnit(_calculator).Weekday();
 
         /// <summary>
         /// Runs the job every weekend
         /// </summary>
-        public PeriodOnceSet EveryWeekend() => new DayUnit(_calculator).Weekend();
+        public RestrictionUnit EveryWeekend() => new DayUnit(_calculator).Weekend();
 
         /// <summary>
         /// Runs the job now.

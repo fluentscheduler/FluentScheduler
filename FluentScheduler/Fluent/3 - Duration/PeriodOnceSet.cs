@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="hour">The hours (0 through 23).</param>
         /// <param name="minute">The minutes (0 through 59).</param>
-        public ExceptionUnit At(int hour, int minute)
+        public void At(int hour, int minute)
         {
             if (hour < 0 || hour > 23)
                 throw new ArgumentOutOfRangeException($"\"{nameof(hour)}\" should be in the 0 to 23 range.");
@@ -23,20 +23,14 @@
                 throw new ArgumentOutOfRangeException($"\"{nameof(minute)}\" should be in the 0 to 59 range.");
 
             _calculator.PeriodCalculations.Add(last => EarlierDate(last, new TimeSpan(hour, minute, 0)));
-
-            return new ExceptionUnit(_calculator);
         }
 
         /// <summary>
         /// Runs the job at the given time of day.
         /// </summary>
         /// <param name="timeCollection">Time of day</param>
-        public ExceptionUnit At(params TimeSpan[] timeCollection)
-        {
+        public void At(params TimeSpan[] timeCollection) =>
             _calculator.PeriodCalculations.Add(last => EarlierDate(last, timeCollection));
-
-            return new ExceptionUnit(_calculator);
-        }
 
         internal DateTime EarlierDate(DateTime last, params TimeSpan[] timeCollection)
         {
