@@ -240,3 +240,116 @@ You can also help others in need for support, check the ["help wanted"] label.
 [Run All Tests (Ctrl + R, A)]: https://msdn.microsoft.com/library/ms182470
 [Run Code Analysis on Solution (Alt + F11)]: https://msdn.microsoft.com/library/bb907198
 ["help wanted"]: https://github.com/fluentscheduler/FluentScheduler/issues?q=label:"help%20wanted"
+
+
+Demo:
+
+
+    public class Program
+    {
+        public static bool IsWorking = false;
+
+        static void Main(string[] args)
+        {
+            Console.Title = "任务调度器";
+            
+            //写法一
+            //JobManager.Initialize(new MyRegistry());
+
+            //写法二
+            //JobManager.AddJob<MyJob>(t => t.ToRunEvery(1).Days().At(24, 00));//每天的凌晨12点 执行 
+            //JobManager.AddJob<MyOtherJob>(t => t.ToRunEvery(1).Months().OnTheLastDay().At(8, 30));//每个月的最后一天早上八点半 执行
+
+            JobManager.AddJob<MyJob>(t => t.ToRunEvery(3).Seconds());
+
+            JobManager.Start();//启动任务管理器
+
+            //Console.WriteLine("hello world");
+            Console.ReadLine();
+        }
+    }
+
+    /// <summary>
+    ///  工作类
+    /// </summary>
+    public class MyJob : IJob
+    {
+        
+        public void Execute()
+        {
+            //编写需要工作的内容
+            //比如输出一句话
+
+            //防止并发，有任务正在运行时跳出
+            if (Program.IsWorking)
+            {
+                Console.WriteLine("已有工作正在执行");
+                return;
+            }
+            else
+            {
+                Program.IsWorking = true;
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine(DateTime.Now.ToString() + " 执行工作!" + i);
+
+                Thread.Sleep(1000);
+            }
+
+            Program.IsWorking = false;
+
+        }
+    }
+
+    /// <summary>
+    ///  工作类
+    /// </summary>
+    public class MyOtherJob : IJob
+    {
+        public void Execute()
+        {
+            //编写需要工作的内容
+            //比如输出一句话
+            Console.WriteLine(DateTime.Now.ToString() + "执行工作 MyOtherJob!");
+
+
+        }
+    }
+
+    /// <summary>
+    ///  注册表
+    /// </summary>
+    public class MyRegistry : Registry
+    {
+        //无参构造函数
+        public MyRegistry()
+        {
+            //https://github.com/fluentscheduler/FluentScheduler#usage
+
+            //安排任务运行在一个区间
+            Schedule<MyJob>().ToRunNow().AndEvery(3).Seconds();
+
+            //// 安排任务运行一次，由一个特定的时间间隔延迟。
+            //Schedule<MyJob>().ToRunOnceIn(5).Seconds();
+
+            ////安排一个简单的任务在一个特定的时间运行
+            //Schedule(() => Console.WriteLine("Timed Task - Will run every day at 9:15pm: " + DateTime.Now)).ToRunEvery(1).Days().At(21, 15);
+
+            ////安排一个更复杂的行动，立即运行和每月的时间间隔
+            //Schedule(() =>
+            //{
+            //    Console.WriteLine("Complex Action Task Starts: " + DateTime.Now);
+            //    Thread.Sleep(1000);
+            //    Console.WriteLine("Complex Action Task Ends: " + DateTime.Now);
+            //}).ToRunNow().AndEvery(1).Months().OnTheFirst(DayOfWeek.Monday).At(3, 0);
+
+            ////计划多个任务在一个单一的日程安排中运行
+            //Schedule<MyJob>().AndThen<MyOtherJob>().ToRunNow().AndEvery(5).Minutes();
+        }
+    }
+
+
+
+
