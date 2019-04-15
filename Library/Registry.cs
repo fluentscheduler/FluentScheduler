@@ -52,12 +52,13 @@
         /// Schedules a new job in the registry.
         /// </summary>
         /// <param name="job">Job to run.</param>
-        public Schedule Schedule(IJob job)
+        /// <param name="name">Job name.</param>
+        public Schedule Schedule(IJob job, string name=null)
         {
             if (job == null)
                 throw new ArgumentNullException("job");
 
-            return Schedule(JobManager.GetJobAction(job), null);
+            return Schedule(JobManager.GetJobAction(job), name);
         }
 
         /// <summary>
