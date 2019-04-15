@@ -52,8 +52,20 @@
         /// Schedules a new job in the registry.
         /// </summary>
         /// <param name="job">Job to run.</param>
+        public Schedule Schedule(IJob job)
+        {
+            if (job == null)
+                throw new ArgumentNullException("job");
+
+            return Schedule(JobManager.GetJobAction(job), null);
+        }
+
+        /// <summary>
+        /// Schedules a new job in the registry.
+        /// </summary>
+        /// <param name="job">Job to run.</param>
         /// <param name="name">Job name.</param>
-        public Schedule Schedule(IJob job, string name=null)
+        public Schedule Schedule(IJob job, string name)
         {
             if (job == null)
                 throw new ArgumentNullException("job");
