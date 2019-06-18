@@ -48,7 +48,13 @@
                     break;
                 }
 
-                calculatedDate = current.TimeOfDay >= now.TimeOfDay ? current : next;
+                if (current.TimeOfDay > now.TimeOfDay)
+                {
+                    calculatedDate = current;
+                    break;
+                }
+                else
+                    calculatedDate = next;
             }
 
             return calculatedDate;
