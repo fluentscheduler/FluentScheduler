@@ -50,53 +50,6 @@
         }
 
         [TestMethod]
-        public void EarlierDateParamsTimeSpan()
-        {
-            // Arrange
-            var now = new DateTime(2019, 2, 8, 3, 0, 0);
-            var last = new DateTime(2019, 2, 8, 1, 0 ,0);
-
-            var time1 = new TimeSpan(5, 0, 0);
-            var time2 = new TimeSpan(8, 0, 0);
-            var time3 = new TimeSpan(10, 0, 0);
-
-            var expectedFirstRun = new TimeSpan(5, 0, 0);
-            var expectedSecondRun = new TimeSpan(8, 0, 0);
-            var expectedThirdRun = new TimeSpan(10, 0, 0);
-
-            var fluentCalculator = new FluentTimeCalculator();
-            var calculator = (ITimeCalculator)fluentCalculator;
-
-            calculator.Now = () => now;
-
-            var run = new PeriodOnceSet(fluentCalculator);
-
-            // Act
-            var firstRun = run.EarlierDate(last, time1, time2, time3);
-
-            // Assert
-            Assert.AreEqual(expectedFirstRun, firstRun.TimeOfDay);
-
-            // Arrange
-            calculator.Now = () => firstRun;
-
-            // Act
-            var secondRun = run.EarlierDate(firstRun, time1, time2, time3);
-
-            // Assert
-            Assert.AreEqual(expectedSecondRun, secondRun.TimeOfDay);
-
-            // Arrange
-            calculator.Now = () => secondRun;
-
-            // Act
-            var thirdRun = run.EarlierDate(secondRun, time1, time2, time3);
-
-            // Assert
-            Assert.AreEqual(expectedThirdRun, thirdRun.TimeOfDay);
-        }
-
-        [TestMethod]
         public void InTheNextMonth()
         {
             // Arrange
