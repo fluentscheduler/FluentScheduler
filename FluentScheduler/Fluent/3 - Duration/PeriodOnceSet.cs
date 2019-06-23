@@ -1,7 +1,6 @@
 ﻿namespace FluentScheduler
 {
     using System;
-    using System.Collections.Generic;
 
     public class PeriodOnceSet
     {
@@ -22,42 +21,24 @@
             if (minute < 0 || minute > 59)
                 throw new ArgumentOutOfRangeException($"\"{nameof(minute)}\" should be in the 0 to 59 range.");
 
-            _calculator.PeriodCalculations.Add(last => EarlierDate(last, new TimeSpan(hour, minute, 0)));
+            _calculator.PeriodCalculations.Add(last => new DateTime(last.Year, last.Month, last.Day, hour, minute, 0));
         }
 
         /// <summary>
         /// Runs the job at the given time of day.
         /// </summary>
         /// <param name="timeCollection">Time of day</param>
-        public void At(params TimeSpan[] timeCollection) =>
-            _calculator.PeriodCalculations.Add(last => EarlierDate(last, timeCollection));
-
-        internal DateTime EarlierDate(DateTime last, params TimeSpan[] timeCollection)
+        public void At(params TimeSpan[] timeCollection) 
         {
-            var now = ((ITimeCalculator)_calculator).Now();
-            var calculatedDate = new DateTime();
-
             foreach (var time in timeCollection)
             {
-                var current = new DateTime(now.Year, now.Month, now.Day).Add(time);
-                var next = new DateTime(last.Year, last.Month, last.Day).Add(time);
-
-                if (current.Date < last.Date)
-                {
-                    calculatedDate = next;
+                if (time >= ((ITimeCalculator)_calculator).Now().TimeOfDay)
+                    _calculator.PeriodCalculations.Add(last => 
+                        new DateTime(last.Year, last.Month, last.Day, time.Hours, time.Minutes, 0)
+                    );
+                    
                     break;
                 }
-
-                if (current.TimeOfDay > now.TimeOfDay)
-                {
-                    calculatedDate = current;
-                    break;
-                }
-                else
-                    calculatedDate = next;
-            }
-
-            return calculatedDate;
         }
     }
 }
