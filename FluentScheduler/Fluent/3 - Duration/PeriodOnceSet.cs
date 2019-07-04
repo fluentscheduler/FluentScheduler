@@ -33,12 +33,14 @@
             foreach (var time in timeCollection)
             {
                 if (time >= ((ITimeCalculator)_calculator).Now().TimeOfDay)
+                {
                     _calculator.PeriodCalculations.Add(last => 
                         new DateTime(last.Year, last.Month, last.Day, time.Hours, time.Minutes, 0)
                     );
                     
                     break;
                 }
+            }
         }
     }
 }
