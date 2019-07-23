@@ -1,4 +1,4 @@
-﻿namespace FluentScheduler
+﻿namespace FluentScheduler.UnitTests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
