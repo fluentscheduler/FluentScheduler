@@ -10,7 +10,7 @@ nav:
   - Starting, stopping and resetting: starting-stopping-and-resetting.md
   - Changing the scheduling: changing-the-scheduling.md
   - Listening for events: listening-for-events.md
-  - Managing multiple schedules: managing-multiple-schedules.md
+  - Grouping schedules: grouping-schedules.md
   - Reentrancy: reentrancy.md
   - Cron expressions: cron-expressions.md
   - Daylight savings: daylight-savings.md
