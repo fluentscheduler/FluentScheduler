@@ -5,9 +5,9 @@ var s1 = new Schedule(() => Console.WriteLine("A minute just passed."), run => r
 var s2 = new Schedule(() => Console.WriteLine("5 minutes just passed."), run => run.Every(5).Minutes());
 var s3 = new Schedule(() => Console.WriteLine("10 minutes just passed."), run => run.Every(10).Minutes());
 
-var group = new[] { s1, s2, s3, };
+var schedules = new[] { s1, s2, s3, };
 
-group.Start();
+schedules.Start();
 ```
 
 Note that there's no other objects involved here other than the schedules and your collection, managing the group is
