@@ -67,7 +67,7 @@
 
                     var next = new DateTime(last.Year, last.Month, last.Day).Add(from);
 
-                    if (from < to)
+                    if (from >= to)
                         return  next;
                 
                     if (lastTime < from)
