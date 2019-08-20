@@ -27,7 +27,7 @@
         /// <summary>
         /// Runs the job at the given time of day.
         /// </summary>
-        /// <param name="timeCollection">Time of day</param>
+        /// <param name="timeCollection">Time of day.</param>
         public void At(params TimeSpan[] timeCollection) 
         {
             foreach (var time in timeCollection)
@@ -43,7 +43,11 @@
             }
         }
 
-        /// ADICIONAR DOCS FELIZ
+        /// <summary>
+        /// Runs the job at the given period of time.
+        /// </summary>
+        /// <param name="from">Time of the day to delimitate the period beginnig.</param>
+        /// <param name="to">Time of the day to delimitade the period end.</param>
         public void Between(TimeSpan from, TimeSpan to)
         {
             _calculator.PeriodCalculations.Add(last =>
