@@ -42,5 +42,26 @@
                 }
             }
         }
+
+        /// ADICIONAR DOCS FELIZ
+        public void Between(TimeSpan from, TimeSpan to)
+        {
+            _calculator.PeriodCalculations.Add(last =>
+                {
+                    var now = ((ITimeCalculator)_calculator).Now();
+                    var lastTime = last.TimeOfDay;
+
+                    var next = new DateTime(last.Year, last.Month, last.Day).Add(from);
+
+                    if (lastTime < from)
+                        return next;
+
+                    if (lastTime > to)
+                        return next.AddDays(1);
+
+                    return last;
+                }
+            );
+        }
     }
 }
