@@ -17,18 +17,23 @@ namespace FluentScheduler
         /// <param name="minute">The minutes (0 through 59).</param>
         public void At(int hour, int minute) => new PeriodOnceSet(_calculator).At(hour, minute);
 
+        /// <summary>
+        /// Runs the job at the given period of time.
+        /// </summary>
+        /// <param name="from">Time of the day to delimitate the period beginnig.</param>
+        /// <param name="to">Time of the day to delimitade the period end.</param>
         public void Between(TimeSpan from, TimeSpan to) => new PeriodOnceSet(_calculator).Between(from, to);
 
         /// <summary>
         /// Runs the job at the given time of day.
         /// </summary>
-        /// <param name="timeCollection">Time of day</param>
+        /// <param name="timeCollection">Time of day.</param>
         public void At(params TimeSpan[] timeCollection) => new PeriodOnceSet(_calculator).At(timeCollection);
 
         /// <summary>
         /// Excludes given days from job scheduling.
         /// </summary>
-        /// <param name="exceptionalDays">Days to exclude</param>
+        /// <param name="exceptionalDays">Days to exclude.</param>
         public PeriodOnceSet Except(params DayOfWeek[] exceptionalDays)
         {
             var allDays = (IEnumerable<DayOfWeek>)Enum.GetValues(typeof(DayOfWeek));
