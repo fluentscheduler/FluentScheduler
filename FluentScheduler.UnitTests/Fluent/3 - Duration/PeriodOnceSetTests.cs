@@ -71,7 +71,7 @@
             Assert.AreEqual(expectedDate, calculated.Value);
         }
 
-         [TestMethod]
+        [TestMethod]
         public void InTheSameMonth()
         {
             // Arrange
@@ -87,6 +87,79 @@
 
             // Act
             run.Every(1).Months().On(20).At(11, 30);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Assert.AreEqual(expectedDate, calculated.Value);
+        }
+
+        [TestMethod]
+        public void BetweenLesserFrom()
+        {
+            // Arrange
+            var now = new DateTime(2019, 08, 19, 19, 0, 0);
+
+            var from = new TimeSpan(21, 30, 0);
+            var to = new TimeSpan(23, 30, 0);
+
+            var expectedDate = new DateTime(2019, 08, 20, 21, 30, 0);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            calculator.Now = () => now;
+
+            // Act
+            run.Every(1).Days().Between(from, to);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Assert.AreEqual(expectedDate, calculated.Value); 
+        }
+
+        [TestMethod]
+        public void BetweenGreaterFromLesserTo()
+        {
+            // Arrange
+            var now = new DateTime(2019, 08, 19, 21, 40, 0);
+            var expectedDate = new DateTime(2019, 08, 20, 21, 40, 0);
+            
+            var from = new TimeSpan(21, 30, 0);
+            var to = new TimeSpan(23, 30, 0);
+            
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            calculator.Now = () => now;
+
+            // Act
+            run.Every(1).Days().Between(from, to);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Assert.AreEqual(expectedDate, calculated.Value);
+        }
+
+        [TestMethod]
+        public void BetweenGreaterTo()
+        {
+            // Arrange
+            var now = new DateTime(2019, 08, 19, 23, 50, 0);
+            var expectedDate = new DateTime(2019, 08, 21, 21, 30, 0);
+            
+            var from = new TimeSpan(21, 30, 0);
+            var to = new TimeSpan(23, 30, 0);
+            
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            calculator.Now = () => now;
+
+            // Act
+            run.Every(1).Days().Between(from, to);
             var calculated = calculator.Calculate(now);
 
             // Assert

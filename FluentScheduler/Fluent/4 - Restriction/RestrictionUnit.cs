@@ -17,6 +17,8 @@ namespace FluentScheduler
         /// <param name="minute">The minutes (0 through 59).</param>
         public void At(int hour, int minute) => new PeriodOnceSet(_calculator).At(hour, minute);
 
+        public void Between(TimeSpan from, TimeSpan to) => new PeriodOnceSet(_calculator).Between(from, to);
+
         /// <summary>
         /// Runs the job at the given time of day.
         /// </summary>
