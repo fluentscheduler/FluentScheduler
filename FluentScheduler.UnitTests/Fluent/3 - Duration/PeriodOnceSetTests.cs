@@ -94,10 +94,37 @@
         }
 
         [TestMethod]
+        public void BetweenFromGreaterThanTo()
+        {
+
+            // Arrange
+            var now = new DateTime(2019, 08, 19, 23, 30, 0);
+
+            var from = new TimeSpan(23, 0, 0);
+            var to = new TimeSpan(2, 30, 0);
+
+            var expectedDate = new DateTime(2019, 08, 20, 23, 0, 0);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            calculator.Now = () => now;
+
+            // Act
+            run.Every(1).Days().Between(from, to);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Assert.AreEqual(expectedDate, calculated.Value); 
+        }
+        
+
+        [TestMethod]
         public void BetweenLesserFrom()
         {
             // Arrange
-            var now = new DateTime(2019, 08, 19, 19, 0, 0);
+            var now = new DateTime(2019, 08, 19, 19, 30, 0);
 
             var from = new TimeSpan(21, 30, 0);
             var to = new TimeSpan(23, 30, 0);
