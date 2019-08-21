@@ -1,7 +1,10 @@
 Thanks to [NCronTab](https://github.com/atifaziz/NCronTab), you can set up schedules using cron expressions:
 
 ```cs
-var schedule = new Schedule(() => Console.WriteLine("5 minutes just passed."), "*/5 * * * *");
+var schedule = new Schedule(
+    () => Console.WriteLine("5 minutes just passed."),
+    "*/5 * * * *"
+);
 
 schedule.Start();
 ```
