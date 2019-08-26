@@ -73,6 +73,7 @@
         {
             lock (Internal.RunningLock)
             {
+                Internal.ShouldNotBeRunning();
                 Internal.UseUtc();
             }
         }

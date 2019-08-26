@@ -90,13 +90,7 @@ namespace FluentScheduler
             _tokenSource = null;
         }
 
-        internal void UseUtc()
-        {
-            if (Running())
-                return;
-
-            Calculator.Now = () => DateTime.UtcNow;
-        }
+        internal void UseUtc() => Calculator.Now = () => DateTime.UtcNow;
 
         private void CalculateNextRun(DateTime last) => NextRun = Calculator.Calculate(last);
 
