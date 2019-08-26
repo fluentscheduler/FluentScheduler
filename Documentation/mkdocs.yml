@@ -13,6 +13,7 @@ nav:
   - Grouping schedules: grouping-schedules.md
   - Reentrancy: reentrancy.md
   - Cron expressions: cron-expressions.md
+  - Milliseconds: milliseconds.md
   - Daylight savings: daylight-savings.md
   - UTC: utc.md
   - More examples: more-examples.md
