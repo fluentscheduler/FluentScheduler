@@ -16,9 +16,14 @@
         <dependencies>
             <group targetFramework=".NETFramework4.0" />
             <group targetFramework=".NETStandard1.4" />
+            <group targetFramework=".NETStandard2.0" />
         </dependencies>
     </metadata>
     <files>
+        <file src="PortableLibrary2.0\bin\Release\FluentScheduler.deps.json" target="lib\netstandard2.0\FluentScheduler.deps.json" />
+        <file src="PortableLibrary2.0\bin\Release\FluentScheduler.dll" target="lib\netstandard2.0\FluentScheduler.dll" />
+        <file src="PortableLibrary2.0\bin\Release\FluentScheduler.pdb" target="lib\netstandard2.0\FluentScheduler.pdb" />
+        <file src="PortableLibrary2.0\bin\Release\FluentScheduler.xml" target="lib\netstandard2.0\FluentScheduler.xml" />
         <file src="PortableLibrary\bin\Release\FluentScheduler.dll" target="lib\netstandard1.4\FluentScheduler.dll" />
         <file src="PortableLibrary\bin\Release\FluentScheduler.pdb" target="lib\netstandard1.4\FluentScheduler.pdb" />
         <file src="PortableLibrary\bin\Release\FluentScheduler.xml" target="lib\netstandard1.4\FluentScheduler.xml" />

@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>FluentScheduler</AssemblyName>
+    <RootNamespace>FluentScheduler</RootNamespace>
+    <AssemblyVersion>5.3.0.0</AssemblyVersion>
+    <FileVersion>5.3.0.0</FileVersion>
+    <Description>Automated job scheduler with fluent interface.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Library\Enum\TimeOfDayRunnable.cs" Link="Enum\TimeOfDayRunnable.cs" />
+    <Compile Include="..\Library\Enum\Week.cs" Link="Enum\Week.cs" />
+    <Compile Include="..\Library\Event\JobEndInfo.cs" Link="Event\JobEndInfo.cs" />
+    <Compile Include="..\Library\Event\JobExceptionInfo.cs" Link="Event\JobExceptionInfo.cs" />
+    <Compile Include="..\Library\Event\JobStartInfo.cs" Link="Event\JobStartInfo.cs" />
+    <Compile Include="..\Library\Extension\DateTimeExtensions.cs" Link="Extension\DateTimeExtensions.cs" />
+    <Compile Include="..\Library\Extension\DelayForExtensions.cs" Link="Extension\DelayForExtensions.cs" />
+    <Compile Include="..\Library\Extension\RestrictableUnitExtensions.cs" Link="Extension\RestrictableUnitExtensions.cs" />
+    <Compile Include="..\Library\IJob.cs" Link="IJob.cs" />
+    <Compile Include="..\Library\JobFactory.cs" Link="JobFactory.cs" />
+    <Compile Include="..\Library\JobManager.cs" Link="JobManager.cs" />
+    <Compile Include="..\Library\Registry.cs" Link="Registry.cs" />
+    <Compile Include="..\Library\Schedule.cs" Link="Schedule.cs" />
+    <Compile Include="..\Library\Unit\DayUnit.cs" Link="Unit\DayUnit.cs" />
+    <Compile Include="..\Library\Unit\DelayTimeUnit.cs" Link="Unit\DelayTimeUnit.cs" />
+    <Compile Include="..\Library\Unit\HourUnit.cs" Link="Unit\HourUnit.cs" />
+    <Compile Include="..\Library\Unit\IDayRestrictableUnit.cs" Link="Unit\IDayRestrictableUnit.cs" />
+    <Compile Include="..\Library\Unit\ITimeRestrictableUnit.cs" Link="Unit\ITimeRestrictableUnit.cs" />
+    <Compile Include="..\Library\Unit\MinuteUnit.cs" Link="Unit\MinuteUnit.cs" />
+    <Compile Include="..\Library\Unit\MonthOnDayOfMonthUnit.cs" Link="Unit\MonthOnDayOfMonthUnit.cs" />
+    <Compile Include="..\Library\Unit\MonthOnDayOfWeekUnit.cs" Link="Unit\MonthOnDayOfWeekUnit.cs" />
+    <Compile Include="..\Library\Unit\MonthOnLastDayOfMonthUnit.cs" Link="Unit\MonthOnLastDayOfMonthUnit.cs" />
+    <Compile Include="..\Library\Unit\MonthUnit.cs" Link="Unit\MonthUnit.cs" />
+    <Compile Include="..\Library\Unit\SecondUnit.cs" Link="Unit\SecondUnit.cs" />
+    <Compile Include="..\Library\Unit\SpecificTimeUnit.cs" Link="Unit\SpecificTimeUnit.cs" />
+    <Compile Include="..\Library\Unit\TimeUnit.cs" Link="Unit\TimeUnit.cs" />
+    <Compile Include="..\Library\Unit\WeekdayUnit.cs" Link="Unit\WeekdayUnit.cs" />
+    <Compile Include="..\Library\Unit\WeeklyDayOfWeekUnit.cs" Link="Unit\WeeklyDayOfWeekUnit.cs" />
+    <Compile Include="..\Library\Unit\WeekUnit.cs" Link="Unit\WeekUnit.cs" />
+    <Compile Include="..\Library\Unit\YearOnDayOfYearUnit.cs" Link="Unit\YearOnDayOfYearUnit.cs" />
+    <Compile Include="..\Library\Unit\YearOnLastDayOfYearUnit.cs" Link="Unit\YearOnLastDayOfYearUnit.cs" />
+    <Compile Include="..\Library\Unit\YearUnit.cs" Link="Unit\YearUnit.cs" />
+    <Compile Include="..\Library\Util\ScheduleCollection.cs" Link="Util\ScheduleCollection.cs" />
+    <Compile Include="..\Library\Util\TimeOfDayRunnableCalculator.cs" Link="Util\TimeOfDayRunnableCalculator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enum\" />
+    <Folder Include="Event\" />
+    <Folder Include="Extension\" />
+    <Folder Include="Util\" />
+  </ItemGroup>
+
+</Project>
