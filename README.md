@@ -12,7 +12,6 @@
 Automated job scheduler with fluent interface.
 
 * [Usage](#usage)
-* [Using it with ASP.NET](#using-it-with-aspnet)
 * [Stopping the scheduler](#stopping-the-scheduler)
 * [Unexpected exceptions](#unexpected-exceptions)
 * [Concurrent jobs](#concurrent-jobs)
@@ -90,59 +89,6 @@ JobManager.AddJob(() => Console.WriteLine("Late job!"), (s) => s.ToRunEvery(5).S
 [IJob]:              Library/IJob.cs
 [Action]:            https://msdn.microsoft.com/library/System.Action
 [Application_Start]: https://msdn.microsoft.com/library/ms178473
-
-## Using it with ASP.NET
-
-When using it with ASP.NET consider implementing [IRegisteredObject] and registering it on [HostingEnvironment]&nbsp;([here's why](http://haacked.com/archive/2011/10/16/the-dangers-of-implementing-recurring-background-tasks-in-asp-net.aspx)), like:
-
-```cs
-public class SampleJob : IJob, IRegisteredObject
-{
-    private readonly object _lock = new object();
-
-    private bool _shuttingDown;
-
-    public SampleJob()
-    {
-        // Register this job with the hosting environment.
-        // Allows for a more graceful stop of the job, in the case of IIS shutting down.
-        HostingEnvironment.RegisterObject(this);
-    }
-
-    public void Execute()
-    {
-        try
-        {
-            lock (_lock)
-            {
-                if (_shuttingDown)
-                    return;
-
-                // Do work, son!
-            }
-        }
-        finally
-        {
-            // Always unregister the job when done.
-            HostingEnvironment.UnregisterObject(this);
-        }
-    }
-
-    public void Stop(bool immediate)
-    {
-        // Locking here will wait for the lock in Execute to be released until this code can continue.
-        lock (_lock)
-        {
-            _shuttingDown = true;
-        }
-
-        HostingEnvironment.UnregisterObject(this);
-    }
-}
-```
-
-[IRegisteredObject]: https://msdn.microsoft.com/library/System.Web.Hosting.IRegisteredObject
-[HostingEnvironment]: https://msdn.microsoft.com/library/System.Web.Hosting.HostingEnvironment
 
 ## Stopping the Scheduler
 
