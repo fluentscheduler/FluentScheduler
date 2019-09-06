@@ -3,3 +3,5 @@ When suggesting a new feature, make sure it has a clear use case and play nice w
 We're cautious (and picky) about any changes to the codebase. When doing so, following its structure and code style is a must.
 
 Avoid sending the library authors emails. Open an issue instead, discussing it in the open.
+
+Special thanks to [Jim Geurts](https://github.com/jgeurts) for starting this library back in 2012.
