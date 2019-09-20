@@ -3,6 +3,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Threading;
+    using System.Threading.Tasks;
 
     [TestClass]
     public class ScheduleTests
@@ -35,6 +36,49 @@
             // Arrange
             var now = DateTime.Now.AddMinutes(1);
             var schedule = new Schedule(() => { }, "* * * * *");
+
+            // Act
+            schedule.Start();
+            Thread.Sleep(100);
+
+            // Assert
+            Assert.AreEqual(now.Hour, schedule.NextRun.Value.Hour);
+            Assert.AreEqual(now.Minute, schedule.NextRun.Value.Minute);
+        }
+
+        [TestMethod]
+        public void StartAsync()
+        {
+            // Arrange
+            var calls = 0;
+
+            #pragma warning disable 1998
+            var schedule = new Schedule(async () => ++calls, run => run.Now().AndEvery(1).Seconds());
+            #pragma warning restore 1998
+
+            // Act
+            schedule.Start();
+            Thread.Sleep(100);
+
+            // Assert
+            Assert.AreEqual(1, calls);
+            Assert.IsTrue(schedule.Running);
+
+            // Act
+            Thread.Sleep(1000);
+
+            // Assert
+            Assert.AreEqual(2, calls);
+        }
+
+        [TestMethod]
+        public void StartCronASync()
+        {
+            // Arrange
+            var now = DateTime.Now.AddMinutes(1);
+            #pragma warning disable 1998
+            var schedule = new Schedule(async () => { }, "* * * * *");
+            #pragma warning restore 1998
 
             // Act
             schedule.Start();
@@ -261,6 +305,26 @@
             // Assert
             Assert.AreEqual(expectedNow.Hour, resultedNow.Hour);
             Assert.AreEqual(expectedNow.Minute, resultedNow.Minute);
+        }
+
+        [TestMethod]
+        public void WaitForCancellation()
+        {
+            // Arrange
+            var cancelled = false;
+            var schedule = new Schedule(async (cancellationToken) =>
+            {
+                cancellationToken.WaitHandle.WaitOne(1000);
+                cancelled = cancellationToken.IsCancellationRequested;
+            }, run => run.Now());
+
+            // Act
+            schedule.Start();
+            Thread.Sleep(100);
+            schedule.StopAndBlock();
+
+            // Assert
+            Assert.IsTrue(cancelled);
         }
     }
 }

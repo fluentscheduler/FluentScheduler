@@ -18,7 +18,43 @@
         /// </summary>
         /// <param name="job">Job to be scheduled</param>
         /// <param name="cronExpression">The scheduling as a cron expression</param>
-        public Schedule(Action job, string cronExpression) =>
+        public Schedule(Action job, string cronExpression) : this(() => MakeAsync(job), cronExpression)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new schedule for the given job.
+        /// </summary>
+        /// <param name="job">Job to be scheduled</param>
+        /// <param name="specifier">The scheduling as a fluent call</param>
+        public Schedule(Action job, Action<RunSpecifier> specifier) : this(() => MakeAsync(job), specifier)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new schedule for the given job.
+        /// </summary>
+        /// <param name="job">Job to be scheduled</param>
+        /// <param name="cronExpression">The scheduling as a cron expression</param>
+        public Schedule(Func<Task> job, string cronExpression) : this((ct) => job(), cronExpression)
+        {
+        }
+
+            /// <summary>
+        /// Creates a new schedule for the given job.
+        /// </summary>
+        /// <param name="job">Job to be scheduled</param>
+        /// <param name="specifier">The scheduling as a fluent call</param>
+        public Schedule(Func<Task> job, Action<RunSpecifier> specifier) : this((ct) => job(), specifier)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new schedule for the given job.
+        /// </summary>
+        /// <param name="job">Job to be scheduled</param>
+        /// <param name="cronExpression">The scheduling as a cron expression</param>
+        public Schedule(Func<CancellationToken, Task> job, string cronExpression) =>
             Internal = new InternalSchedule(job, new CronTimeCalculator(cronExpression));
 
         /// <summary>
@@ -26,8 +62,23 @@
         /// </summary>
         /// <param name="job">Job to be scheduled</param>
         /// <param name="specifier">The scheduling as a fluent call</param>
-        public Schedule(Action job, Action<RunSpecifier> specifier) =>
+        public Schedule(Func<CancellationToken, Task> job, Action<RunSpecifier> specifier) =>
             Internal = new InternalSchedule(job, new FluentTimeCalculator(specifier));
+
+        /// <summary>
+        /// Wraps a synchrounous action into an awaitableit equivalent
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        private static Task MakeAsync(Action action)
+        {
+            action();
+
+            // On .NET Standard 2 it should return the Task.CompletedTask singleton to avoid creating new task each time.
+            // Because the library is using .NET Standard 1 we mimic completed task with a Task returning any result
+            // (the result is not used anway).
+            return Task.FromResult(0); 
+        }
 
         /// <summary>
         /// True if the schedule is running, false otherwise.
