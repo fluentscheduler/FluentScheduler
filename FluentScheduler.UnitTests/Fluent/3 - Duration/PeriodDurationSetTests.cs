@@ -6,7 +6,6 @@
     [TestClass]
     public class PeriodDurationSetTests
     {
-
         [TestMethod]
         public void Seconds()
         {

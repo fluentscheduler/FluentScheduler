@@ -33,19 +33,19 @@
         /// <summary>
         /// Sets the unit as days.
         /// </summary>
-        public PeriodOnceSet Days()
+        public RestrictionUnit Days()
         {
             _calculator.OnceCalculation = last => last.AddDays(_duration);
-            return new PeriodOnceSet(_calculator);
+            return new RestrictionUnit(_calculator);
         }
 
         /// <summary>
         /// Sets the unit as weeks.
         /// </summary>
-        public PeriodOnceSet Weeks()
+        public RestrictionUnit Weeks()
         {
             _calculator.OnceCalculation = last => last.AddDays(7 * _duration);
-            return new PeriodOnceSet(_calculator);
+            return new RestrictionUnit(_calculator);
         }
 
         /// <summary>

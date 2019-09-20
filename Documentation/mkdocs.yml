@@ -7,15 +7,16 @@ plugins: []
 nav:
   - Home: index.md
   - Creating schedules: creating-schedules.md
+  - More examples: more-examples.md
   - Starting, stopping and resetting: starting-stopping-and-resetting.md
   - Changing the scheduling: changing-the-scheduling.md
   - Listening for events: listening-for-events.md
-  - Managing multiple schedules: managing-multiple-schedules.md
+  - Grouping schedules: grouping-schedules.md
   - Reentrancy: reentrancy.md
   - Cron expressions: cron-expressions.md
+  - Milliseconds: milliseconds.md
   - Daylight savings: daylight-savings.md
   - UTC: utc.md
-  - More examples: more-examples.md
   - Contributing: contributing.md
 
 theme:

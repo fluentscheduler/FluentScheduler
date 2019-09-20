@@ -12,7 +12,6 @@
     {
         internal InternalSchedule Internal { get; private set; }
 
-
         /// <summary>
         /// Creates a new schedule for the given job.
         /// </summary>
@@ -125,6 +124,7 @@
         {
             lock (Internal.RunningLock)
             {
+                Internal.ShouldNotBeRunning();
                 Internal.UseUtc();
             }
         }
@@ -155,6 +155,22 @@
                     throw new ArgumentNullException(nameof(specifier));
 
                 Internal.SetScheduling(new FluentTimeCalculator(specifier));
+            }
+        }
+
+             /// <summary>
+        /// Changes the scheduling of this schedule.
+        /// You must not call this method if the schedule is running.
+        /// </summary>
+        /// <param name="cron">Cron of this schedule</param>
+        public void SetScheduling(string cron)
+        {
+            lock (Internal.RunningLock)
+            {
+                if (cron == null)
+                    throw new ArgumentNullException(nameof(cron));
+
+                Internal.SetScheduling(new CronTimeCalculator(cron));
             }
         }
 

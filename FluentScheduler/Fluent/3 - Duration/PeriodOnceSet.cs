@@ -21,24 +21,61 @@
             if (minute < 0 || minute > 59)
                 throw new ArgumentOutOfRangeException($"\"{nameof(minute)}\" should be in the 0 to 59 range.");
 
-            _calculator.PeriodCalculations.Add(last => GetEarlierDate(last, new TimeSpan(hour, minute, 0)));
+            _calculator.PeriodCalculations.Add(last => new DateTime(last.Year, last.Month, last.Day, hour, minute, 0));
         }
 
         /// <summary>
         /// Runs the job at the given time of day.
         /// </summary>
-        /// <param name="time">Time of day</param>
-        public void At(TimeSpan time) => _calculator.PeriodCalculations.Add(last => GetEarlierDate(last, time));
-
-        private DateTime GetEarlierDate(DateTime last, TimeSpan time)
+        /// <param name="timeCollection">Time of day.</param>
+        public void At(params TimeSpan[] timeCollection) 
         {
-            var now = DateTime.Now;
+            foreach (var time in timeCollection)
+            {
+                if (time >= ((ITimeCalculator)_calculator).Now().TimeOfDay)
+                {
+                    _calculator.PeriodCalculations.Add(last => 
+                        new DateTime(last.Year, last.Month, last.Day, time.Hours, time.Minutes, 0)
+                    );
+                    
+                    break;
+                }
+            }
+        }
 
-            var next = new DateTime(last.Year, last.Month, last.Day).Add(time);
+        /// <summary>
+        /// Runs the job at the given period of time.
+        /// </summary>
+        /// <param name="hourFrom">Hour to delimitate period beginning.</param>
+        /// <param name="minuteFrom">Minute to delimitade period beginning.</param>
+        /// <param name="hourTo">Hour to delimitate period end.</param>
+        /// <param name="minuteTo">Minute to delimitade period end.</param>
+        public void Between(int hourFrom, int minuteFrom, int hourTo, int minuteTo) =>
+            Between(new TimeSpan(hourFrom, minuteFrom, 0), new TimeSpan(hourTo, minuteTo, 0));
 
-            return now.TimeOfDay < next.TimeOfDay ?
-                new DateTime(now.Year, now.Month, now.Day).Add(time) :
-                next;
+        /// <summary>
+        /// Runs the job at the given period of time.
+        /// </summary>
+        /// <param name="from">Time of the day to delimitate the period beginnig.</param>
+        /// <param name="to">Time of the day to delimitade the period end.</param>
+        public void Between(TimeSpan from, TimeSpan to)
+        {
+            _calculator.PeriodCalculations.Add(last =>
+                {
+                    var now = ((ITimeCalculator)_calculator).Now();
+                    var lastTime = last.TimeOfDay;
+
+                    var next = new DateTime(last.Year, last.Month, last.Day).Add(from);
+
+                    if (from >= to || lastTime < from)
+                        return  next;
+
+                    if (lastTime > to)
+                        return next.AddDays(1);
+
+                    return last;
+                }
+            );
         }
     }
 }

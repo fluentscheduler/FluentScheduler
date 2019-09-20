@@ -1,10 +1,7 @@
 Listening for the job start:
 
 ```cs
-schedule.JobStarted += (sender, ea) =>
-{
-    Console.WriteLine($"Job started at {ea.StartTime}.");
-};
+schedule.JobStarted += (sender, ea) => Console.WriteLine($"Job started at {ea.StartTime}.");
 ```
 
 Listening for the job end:
