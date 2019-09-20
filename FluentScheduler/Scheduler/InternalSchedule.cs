@@ -9,13 +9,13 @@ namespace FluentScheduler
     {
         internal ITimeCalculator Calculator;
 
-        private readonly Action _job;
+        private readonly Func<CancellationToken, Task> _job;
 
         private Task _task;
 
         private CancellationTokenSource _tokenSource;
 
-        internal InternalSchedule(Action job, ITimeCalculator calculator)
+        internal InternalSchedule(Func<CancellationToken, Task> job, ITimeCalculator calculator)
         {
             _job = job ?? throw new ArgumentNullException(nameof(job));
 
@@ -78,7 +78,6 @@ namespace FluentScheduler
                 return;
 
             _tokenSource.Cancel();
-            _tokenSource.Dispose();
 
             try
             {
@@ -91,6 +90,7 @@ namespace FluentScheduler
             finally
             {
                 _tokenSource.Dispose();
+
                 _task = null;
                 _tokenSource = null;
             }
@@ -133,7 +133,7 @@ namespace FluentScheduler
             try
             {
                 // running the job
-                _job();
+                await _job(token);
             }
             catch (Exception e)
             {
