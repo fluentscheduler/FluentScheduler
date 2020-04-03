@@ -14,9 +14,9 @@ nav:
   - Grouping schedules: grouping-schedules.md
   - Reentrancy: reentrancy.md
   - Cron expressions: cron-expressions.md
-  - Milliseconds precision: milliseconds-precision.md
+  - UTC time: utc-time.md
   - Daylight savings: daylight-savings.md
-  - UTC: utc.md
+  - Milliseconds precision: milliseconds-precision.md
   - Contributing: contributing.md
 
 theme:
