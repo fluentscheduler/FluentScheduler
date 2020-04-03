@@ -1,1 +1,0 @@
-The aim of the library is ease of use and flexibility and not millisecond precision. The lowest interval you can set is one second, there's no support for setting it down to milliseconds.
