@@ -17,7 +17,8 @@ nav:
   - UTC time: utc-time.md
   - Daylight savings: daylight-savings.md
   - Milliseconds precision: milliseconds-precision.md
-  - Contributing: contributing.md
+  - Opening issues: opening-issues.md
+  - Submitting pull requests: submitting-pull-requests.md
 
 theme:
   name: readthedocs
