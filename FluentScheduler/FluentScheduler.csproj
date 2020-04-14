@@ -1,18 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>talles</Authors>
+    <Description>Automated job scheduler with fluent interface.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageIcon>logo-200x200.png</PackageIcon>
+    <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
+    <PackageProjectUrl>https://fluentscheduler.github.io</PackageProjectUrl>
+    <PackageTags>background cron job schedule task</PackageTags>
+    <RepositoryUrl>https://github.com/fluentscheduler/FluentScheduler</RepositoryUrl>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>6.0.0-alpha.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="../Logo/logo-200x200.png" Pack="true" PackagePath="" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>FluentScheduler.UnitTests</_Parameter1>
     </AssemblyAttribute>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
 </Project>
