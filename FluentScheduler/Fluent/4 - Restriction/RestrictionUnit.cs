@@ -4,6 +4,9 @@ namespace FluentScheduler
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// Restricts when the schedule should run
+    /// </summary>
     public class RestrictionUnit
     {
         private readonly FluentTimeCalculator _calculator;

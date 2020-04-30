@@ -34,6 +34,10 @@
             return new RestrictionUnit(_calculator);
         }
 
+        /// <summary>
+        /// Runs the job according to the given interval.
+        /// </summary>
+        /// <param name="time">Time to run the job</param>
         public void Every(TimeSpan time)
         {
             var timeOfDay = new TimeSpan(time.Hours, time.Minutes, time.Seconds);

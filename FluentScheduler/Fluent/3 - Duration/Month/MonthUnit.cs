@@ -1,8 +1,10 @@
 ﻿namespace FluentScheduler
 {
     using System;
-    using System.Linq;
 
+    /// <summary>
+    /// The months the job should run
+    /// </summary>
     public class MonthUnit
     {
         private readonly FluentTimeCalculator _calculator;

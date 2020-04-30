@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// The "period" run has been set, but not its unit.
+    /// </summary>
     public class PeriodOnceSet
     {
         private readonly FluentTimeCalculator _calculator;

@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// The days the job should run
+    /// </summary>
     public class DayUnit
     {
        private readonly FluentTimeCalculator _calculator;
