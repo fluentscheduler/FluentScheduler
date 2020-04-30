@@ -50,9 +50,3 @@ Everyday between 01:00 and 04:00:
 ```cs
 new Schedule(() => { /* your code */ }, run => run.Now().AndEvery(1).Days().Between(1, 0, 4, 0))
 ```
-
-Every first Monday of the month, at 03:00:
-
-```cs
-new Schedule(() => { /* your code */ }, run => run.Now().AndEvery(1).Months().OnTheFirstDay(DayOfWeek.Monday).At(3, 0));
-```
