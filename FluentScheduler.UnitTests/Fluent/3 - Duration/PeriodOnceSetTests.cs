@@ -72,27 +72,6 @@
         }
 
         [TestMethod]
-        public void InTheSameMonth()
-        {
-            // Arrange
-            var now = new DateTime(2019, 02, 11, 0, 30, 0);
-            var expectedDate = new DateTime(2019, 02, 20, 11, 30, 0);
-
-            var fluentCalculator = new FluentTimeCalculator();
-            var calculator = (ITimeCalculator)fluentCalculator;
-            var run = new RunSpecifier(fluentCalculator);
-
-            calculator.Now = () => now;
-
-            // Act
-            run.Every(1).Months().On(20).At(11, 30);
-            var calculated = calculator.Calculate(now);
-
-            // Assert
-            Assert.AreEqual(expectedDate, calculated.Value);
-        }
-
-        [TestMethod]
         public void Between23and2()
         {
 
