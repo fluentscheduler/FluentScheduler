@@ -7,15 +7,15 @@
     /// </summary>
     public class DayUnit
     {
-       private readonly FluentTimeCalculator _calculator;
+        private readonly FluentTimeCalculator _calculator;
 
-       internal DayUnit(FluentTimeCalculator calculator) => _calculator = calculator;
+        internal DayUnit(FluentTimeCalculator calculator) => _calculator = calculator;
 
         /// <summary>
         /// Runs the job only on weekdays.
         /// </summary>
-       public RestrictionUnit Weekday()
-       {
+        public RestrictionUnit Weekday()
+        {
             _calculator.PeriodCalculations.Add(last =>
             {
                 if ((last.DayOfWeek == DayOfWeek.Saturday) || (last.DayOfWeek == DayOfWeek.Sunday))
@@ -35,7 +35,7 @@
             _calculator.PeriodCalculations.Add(last =>
             {
                 if ((last.DayOfWeek != DayOfWeek.Saturday) && (last.DayOfWeek != DayOfWeek.Sunday))
-                     last = last.AddDays(DayOfWeek.Saturday - last.DayOfWeek);
+                        last = last.AddDays(DayOfWeek.Saturday - last.DayOfWeek);
 
                 return last;
             });
