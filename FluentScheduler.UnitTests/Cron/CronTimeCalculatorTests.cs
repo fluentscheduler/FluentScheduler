@@ -176,5 +176,22 @@ namespace FluentScheduler.UnitTests
             // Assert
             Assert.AreEqual(expected, calculated);
         }
+
+        [TestMethod]
+        public void EverySecond()
+        {
+            // Arrange
+            var cronCalculator = new CronTimeCalculator("* * * * * *");
+            var calculator = (ITimeCalculator)cronCalculator;
+
+            var date = new DateTime(2018, 12, 23, 17, 0 , 0);
+            var expected =  new DateTime(2018, 12, 23, 17, 0, 1);
+
+            // Act
+            var calculated = calculator.Calculate(date);
+
+            // Assert
+            Assert.AreEqual(expected, calculated);
+        }
     }
 }
