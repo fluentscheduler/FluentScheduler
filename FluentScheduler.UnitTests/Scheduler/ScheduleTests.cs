@@ -215,13 +215,9 @@
 
             // Act
             schedule.Start();
-            schedule.UseUtc();
-
-            var resultedNow = schedule.Internal.Calculator.Now();
 
             // Assert
-            Assert.AreEqual(expectedNow.Hour, resultedNow.Hour);
-            Assert.AreEqual(expectedNow.Minute, resultedNow.Minute);
+            Assert.ThrowsException<InvalidOperationException>(() => schedule.UseUtc());
         }
 
 
