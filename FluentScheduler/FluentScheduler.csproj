@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Authors>talles</Authors>
     <Description>Automated job scheduler with fluent interface.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageIcon>logo-200x200.png</PackageIcon>
@@ -10,7 +9,7 @@
     <PackageTags>background cron job schedule task</PackageTags>
     <RepositoryUrl>https://github.com/fluentscheduler/FluentScheduler</RepositoryUrl>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>6.0.0-alpha.1</Version>
+    <Version>6.0.0-alpha.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
