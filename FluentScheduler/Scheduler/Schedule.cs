@@ -35,7 +35,7 @@
         /// </summary>
         /// <param name="job">Job to be scheduled</param>
         /// <param name="cronExpression">The scheduling as a cron expression</param>
-        public Schedule(Func<Task> job, string cronExpression) : this((ct) => job(), cronExpression)
+        public Schedule(Func<Task> job, string cronExpression) : this((token) => job(), cronExpression)
         {
         }
 
@@ -44,7 +44,7 @@
         /// </summary>
         /// <param name="job">Job to be scheduled</param>
         /// <param name="specifier">The scheduling as a fluent call</param>
-        public Schedule(Func<Task> job, Action<RunSpecifier> specifier) : this((ct) => job(), specifier)
+        public Schedule(Func<Task> job, Action<RunSpecifier> specifier) : this((token) => job(), specifier)
         {
         }
 

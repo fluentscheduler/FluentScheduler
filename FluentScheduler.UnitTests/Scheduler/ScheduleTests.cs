@@ -314,8 +314,7 @@
             var cancelled = false;
             var schedule = new Schedule(async (cancellationToken) =>
             {
-                cancellationToken.WaitHandle.WaitOne(1000);
-                cancelled = cancellationToken.IsCancellationRequested;
+                cancelled = cancellationToken.WaitHandle.WaitOne(1000);
             }, run => run.Now());
 
             // Act
