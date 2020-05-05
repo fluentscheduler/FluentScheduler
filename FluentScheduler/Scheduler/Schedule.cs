@@ -39,7 +39,7 @@
         {
         }
 
-            /// <summary>
+        /// <summary>
         /// Creates a new schedule for the given job.
         /// </summary>
         /// <param name="job">Job to be scheduled</param>
@@ -64,11 +64,6 @@
         public Schedule(Func<CancellationToken, Task> job, Action<RunSpecifier> specifier) =>
             Internal = new InternalSchedule(job, new FluentTimeCalculator(specifier));
 
-        /// <summary>
-        /// Wraps a synchrounous action into an awaitableit equivalent
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
         private static Task MakeAsync(Action action)
         {
             action();
