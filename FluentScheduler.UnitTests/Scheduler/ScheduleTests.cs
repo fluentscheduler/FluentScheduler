@@ -308,10 +308,10 @@
         {
             // Arrange
             var cancelled = false;
-            var schedule = new Schedule(async (cancellationToken) =>
-            {
-                cancelled = cancellationToken.WaitHandle.WaitOne(1000);
-            }, run => run.Now());
+            var schedule = new Schedule(async (token) =>
+                await Task.Delay(1000, token).ContinueWith(_ => cancelled = token.IsCancellationRequested),
+                run => run.Now()
+            );
 
             // Act
             schedule.Start();
