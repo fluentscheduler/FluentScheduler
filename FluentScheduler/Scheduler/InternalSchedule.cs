@@ -80,14 +80,20 @@ namespace FluentScheduler
             _tokenSource.Cancel();
             _tokenSource.Dispose();
 
-            if (block && timeout.HasValue)
-                _task.Wait(timeout.Value);
+            try
+            {
+                if (block && timeout.HasValue)
+                    _task.Wait(timeout.Value);
 
-            if (block && !timeout.HasValue)
-                _task.Wait();
-
-            _task = null;
-            _tokenSource = null;
+                if (block && !timeout.HasValue)
+                    _task.Wait();
+            }
+            finally
+            {
+                _tokenSource.Dispose();
+                _task = null;
+                _tokenSource = null;
+            }
         }
 
         internal void UseUtc() => Calculator.Now = () => DateTime.UtcNow;
