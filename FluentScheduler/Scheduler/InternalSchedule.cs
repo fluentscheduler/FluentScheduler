@@ -81,11 +81,8 @@ namespace FluentScheduler
 
             try
             {
-                if (block && timeout.HasValue)
-                    _task.Wait(timeout.Value);
-
-                if (block && !timeout.HasValue)
-                    _task.Wait();
+                if (block)
+                    _task.Wait(timeout ?? Timeout.Infinite);
             }
             finally
             {
