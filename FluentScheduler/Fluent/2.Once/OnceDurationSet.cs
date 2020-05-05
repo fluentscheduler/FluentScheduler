@@ -1,4 +1,4 @@
-﻿namespace FluentScheduler
+namespace FluentScheduler
 {
     /// <summary>
     /// Duration of "once" run has been set, but not its unit.

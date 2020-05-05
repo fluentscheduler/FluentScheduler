@@ -1,4 +1,4 @@
-﻿namespace FluentScheduler
+namespace FluentScheduler
 {
     using System;
     using System.Linq;
