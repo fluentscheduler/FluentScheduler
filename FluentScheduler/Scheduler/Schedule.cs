@@ -59,11 +59,7 @@ namespace FluentScheduler
         private static Task MakeAsync(Action action)
         {
             action();
-
-            // On .NET Standard 2 it should return the Task.CompletedTask singleton to avoid creating new task each time.
-            // Because the library is using .NET Standard 1 we mimic completed task with a Task returning any result
-            // (the result is not used anway).
-            return Task.FromResult(0); 
+            return Task.CompletedTask;
         }
 
         /// <summary>
