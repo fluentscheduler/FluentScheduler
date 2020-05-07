@@ -7,13 +7,13 @@ plugins: []
 nav:
   - Home: index.md
   - Creating schedules: creating-schedules.md
-  - More examples: more-examples.md
+  - Fluent expressions: fluent-expressions.md
+  - Cron expressions: cron-expressions.md
   - Starting, stopping and resetting: starting-stopping-and-resetting.md
   - Changing the scheduling: changing-the-scheduling.md
   - Listening for events: listening-for-events.md
   - Grouping schedules: grouping-schedules.md
   - Reentrancy: reentrancy.md
-  - Cron expressions: cron-expressions.md
   - UTC time: utc-time.md
   - Daylight savings: daylight-savings.md
   - Milliseconds precision: milliseconds-precision.md
