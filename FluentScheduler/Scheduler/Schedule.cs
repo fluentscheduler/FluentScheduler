@@ -17,36 +17,28 @@ namespace FluentScheduler
         /// </summary>
         /// <param name="job">Job to be scheduled</param>
         /// <param name="cronExpression">The scheduling as a cron expression</param>
-        public Schedule(Action job, string cronExpression) : this(() => MakeAsync(job), cronExpression)
-        {
-        }
+        public Schedule(Action job, string cronExpression) : this(() => MakeAsync(job), cronExpression) { }
 
         /// <summary>
         /// Creates a new schedule for the given job.
         /// </summary>
         /// <param name="job">Job to be scheduled</param>
         /// <param name="specifier">The scheduling as a fluent call</param>
-        public Schedule(Action job, Action<RunSpecifier> specifier) : this(() => MakeAsync(job), specifier)
-        {
-        }
+        public Schedule(Action job, Action<RunSpecifier> specifier) : this(() => MakeAsync(job), specifier) { }
 
         /// <summary>
         /// Creates a new schedule for the given job.
         /// </summary>
         /// <param name="job">Job to be scheduled</param>
         /// <param name="cronExpression">The scheduling as a cron expression</param>
-        public Schedule(Func<Task> job, string cronExpression) : this((token) => job(), cronExpression)
-        {
-        }
+        public Schedule(Func<Task> job, string cronExpression) : this((token) => job(), cronExpression) { }
 
         /// <summary>
         /// Creates a new schedule for the given job.
         /// </summary>
         /// <param name="job">Job to be scheduled</param>
         /// <param name="specifier">The scheduling as a fluent call</param>
-        public Schedule(Func<Task> job, Action<RunSpecifier> specifier) : this((token) => job(), specifier)
-        {
-        }
+        public Schedule(Func<Task> job, Action<RunSpecifier> specifier) : this((token) => job(), specifier) { }
 
         /// <summary>
         /// Creates a new schedule for the given job.
