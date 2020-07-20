@@ -1,0 +1,23 @@
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Automated job scheduler with fluent interface.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageIcon>logo-200x200.png</PackageIcon>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/fluentscheduler/FluentScheduler</PackageProjectUrl>
+    <PackageTags>background cron job schedule task</PackageTags>
+    <RepositoryUrl>https://github.com/fluentscheduler/FluentScheduler</RepositoryUrl>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>5.4.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../Logo/logo-200x200.png" Pack="true" PackagePath="" />
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>FluentScheduler.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+</Project>
