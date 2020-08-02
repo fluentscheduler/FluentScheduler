@@ -4,9 +4,7 @@
 
     public static class DateTimeExtensions
     {
-        public static DateTime WithoutMilliseconds(this DateTime dateTime)
-        {
-            return dateTime.AddTicks(-(dateTime.Ticks % TimeSpan.TicksPerSecond));
-        }
+        public static DateTime WithoutMilliseconds(this DateTime dateTime) =>
+            dateTime.AddTicks(-(dateTime.Ticks % TimeSpan.TicksPerSecond));
     }
 }
