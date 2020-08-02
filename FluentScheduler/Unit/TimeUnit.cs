@@ -79,13 +79,5 @@
         {
             return new MonthUnit(_schedule, _duration);
         }
-
-        /// <summary>
-        /// Sets the interval to years.
-        /// </summary>
-        public YearUnit Years()
-        {
-            return new YearUnit(_schedule, _duration);
-        }
     }
 }
