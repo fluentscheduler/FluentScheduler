@@ -1,13 +1,16 @@
 ﻿namespace FluentScheduler.TestApplication
 {
-    using LLibrary;
+    using Serilog;
     using System;
     using System.Threading;
+    using static Serilog.Log;
+    using static Serilog.RollingInterval;
 
-    public class Program
+    public static class Program
     {
         static void Main(string[] args)
         {
+            InitializeLogger();
             ListenForStart();
             ListenForEnd();
             ListenForException();
@@ -15,35 +18,46 @@
             Sleep();
         }
 
+        private static void InitializeLogger()
+        {
+            var outputTemplate = "[{Timestamp:HH:mm:ss}] {Message}{NewLine}";
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console(outputTemplate: outputTemplate)
+                .WriteTo.File("logs/.txt", outputTemplate: outputTemplate, rollingInterval: Day)
+                .CreateLogger();
+        }
+
         private static void ListenForStart()
         {
-            L.Register("[job start]", "{0} has started.");
-            JobManager.JobStart += (info) => L.Log("[job start]", info.Name);
+            JobManager.JobStart += (info) => Logger.Information($"{info.Name}: started");
         }
 
         private static void ListenForEnd()
         {
-            L.Register("[job end]", "{0} has ended{1}.");
-
-            JobManager.JobEnd += (info) =>
-                L.Log("[job end]", info.Name,
-                    info.Duration > TimeSpan.FromSeconds(1) ? " with duration of " + info.Duration : string.Empty);
+            JobManager.JobEnd += (info) => Logger.Information(
+                info.Duration > TimeSpan.FromSeconds(1) ?
+                $"{info.Name}: ended ({info.Duration})" :
+                $"{info.Name}: ended"
+            );
         }
 
         private static void ListenForException()
         {
-            L.Register("[job exception]", "An error just happened:" + Environment.NewLine + "{0}");
-            JobManager.JobException += (info) => L.Log("[job exception]", info.Exception);
+            JobManager.JobException += info =>
+                Logger.Information($"{info.Name}: {Environment.NewLine}{info.Exception}");
         }
 
         private static void Initialize()
         {
             JobManager.Initialize(new MyRegistry());
-            JobManager.RemoveJob("[removed]");
+            JobManager.RemoveJob("Removed");
 
-            L.Register("[late]");
-            JobManager.AddJob(() => L.Log("[late]", "This was added after the initialize call."),
-                s => s.WithName("[late]").ToRunNow());
+            JobManager.AddJob(
+                () => Logger.Information("Late: added after the initialize"),
+                s => s.WithName("Late").ToRunNow()
+            );
         }
 
         private static void Sleep()

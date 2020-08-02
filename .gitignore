@@ -2,4 +2,5 @@
 .vs/
 .vscode/
 bin/
+logs/
 obj/

@@ -1,19 +1,11 @@
 ﻿namespace FluentScheduler.TestApplication
 {
-    using LLibrary;
+    using static Serilog.Log;
 
     public class ParameterJob : IJob
     {
         public string Parameter { get; set; }
 
-        static ParameterJob()
-        {
-            L.Register("[parameter]", "Just executed with parameter \"{0}\".");
-        }
-
-        public void Execute()
-        {
-            L.Log("[parameter]", Parameter);
-        }
+        public void Execute() => Logger.Information($"Parameter: executed with parameter \"{Parameter}\"");
     }
 }
