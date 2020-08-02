@@ -5,7 +5,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
     using System;
 
     [TestClass]
-    public class DelayFor_ToRunEvery_Tests
+    public class DelayForToRunEveryTests
     {
         [TestMethod]
         public void Should_Delay_ToRunEvery_For_500_Milliseconds()

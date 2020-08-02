@@ -5,7 +5,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
     using System;
 
     [TestClass]
-    public class DelayFor_ToRunNow_Tests
+    public class DelayForToRunNowTests
     {
         [TestMethod]
         public void Should_Delay_ToRunNow_For_2_Seconds()

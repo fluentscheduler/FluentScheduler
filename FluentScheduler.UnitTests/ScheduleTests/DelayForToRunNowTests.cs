@@ -5,7 +5,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
     using System;
 
     [TestClass]
-    public class DelayFor_ToRunOnceAt_Tests
+    public class DelayForToRunOnceAtTests
     {
         [TestMethod]
         public void Should_Delay_ToRunOnceAt_For_500_Milliseconds()
