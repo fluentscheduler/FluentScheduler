@@ -1,12 +1,11 @@
 namespace FluentScheduler.UnitTests.ScheduleTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System;
 
-    [TestClass]
     public class MonthsTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Add_Specified_Months_To_Next_Run_Date()
         {
             // Arrange
@@ -19,10 +18,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Default_To_00_00_If_At_Is_Not_Defined()
         {
             // Arrange
@@ -35,7 +34,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

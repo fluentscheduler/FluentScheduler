@@ -1,12 +1,11 @@
 namespace FluentScheduler.UnitTests.ScheduleTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System;
 
-    [TestClass]
     public class MillisecondsTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Add_Specified_Milliseconds_To_Next_Run_Date()
         {
             // Assert
@@ -19,7 +18,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

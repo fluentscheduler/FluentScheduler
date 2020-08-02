@@ -1,25 +1,24 @@
 ﻿namespace FluentScheduler.UnitTests.RegistryTests
 {
     using FluentScheduler.UnitTests.RegistryTests.Mocks;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class DefaultAllJobsAsNonReentrantTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Set_NonReentrant_For_Any_Previously_Configured_Job_In_The_Registry()
         {
             var registry = new RegistryWithPreviousJobsConfigured();
             foreach (var schedule in registry.Schedules)
-                Assert.IsNotNull(schedule.Reentrant);
+                Assert.NotNull(schedule.Reentrant);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Set_Future_Configured_Jobs_In_The_Registry()
         {
             var registry = new RegistryWithFutureJobsConfigured();
             foreach (var schedule in registry.Schedules)
-                Assert.IsNotNull(schedule.Reentrant);
+                Assert.NotNull(schedule.Reentrant);
         }
     }
 }

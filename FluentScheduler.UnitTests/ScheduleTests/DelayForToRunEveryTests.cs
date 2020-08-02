@@ -1,13 +1,12 @@
 namespace FluentScheduler.UnitTests.ScheduleTests
 {
     using FluentScheduler.UnitTests.Utilities;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System;
 
-    [TestClass]
     public class DelayForToRunEveryTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunEvery_For_500_Milliseconds()
         {
             // Arrange
@@ -23,10 +22,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run every 500 milliseconds and delay for 100 milliseconds").NextRun;
 
             // Assert
-            Assert.IsTrue((expected - actual).TotalMilliseconds < 150);
+            Assert.True((expected - actual).TotalMilliseconds < 150);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunEvery_For_2_Seconds()
         {
             // Arrange
@@ -42,10 +41,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 seconds").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunEvery_For_2_Minutes()
         {
             // Arrange
@@ -61,10 +60,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 minutes").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunEvery_For_2_Hours()
         {
             // Arrange
@@ -80,10 +79,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 hours").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunEvery_For_2_Days()
         {
             // Arrange
@@ -99,10 +98,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 days").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunEvery_For_2_Weeks()
         {
             // Arrange
@@ -118,10 +117,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 weeks").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunEvery_For_2_Months()
         {
             // Arrange
@@ -137,10 +136,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 months").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunEvery_For_2_Years()
         {
             // Arrange
@@ -156,7 +155,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run every 10 seconds and delay for 2 years").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
     }

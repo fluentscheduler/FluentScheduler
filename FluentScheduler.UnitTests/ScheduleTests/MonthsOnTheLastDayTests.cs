@@ -1,12 +1,11 @@
 namespace FluentScheduler.UnitTests.ScheduleTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System;
 
-    [TestClass]
     public class MonthsOnTheLastDayTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Add_Specified_Months_To_Next_Run_Date_And_Select_Last_Day_In_That_Month()
         {
             // Arrange
@@ -19,10 +18,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Default_To_00_00_If_At_Is_Not_Defined()
         {
             // Arrange
@@ -35,10 +34,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Override_Existing_Minutes_And_Seconds_If_At_Method_Is_Called()
         {
             // Arrange
@@ -51,10 +50,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_Next_Date_If_Now_Is_After_At_Time()
         {
             // Arrange
@@ -67,10 +66,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_Today_If_Now_Is_Before_At_Time()
         {
             // Arrange
@@ -83,10 +82,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Set_To_Next_Interval_If_Inputted_Time_Is_After_Run_Time_By_A_Millisecond()
         {
             // Arrange
@@ -99,10 +98,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_This_Month_If_Now_Is_Before_At_Time()
         {
             // Arrange
@@ -115,7 +114,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

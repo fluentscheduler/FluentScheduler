@@ -1,12 +1,11 @@
 namespace FluentScheduler.UnitTests.ScheduleTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System;
 
-    [TestClass]
     public class WeeksTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Add_Specified_Weeks_To_Next_Run_Date()
         {
             // Arrange
@@ -19,10 +18,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Default_To_00_00_If_At_Is_Not_Defined()
         {
             // Arrange
@@ -35,10 +34,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Set_Specific_Hour_And_Minute_If_At_Method_Is_Called()
         {
             // Arrange
@@ -51,10 +50,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Override_Existing_Minutes_And_Seconds_If_At_Method_Is_Called()
         {
             // Arrange
@@ -67,10 +66,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Default_To_00_00_If_On_Is_Specified_And_At_Is_Not_Defined()
         {
             // Arrange
@@ -83,10 +82,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Set_Specific_Hour_And_Minute_If_On_Is_Specified_And_At_Method_Is_Called()
         {
             // Arrange
@@ -99,10 +98,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Override_Existing_Minutes_And_Seconds_If_On_Is_Specified_And_At_Method_Is_Called()
         {
             // Arrange
@@ -115,10 +114,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Select_The_Date_If_The_Next_Runtime_Falls_On_The_Specified_Day()
         {
             // Arrange
@@ -131,10 +130,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var expected = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_The_Day_Of_Week_Specified()
         {
             // Arrange
@@ -147,10 +146,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_The_Next_Week_If_The_Day_Of_Week_Has_Passed()
         {
             // Arrange
@@ -163,10 +162,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var expected = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_The_Next_Week_If_The_Day_Of_Week_Has_Passed_For_New_Weeks()
         {
             // Arrange
@@ -179,10 +178,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var expected = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_The_Next_Week_If_The_Day_Of_Week_Has_Passed_For_End_Of_Week()
         {
             // Arrange
@@ -195,10 +194,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_The_Next_Day_Of_Week_If_0_Weeks_Specified()
         {
             // Arrange
@@ -211,10 +210,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var expected = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_The_Next_Week_On_The_Specified_Day_Of_Week_If_0_Weeks_Specified()
         {
             // Arrange
@@ -227,10 +226,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_The_Same_Day_Of_Week_If_0_Weeks_Specified_And_Before_Specified_Run_Time()
         {
             // Arrange
@@ -243,10 +242,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Schedule_Today_If_Input_Time_Is_Before_Run_Time()
         {
             // Arrange
@@ -259,10 +258,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Not_Schedule_Today_If_Input_Time_Is_After_Run_Time()
         {
             // Arrange
@@ -275,7 +274,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

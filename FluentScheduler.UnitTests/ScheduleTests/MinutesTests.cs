@@ -1,12 +1,11 @@
 namespace FluentScheduler.UnitTests.ScheduleTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System;
 
-    [TestClass]
     public class MinutesTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Add_Specified_Minutes_To_Next_Run_Date()
         {
             // Arrange
@@ -19,10 +18,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Add_Specified_Minutes_To_Next_Run_Date_When_Is_Between_Specified_Bounds()
         {
             // Assert
@@ -35,10 +34,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_Next_Run_Date_Until_Specified_Start()
         {
             // Assert
@@ -51,7 +50,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

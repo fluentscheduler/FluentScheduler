@@ -1,12 +1,11 @@
 namespace FluentScheduler.UnitTests.ScheduleTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System;
 
-    [TestClass]
     public class MonthsOnTheFourthTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Default_To_00_00_If_At_Is_Not_Defined()
         {
             // Arrange
@@ -19,11 +18,11 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Monday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Set_Specific_Hour_And_Minute_If_At_Method_Is_Called()
         {
             // Arrange
@@ -36,11 +35,11 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Monday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Override_Existing_Minutes_And_Seconds_If_At_Method_Is_Called()
         {
             // Arrange
@@ -53,11 +52,11 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Monday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Select_The_Date_If_The_Next_Runtime_Falls_On_The_Specified_Day()
         {
             // Arrnage
@@ -70,11 +69,11 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var expected = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Wednesday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Wednesday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Ignore_The_Specified_Day()
         {
             // Arrange
@@ -87,11 +86,11 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Wednesday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Wednesday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_The_Day_Of_Week_Specified()
         {
             // Arrange
@@ -104,11 +103,11 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Friday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Friday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_The_Next_Week_If_The_Day_Of_Week_Has_Passed()
         {
             // Arrange
@@ -121,11 +120,11 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Tuesday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Tuesday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_The_Next_Week_If_The_Day_Of_Week_Has_Passed_For_New_Weeks()
         {
             // Arrange
@@ -138,11 +137,11 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Saturday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Saturday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_The_Next_Week_If_The_Day_Of_Week_Has_Passed_For_End_Of_Week()
         {
             // Arrange
@@ -155,8 +154,8 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Sunday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Sunday, actual.DayOfWeek);
         }
     }
 }

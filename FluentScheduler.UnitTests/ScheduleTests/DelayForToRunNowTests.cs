@@ -1,13 +1,12 @@
 namespace FluentScheduler.UnitTests.ScheduleTests
 {
     using FluentScheduler.UnitTests.Utilities;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System;
 
-    [TestClass]
     public class DelayForToRunOnceAtTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunOnceAt_For_500_Milliseconds()
         {
             // Arrange
@@ -24,10 +23,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run once at x and delay for 500 milliseconds").NextRun;
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunOnceAt_For_2_Seconds()
         {
             // Arrange
@@ -44,10 +43,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run once at x and delay for 2 seconds").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunOnceAt_For_2_Minutes()
         {
             // Arrange
@@ -64,10 +63,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run once at x and delay for 2 minutes").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunOnceAt_For_2_Hours()
         {
             // Act
@@ -84,10 +83,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run once at x and delay for 2 hours").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunOnceAt_For_2_Days()
         {
             // Assert
@@ -103,10 +102,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run once at x and delay for 2 days").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunOnceAt_For_2_Weeks()
         {
             // Assert
@@ -122,10 +121,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run once at x and delay for 2 weeks").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunOnceAt_For_2_Months()
         {
             // Arrange
@@ -142,10 +141,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run once at x and delay for 2 months").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Delay_ToRunOnceAt_For_2_Years()
         {
             // Arrange
@@ -162,7 +161,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = JobManager.GetSchedule("run once at x and delay for 2 years").NextRun;
 
             // Assert
-            Assert.AreEqual(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
+            Assert.Equal(expected.WithoutMilliseconds(), actual.WithoutMilliseconds());
         }
 
     }

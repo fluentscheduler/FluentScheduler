@@ -1,13 +1,12 @@
 namespace FluentScheduler.UnitTests.ScheduleTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System;
     using System.Linq;
 
-    [TestClass]
     public class SpecificRunTimeTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Add_Chained_Jobs_To_AdditionalSchedules_Property()
         {
             // Act
@@ -15,10 +14,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             schedule.ToRunNow().AndEvery(1).Months();
 
             // Assert
-            Assert.AreEqual(1, schedule.AdditionalSchedules.Count);
+            Assert.Equal(1, schedule.AdditionalSchedules.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Set_Chained_Job_Schedule_As_Expected()
         {
             // Arrange
@@ -31,10 +30,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             var actual = schedule.AdditionalSchedules.ElementAt(0).CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Not_Alter_Original_Runtime_If_Chained_Job_Exists()
         {
             // Act
@@ -42,7 +41,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             schedule.ToRunNow().AndEvery(1).Months();
 
             // Assert
-            Assert.IsNull(schedule.CalculateNextRun);
+            Assert.Null(schedule.CalculateNextRun);
         }
     }
 }

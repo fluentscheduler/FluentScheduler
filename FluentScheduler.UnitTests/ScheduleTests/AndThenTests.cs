@@ -1,14 +1,13 @@
 namespace FluentScheduler.UnitTests.ScheduleTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System;
     using System.Linq;
     using System.Threading;
 
-    [TestClass]
     public class AndThenTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Be_Able_To_Schedule_Multiple_Jobs()
         {
             // Arrange
@@ -22,11 +21,11 @@ namespace FluentScheduler.UnitTests.ScheduleTests
                 Thread.Sleep(1);
 
             // Assert
-            Assert.IsTrue(job1);
-            Assert.IsTrue(job2);
+            Assert.True(job1);
+            Assert.True(job2);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Be_Able_To_Schedule_Multiple_Simple_Methods()
         {
             // Arrange
@@ -40,11 +39,11 @@ namespace FluentScheduler.UnitTests.ScheduleTests
                 Thread.Sleep(1);
 
             // Assert
-            Assert.IsTrue(job1);
-            Assert.IsTrue(job2);
+            Assert.True(job1);
+            Assert.True(job2);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Execute_Jobs_In_Order()
         {
             // Arrange
@@ -62,7 +61,7 @@ namespace FluentScheduler.UnitTests.ScheduleTests
                 Thread.Sleep(1);
 
             // Assert
-            Assert.IsTrue(job1.Ticks < job2.Ticks);
+            Assert.True(job1.Ticks < job2.Ticks);
         }
     }
 }

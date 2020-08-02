@@ -1,12 +1,11 @@
 ﻿namespace FluentScheduler.UnitTests.ScheduleTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System;
 
-    [TestClass]
     public class WeekDaysTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Pick_Same_Day_If_Now_Is_In_Time_On_Friday()
         {
             // Arrange
@@ -19,12 +18,12 @@
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Friday, input.DayOfWeek);
-            Assert.AreEqual(DayOfWeek.Friday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Friday, input.DayOfWeek);
+            Assert.Equal(DayOfWeek.Friday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_Monday_If_Now_Is_Too_Late_On_Friday()
         {
             // Arrange
@@ -37,12 +36,12 @@
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Friday, input.DayOfWeek);
-            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Friday, input.DayOfWeek);
+            Assert.Equal(DayOfWeek.Monday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_Monday_If_Now_Is_Saturday()
         {
             // Arrange
@@ -55,12 +54,12 @@
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Saturday, input.DayOfWeek);
-            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Saturday, input.DayOfWeek);
+            Assert.Equal(DayOfWeek.Monday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_Monday_If_Now_Is_Sunday()
         {
             // Arrange
@@ -73,12 +72,12 @@
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Sunday, input.DayOfWeek);
-            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Sunday, input.DayOfWeek);
+            Assert.Equal(DayOfWeek.Monday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_Tuesday_If_Now_Is_Too_Late_Monday()
         {
             // Assert
@@ -91,12 +90,12 @@
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Monday, input.DayOfWeek);
-            Assert.AreEqual(DayOfWeek.Tuesday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Monday, input.DayOfWeek);
+            Assert.Equal(DayOfWeek.Tuesday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Skip_Monday_If_Now_Is_Saturday()
         {
             // Arrange
@@ -109,12 +108,12 @@
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Saturday, input.DayOfWeek);
-            Assert.AreEqual(DayOfWeek.Tuesday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Saturday, input.DayOfWeek);
+            Assert.Equal(DayOfWeek.Tuesday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_Same_Day_If_Now_Is_In_Time_Monday()
         {
             // Arrange
@@ -127,12 +126,12 @@
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Monday, input.DayOfWeek);
-            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Monday, input.DayOfWeek);
+            Assert.Equal(DayOfWeek.Monday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_Wednesday_If_Now_Is_Too_Late_Monday()
         {
             // Arrange
@@ -145,12 +144,12 @@
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Monday, input.DayOfWeek);
-            Assert.AreEqual(DayOfWeek.Wednesday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Monday, input.DayOfWeek);
+            Assert.Equal(DayOfWeek.Wednesday, actual.DayOfWeek);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Pick_Monday_If_Now_Is_Too_Late_Thursday()
         {
             // Arrange
@@ -163,9 +162,9 @@
             var actual = schedule.CalculateNextRun(input);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(DayOfWeek.Thursday, input.DayOfWeek);
-            Assert.AreEqual(DayOfWeek.Monday, actual.DayOfWeek);
+            Assert.Equal(expected, actual);
+            Assert.Equal(DayOfWeek.Thursday, input.DayOfWeek);
+            Assert.Equal(DayOfWeek.Monday, actual.DayOfWeek);
         }
     }
 }

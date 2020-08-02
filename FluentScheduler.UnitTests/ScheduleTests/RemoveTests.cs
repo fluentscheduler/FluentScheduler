@@ -1,13 +1,12 @@
 ﻿namespace FluentScheduler.UnitTests.ScheduleTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using System.Linq;
     using System.Threading;
 
-    [TestClass]
     public class RemoveTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Remove_Named_Job()
         {
             // Act
@@ -16,10 +15,10 @@
             JobManager.RemoveJob("remove named job");
 
             // Assert
-            Assert.IsNull(JobManager.GetSchedule("remove named job"));
+            Assert.Null(JobManager.GetSchedule("remove named job"));
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Remove_All_Jobs()
         {
             // Act
@@ -33,10 +32,10 @@
             JobManager.RemoveAllJobs();
 
             // Assert
-            Assert.IsTrue(JobManager.AllSchedules.Count() == 0);
+            Assert.True(JobManager.AllSchedules.Count() == 0);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Remove_LongRunning_Job_But_Keep_Running()
         {
             // Act
@@ -45,16 +44,16 @@
             schedule.Execute();
 
             // Assert
-            Assert.IsTrue(JobManager.RunningSchedules.Any(s => s.Name == "remove long running job"));
+            Assert.Contains(JobManager.RunningSchedules, s => s.Name == "remove long running job");
 
             // Act
             JobManager.RemoveJob("remove long running job");
 
             // Assert
-            Assert.IsNull(JobManager.GetSchedule("remove long running job"));
-            Assert.IsTrue(JobManager.RunningSchedules.Any(s => s.Name == "remove long running job"));
+            Assert.Null(JobManager.GetSchedule("remove long running job"));
+            Assert.Contains(JobManager.RunningSchedules, s => s.Name == "remove long running job");
             Thread.Sleep(2000);
-            Assert.IsFalse(JobManager.RunningSchedules.Any(s => s.Name == "remove long running job"));
+            Assert.DoesNotContain(JobManager.RunningSchedules, s => s.Name == "remove long running job");
         }
     }
 }

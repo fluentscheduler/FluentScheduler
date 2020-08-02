@@ -1,11 +1,10 @@
 namespace FluentScheduler.UnitTests.ScheduleTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class NonReentrantTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_Be_Null_By_Default()
         {
             // Act
@@ -13,10 +12,10 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             schedule.ToRunNow();
 
             // Assert
-            Assert.IsNull(schedule.Reentrant);
+            Assert.Null(schedule.Reentrant);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Default_Reentrant_Parameter_For_Child_Schedules()
         {
             // Act
@@ -24,13 +23,13 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             schedule.ToRunNow().AndEvery(1).Minutes();
 
             // Assert
-            Assert.IsNull(schedule.Reentrant);
+            Assert.Null(schedule.Reentrant);
 
             foreach (var child in schedule.AdditionalSchedules)
-                Assert.IsNull(child.Reentrant);
+                Assert.Null(child.Reentrant);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_Set_Reentrent_Parameter_For_Child_Schedules()
         {
             // Act
@@ -38,9 +37,9 @@ namespace FluentScheduler.UnitTests.ScheduleTests
             schedule.NonReentrant().ToRunNow().AndEvery(1).Minutes();
 
             // Assert
-            Assert.IsNotNull(schedule.Reentrant);
+            Assert.NotNull(schedule.Reentrant);
             foreach (var child in schedule.AdditionalSchedules)
-                Assert.AreEqual(schedule.Reentrant, child.Reentrant);
+                Assert.Equal(schedule.Reentrant, child.Reentrant);
         }
     }
 }
