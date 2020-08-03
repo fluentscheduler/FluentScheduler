@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -55,8 +54,6 @@
         /// <summary>
         /// Job factory used by the job manager.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1044:PropertiesShouldNotBeWriteOnly",
-            Justification = "Doing that way to not break compatibility with older versions.")]
         public static IJobFactory JobFactory
         {
             private get
@@ -100,8 +97,6 @@
             };
         }
 
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly",
-            Justification = "It is spelled correctly.")]
         internal static Action GetJobAction(Func<IJob> jobFactory)
         {
             return () =>
@@ -137,22 +132,16 @@
         /// <summary>
         /// Event raised when an exception occurs in a job.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
-            Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event Action<JobExceptionInfo> JobException;
 
         /// <summary>
         /// Event raised when a job starts.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
-            Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event Action<JobStartInfo> JobStart;
 
         /// <summary>
         /// Evemt raised when a job ends.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly",
-            Justification = "Using strong-typed GenericEventHandler<TSender, TEventArgs> event handler pattern.")]
         public static event Action<JobEndInfo> JobEnd;
 
         #endregion
@@ -292,8 +281,6 @@
         /// </summary>
         /// <typeparam name="T">Job to run.</typeparam>
         /// <param name="schedule">Job schedule to add.</param>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
-            Justification = "The 'T' requirement is on purpose.")]
         public static void AddJob<T>(Action<Schedule> schedule) where T : IJob
         {
             if (schedule == null)
@@ -437,8 +424,6 @@
             }
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "That's OK since we're raising the JobException event with it."),
-        SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "https://blogs.msdn.microsoft.com/pfxteam/2012/03/25/do-i-need-to-dispose-of-tasks/")]
         internal static void RunJob(Schedule schedule)
         {
             if (schedule.Disabled)

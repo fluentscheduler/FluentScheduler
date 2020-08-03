@@ -1,7 +1,6 @@
 ﻿namespace FluentScheduler
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A job factory.
@@ -13,8 +12,6 @@
         /// </summary>
         /// <typeparam name="T">Type of the job to instantiate</typeparam>
         /// <returns>The instantiated job</returns>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
-            Justification = "The 'T' requirement is on purpose.")]
         IJob GetJobInstance<T>() where T : IJob;
     }
 

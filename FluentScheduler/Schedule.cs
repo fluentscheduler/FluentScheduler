@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     /// <summary>
@@ -110,8 +109,6 @@
         /// Schedules another job to be run with this schedule.
         /// </summary>
         /// <typeparam name="T">Job to run.</typeparam>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
-            Justification = "The 'T' requirement is on purpose.")]
         public Schedule AndThen<T>() where T : IJob
         {
             Jobs.Add(JobManager.GetJobAction<T>());

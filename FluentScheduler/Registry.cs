@@ -3,7 +3,6 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A registry of job schedules.
@@ -64,8 +63,6 @@
         /// Schedules a new job in the registry.
         /// </summary>
         /// <typeparam name="T">Job to schedule.</typeparam>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
-            Justification = "The 'T' requirement is on purpose.")]
         public Schedule Schedule<T>() where T : IJob
         {
             return Schedule(JobManager.GetJobAction<T>(), typeof(T).Name);
