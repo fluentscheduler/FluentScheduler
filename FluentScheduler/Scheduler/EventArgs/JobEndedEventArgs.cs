@@ -21,6 +21,11 @@ namespace FluentScheduler
         public Exception Exception { get; }
 
         /// <summary>
+        /// Duration of the job.
+        /// </summary>
+        public TimeSpan Duration => EndTime - StartTime;
+
+        /// <summary>
         /// Date and time of the job start.
         /// </summary>
         public DateTime StartTime { get; }
