@@ -1,6 +1,6 @@
 <p align="center">
     <a href="#fluentscheduler">
-        <img alt="logo" src="https://raw.githubusercontent.com/fluentscheduler/FluentScheduler/master/Logo/logo-200x200.png">
+        <img alt="logo" src="https://raw.githubusercontent.com/fluentscheduler/FluentScheduler/version-6/Logo/logo-200x200.png">
     </a>
 </p>
 
