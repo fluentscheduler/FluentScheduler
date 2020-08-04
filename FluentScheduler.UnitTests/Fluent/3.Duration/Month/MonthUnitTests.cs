@@ -1,12 +1,12 @@
 namespace FluentScheduler.UnitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestClass]
     public class MonthUnitTests
     {
-        [TestMethod]
+        [Fact]
         public void On()
         {
             // Arrange
@@ -22,7 +22,7 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(expectedDay, calculated.Value.Day);
+            Equal(expectedDay, calculated.Value.Day);
         }
     }
 }

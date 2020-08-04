@@ -1,13 +1,13 @@
 namespace FluentScheduler.UnitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestClass]
     public class OnceSetTests
     {
 
-        [TestMethod]
+        [Fact]
         public void AndEveryDayOfWeek()
         {
             // Arrange
@@ -25,24 +25,24 @@ namespace FluentScheduler.UnitTests
 
             // Assert
             var expected = new DateTime(2018, 2, 18);
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
 
             //Act
             calculated = calculator.Calculate(monday);
 
             // Assert
             expected = new DateTime(2018, 2, 25);
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
 
             // Act
             calculated = calculator.Calculate(sunday);
 
             // Assert
-            Assert.AreEqual(sunday, calculated);
+            Equal(sunday, calculated);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void EveryInterval()
         {
             // Arrange
@@ -58,10 +58,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void AndEveryWeekday()
         {
             // Arrange
@@ -77,10 +77,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void AndEveryWeekend()
         {
             // Arrange
@@ -96,7 +96,7 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
     }
 }

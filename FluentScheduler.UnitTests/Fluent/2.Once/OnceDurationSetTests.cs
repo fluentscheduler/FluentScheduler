@@ -1,13 +1,13 @@
 namespace FluentScheduler.UnitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestClass]
     public class OnceDurationSetTests
     {
 
-        [TestMethod]
+        [Fact]
         public void Minutes()
         {
             // Arrange
@@ -23,10 +23,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void Hours()
         {
             // Arrange
@@ -42,10 +42,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void Days()
         {
             // Arrange
@@ -61,10 +61,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void Weeks()
         {
             // Arrange
@@ -80,10 +80,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void Months()
         {
             // Arrange
@@ -99,7 +99,7 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
     }
 }

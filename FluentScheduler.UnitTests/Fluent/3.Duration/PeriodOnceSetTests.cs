@@ -1,18 +1,18 @@
 namespace FluentScheduler.UnitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestClass]
     public class PeriodOnceTests
     {
-        [TestMethod]
+        [Fact]
         public void At()
         {
             // Arrange
             var now = new DateTime(2018, 3, 3, 6, 53, 0);
             var expected = new DateTime(2018, 3, 3, 8, 40, 0);
-            
+
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
             var run = new PeriodOnceSet(fluentCalculator);
@@ -24,18 +24,18 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(expected, calculated.Value);
+            Equal(expected, calculated.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void AtTimeSpan()
         {
             // Arrange
             var now = new DateTime(2018, 3, 3, 10, 0 ,0);
             var expected = new DateTime(2018, 3, 3, 12, 30, 0);
-            
+
             var timeSpan = new TimeSpan(12, 30, 0);
-            
+
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
             var run = new PeriodOnceSet(fluentCalculator);
@@ -47,10 +47,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(expected, calculated.Value);
+            Equal(expected, calculated.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void InTheNextMonth()
         {
             // Arrange
@@ -68,17 +68,17 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(expectedDate, calculated.Value);
+            Equal(expectedDate, calculated.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void Between23and2()
         {
 
             // Arrange
             var now = new DateTime(2019, 08, 19, 23, 30, 0);
             var expectedDate = new DateTime(2019, 08, 20, 23, 0, 0);
-            
+
             var from = new TimeSpan(23, 0, 0);
             var to = new TimeSpan(2, 30, 0);
 
@@ -93,17 +93,16 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(expectedDate, calculated.Value); 
+            Equal(expectedDate, calculated.Value);
         }
-        
 
-        [TestMethod]
+        [Fact]
         public void Between17and19()
         {
             // Arrange
             var now = new DateTime(2019, 08, 19, 16, 30, 0);
             var expectedDate = new DateTime(2019, 08, 20, 17, 30, 0);
-            
+
             var from = new TimeSpan(17, 30, 0);
             var to = new TimeSpan(19, 30, 0);
 
@@ -118,19 +117,19 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(expectedDate, calculated.Value); 
+            Equal(expectedDate, calculated.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void Between21and23()
         {
             // Arrange
             var now = new DateTime(2019, 08, 19, 21, 40, 0);
             var expectedDate = new DateTime(2019, 08, 20, 21, 40, 0);
-            
+
             var from = new TimeSpan(21, 30, 0);
             var to = new TimeSpan(23, 30, 0);
-            
+
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
             var run = new RunSpecifier(fluentCalculator);
@@ -142,19 +141,19 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(expectedDate, calculated.Value);
+            Equal(expectedDate, calculated.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void Between19and22()
         {
             // Arrange
             var now = new DateTime(2019, 08, 19, 23, 50, 0);
             var expectedDate = new DateTime(2019, 08, 21, 19, 30, 0);
-            
+
             var from = new TimeSpan(19, 30, 0);
             var to = new TimeSpan(22, 30, 0);
-            
+
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
             var run = new RunSpecifier(fluentCalculator);
@@ -166,7 +165,7 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(expectedDate, calculated.Value);
+            Equal(expectedDate, calculated.Value);
         }
     }
 }

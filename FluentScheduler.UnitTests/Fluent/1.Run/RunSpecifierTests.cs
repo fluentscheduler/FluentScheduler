@@ -1,12 +1,12 @@
 namespace FluentScheduler.UnitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestClass]
     public class RunSpecifierTests
     {
-        [TestMethod]
+        [Fact]
         public void NowAndEvery()
         {
             // Arrange
@@ -21,16 +21,16 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now, calculated);
+            Equal(now, calculated);
 
             // Act
             calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddSeconds(10), calculated);
+            Equal(now.AddSeconds(10), calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void EveryTimeSpan()
         {
             // Arrange
@@ -46,10 +46,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.Add(time), calculated);
+            Equal(now.Add(time), calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void EveryDayOfWeek()
         {
             // Arrange
@@ -65,10 +65,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnceAtAndEvery()
         {
             // Arrange
@@ -84,16 +84,16 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(at, calculated);
+            Equal(at, calculated);
 
             // Act
             calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddSeconds(10), calculated);
+            Equal(now.AddSeconds(10), calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void Now()
         {
             // Arrange
@@ -108,16 +108,16 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now, calculated);
+            Equal(now, calculated);
 
             // Act
             calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(null, calculated);
+            Null(calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnceAtHoursMinutes()
         {
             // Arrange
@@ -134,16 +134,16 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.Date.AddHours(hours).AddMinutes(minutes), calculated);
+            Equal(now.Date.AddHours(hours).AddMinutes(minutes), calculated);
 
             // Act
             calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(null, calculated);
+            Null(calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnceAtTimeSpan()
         {
             // Arrange
@@ -159,16 +159,16 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.Add(at), calculated);
+            Equal(now.Add(at), calculated);
 
             // Act
             calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(null, calculated);
+            Null(calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnceAtDateTime()
         {
             // Arrange
@@ -184,16 +184,16 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(at, calculated);
+            Equal(at, calculated);
 
             // Act
             calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(null, calculated);
+            Null(calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnceIn()
         {
             // Arrange
@@ -208,16 +208,16 @@ namespace FluentScheduler.UnitTests
             var actual = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddSeconds(10), actual);
+            Equal(now.AddSeconds(10), actual);
 
             // Act
             actual = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(null, actual);
+            Null(actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnceInTimeSpan()
         {
             // Arrange
@@ -233,16 +233,16 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.Add(time), calculated);
+            Equal(now.Add(time), calculated);
 
             // Act
             calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(null, calculated);
+            Null(calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void EveryWeekday()
         {
             // Arrange
@@ -257,16 +257,16 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now, calculated);
+            Equal(now, calculated);
 
             // Act
             calculated = calculator.Calculate(now.AddDays(1));
 
             // Assert
-            Assert.AreEqual(now.AddDays(3), calculated);
+            Equal(now.AddDays(3), calculated);
         }
 
-         [TestMethod]
+         [Fact]
         public void EveryWeekend()
         {
              // Arrange
@@ -281,19 +281,19 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddDays(1), calculated);
+            Equal(now.AddDays(1), calculated);
 
             // Act
             calculated = calculator.Calculate(calculated.Value.AddDays(1));
 
             // Assert
-            Assert.AreEqual(now.AddDays(2), calculated);
+            Equal(now.AddDays(2), calculated);
 
             // Act
             calculated = calculator.Calculate(calculated.Value.AddDays(1));
 
             // Assert
-            Assert.AreEqual(now.AddDays(8), calculated);
+            Equal(now.AddDays(8), calculated);
         }
     }
 }

@@ -1,14 +1,14 @@
 namespace FluentScheduler.UnitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using System.Threading;
     using System.Threading.Tasks;
-
-    [TestClass]
+    using System.Threading;
+    using System;
+    using Xunit;
+    using static Xunit.Assert;
+    
     public class ScheduleTests
     {
-        [TestMethod]
+        [Fact]
         public void Start()
         {
             // Arrange
@@ -20,17 +20,17 @@ namespace FluentScheduler.UnitTests
             Thread.Sleep(100);
 
             // Assert
-            Assert.AreEqual(1, calls);
-            Assert.IsTrue(schedule.Running);
+            Equal(1, calls);
+            True(schedule.Running);
 
             // Act
             Thread.Sleep(1000);
 
             // Assert
-            Assert.AreEqual(2, calls);
+            Equal(2, calls);
         }
 
-        [TestMethod]
+        [Fact]
         public void StartCron()
         {
             // Arrange
@@ -42,11 +42,11 @@ namespace FluentScheduler.UnitTests
             Thread.Sleep(100);
 
             // Assert
-            Assert.AreEqual(now.Hour, schedule.NextRun.Value.Hour);
-            Assert.AreEqual(now.Minute, schedule.NextRun.Value.Minute);
+            Equal(now.Hour, schedule.NextRun.Value.Hour);
+            Equal(now.Minute, schedule.NextRun.Value.Minute);
         }
 
-        [TestMethod]
+        [Fact]
         public void StartAsync()
         {
             // Arrange
@@ -61,17 +61,17 @@ namespace FluentScheduler.UnitTests
             Thread.Sleep(100);
 
             // Assert
-            Assert.AreEqual(1, calls);
-            Assert.IsTrue(schedule.Running);
+            Equal(1, calls);
+            True(schedule.Running);
 
             // Act
             Thread.Sleep(1000);
 
             // Assert
-            Assert.AreEqual(2, calls);
+            Equal(2, calls);
         }
 
-        [TestMethod]
+        [Fact]
         public void StartCronASync()
         {
             // Arrange
@@ -85,11 +85,11 @@ namespace FluentScheduler.UnitTests
             Thread.Sleep(100);
 
             // Assert
-            Assert.AreEqual(now.Hour, schedule.NextRun.Value.Hour);
-            Assert.AreEqual(now.Minute, schedule.NextRun.Value.Minute);
+            Equal(now.Hour, schedule.NextRun.Value.Hour);
+            Equal(now.Minute, schedule.NextRun.Value.Minute);
         }
 
-        [TestMethod]
+        [Fact]
         public void Stop()
         {
             // Arrange
@@ -103,10 +103,10 @@ namespace FluentScheduler.UnitTests
             schedule.Stop();
 
             // Assert
-            Assert.IsFalse(schedule.Running);
+            False(schedule.Running);
         }
 
-        [TestMethod]
+        [Fact]
         public void StopAndBlock()
         {
             // Arrange
@@ -118,18 +118,18 @@ namespace FluentScheduler.UnitTests
             Thread.Sleep(100);
 
             // Assert
-            Assert.AreEqual(1, calls);
-            Assert.IsTrue(schedule.Running);
+            Equal(1, calls);
+            True(schedule.Running);
 
             // Act
             schedule.StopAndBlock();
 
             // Assert
-            Assert.AreEqual(1, calls);
-            Assert.IsFalse(schedule.Running);
+            Equal(1, calls);
+            False(schedule.Running);
         }
 
-        [TestMethod]
+        [Fact]
         public void SetScheduling()
         {
             // Arrange
@@ -149,10 +149,10 @@ namespace FluentScheduler.UnitTests
             Thread.Sleep(100);
 
             // Assert
-            Assert.AreEqual(expectedCalls, calls);
+            Equal(expectedCalls, calls);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResetScheduling()
         {
             // Arrange
@@ -172,10 +172,10 @@ namespace FluentScheduler.UnitTests
             Thread.Sleep(100);
 
             // Assert
-            Assert.AreEqual(expectedCalls, calls);
+            Equal(expectedCalls, calls);
         }
 
-        [TestMethod]
+        [Fact]
         public void Events()
         {
             // Arrange
@@ -191,18 +191,18 @@ namespace FluentScheduler.UnitTests
             Thread.Sleep(100);
 
             // Assert
-            Assert.AreEqual(1, startedCalls);
-            Assert.AreEqual(1, endedCalls);
+            Equal(1, startedCalls);
+            Equal(1, endedCalls);
 
             // Act
             Thread.Sleep(1000);
 
             // Assert
-            Assert.AreEqual(2, startedCalls);
-            Assert.AreEqual(2, endedCalls);
+            Equal(2, startedCalls);
+            Equal(2, endedCalls);
         }
 
-        [TestMethod]
+        [Fact]
         public void Exception()
         {
             // Arrange
@@ -216,10 +216,10 @@ namespace FluentScheduler.UnitTests
             Thread.Sleep(100);
 
             // Assert
-            Assert.AreEqual("Some exception.", exception.Message);
+            Equal("Some exception.", exception.Message);
         }
 
-        [TestMethod]
+        [Fact]
         public void UseUtc()
         {
             // Arrange
@@ -231,11 +231,11 @@ namespace FluentScheduler.UnitTests
             var resultedNow = schedule.Internal.Calculator.Now();
 
             // Assert
-            Assert.AreEqual(expectedNow.Hour, resultedNow.Hour);
-            Assert.AreEqual(expectedNow.Minute, resultedNow.Minute);
+            Equal(expectedNow.Hour, resultedNow.Hour);
+            Equal(expectedNow.Minute, resultedNow.Minute);
         }
 
-        [TestMethod]
+        [Fact]
         public void DoNotUseUtc()
         {
             // Arrange
@@ -246,11 +246,11 @@ namespace FluentScheduler.UnitTests
             var resultedNow = schedule.Internal.Calculator.Now();
 
             // Assert
-            Assert.AreEqual(expectedNow.Hour, resultedNow.Hour);
-            Assert.AreEqual(expectedNow.Minute, resultedNow.Minute);
+            Equal(expectedNow.Hour, resultedNow.Hour);
+            Equal(expectedNow.Minute, resultedNow.Minute);
         }
 
-        [TestMethod]
+        [Fact]
         public void DoNotUseUtcAfterStart()
         {
             // Arrange
@@ -261,11 +261,11 @@ namespace FluentScheduler.UnitTests
             schedule.Start();
 
             // Assert
-            Assert.ThrowsException<InvalidOperationException>(() => schedule.UseUtc());
+            Throws<InvalidOperationException>(() => schedule.UseUtc());
         }
 
 
-        [TestMethod]
+        [Fact]
         public void UseUtcBeforeStart()
         {
             // Arrange
@@ -279,11 +279,11 @@ namespace FluentScheduler.UnitTests
             var resultedNow = schedule.Internal.Calculator.Now();
 
             // Assert
-            Assert.AreEqual(expectedNow.Hour, resultedNow.Hour);
-            Assert.AreEqual(expectedNow.Minute, resultedNow.Minute);
+            Equal(expectedNow.Hour, resultedNow.Hour);
+            Equal(expectedNow.Minute, resultedNow.Minute);
         }
 
-        [TestMethod]
+        [Fact]
         public void UseUtcAfterStop()
         {
             // Arrange
@@ -299,11 +299,11 @@ namespace FluentScheduler.UnitTests
             var resultedNow = schedule.Internal.Calculator.Now();
 
             // Assert
-            Assert.AreEqual(expectedNow.Hour, resultedNow.Hour);
-            Assert.AreEqual(expectedNow.Minute, resultedNow.Minute);
+            Equal(expectedNow.Hour, resultedNow.Hour);
+            Equal(expectedNow.Minute, resultedNow.Minute);
         }
 
-        [TestMethod]
+        [Fact]
         public void WaitForCancellation()
         {
             // Arrange
@@ -319,7 +319,7 @@ namespace FluentScheduler.UnitTests
             schedule.StopAndBlock();
 
             // Assert
-            Assert.IsTrue(cancelled);
+            True(cancelled);
         }
     }
 }

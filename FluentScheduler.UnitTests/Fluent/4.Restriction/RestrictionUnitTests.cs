@@ -1,12 +1,12 @@
 namespace FluentScheduler.UnitTests
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestClass]
     public class RestrictionUnitTests
     {
-        [TestMethod]
+        [Fact]
         public void Except()
         {
             // Arrange
@@ -27,10 +27,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(expected, calculated.Value);
+            Equal(expected, calculated.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExceptEmpty()
         {
             // Arrange
@@ -47,11 +47,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(expected, calculated.Value);
+            Equal(expected, calculated.Value);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void ExceptEveryDay()
         {
             // Arrange
@@ -72,8 +71,7 @@ namespace FluentScheduler.UnitTests
             var run = new RestrictionUnit(fluentCalculator); 
 
             // Act / Assert
-            run.Except(allDays);
-            calculator.Calculate(now);
+            Throws<ArgumentException>(() => run.Except(allDays));
         }
     }
 }

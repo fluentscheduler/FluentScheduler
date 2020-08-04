@@ -1,13 +1,13 @@
 namespace FluentScheduler.UnitTests
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestClass]
     public class CronTimeCalculatorTests
     {
 
-        [TestMethod]
+        [Fact]
         public void At0405()
         {
             // Arrange
@@ -21,10 +21,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
             
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void At0005InAugust()
         {
             // Arrange
@@ -38,10 +38,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
             
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void At0405OnSunday()
         {
             // Arrange
@@ -55,10 +55,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
             
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void At0400OnEveryDayOfMonthFrom8Through14()
         {
             // Arrange
@@ -72,10 +72,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void At1415OnJanuaryFirst()
         {
             // Arrange
@@ -89,10 +89,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void At2200OnEveryDayOfWeekFromMondayThroughFriday()
         {
             // Arrange
@@ -106,10 +106,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void EveryDayAt0500And1700Hours()
         {
             // Arrange
@@ -123,10 +123,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void AtEveryMinute()
         {
             // Arrange
@@ -140,10 +140,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void AtEvery10Minutes()
         {
             // Arrange
@@ -157,10 +157,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void At1700OnSundayAndFriday()
         {
             // Arrange
@@ -174,10 +174,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void EverySecond()
         {
             // Arrange
@@ -191,7 +191,7 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(date);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
     }
 }

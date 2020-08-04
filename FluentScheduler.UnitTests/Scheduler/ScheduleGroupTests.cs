@@ -1,14 +1,14 @@
 namespace FluentScheduler.UnitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
     using System.Collections.Generic;
     using System.Threading;
+    using System;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestClass]
     public class ScheduleGroupTests
     {
-        [TestMethod]
+        [Fact]
         public void Start()
         {
              // Arrange
@@ -22,10 +22,10 @@ namespace FluentScheduler.UnitTests
             scheduleCollection.Start();
 
             // Assert
-            Assert.IsTrue(scheduleCollection.AllRunning());
+            True(scheduleCollection.AllRunning());
         }
 
-         [TestMethod]
+         [Fact]
         public void AllRunning()
         {
             // Arrange
@@ -41,16 +41,16 @@ namespace FluentScheduler.UnitTests
             Thread.Sleep(100);
 
             // Assert
-            Assert.IsTrue(scheduleGroup.AllRunning());
+            True(scheduleGroup.AllRunning());
 
             // Act
             scheduleGroup.Stop();
 
             // Assert
-            Assert.IsFalse(scheduleGroup.AllRunning());
+            False(scheduleGroup.AllRunning());
         }
 
-        [TestMethod]
+        [Fact]
         public void AnyRunning()
         {
             // Arrange
@@ -65,10 +65,10 @@ namespace FluentScheduler.UnitTests
             scheduleGroup.Start();
 
             // Assert
-            Assert.IsTrue(scheduleGroup.AnyRunning());
+            True(scheduleGroup.AnyRunning());
         }
 
-        [TestMethod]
+        [Fact]
         public void AllStopped()
         {
             // Arrange
@@ -83,16 +83,16 @@ namespace FluentScheduler.UnitTests
             scheduleGroup.Start();
             
             // Assert
-            Assert.IsFalse(scheduleGroup.AllStopped());
+            False(scheduleGroup.AllStopped());
 
             // Act
             scheduleGroup.StopAndBlock();
 
             // Assert
-            Assert.IsTrue(scheduleGroup.AllStopped());
+            True(scheduleGroup.AllStopped());
         }
 
-        [TestMethod]
+        [Fact]
         public void AnyStopped()
         {
             // Arrange
@@ -107,16 +107,16 @@ namespace FluentScheduler.UnitTests
             scheduleGroup.Start();
 
             // Assert
-            Assert.IsFalse(scheduleGroup.AnyStopped());
+            False(scheduleGroup.AnyStopped());
 
             // Act
             scheduleGroup[0].StopAndBlock();
 
             // Assert
-            Assert.IsTrue(scheduleGroup.AnyStopped());
+            True(scheduleGroup.AnyStopped());
         }
        
-        [TestMethod]
+        [Fact]
         public void SetScheduling()
         {
             // Arrange
@@ -135,10 +135,10 @@ namespace FluentScheduler.UnitTests
             scheduleGroup.StopAndBlock();
 
             // Assert
-            Assert.AreEqual(now.AddMinutes(3).Minute, scheduleGroup[0].NextRun.Value.Minute);
+            Equal(now.AddMinutes(3).Minute, scheduleGroup[0].NextRun.Value.Minute);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResetScheduling()
         {
             // Arrange
@@ -163,10 +163,10 @@ namespace FluentScheduler.UnitTests
             var nextRun = scheduleGroup.NextRun();
 
             // Assert
-            Assert.AreEqual(now.Day, nextRun.Value.Item2.Day);
+            Equal(now.Day, nextRun.Value.Item2.Day);
         }
 
-        [TestMethod]
+        [Fact]
         public void ListenJobStarted()
         {
             // Arrange
@@ -187,10 +187,10 @@ namespace FluentScheduler.UnitTests
             scheduleGroup.StopAndBlock();
 
             // Assert
-            Assert.AreEqual(expectedCalls, calls);
+            Equal(expectedCalls, calls);
         }
 
-        [TestMethod]
+        [Fact]
         public void UnlistenJobStarted()
         {
             // Arrange
@@ -220,10 +220,10 @@ namespace FluentScheduler.UnitTests
             scheduleGroup.StopAndBlock();
 
             // Assert
-            Assert.AreEqual(expectedCalls, calls);
+            Equal(expectedCalls, calls);
         }
 
-        [TestMethod]
+        [Fact]
         public void ListenJobEnded()
         {
             // Arrange
@@ -244,10 +244,10 @@ namespace FluentScheduler.UnitTests
             scheduleGroup.StopAndBlock();
 
             // Assert
-            Assert.AreEqual(expectedCalls, calls);
+            Equal(expectedCalls, calls);
         }
 
-        [TestMethod]
+        [Fact]
         public void UnlistenJobEnded()
         {
             // Arrange
@@ -277,10 +277,10 @@ namespace FluentScheduler.UnitTests
             scheduleGroup.StopAndBlock();
 
             // Assert
-            Assert.AreEqual(expectedCalls, calls);
+            Equal(expectedCalls, calls);
         }
 
-        [TestMethod]
+        [Fact]
         public void NextRun()
         {
             // Arrange
@@ -299,7 +299,7 @@ namespace FluentScheduler.UnitTests
             var nextRun = scheduleGroup.NextRun();
 
             // Assert
-            Assert.AreEqual(expectedNextRun.AddMinutes(10).Minute, nextRun.Value.Item2.Minute);
+            Equal(expectedNextRun.AddMinutes(10).Minute, nextRun.Value.Item2.Minute);
         }
     }
 }

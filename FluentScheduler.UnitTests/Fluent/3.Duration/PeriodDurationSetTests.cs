@@ -1,12 +1,12 @@
 namespace FluentScheduler.UnitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestClass]
     public class PeriodDurationSetTests
     {
-        [TestMethod]
+        [Fact]
         public void Seconds()
         {
             // Arrange
@@ -21,10 +21,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddSeconds(5).Second, calculated.Value.Second);
+            Equal(now.AddSeconds(5).Second, calculated.Value.Second);
         }
 
-        [TestMethod]
+        [Fact]
         public void Minutes()
         {
             // Arrange
@@ -39,10 +39,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddMinutes(5).Minute, calculated.Value.Minute);
+            Equal(now.AddMinutes(5).Minute, calculated.Value.Minute);
         }
 
-        [TestMethod]
+        [Fact]
         public void Hours()
         {
             // Arrange
@@ -57,10 +57,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddHours(5).Hour, calculated.Value.Hour);
+            Equal(now.AddHours(5).Hour, calculated.Value.Hour);
         }
 
-        [TestMethod]
+        [Fact]
         public void Days()
         {
             // Arrange
@@ -75,10 +75,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddDays(5).Day, calculated.Value.Day);
+            Equal(now.AddDays(5).Day, calculated.Value.Day);
         }
 
-        [TestMethod]
+        [Fact]
         public void Weeks()
         {
             // Arrange
@@ -93,10 +93,10 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddDays(35), calculated.Value);
+            Equal(now.AddDays(35), calculated.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void Months()
         {
             // Arrange
@@ -111,7 +111,7 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Assert.AreEqual(now.AddMonths(5).Month, calculated.Value.Month);
+            Equal(now.AddMonths(5).Month, calculated.Value.Month);
         }
     }
 }

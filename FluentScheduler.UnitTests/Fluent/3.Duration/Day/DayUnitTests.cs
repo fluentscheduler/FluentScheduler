@@ -1,11 +1,12 @@
 namespace FluentScheduler.UnitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestClass]
     public class DayUnitTests
     {
+        [Fact]
         public void EveryWeekday()
         {
             // Arrange
@@ -24,22 +25,22 @@ namespace FluentScheduler.UnitTests
 
             // Assert
             var expected = new DateTime(2018, 02, 19);
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
 
             // Act
             calculated = calculator.Calculate(saturday);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
 
             // Act
             calculated = calculator.Calculate(monday);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
 
-        [TestMethod]
+        [Fact]
         public void EveryWeekend()
         {
             // Arrange
@@ -57,20 +58,20 @@ namespace FluentScheduler.UnitTests
 
             // Assert
             var expected = new DateTime(2018, 02, 17);
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
 
             // Act
             calculated = calculator.Calculate(saturday);
 
             // Assert
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
 
             // Act
             calculated = calculator.Calculate(sunday);
 
             // Assert
             expected = new DateTime(2018, 02, 18);
-            Assert.AreEqual(expected, calculated);
+            Equal(expected, calculated);
         }
     }
 }
