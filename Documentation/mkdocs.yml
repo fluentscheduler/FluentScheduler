@@ -12,6 +12,7 @@ nav:
   - Starting, stopping and resetting: starting-stopping-and-resetting.md
   - Changing the scheduling: changing-the-scheduling.md
   - Listening for events: listening-for-events.md
+  - Async schedules: async-schedules.md
   - Grouping schedules: grouping-schedules.md
   - Reentrancy: reentrancy.md
   - UTC time: utc-time.md
