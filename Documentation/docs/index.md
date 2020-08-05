@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="logo" src="https://raw.githubusercontent.com/fluentscheduler/FluentScheduler/master/Logo/logo-200x200.png">
+    <img alt="logo" src="https://raw.githubusercontent.com/fluentscheduler/FluentScheduler/version-6/Logo/logo-200x200.png">
 </p>
 
 **Important note**: This documentation refers to the upcoming version of the library, that's still unstable. For the current version please head to [GitHub](https://github.com/fluentscheduler/FluentScheduler).
