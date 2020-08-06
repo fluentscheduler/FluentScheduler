@@ -33,6 +33,9 @@ namespace FluentScheduler.UnitTests
             // Assert
             Equal(expected, calculated);
 
+            // Arrange
+            expected = new DateTime(2018, 02, 20);
+
             // Act
             calculated = calculator.Calculate(monday);
 

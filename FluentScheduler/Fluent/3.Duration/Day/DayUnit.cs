@@ -1,6 +1,9 @@
 namespace FluentScheduler
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using static System.DayOfWeek;
 
     /// <summary>
     /// The days the job should run
@@ -18,8 +21,15 @@ namespace FluentScheduler
         {
             _calculator.PeriodCalculations.Add(last =>
             {
-                if ((last.DayOfWeek == DayOfWeek.Saturday) || (last.DayOfWeek == DayOfWeek.Sunday))
-                    last = last.AddDays(((int)last.DayOfWeek / 6) + 1);
+                var daysToNextWeekday = 1;
+
+                if (last.DayOfWeek == Friday)
+                    daysToNextWeekday = 3;
+                
+                if (last.DayOfWeek == Saturday)
+                    daysToNextWeekday = 2;
+
+                last = last.AddDays(daysToNextWeekday);
 
                 return last;
             });

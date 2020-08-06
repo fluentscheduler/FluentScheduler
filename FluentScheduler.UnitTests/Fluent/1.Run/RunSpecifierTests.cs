@@ -247,6 +247,7 @@ namespace FluentScheduler.UnitTests
         {
             // Arrange
             var now = new DateTime(2018, 08, 31);
+            var expected = new DateTime(2018, 09, 3);
 
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
@@ -257,13 +258,13 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Equal(now, calculated);
+            Equal(expected, calculated);
 
             // Act
-            calculated = calculator.Calculate(now.AddDays(1));
+            calculated = calculator.Calculate(expected);
 
             // Assert
-            Equal(now.AddDays(3), calculated);
+            Equal(expected.AddDays(1), calculated);
         }
 
          [Fact]
