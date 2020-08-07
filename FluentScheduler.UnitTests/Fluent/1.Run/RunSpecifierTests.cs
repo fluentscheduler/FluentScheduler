@@ -270,8 +270,9 @@ namespace FluentScheduler.UnitTests
          [Fact]
         public void EveryWeekend()
         {
-             // Arrange
+            // Arrange
             var now = new DateTime(2018, 08, 31);
+            var expected = new DateTime(2018, 09, 01);
 
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
@@ -282,19 +283,27 @@ namespace FluentScheduler.UnitTests
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Equal(now.AddDays(1), calculated);
+            Equal(expected, calculated);
+
+            // Arrange
+            now = new DateTime(2018, 09, 01);
+            expected = new DateTime(2018, 09, 02);
 
             // Act
-            calculated = calculator.Calculate(calculated.Value.AddDays(1));
+            calculated = calculator.Calculate(now);
 
             // Assert
-            Equal(now.AddDays(2), calculated);
+            Equal(expected, calculated);
+
+            // Arrange
+            now = new DateTime(2018, 09, 02);
+            expected = new DateTime(2018, 09, 08);
 
             // Act
-            calculated = calculator.Calculate(calculated.Value.AddDays(1));
+            calculated = calculator.Calculate(now);
 
             // Assert
-            Equal(now.AddDays(8), calculated);
+            Equal(expected, calculated);
         }
     }
 }

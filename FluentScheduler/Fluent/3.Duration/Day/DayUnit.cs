@@ -44,8 +44,15 @@ namespace FluentScheduler
         {
             _calculator.PeriodCalculations.Add(last =>
             {
-                if ((last.DayOfWeek != DayOfWeek.Saturday) && (last.DayOfWeek != DayOfWeek.Sunday))
-                        last = last.AddDays(DayOfWeek.Saturday - last.DayOfWeek);
+                var daysToNextWeekend = 6 - (int)last.DayOfWeek;
+                
+                if (last.DayOfWeek == Saturday)
+                    daysToNextWeekend = 1;
+
+                if (last.DayOfWeek == Sunday)
+                    daysToNextWeekend = 6;
+
+                last = last.AddDays(daysToNextWeekend);
 
                 return last;
             });
