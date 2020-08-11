@@ -151,11 +151,8 @@ namespace FluentScheduler
 
             foreach (var i in Enumerable.Range(0, times.Count))
             {
-                if (i < times.Count)
-                {
-                    if (times[i] < times[next])
-                        next = i;
-                }
+                if (times[i] < times[next])
+                    next = i;
             }
 
             if (!times[next].HasValue)
