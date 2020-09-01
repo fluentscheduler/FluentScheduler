@@ -23,6 +23,13 @@
                 Day(),
                 Weekday(),
                 Week(),
+
+                Sunday(),
+                Monday(),
+                Tuesday(),
+                Thursday(),
+                Friday(),
+                Saturday(),
             };
 
             schedules.ListenJobStarted(JobStartedHandler);
@@ -31,6 +38,7 @@
             schedules.Start();
             Sleep(-1);
         }
+
 
         static Schedule Welcome() => new Schedule(
             () => Logger.Information("3, 2, 1, live!"),
@@ -84,6 +92,36 @@
         static Schedule Weekday() => new Schedule(
             () => Logger.Information("Weekday: a new weekday has started"),
             run => run.EveryWeekday()
+        );
+
+        static Schedule Sunday() => new Schedule(
+            () => Logger.Information("Sunday: a new sunday has started "),
+            run => run.Every(DayOfWeek.Sunday)
+        );
+
+        static Schedule Monday() => new Schedule(
+            () => Logger.Information("Monday: a new monday has started "),
+            run => run.Every(DayOfWeek.Monday)
+        );
+
+        static Schedule Tuesday() => new Schedule(
+            () => Logger.Information("Tuesday: a new tuesday has started "),
+            run => run.Every(DayOfWeek.Tuesday)
+        );
+
+        static Schedule Thursday() => new Schedule(
+            () => Logger.Information("Thursday: a new thursday has started "),
+            run => run.Every(DayOfWeek.Thursday)
+        );
+
+        static Schedule Friday() => new Schedule(
+            () => Logger.Information("Friday: a new friday has started "),
+            run => run.Every(DayOfWeek.Friday)
+        );
+
+        static Schedule Saturday() => new Schedule(
+            () => Logger.Information("Saturday: a new saturday has started "),
+            run => run.Every(DayOfWeek.Saturday)
         );
 
         static Schedule Week() => new Schedule(

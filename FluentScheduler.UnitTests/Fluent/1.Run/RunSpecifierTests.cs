@@ -50,11 +50,124 @@ namespace FluentScheduler.UnitTests
         }
 
         [Fact]
-        public void EveryDayOfWeek()
+        public void ExecuteOnlyOnceEverySunday()
         {
             // Arrange
-            var date = new DateTime(2018, 12, 23);
-            var expected = new DateTime(2018, 12, 28);
+            var date = new DateTime(2020, 9, 1);
+            var expected = new DateTime(2020, 9, 6);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            // Act
+            run.Every(DayOfWeek.Sunday);
+            var calculated = calculator.Calculate(date);
+
+            // Assert
+            Equal(expected, calculated);
+
+            // Arrange
+            expected = new DateTime(2020, 9, 13);
+
+            // Act
+            calculated = calculator.Calculate((DateTime)calculated);
+
+            // Assert
+            Equal(expected, calculated);
+        }
+
+        [Fact]
+        public void ExecuteOnlyOnceEveryMonday()
+        {
+            // Arrange
+            var date = new DateTime(2020, 9, 1);
+            var expected = new DateTime(2020, 9, 7);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            // Act
+            run.Every(DayOfWeek.Monday);
+            var calculated = calculator.Calculate(date);
+
+            // Assert
+            Equal(expected, calculated);
+
+            // Arrange
+            expected = new DateTime(2020, 9, 14);
+
+            // Act
+            calculated = calculator.Calculate((DateTime)calculated);
+
+            // Assert
+            Equal(expected, calculated);
+        }
+
+        [Fact]
+        public void ExecuteOnlyOnceEveryTuesday()
+
+        {
+            // Arrange
+            var date = new DateTime(2020, 9, 1);
+            var expected = new DateTime(2020, 9, 8);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            // Act
+            run.Every(DayOfWeek.Tuesday);
+            var calculated = calculator.Calculate(date);
+
+            // Assert
+            Equal(expected, calculated);
+
+            // Arrange
+            expected =  new DateTime(2020, 9, 15);
+
+            // Act
+            calculated = calculator.Calculate((DateTime)calculated);
+
+            // Assert
+            Equal(expected, calculated);
+        }
+
+        [Fact]
+        public void ExecuteOnlyOnceEveryThursday()
+        {
+            // Arrange
+            var date = new DateTime(2020, 9, 1);
+            var expected = new DateTime(2020, 9, 3);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            // Act
+            run.Every(DayOfWeek.Thursday);
+            var calculated = calculator.Calculate(date);
+
+            // Assert
+            Equal(expected, calculated);
+
+            // Arrange
+            expected =  new DateTime(2020, 9, 10);
+
+            // Act
+            calculated = calculator.Calculate((DateTime)calculated);
+
+            // Assert
+            Equal(expected, calculated);
+        }
+
+        [Fact]
+        public void ExecuteOnlyOnceEveryFriday()
+        {
+            // Arrange
+            var date = new DateTime(2020, 9, 1);
+            var expected = new DateTime(2020, 9, 4);
 
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
@@ -66,7 +179,45 @@ namespace FluentScheduler.UnitTests
 
             // Assert
             Equal(expected, calculated);
+
+            // Arrange
+            expected =  new DateTime(2020, 9, 11);
+
+            // Act
+            calculated = calculator.Calculate((DateTime)calculated);
+
+            // Assert
+            Equal(expected, calculated);
         }
+
+        [Fact]
+        public void EverySaturday()
+        {
+            // Arrange
+            var date = new DateTime(2020, 9, 1);
+            var expected = new DateTime(2020, 9, 5);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            // Act
+            run.Every(DayOfWeek.Saturday);
+            var calculated = calculator.Calculate(date);
+
+            // Assert
+            Equal(expected, calculated);
+
+            // Arrange
+            expected =  new DateTime(2020, 9, 12);
+
+            // Act
+            calculated = calculator.Calculate((DateTime)calculated);
+
+            // Assert
+            Equal(expected, calculated);
+        }
+
 
         [Fact]
         public void OnceAtAndEvery()

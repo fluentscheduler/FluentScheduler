@@ -29,7 +29,16 @@ namespace FluentScheduler
         /// <param name="day">Day to run the job</param>
         public RestrictionUnit Every(DayOfWeek day)
         {
-            _calculator.PeriodCalculations.Add(last => last.AddDays(day - last.DayOfWeek));
+            _calculator.PeriodCalculations.Add(last => {
+                var daysToNext = day - last.DayOfWeek;
+
+                if (day <= last.DayOfWeek)
+                    daysToNext = 7 - Math.Abs(daysToNext);
+
+                last = last.AddDays(daysToNext);
+
+                return last;
+            });
 
             return new RestrictionUnit(_calculator);
         }
