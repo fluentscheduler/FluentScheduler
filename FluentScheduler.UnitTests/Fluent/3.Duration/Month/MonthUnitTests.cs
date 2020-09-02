@@ -10,19 +10,19 @@ namespace FluentScheduler.UnitTests
         public void On()
         {
             // Arrange
+            var now = new DateTime(2020, 9, 2);
+            var expected = new DateTime(2020, 9, 2);
+
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
-            var run = new RunSpecifier(fluentCalculator);
-
-            var now = DateTime.Now;
-            var expectedDay = 3;
+            var monthUnit = new MonthUnit(fluentCalculator);
 
             // Act
-            run.Every(1).Months().On(expectedDay);
+            monthUnit.On(2);
             var calculated = calculator.Calculate(now);
 
             // Assert
-            Equal(expectedDay, calculated.Value.Day);
+            Equal(expected, calculated);
         }
     }
 }
