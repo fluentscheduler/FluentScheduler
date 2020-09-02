@@ -218,7 +218,6 @@ namespace FluentScheduler.UnitTests
             Equal(expected, calculated);
         }
 
-
         [Fact]
         public void OnceAtAndEvery()
         {
@@ -397,8 +396,8 @@ namespace FluentScheduler.UnitTests
         public void EveryWeekday()
         {
             // Arrange
-            var now = new DateTime(2018, 08, 31);
-            var expected = new DateTime(2018, 09, 3);
+            var now = new DateTime(2020, 9, 2);
+            var expected = new DateTime(2020, 9, 2);
 
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
@@ -415,15 +414,15 @@ namespace FluentScheduler.UnitTests
             calculated = calculator.Calculate(expected);
 
             // Assert
-            Equal(expected.AddDays(1), calculated);
+            Equal(expected, calculated);
         }
 
-         [Fact]
+        [Fact]
         public void EveryWeekend()
         {
             // Arrange
-            var now = new DateTime(2018, 08, 31);
-            var expected = new DateTime(2018, 09, 01);
+            var now = new DateTime(2020, 9, 5);
+            var expected = new DateTime(2020, 9, 5);
 
             var fluentCalculator = new FluentTimeCalculator();
             var calculator = (ITimeCalculator)fluentCalculator;
@@ -437,8 +436,8 @@ namespace FluentScheduler.UnitTests
             Equal(expected, calculated);
 
             // Arrange
-            now = new DateTime(2018, 09, 01);
-            expected = new DateTime(2018, 09, 02);
+            now = new DateTime(2020, 9, 6);
+            expected = new DateTime(2020, 9, 6);
 
             // Act
             calculated = calculator.Calculate(now);
@@ -447,8 +446,95 @@ namespace FluentScheduler.UnitTests
             Equal(expected, calculated);
 
             // Arrange
-            now = new DateTime(2018, 09, 02);
-            expected = new DateTime(2018, 09, 08);
+            now = new DateTime(2020, 9, 7);
+            expected = new DateTime(2020, 9, 12);
+
+            // Act
+            calculated = calculator.Calculate(now);
+
+            // Assert
+            Equal(expected, calculated);
+        }
+
+        [Fact]
+        public void EveryDay()
+        {
+            // Arrange
+            var now = new DateTime(2020, 9, 2, 10, 0, 0);
+            var expected = new DateTime(2020, 9, 2, 15, 0, 0);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            // Act
+            run.Every(1).Days().At(15, 0);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Equal(expected, calculated);
+
+            // Arrange
+            now = new DateTime(2020, 9, 2, 16, 0, 0);
+            expected = new DateTime(2020, 9, 3, 15, 0, 0);
+
+            // Act
+            calculated = calculator.Calculate(now);
+
+            // Assert
+            Equal(expected, calculated);
+        }
+
+        [Fact]
+        public void EveryMonth()
+        {
+            // Arrange
+            var now = new DateTime(2020, 9, 2, 10, 0, 0);
+            var expected = new DateTime(2020, 9, 2, 15, 0, 0);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            // Act
+            run.Every(1).Months().On(2).At(15, 0);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Equal(expected, calculated);
+
+            // Arrange
+            now = new DateTime(2020, 9, 2, 16, 0, 0);
+            expected = new DateTime(2020, 10, 2, 15, 0, 0);
+
+            // Act
+            calculated = calculator.Calculate(now);
+
+            // Assert
+            Equal(expected, calculated);
+        }
+
+        [Fact]
+        public void EveryWeek()
+        {
+            // Arrange
+            var now = new DateTime(2020, 9, 2, 10, 0, 0);
+            var expected = new DateTime(2020, 9, 2, 15, 0, 0);
+
+            var fluentCalculator = new FluentTimeCalculator();
+            var calculator = (ITimeCalculator)fluentCalculator;
+            var run = new RunSpecifier(fluentCalculator);
+
+            // Act
+            run.Every(1).Weeks().Between(15, 0, 16, 0);
+            var calculated = calculator.Calculate(now);
+
+            // Assert
+            Equal(expected, calculated);
+
+            // Arrange
+            now = new DateTime(2020, 9, 2, 17, 0, 0);
+            expected = new DateTime(2020, 9, 9, 15, 0, 0);
 
             // Act
             calculated = calculator.Calculate(now);
