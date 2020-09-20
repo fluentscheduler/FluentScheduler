@@ -38,6 +38,6 @@ Check the [issues]!
 Check the [help wanted] label!
 
 [master branch]: https://github.com/fluentscheduler/FluentScheduler
-[documentation]: http://fluentscheduler.github.io
+[documentation]: http://fluentscheduler.github.io/v6
 [issues]:        https://github.com/fluentscheduler/FluentScheduler/issues
 [help wanted]:   https://github.com/fluentscheduler/FluentScheduler/labels/help%20wanted
