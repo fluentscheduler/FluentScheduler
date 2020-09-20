@@ -10,7 +10,7 @@
     <PackageTags>background cron job schedule task</PackageTags>
     <RepositoryUrl>https://github.com/fluentscheduler/FluentScheduler</RepositoryUrl>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <Version>5.5.0</Version>
+    <Version>5.5.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
