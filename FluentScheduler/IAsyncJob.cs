@@ -1,4 +1,5 @@
-﻿namespace FluentScheduler
+﻿#if NETSTANDARD2_1
+namespace FluentScheduler
 {
     using System.Threading.Tasks;
 
@@ -22,3 +23,4 @@
         }
     }
 }
+#endif
