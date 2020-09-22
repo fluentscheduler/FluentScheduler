@@ -386,19 +386,21 @@
                 return;
 
             var firstJob = _schedules.First();
-            if (firstJob.NextRun <= Now)
+            var _now = Now;
+            if (firstJob.NextRun <= _now)
             {
                 RunJob(firstJob);
+                
                 if (firstJob.CalculateNextRun == null)
                 {
                     // probably a ToRunNow().DelayFor() job, there's no CalculateNextRun
                 }
                 else
                 {
-                    firstJob.NextRun = firstJob.CalculateNextRun(Now.AddMilliseconds(1));
+                    firstJob.NextRun = firstJob.CalculateNextRun(_now.AddMilliseconds(1));
                 }
 
-                if (firstJob.NextRun <= Now || firstJob.PendingRunOnce)
+                if (firstJob.NextRun <= _now || firstJob.PendingRunOnce)
                 {
                     _schedules.Remove(firstJob);
                 }
@@ -408,7 +410,7 @@
                 return;
             }
 
-            var interval = firstJob.NextRun - Now;
+            var interval = firstJob.NextRun - _now;
 
             if (interval <= TimeSpan.Zero)
             {
