@@ -379,48 +379,51 @@
 
         private static void ScheduleJobs()
         {
-            _timer.Change(Timeout.Infinite, Timeout.Infinite);
-            _schedules.Sort();
-
-            if (!_schedules.Any())
-                return;
-
-            var firstJob = _schedules.First();
-            if (firstJob.NextRun <= Now)
+            while (true)
             {
-                RunJob(firstJob);
-                if (firstJob.CalculateNextRun == null)
+                _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                _schedules.Sort();
+
+                if (!_schedules.Any())
+                    break;
+
+                var firstJob = _schedules.First();
+                if (firstJob.NextRun <= Now)
                 {
-                    // probably a ToRunNow().DelayFor() job, there's no CalculateNextRun
+                    RunJob(firstJob);
+                    if (firstJob.CalculateNextRun == null)
+                    {
+                        // probably a ToRunNow().DelayFor() job, there's no CalculateNextRun
+                    }
+                    else
+                    {
+                        firstJob.NextRun = firstJob.CalculateNextRun(Now.AddMilliseconds(1));
+                    }
+
+                    if (firstJob.NextRun <= Now || firstJob.PendingRunOnce)
+                    {
+                        _schedules.Remove(firstJob);
+                    }
+
+                    firstJob.PendingRunOnce = false;
+                    continue;
+                }
+
+                var interval = firstJob.NextRun - Now;
+
+                if (interval <= TimeSpan.Zero)
+                {
+                    continue;
                 }
                 else
                 {
-                    firstJob.NextRun = firstJob.CalculateNextRun(Now.AddMilliseconds(1));
+                    if (interval.TotalMilliseconds > _maxTimerInterval)
+                        interval = TimeSpan.FromMilliseconds(_maxTimerInterval);
+
+                    _timer.Change(interval, interval);
                 }
 
-                if (firstJob.NextRun <= Now || firstJob.PendingRunOnce)
-                {
-                    _schedules.Remove(firstJob);
-                }
-
-                firstJob.PendingRunOnce = false;
-                ScheduleJobs();
-                return;
-            }
-
-            var interval = firstJob.NextRun - Now;
-
-            if (interval <= TimeSpan.Zero)
-            {
-                ScheduleJobs();
-                return;
-            }
-            else
-            {
-                if (interval.TotalMilliseconds > _maxTimerInterval)
-                    interval = TimeSpan.FromMilliseconds(_maxTimerInterval);
-
-                _timer.Change(interval, interval);
+                break;
             }
         }
 
