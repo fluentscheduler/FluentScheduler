@@ -15,7 +15,7 @@
 
 # FluentScheduler
 
-**Important note**: This fork is just a fix which counters the fact, that we do not have infinitely fast cpus (yet)
+**Important note**: This branch refers to the upcoming version of the library, that's still unstable. For the current version please head to the [master branch].
 
 Automated job scheduler with fluent interface for the .NET platform.
 
