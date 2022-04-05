@@ -116,6 +116,10 @@ namespace FluentScheduler
 
             // used on both JobStarted and JobEnded events
             var startTime = Calculator.Now();
+            // start time can be before NextRun, because of the nature of CPUs
+            // to ensure, that this does not run code twice, we can set the startTime to the "perfect" NextRun value
+            if (startTime < NextRun)
+                startTime = NextRun.Value;
 
             // calculating the next run
             // used on both JobEnded event and for the next run of this method
