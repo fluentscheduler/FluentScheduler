@@ -24,8 +24,6 @@ namespace FluentScheduler
 
         internal DateTime? NextRun { get; private set; }
 
-        private DateTime? LastRun { get; set; }
-
         internal object RunningLock { get; } = new object();
 
         internal event EventHandler<JobStartedEventArgs> JobStarted;
@@ -101,19 +99,13 @@ namespace FluentScheduler
 
         private async Task Run(CancellationToken token)
         {
-            // checking if it's supposed to run
+           // checking if it's supposed to run
             // it assumes that CalculateNextRun has been called previously from somewhere else
             if (!NextRun.HasValue)
                 return;
 
             // calculating delay
-            // using a LastRun variable instead of now, to not get inconsistent time
-            TimeSpan delay;
-            if (LastRun.HasValue)
-                // every modern cpu shouldn't have a problem with running the code in under 100ms
-                delay = NextRun.Value - LastRun.Value - TimeSpan.FromSeconds(0.9);
-            else
-                delay = NextRun.Value - Calculator.Now();
+            var delay = NextRun.Value - Calculator.Now();
 
             // delaying until it's time to run or a cancellation was requested
             await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token).ContinueWith(_ => {});
@@ -124,7 +116,10 @@ namespace FluentScheduler
 
             // used on both JobStarted and JobEnded events
             var startTime = Calculator.Now();
-            LastRun = startTime;
+            // start time can be before NextRun, because of the nature of CPUs
+            // to ensure, that this does not run code twice, we can set the startTime to the "perfect" NextRun value
+            if (startTime < NextRun)
+                startTime = NextRun.Value;
 
             // calculating the next run
             // used on both JobEnded event and for the next run of this method
@@ -155,7 +150,7 @@ namespace FluentScheduler
 
             // recursive call
             // note that the NextRun was already calculated in this run
-            _task = Run(token);
+            _task = Run(token); 
         }
     }
 }
