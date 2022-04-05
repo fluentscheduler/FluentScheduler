@@ -24,6 +24,8 @@ namespace FluentScheduler
 
         internal DateTime? NextRun { get; private set; }
 
+        private DateTime? LastRun { get; set; }
+
         internal object RunningLock { get; } = new object();
 
         internal event EventHandler<JobStartedEventArgs> JobStarted;
@@ -105,7 +107,13 @@ namespace FluentScheduler
                 return;
 
             // calculating delay
-            var delay = NextRun.Value - Calculator.Now();
+            // using a LastRun variable instead of now, to not get inconsistent time
+            TimeSpan delay;
+            if (LastRun.HasValue)
+                // every modern cpu shouldn't have a problem with running the code in under 100ms
+                delay = NextRun.Value - LastRun.Value - TimeSpan.FromSeconds(0.9);
+            else
+                delay = NextRun.Value - Calculator.Now();
 
             // delaying until it's time to run or a cancellation was requested
             await Task.Delay(delay < TimeSpan.Zero ? TimeSpan.Zero : delay, token).ContinueWith(_ => {});
@@ -116,6 +124,7 @@ namespace FluentScheduler
 
             // used on both JobStarted and JobEnded events
             var startTime = Calculator.Now();
+            LastRun = startTime;
 
             // calculating the next run
             // used on both JobEnded event and for the next run of this method
