@@ -99,7 +99,7 @@ namespace FluentScheduler
 
         private async Task Run(CancellationToken token)
         {
-           // checking if it's supposed to run
+            // checking if it's supposed to run
             // it assumes that CalculateNextRun has been called previously from somewhere else
             if (!NextRun.HasValue)
                 return;
@@ -150,7 +150,7 @@ namespace FluentScheduler
 
             // recursive call
             // note that the NextRun was already calculated in this run
-            _task = Run(token); 
+            _task = Run(token);
         }
     }
 }
