@@ -62,7 +62,7 @@ public class RunSpecifierTests
 
         // Act
         run.Every(DayOfWeek.Sunday);
-        var calculated = calculator.Calculate(date);
+        var calculated = calculator.Calculate(date)!;
 
         // Assert
         Equal(expected, calculated);
@@ -90,7 +90,7 @@ public class RunSpecifierTests
 
         // Act
         run.Every(DayOfWeek.Monday);
-        var calculated = calculator.Calculate(date);
+        var calculated = calculator.Calculate(date)!;
 
         // Assert
         Equal(expected, calculated);
@@ -118,7 +118,7 @@ public class RunSpecifierTests
 
         // Act
         run.Every(DayOfWeek.Tuesday);
-        var calculated = calculator.Calculate(date);
+        var calculated = calculator.Calculate(date)!;
 
         // Assert
         Equal(expected, calculated);
@@ -146,7 +146,7 @@ public class RunSpecifierTests
 
         // Act
         run.Every(DayOfWeek.Thursday);
-        var calculated = calculator.Calculate(date);
+        var calculated = calculator.Calculate(date)!;
 
         // Assert
         Equal(expected, calculated);
@@ -174,7 +174,7 @@ public class RunSpecifierTests
 
         // Act
         run.Every(DayOfWeek.Friday);
-        var calculated = calculator.Calculate(date);
+        var calculated = calculator.Calculate(date)!;
 
         // Assert
         Equal(expected, calculated);
@@ -202,7 +202,7 @@ public class RunSpecifierTests
 
         // Act
         run.Every(DayOfWeek.Saturday);
-        var calculated = calculator.Calculate(date);
+        var calculated = calculator.Calculate(date)!;
 
         // Assert
         Equal(expected, calculated);
