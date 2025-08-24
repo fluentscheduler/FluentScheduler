@@ -1,3 +1,5 @@
+using System;
+
 namespace FluentScheduler;
 
 /// <summary>
@@ -35,6 +37,9 @@ public class PeriodDurationSet
     /// </summary>
     public RestrictionUnit Days()
     {
+        if (_duration == 1)
+            throw new InvalidOperationException($"Use {nameof(RunSpecifier.Everyday)} instead.");
+        
         _calculator.PeriodCalculations.Add(last => last.AddDays(_duration));
         return new RestrictionUnit(_calculator);
     }

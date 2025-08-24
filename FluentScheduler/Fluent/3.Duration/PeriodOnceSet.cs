@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace FluentScheduler;
 
 using System;
@@ -67,18 +69,9 @@ public class PeriodOnceSet
         _calculator.PeriodCalculations.Add(
             last =>
             {
-                var now = ((ITimeCalculator)_calculator).Now();
-                var lastTime = last.TimeOfDay;
-
                 var next = new DateTime(last.Year, last.Month, last.Day).Add(from);
 
-                if (from >= to || lastTime < from)
-                    return next;
-
-                if (lastTime > to)
-                    return next.AddDays(1);
-
-                return last;
+                return next;
             }
         );
     }

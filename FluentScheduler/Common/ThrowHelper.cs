@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace FluentScheduler;
@@ -35,8 +36,10 @@ internal class ThrowHelper
     internal static void ThrowIfOutOfMilitaryTimeRange(
         int hour,
         int minute,
-        [CallerArgumentExpression(nameof(hour))] string hourParamName = null,
-        [CallerArgumentExpression(nameof(minute))] string minuteParamName = null)
+        [CallerArgumentExpression(nameof(hour))]
+        string hourParamName = null,
+        [CallerArgumentExpression(nameof(minute))]
+        string minuteParamName = null)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(hour, hourParamName);
         ArgumentOutOfRangeException.ThrowIfNegative(minute, minuteParamName);
@@ -62,5 +65,27 @@ internal class ThrowHelper
         ArgumentNullException.ThrowIfNull(values);
 
         Array.ForEach(values, v => ThrowIfOutOfMilitaryTimeRange(v, paramName));
+    }
+
+    internal static void ThrowIfEmpty(
+        TimeSpan[] values, [CallerArgumentExpression(nameof(values))] string paramName = null)
+    {
+        ArgumentNullException.ThrowIfNull(values);
+
+        if (values.Length == 0)
+            throw new ArgumentException($"\"{paramName}\" can't be empty.");
+    }
+
+    public static void ThrowIfOutOfOrder(
+        TimeSpan[] values, [CallerArgumentExpression(nameof(values))] string paramName = null)
+    {
+        var collection = values.ToList();
+        var orderedCollection = collection.OrderBy(t => t).ToList();
+
+        for (var i = 0; i < collection.Count; i++)
+        {
+            if (collection[i] != orderedCollection[i])
+                throw new ArgumentException($"\"{paramName}\" is out of order.");
+        }
     }
 }

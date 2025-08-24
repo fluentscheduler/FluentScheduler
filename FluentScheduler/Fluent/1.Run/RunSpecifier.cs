@@ -23,6 +23,31 @@ public class RunSpecifier
     }
 
     /// <summary>
+    /// Runs the job everyday. Tries to run in the same day if the given time was not reached.
+    /// </summary>
+    public EverydayPeriod Everyday()
+    {
+        ITimeCalculator timeCalculator = _calculator;
+
+        var now = timeCalculator.Now();
+        var calculatedFirstExecution = false;
+
+        _calculator.PeriodCalculations.Add(last =>
+        {
+            var next = new DateTime(last.Year, last.Month, last.Day, now.Hour, now.Minute, 0);
+
+            if (calculatedFirstExecution)
+                next = next.AddDays(1);
+
+            calculatedFirstExecution = true;
+
+            return next;
+        });
+
+        return new EverydayPeriod(_calculator);
+    }
+
+    /// <summary>
     /// Runs the job according to the given interval.
     /// </summary>
     /// <param name="day">Day to run the job</param>
@@ -114,7 +139,7 @@ public class RunSpecifier
     /// <param name="dateTime">Date and time to run</param>
     public OnceSet OnceAt(DateTime dateTime)
     {
-        _calculator.OnceCalculation = last => dateTime;
+        _calculator.OnceCalculation = _ => dateTime;
         return new OnceSet(_calculator);
     }
 
