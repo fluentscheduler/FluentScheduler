@@ -31,6 +31,7 @@ public class PeriodOnceSet
     /// <param name="timeCollection">Time of day.</param>
     public void At(params TimeSpan[] timeCollection)
     {
+        ThrowHelper.ThrowIfEmpty(timeCollection);
         ThrowHelper.ThrowIfOutOfMilitaryTimeRange(timeCollection);
 
         foreach (var time in timeCollection)
