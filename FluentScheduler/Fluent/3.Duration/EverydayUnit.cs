@@ -5,11 +5,11 @@ namespace FluentScheduler;
 /// <summary>
 /// The "period" run has been set, but not its unit.
 /// </summary>
-public class EverydayPeriod
+public class EverydayUnit
 {
     private readonly FluentTimeCalculator _calculator;
 
-    internal EverydayPeriod(FluentTimeCalculator calculator) => _calculator = calculator;
+    internal EverydayUnit(FluentTimeCalculator calculator) => _calculator = calculator;
 
     /// <summary>
     /// Runs the job at the given time of day (military format).

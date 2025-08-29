@@ -25,7 +25,7 @@ public class RunSpecifier
     /// <summary>
     /// Runs the job everyday. Tries to run in the same day if the given time was not reached.
     /// </summary>
-    public EverydayPeriod Everyday()
+    public EverydayUnit Everyday()
     {
         ITimeCalculator timeCalculator = _calculator;
 
@@ -44,7 +44,7 @@ public class RunSpecifier
             return next;
         });
 
-        return new EverydayPeriod(_calculator);
+        return new EverydayUnit(_calculator);
     }
 
     /// <summary>

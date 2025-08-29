@@ -4,7 +4,7 @@ using System;
 using Xunit;
 using static Xunit.Assert;
 
-public class EverydayPeriodTests
+public class EverydayUnitTests
 {
     [Fact]
     public void At()
@@ -15,7 +15,7 @@ public class EverydayPeriodTests
 
         var fluentCalculator = new FluentTimeCalculator();
         var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new EverydayPeriod(fluentCalculator);
+        var run = new EverydayUnit(fluentCalculator);
 
         calculator.Now = () => now;
 
@@ -48,7 +48,7 @@ public class EverydayPeriodTests
 
         var fluentCalculator = new FluentTimeCalculator();
         var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new EverydayPeriod(fluentCalculator);
+        var run = new EverydayUnit(fluentCalculator);
 
         calculator.Now = () => now;
 
@@ -81,7 +81,7 @@ public class EverydayPeriodTests
 
         var fluentCalculator = new FluentTimeCalculator();
         var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new EverydayPeriod(fluentCalculator);
+        var run = new EverydayUnit(fluentCalculator);
 
         calculator.Now = () => now;
 
@@ -130,7 +130,7 @@ public class EverydayPeriodTests
         var timeSpans = new TimeSpan[] { new(16, 0, 0), new(15, 0, 0), new(17, 0, 0) };
 
         var fluentCalculator = new FluentTimeCalculator();
-        var run = new EverydayPeriod(fluentCalculator);
+        var run = new EverydayUnit(fluentCalculator);
 
         // Act Assert
         Throws<ArgumentException>(() => run.At(timeSpans));
@@ -140,7 +140,7 @@ public class EverydayPeriodTests
     public void AtMultipleEmptyTimeSpan()
     {
         var fluentCalculator = new FluentTimeCalculator();
-        var run = new EverydayPeriod(fluentCalculator);
+        var run = new EverydayUnit(fluentCalculator);
 
         // Act Assert
         Throws<ArgumentException>(() => run.At());
@@ -151,7 +151,7 @@ public class EverydayPeriodTests
     {
         // Arrange
         var fluentCalculator = new FluentTimeCalculator();
-        var run = new EverydayPeriod(fluentCalculator);
+        var run = new EverydayUnit(fluentCalculator);
 
         // Act Assert
         Throws<ArgumentNullException>(() => run.At(null));
@@ -199,6 +199,7 @@ public class EverydayPeriodTests
 
         // Act
         run.Everyday().Between(from, to);
+
         var calculated = calculator.Calculate(now)!;
 
         // Assert
