@@ -74,27 +74,26 @@ public class EverydayUnitTests
     public void AtMultipleTimeSpan()
     {
         // Arrange
-        var now = new DateTime(2025, 8, 20, 10, 0, 0);
-        var expected = new DateTime(2025, 8, 20, 15, 0, 0);
-
         var timeSpans = new TimeSpan[] { new(15, 0, 0), new(16, 0, 0), new(17, 0, 0) };
+        var now = new DateTime(2025, 8, 20, 10, 0, 0);
+        var expected = new DateTime(2025, 8, 20).Add(timeSpans[0]);
 
         var fluentCalculator = new FluentTimeCalculator();
         var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new EverydayUnit(fluentCalculator);
+        var run = new RunSpecifier(fluentCalculator);
 
         calculator.Now = () => now;
 
         // Act
-        run.At(timeSpans);
+        run.Everyday().At(timeSpans);
         var calculated = calculator.Calculate(now)!;
 
         // Assert
         Equal(expected, calculated.Value);
-
+        
         // Arrange
         now = now.AddHours(5.1);
-        expected = expected.AddHours(1);
+        expected = expected.Date.Add(timeSpans[1]);
 
         // Act
         calculated = calculator.Calculate(now)!;
@@ -104,7 +103,49 @@ public class EverydayUnitTests
 
         // Arrange
         now = now.AddHours(1.1);
-        expected = expected.AddHours(1);
+        expected = expected.Date.Add(timeSpans[2]);
+
+        // Act
+        calculated = calculator.Calculate(now)!;
+
+        // Assert
+        Equal(expected, calculated.Value);
+
+        // Arrange
+        now = now.AddHours(1.1);
+        expected = new DateTime(2025, 8, 21, 15, 0, 0);
+
+        // Act
+        calculated = calculator.Calculate(now)!;
+
+        // Assert
+        Equal(expected, calculated.Value);
+    }
+    
+    [Fact]
+    public void AtMultipleTimeSpan2()
+    {
+        // Arrange
+        var timeSpans = new TimeSpan[] { new(15, 0, 0), new(16, 0, 0), new(17, 0, 0) };
+        var now = new DateTime(2025, 8, 20, 15, 1, 0);
+        var expected = new DateTime(2025, 8, 20).Add(timeSpans[1]);
+
+        var fluentCalculator = new FluentTimeCalculator();
+        var calculator = (ITimeCalculator)fluentCalculator;
+        var run = new RunSpecifier(fluentCalculator);
+
+        calculator.Now = () => now;
+
+        // Act
+        run.Everyday().At(timeSpans);
+        var calculated = calculator.Calculate(now)!;
+
+        // Assert
+        Equal(expected, calculated.Value);
+        
+        // Arrange
+        now = now.AddHours(1.1);
+        expected = expected.Date.Add(timeSpans[2]);
 
         // Act
         calculated = calculator.Calculate(now)!;
@@ -158,6 +199,66 @@ public class EverydayUnitTests
     }
 
     [Fact]
+    public void EverydayAt15()
+    {
+        // Arrange
+        var now = new DateTime(2025, 08, 24, 14, 30, 0);
+        var expectedDate = new DateTime(2025, 08, 24, 15, 0, 0);
+
+        var fluentCalculator = new FluentTimeCalculator();
+        var calculator = (ITimeCalculator)fluentCalculator;
+        var run = new RunSpecifier(fluentCalculator);
+
+        calculator.Now = () => now;
+
+        // Act
+        run.Everyday().At(15, 0);
+        var calculated = calculator.Calculate(now)!;
+
+        // Assert
+        Equal(expectedDate, calculated.Value);
+
+        now = expectedDate;
+
+        calculated = calculator.Calculate(expectedDate)!;
+
+        expectedDate = expectedDate.AddDays(1);
+
+        // Assert
+        Equal(expectedDate, calculated.Value);
+    }
+    
+    [Fact]
+    public void EverydayAt16()
+    {
+        // Arrange
+        var now = new DateTime(2025, 08, 24, 16, 0, 0);
+        var expectedDate = new DateTime(2025, 08, 24, 16, 0, 0);
+
+        var fluentCalculator = new FluentTimeCalculator();
+        var calculator = (ITimeCalculator)fluentCalculator;
+        var run = new RunSpecifier(fluentCalculator);
+
+        calculator.Now = () => now;
+
+        // Act
+        run.Everyday().At(16, 0);
+        var calculated = calculator.Calculate(now)!;
+
+        // Assert
+        Equal(expectedDate, calculated.Value);
+
+        now = expectedDate;
+
+        calculated = calculator.Calculate(expectedDate)!;
+
+        expectedDate = expectedDate.AddDays(1);
+
+        // Assert
+        Equal(expectedDate, calculated.Value);
+    }
+
+    [Fact]
     public void Between17and19TimeSpan()
     {
         // Arrange
@@ -185,8 +286,8 @@ public class EverydayUnitTests
     public void Between21and23TimeSpan()
     {
         // Arrange
-        var now = new DateTime(2025, 8, 11, 23, 40, 0);
-        var expectedDate = new DateTime(2025, 08, 12, 21, 30, 0);
+        var now = new DateTime(2025, 09, 10, 23, 40, 0);
+        var expectedDate = new DateTime(2025, 09, 10, 21, 30, 0);
 
         var from = new TimeSpan(21, 30, 0);
         var to = new TimeSpan(23, 30, 0);
@@ -201,46 +302,6 @@ public class EverydayUnitTests
         run.Everyday().Between(from, to);
 
         var calculated = calculator.Calculate(now)!;
-
-        // Assert
-        Equal(expectedDate, calculated.Value);
-    }
-
-    [Fact]
-    public void Between19and22TimeSpan()
-    {
-        // Arrange
-        var now = new DateTime(2025, 08, 19, 23, 50, 0);
-        var expectedDate = new DateTime(2025, 08, 20, 19, 30, 0);
-
-        var from = new TimeSpan(19, 30, 0);
-        var to = new TimeSpan(22, 30, 0);
-
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
-
-        calculator.Now = () => now;
-
-        // Act
-        run.Everyday().Between(from, to);
-        var calculated = calculator.Calculate(now)!;
-
-        // Assert
-        Equal(expectedDate, calculated.Value);
-
-        now = expectedDate.AddMinutes(5);
-        expectedDate = now;
-
-        calculated = calculator.Calculate(now)!;
-
-        // Assert
-        Equal(expectedDate, calculated.Value);
-
-        now = new DateTime(2025, 08, 20).Add(to).AddMinutes(1);
-        expectedDate = new DateTime(2025, 08, 21).Add(from);
-
-        calculated = calculator.Calculate(now)!;
 
         // Assert
         Equal(expectedDate, calculated.Value);
@@ -269,31 +330,8 @@ public class EverydayUnitTests
         // Assert
         Equal(expectedDate, calculated.Value);
 
-        // Arrange
-        now = now.AddHours(1);
-        expectedDate = now;
+        expectedDate = expectedDate.AddDays(1);
 
-        // Act
-        calculated = calculator.Calculate(now)!;
-
-        // Assert
-        Equal(expectedDate, calculated.Value);
-
-        // Arrange
-        now = now.AddHours(2);
-        expectedDate = now;
-
-        // Act
-        calculated = calculator.Calculate(now)!;
-
-        // Assert
-        Equal(expectedDate, calculated.Value);
-
-        // Arrange
-        now = now.AddHours(6);
-        expectedDate = new DateTime(2025, 08, 25, 23, 0, 0);
-
-        // Act
         calculated = calculator.Calculate(now)!;
 
         // Assert
@@ -320,31 +358,8 @@ public class EverydayUnitTests
         // Assert
         Equal(expectedDate, calculated.Value);
 
-        // Arrange
-        now = now.AddHours(1);
-        expectedDate = now;
+        expectedDate = expectedDate.AddDays(1);
 
-        // Act
-        calculated = calculator.Calculate(now)!;
-
-        // Assert
-        Equal(expectedDate, calculated.Value);
-
-        // Arrange
-        now = now.AddHours(2);
-        expectedDate = now;
-
-        // Act
-        calculated = calculator.Calculate(now)!;
-
-        // Assert
-        Equal(expectedDate, calculated.Value);
-
-        // Arrange
-        now = now.AddHours(6);
-        expectedDate = new DateTime(2025, 08, 25, 23, 0, 0);
-
-        // Act
         calculated = calculator.Calculate(now)!;
 
         // Assert
@@ -355,8 +370,8 @@ public class EverydayUnitTests
     public void Between19and22()
     {
         // Arrange
-        var now = new DateTime(2025, 08, 19, 23, 50, 0);
-        var expectedDate = new DateTime(2025, 08, 20, 19, 30, 0);
+        var now = new DateTime(2025, 08, 24, 20, 0, 0);
+        var expectedDate = new DateTime(2025, 08, 24, 20, 0, 0);
 
         var fluentCalculator = new FluentTimeCalculator();
         var calculator = (ITimeCalculator)fluentCalculator;
@@ -365,24 +380,22 @@ public class EverydayUnitTests
         calculator.Now = () => now;
 
         // Act
-        run.Everyday().Between(19, 30, 22, 30);
+        run.Everyday().Between(19, 0, 22, 0);
         var calculated = calculator.Calculate(now)!;
 
         // Assert
         Equal(expectedDate, calculated.Value);
 
-        now = expectedDate.AddMinutes(5);
-        expectedDate = now;
+        calculated = calculator.Calculate(expectedDate)!;
 
-        calculated = calculator.Calculate(now)!;
+        expectedDate = expectedDate.Date.AddDays(1).Add(new TimeSpan(19, 0, 0));
 
         // Assert
         Equal(expectedDate, calculated.Value);
 
-        now = new DateTime(2025, 08, 20).Add(new TimeSpan(22, 30, 0)).AddMinutes(1);
-        expectedDate = new DateTime(2025, 08, 21).Add(new TimeSpan(19, 30, 0));
+        calculated = calculator.Calculate(expectedDate)!;
 
-        calculated = calculator.Calculate(now)!;
+        expectedDate = expectedDate.AddDays(1);
 
         // Assert
         Equal(expectedDate, calculated.Value);

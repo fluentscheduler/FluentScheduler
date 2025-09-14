@@ -462,14 +462,24 @@ public class RunSpecifierTests
 
         // Act
         run.Everyday();
-        
+
         var calculated = calculator.Calculate(now);
 
         // Assert
         Equal(expected, calculated);
 
         // Arrange
-        now = now.AddHours(1);
+        now = expected;
+        expected = expected.AddDays(1);
+
+        // Act
+        calculated = calculator.Calculate(now);
+
+        // Assert
+        Equal(expected, calculated);
+
+        // Arrange
+        now = expected;
         expected = expected.AddDays(1);
 
         // Act

@@ -20,12 +20,12 @@ public class EverydayUnit
     {
         ThrowHelper.ThrowIfOutOfMilitaryTimeRange(hour, minute);
 
-        _calculator.PeriodCalculations.Add(_ =>
+        _calculator.PeriodCalculations.Add(last =>
         {
             ITimeCalculator timeCalculator = _calculator;
             var now = timeCalculator.Now();
 
-            var next = new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
+            var next = new DateTime(last.Year, last.Month, last.Day, hour, minute, 0);
 
             return now > next ? next.AddDays(1) : next;
         });
@@ -84,43 +84,17 @@ public class EverydayUnit
             throw new ArgumentException($"The parameters '{nameof(from)}' and '{nameof(to)}' must not be equal.");
 
         _calculator.PeriodCalculations.Add(
-            _ =>
+            last =>
             {
-                ITimeCalculator timeCalculator = _calculator;
-                var now = timeCalculator.Now();
+                var fromDate = new DateTime(last.Year, last.Month, last.Day).Add(from);
+                var toDate = new DateTime(last.Year, last.Month, last.Day).Add(to);
+                var now = ((ITimeCalculator)_calculator).Now();
 
-                var doesNotCrossMidnight = from < to;
+                var next = new DateTime(last.Year, last.Month, last.Day).Add(from);
 
-                DateTime next;
-
-                if (doesNotCrossMidnight)
+                if (now >= fromDate && now <= toDate)
                 {
-                    var startToday = now.Date.Add(from);
-                    var endToday = now.Date.Add(to);
-
-                    var nowBetweenStartAndEnd = now >= startToday && now < endToday;
-
-                    if (nowBetweenStartAndEnd)
-                        next = now;
-                    else
-                        next = now < startToday ? startToday : startToday.AddDays(1);
-                }
-                else
-                {
-                    var startYesterday = now.Date.AddDays(-1).Add(from);
-                    var endToday = now.Date.Add(to);
-
-                    var startToday = now.Date.Add(from);
-                    var endTomorrow = now.Date.AddDays(1).Add(to);
-
-                    var nowBetweenStartAndEnd =
-                        (now >= startYesterday && now < endToday) ||
-                        (now >= startToday && now < endTomorrow);
-
-                    if (nowBetweenStartAndEnd)
-                        next = now;
-                    else
-                        next = now < startToday ? startToday : startToday.AddDays(1);
+                    next = now;
                 }
 
                 return next;
