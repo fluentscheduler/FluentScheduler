@@ -90,7 +90,7 @@ public class EverydayUnitTests
 
         // Assert
         Equal(expected, calculated.Value);
-        
+
         // Arrange
         now = now.AddHours(5.1);
         expected = expected.Date.Add(timeSpans[1]);
@@ -121,7 +121,7 @@ public class EverydayUnitTests
         // Assert
         Equal(expected, calculated.Value);
     }
-    
+
     [Fact]
     public void AtMultipleTimeSpan2()
     {
@@ -142,7 +142,7 @@ public class EverydayUnitTests
 
         // Assert
         Equal(expected, calculated.Value);
-        
+
         // Arrange
         now = now.AddHours(1.1);
         expected = expected.Date.Add(timeSpans[2]);
@@ -227,7 +227,7 @@ public class EverydayUnitTests
         // Assert
         Equal(expectedDate, calculated.Value);
     }
-    
+
     [Fact]
     public void EverydayAt16()
     {
@@ -399,5 +399,27 @@ public class EverydayUnitTests
 
         // Assert
         Equal(expectedDate, calculated.Value);
+    }
+
+    [Fact]
+    public void ThrowIfAtOutOfOrder()
+    {
+        // Arrange
+        var fluentCalculator = new FluentTimeCalculator();
+        var run = new EverydayUnit(fluentCalculator);
+
+        // Act
+        Throws<ArgumentException>(() => run.At(new TimeSpan(10, 0, 0), new TimeSpan(9, 0, 0)));
+    }
+    
+    [Fact]
+    public void ThrowIfAtEmpty()
+    {
+        // Arrange
+        var fluentCalculator = new FluentTimeCalculator();
+        var run = new EverydayUnit(fluentCalculator);
+
+        // Act
+        Throws<ArgumentException>(() => run.At());
     }
 }

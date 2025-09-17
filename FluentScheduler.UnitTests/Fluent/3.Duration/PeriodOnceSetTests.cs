@@ -21,7 +21,7 @@ public class PeriodOnceTests
 
         // Act
         run.At(8, 40);
-        var calculated = calculator.Calculate(now);
+        var calculated = calculator.Calculate(now)!;
 
         // Assert
         Equal(expected, calculated.Value);
@@ -31,7 +31,7 @@ public class PeriodOnceTests
     public void AtTimeSpan()
     {
         // Arrange
-        var now = new DateTime(2018, 3, 3, 10, 0 ,0);
+        var now = new DateTime(2018, 3, 3, 10, 0, 0);
         var expected = new DateTime(2018, 3, 3, 12, 30, 0);
 
         var timeSpan = new TimeSpan(12, 30, 0);
@@ -44,10 +44,32 @@ public class PeriodOnceTests
 
         // Act
         run.At(timeSpan);
-        var calculated = calculator.Calculate(now);
+        var calculated = calculator.Calculate(now)!;
 
         // Assert
         Equal(expected, calculated.Value);
+    }
+
+    [Fact]
+    public void ThrowIfAtEmpty()
+    {
+        // Arrange
+        var fluentCalculator = new FluentTimeCalculator();
+        var run = new PeriodOnceSet(fluentCalculator);
+
+        // Act
+        Throws<ArgumentException>(() => run.At());
+    }
+
+    [Fact]
+    public void ThrowIfAtOutOfOrder()
+    {
+        // Arrange
+        var fluentCalculator = new FluentTimeCalculator();
+        var run = new PeriodOnceSet(fluentCalculator);
+
+        // Act
+        Throws<ArgumentException>(() => run.At(new TimeSpan(10, 0, 0), new TimeSpan(9, 0, 0)));
     }
 
     [Fact]
@@ -65,7 +87,7 @@ public class PeriodOnceTests
 
         // Act
         run.Every(1).Months().On(10).At(11, 30);
-        var calculated = calculator.Calculate(now);
+        var calculated = calculator.Calculate(now)!;
 
         // Assert
         Equal(expectedDate, calculated.Value);
