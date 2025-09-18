@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace FluentScheduler;
 
 // helper methods for performing simple validations and that should throw an exception
-internal class ThrowHelper
+internal static class ThrowHelper
 {
     // throws if the given value is not present in the given enum T
     internal static void ThrowIfNotDefinedInEnum<T>(
