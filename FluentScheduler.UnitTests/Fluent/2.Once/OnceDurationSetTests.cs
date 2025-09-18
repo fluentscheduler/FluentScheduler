@@ -14,9 +14,8 @@ public class OnceDurationSetTests
         var date = new DateTime(2018, 2, 16);
         var expected = new DateTime(2018, 2, 16, 0, 3, 0);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new OnceDurationSet(3, fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new OnceDurationSet(3, calculator);
 
         // Act
         run.Minutes();
@@ -33,9 +32,8 @@ public class OnceDurationSetTests
         var date = new DateTime(2018, 2, 16);
         var expected = new DateTime(2018, 2, 16, 3, 0, 0);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new OnceDurationSet(3, fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new OnceDurationSet(3, calculator);
 
         // Act
         run.Hours();
@@ -52,9 +50,8 @@ public class OnceDurationSetTests
         var date = new DateTime(2018, 2, 16);
         var expected = new DateTime(2018, 2, 19);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new OnceDurationSet(3, fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new OnceDurationSet(3, calculator);
 
         // Act
         run.Days();
@@ -71,9 +68,8 @@ public class OnceDurationSetTests
         var date = new DateTime(2018, 2, 16);
         var expected = new DateTime(2018, 3, 9);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new OnceDurationSet(3, fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new OnceDurationSet(3, calculator);
 
         // Act
         run.Weeks();
@@ -90,9 +86,8 @@ public class OnceDurationSetTests
         var date = new DateTime(2018, 3, 16);
         var expected = new DateTime(2018, 6, 16);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new OnceDurationSet(3, fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new OnceDurationSet(3, calculator);
 
         // Act
         run.Months();

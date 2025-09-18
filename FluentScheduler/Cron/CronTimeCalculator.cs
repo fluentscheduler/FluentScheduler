@@ -7,10 +7,6 @@ internal class CronTimeCalculator : ITimeCalculator
 {
     private readonly CrontabSchedule _calculator;
 
-    public void UseUtc() => ((ITimeCalculator)this).Now = () => DateTime.UtcNow;
-
-    Func<DateTime> ITimeCalculator.Now { get; set; } = () => DateTime.Now;
-
     internal CronTimeCalculator(string cronExpression)
     {
         var cronFields = cronExpression.Split(StringSeparatorStock.Space, StringSplitOptions.RemoveEmptyEntries).Length;
@@ -21,8 +17,12 @@ internal class CronTimeCalculator : ITimeCalculator
 
         _calculator = CrontabSchedule.Parse(cronExpression, parseOptions);
     }
+    
+    public Func<DateTime> Now { get; set; } = () => DateTime.Now;
+    
+    public void UseUtc() => ((ITimeCalculator)this).Now = () => DateTime.UtcNow;
 
-    DateTime? ITimeCalculator.Calculate(DateTime last) => _calculator.GetNextOccurrence(last);
+    public DateTime? Calculate(DateTime last) => _calculator.GetNextOccurrence(last);
 
-    void ITimeCalculator.Reset() { }
+    public void Reset() { }
 }

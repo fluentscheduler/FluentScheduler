@@ -7,21 +7,21 @@ using System.Collections.Generic;
 internal class FluentTimeCalculator : ITimeCalculator
 {
     private bool _firstCalculation = true;
+    
+    internal FluentTimeCalculator() { }
+
+    public Func<DateTime> Now { get; set; } = () => DateTime.Now;
 
     internal Func<DateTime, DateTime> OnceCalculation { get; set; }
 
     internal IList<Func<DateTime, DateTime>> PeriodCalculations { get; private set; } =
         new List<Func<DateTime, DateTime>>();
 
-    internal FluentTimeCalculator() { }
-
     internal FluentTimeCalculator(Action<RunSpecifier> specifier) => specifier(new RunSpecifier(this));
 
-    void ITimeCalculator.Reset() => _firstCalculation = true;
+    public void Reset() => _firstCalculation = true;
 
-    Func<DateTime> ITimeCalculator.Now { get; set; } = () => DateTime.Now;
-
-    DateTime? ITimeCalculator.Calculate(DateTime last) => CalculateOnce(last) ?? CalculatePeriod(last);
+    public DateTime? Calculate(DateTime last) => CalculateOnce(last) ?? CalculatePeriod(last);
 
     private DateTime? CalculateOnce(DateTime last)
     {

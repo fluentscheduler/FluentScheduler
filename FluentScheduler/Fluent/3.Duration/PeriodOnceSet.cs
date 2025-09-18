@@ -32,7 +32,6 @@ public class PeriodOnceSet
     public void At(params TimeSpan[] timeCollection)
     {
         ThrowHelper.ThrowIfEmpty(timeCollection);
-        ThrowHelper.ThrowIfOutOfOrder(timeCollection);
         ThrowHelper.ThrowIfOutOfMilitaryTimeRange(timeCollection);
 
         foreach (var time in timeCollection)

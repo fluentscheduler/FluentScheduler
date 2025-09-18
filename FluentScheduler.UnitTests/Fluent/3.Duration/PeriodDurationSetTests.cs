@@ -12,9 +12,8 @@ public class PeriodDurationSetTests
         // Arrange
         var now = DateTime.Now;
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(5).Seconds();
@@ -30,9 +29,8 @@ public class PeriodDurationSetTests
         // Arrange
         var now = DateTime.Now;
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(5).Minutes();
@@ -48,9 +46,8 @@ public class PeriodDurationSetTests
         // Arrange
         var now = DateTime.Now;
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(5).Hours();
@@ -66,9 +63,8 @@ public class PeriodDurationSetTests
         // Arrange
         var now = DateTime.Now;
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(5).Days();
@@ -84,9 +80,8 @@ public class PeriodDurationSetTests
         // Arrange
         var now = DateTime.Now;
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(5).Weeks();
@@ -102,9 +97,8 @@ public class PeriodDurationSetTests
         // Arrange
         var now = DateTime.Now;
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(5).Months();

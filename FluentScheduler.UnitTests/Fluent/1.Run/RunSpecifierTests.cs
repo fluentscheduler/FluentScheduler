@@ -12,9 +12,8 @@ public class RunSpecifierTests
         // Arrange
         var now = DateTime.Now;
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Now().AndEvery(10).Seconds();
@@ -37,9 +36,8 @@ public class RunSpecifierTests
         var now = DateTime.Now;
         var time = new TimeSpan(1, 3, 0);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(time);
@@ -56,9 +54,8 @@ public class RunSpecifierTests
         var date = new DateTime(2020, 9, 1);
         var expected = new DateTime(2020, 9, 6);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(DayOfWeek.Sunday);
@@ -84,9 +81,8 @@ public class RunSpecifierTests
         var date = new DateTime(2020, 9, 1);
         var expected = new DateTime(2020, 9, 7);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(DayOfWeek.Monday);
@@ -112,9 +108,8 @@ public class RunSpecifierTests
         var date = new DateTime(2020, 9, 1);
         var expected = new DateTime(2020, 9, 8);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(DayOfWeek.Tuesday);
@@ -140,9 +135,8 @@ public class RunSpecifierTests
         var date = new DateTime(2020, 9, 1);
         var expected = new DateTime(2020, 9, 3);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(DayOfWeek.Thursday);
@@ -168,9 +162,8 @@ public class RunSpecifierTests
         var date = new DateTime(2020, 9, 1);
         var expected = new DateTime(2020, 9, 4);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(DayOfWeek.Friday);
@@ -196,9 +189,8 @@ public class RunSpecifierTests
         var date = new DateTime(2020, 9, 1);
         var expected = new DateTime(2020, 9, 5);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(DayOfWeek.Saturday);
@@ -224,9 +216,8 @@ public class RunSpecifierTests
         var now = DateTime.Now;
         var at = new DateTime(2000, 10, 10, 10, 10, 10);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.OnceAt(at).AndEvery(10).Seconds();
@@ -248,9 +239,8 @@ public class RunSpecifierTests
         // Arrange
         var now = DateTime.Now;
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Now();
@@ -274,9 +264,8 @@ public class RunSpecifierTests
         var hours = 13;
         var minutes = 50;
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.OnceAt(hours, minutes);
@@ -299,9 +288,8 @@ public class RunSpecifierTests
         var now = DateTime.Today;
         var at = new TimeSpan(13, 50, 0);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.OnceAt(at);
@@ -324,9 +312,8 @@ public class RunSpecifierTests
         var now = DateTime.Now;
         var at = new DateTime(2000, 10, 10, 10, 10, 10);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.OnceAt(at);
@@ -348,9 +335,8 @@ public class RunSpecifierTests
         // Arrange
         var now = DateTime.Today;
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.OnceIn(10).Seconds();
@@ -373,9 +359,8 @@ public class RunSpecifierTests
         var now = DateTime.Today;
         var time = TimeSpan.FromSeconds(10);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.OnceIn(time);
@@ -398,9 +383,8 @@ public class RunSpecifierTests
         var now = new DateTime(2020, 9, 2);
         var expected = new DateTime(2020, 9, 3);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.EveryWeekday();
@@ -425,9 +409,8 @@ public class RunSpecifierTests
         var now = new DateTime(2025, 8, 9);
         var expected = new DateTime(2025, 8, 10);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.EveryWeekend();
@@ -454,9 +437,8 @@ public class RunSpecifierTests
         var now = new DateTime(2025, 8, 20, 10, 0, 0);
         var expected = new DateTime(2025, 8, 20, 10, 0, 0);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         calculator.Now = () => now;
 
@@ -496,9 +478,8 @@ public class RunSpecifierTests
         var now = new DateTime(2025, 8, 2, 10, 0, 0);
         var expected = new DateTime(2025, 9, 2, 15, 0, 0);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(1).Months().On(2).At(15, 0);
@@ -525,9 +506,8 @@ public class RunSpecifierTests
         var now = new DateTime(2025, 8, 11, 10, 0, 0);
         var expected = new DateTime(2025, 8, 18, 15, 0, 0);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new RunSpecifier(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new RunSpecifier(calculator);
 
         // Act
         run.Every(1).Weeks().Between(15, 0, 16, 0);

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace FluentScheduler;
 
@@ -38,7 +39,6 @@ public class EverydayUnit
     public void At(params TimeSpan[] timeCollection)
     {
         ThrowHelper.ThrowIfEmpty(timeCollection);
-        ThrowHelper.ThrowIfOutOfOrder(timeCollection);
         ThrowHelper.ThrowIfOutOfMilitaryTimeRange(timeCollection);
 
         _calculator.PeriodCalculations.Add(_ =>
@@ -46,16 +46,11 @@ public class EverydayUnit
             ITimeCalculator timeCalculator = _calculator;
             var now = timeCalculator.Now();
 
-            var nextTime = timeCollection[0];
+            var orderedTimes = timeCollection.Order();
 
-            foreach (var time in timeCollection)
-            {
-                if (now.TimeOfDay < time)
-                {
-                    nextTime = time;
-                    break;
-                }
-            }
+            var nextTime = orderedTimes.First();
+
+            nextTime = orderedTimes.FirstOrDefault(t => now.TimeOfDay < t, nextTime);
 
             var next = new DateTime(now.Year, now.Month, now.Day).Add(nextTime);
 

@@ -15,9 +15,8 @@ public class DayUnitTests
 
         var monday = new DateTime(2018, 02, 19);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new DayUnit(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new DayUnit(calculator);
 
         // Act
         run.Weekday();
@@ -50,9 +49,8 @@ public class DayUnitTests
         var now = new DateTime(2018, 02, 13);
         var expected = new DateTime(2018, 02, 17);
 
-        var fluentCalculator = new FluentTimeCalculator();
-        var calculator = (ITimeCalculator)fluentCalculator;
-        var run = new DayUnit(fluentCalculator);
+        var calculator = new FluentTimeCalculator();
+        var run = new DayUnit(calculator);
 
         // Act
         run.Weekend();
