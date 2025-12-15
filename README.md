@@ -15,6 +15,9 @@
 
 # FluentScheduler
 
+**Important: this documentation refers to the version 5 of the library which is currently deprecated.
+Check the current version [here](https://github.com/fluentscheduler/FluentScheduler).**
+
 Automated job scheduler with fluent interface for the .NET platform.
 
 ```cs
@@ -36,6 +39,6 @@ Check the [issues]!
 Check the [help wanted] label!
 
 [master branch]: https://github.com/fluentscheduler/FluentScheduler
-[documentation]: https://fluentscheduler.github.io
+[documentation]: https://fluentscheduler.github.io/v5
 [issues]:        https://github.com/fluentscheduler/FluentScheduler/issues
 [help wanted]:   https://github.com/fluentscheduler/FluentScheduler/labels/help%20wanted
