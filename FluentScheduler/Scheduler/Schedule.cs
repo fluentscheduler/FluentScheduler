@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace FluentScheduler;
 
 using System;
@@ -87,6 +89,22 @@ public class Schedule
         ThrowHelper.ThrowIfNullOrWhiteSpace(cronExpression, nameof(cronExpression));
 
         Internal = new InternalSchedule(job, new CronTimeCalculator(cronExpression));
+    }
+    /// <summary>
+    /// 
+    /// Creates a new schedule for the given job.
+    /// </summary>
+    /// <param name="job">Job to be scheduled</param>
+    /// <param name="cronExpressions">The scheduling as a cron expression</param>
+    public Schedule(Action job, IEnumerable<string> cronExpressions)
+    {
+        foreach (string expression in cronExpressions)
+        {
+            ThrowHelper.ThrowIfNull(job, nameof(job));
+            ThrowHelper.ThrowIfNullOrWhiteSpace(expression, nameof(cronExpressions));
+        }
+
+        Internal = new InternalSchedule(_ => MakeAsync(job), new CronTimeCalculator(cronExpressions));
     }
 
     private static Task MakeAsync(Action action)
