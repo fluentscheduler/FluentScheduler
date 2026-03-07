@@ -187,13 +187,13 @@ public class CronTimeCalculatorTests
     [Fact]
     public void EveryLastDayOfTheMonth()
     {
-        List<string> cronExpressions = new()
-        {
+        List<string> cronExpressions =
+        [
             "0 0 31 1,3,5,7,8,10,12 *",
             "0 0 30 4,6,9,11 *",
             "0 0 28 2 *",
             "0 0 29 2 *"
-        };
+        ];
 
         // Arrange
         var calculator = new CronTimeCalculator(cronExpressions);
@@ -206,10 +206,258 @@ public class CronTimeCalculatorTests
 
         // Assert
         Equal(expected, calculated);
-        
+
         calculated = calculator.Calculate(expected);
-        
+
         expected = new DateTime(2026, 03, 31, 0, 0, 0);
+
+        // Assert
+        Equal(expected, calculated);
+    }
+
+    [Fact]
+    public void EveryLastDayOfTheMonthInLeapYear()
+    {
+        List<string> cronExpressions =
+        [
+            "0 0 31 1,3,5,7,8,10,12 *",
+            "0 0 30 4,6,9,11 *",
+            "0 0 28 2 *",
+            "0 0 29 2 *"
+        ];
+
+        // Arrange
+        var calculator = new CronTimeCalculator(cronExpressions);
+
+        var date = new DateTime(2026, 02, 20);
+        var expected = new DateTime(2026, 02, 28, 0, 0, 0);
+
+        // Act
+        var calculated = calculator.Calculate(date);
+
+        // Assert
+        Equal(expected, calculated);
+
+        calculated = calculator.Calculate(expected);
+
+        expected = new DateTime(2026, 03, 31, 0, 0, 0);
+
+        // Assert
+        Equal(expected, calculated);
+    }
+
+    [Fact]
+    public void InLeapYearShouldRun28and29February()
+    {
+        List<string> cronExpressions =
+        [
+            "0 0 31 1,3,5,7,8,10,12 *",
+            "0 0 30 4,6,9,11 *",
+            "0 0 28 2 *",
+            "0 0 29 2 *"
+        ];
+
+        // Arrange
+        var calculator = new CronTimeCalculator(cronExpressions);
+
+        var date = new DateTime(2024, 02, 20);
+        var expected = new DateTime(2024, 02, 28, 0, 0, 0);
+
+        // Act
+        var calculated = calculator.Calculate(date);
+
+        // Assert
+        Equal(expected, calculated);
+
+        // Act
+        calculated = calculator.Calculate(expected);
+
+        // Assert
+        expected = new DateTime(2024, 02, 29, 0, 0, 0);
+        Equal(expected, calculated);
+
+        // Act
+        calculated = calculator.Calculate(expected);
+
+        // Assert
+        expected = new DateTime(2024, 03, 31, 0, 0, 0);
+        Equal(expected, calculated);
+    }
+
+    [Fact]
+    public void EveryDayAtMidnight()
+    {
+        List<string> cronExpressions = ["0 0 * * *"];
+
+        // Arrange
+        var calculator = new CronTimeCalculator(cronExpressions);
+
+        var date = new DateTime(2026, 03, 06, 10, 30, 0);
+        var expected = new DateTime(2026, 03, 07, 0, 0, 0);
+
+        // Act
+        var calculated = calculator.Calculate(date);
+
+        // Assert
+        Equal(expected, calculated);
+
+        // Act
+        calculated = calculator.Calculate(calculated!.Value);
+        expected = new DateTime(2026, 03, 08, 0, 0, 0);
+
+        // Assert
+        Equal(expected, calculated);
+    }
+
+    [Fact]
+    public void EveryDayAtNoon()
+    {
+        List<string> cronExpressions = ["0 12 * * *"];
+
+        // Arrange
+        var calculator = new CronTimeCalculator(cronExpressions);
+
+        var date = new DateTime(2026, 03, 06, 8, 0, 0);
+        var expected = new DateTime(2026, 03, 06, 12, 0, 0);
+
+        // Act
+        var calculated = calculator.Calculate(date);
+
+        // Assert
+        Equal(expected, calculated);
+
+        // Act
+        calculated = calculator.Calculate(calculated!.Value);
+        expected = new DateTime(2026, 03, 07, 12, 0, 0);
+
+        // Assert
+        Equal(expected, calculated);
+    }
+
+    [Fact]
+    public void FirstDayOfEveryMonth()
+    {
+        List<string> cronExpressions = ["0 0 1 * *"];
+
+        // Arrange
+        var calculator = new CronTimeCalculator(cronExpressions);
+
+        var date = new DateTime(2026, 03, 15, 9, 0, 0);
+        var expected = new DateTime(2026, 04, 01, 0, 0, 0);
+
+        // Act
+        var calculated = calculator.Calculate(date);
+
+        // Assert
+        Equal(expected, calculated);
+
+        // Act
+        calculated = calculator.Calculate(calculated!.Value);
+        expected = new DateTime(2026, 05, 01, 0, 0, 0);
+
+        // Assert
+        Equal(expected, calculated);
+    }
+
+    [Fact]
+    public void FirstDayOfEveryMonthAt5Am()
+    {
+        List<string> cronExpressions = ["0 5 1 * *"];
+
+        // Arrange
+        var calculator = new CronTimeCalculator(cronExpressions);
+
+        var date = new DateTime(2026, 03, 15, 9, 0, 0);
+        var expected = new DateTime(2026, 04, 01, 5, 0, 0);
+
+        // Act
+        var calculated = calculator.Calculate(date);
+
+        // Assert
+        Equal(expected, calculated);
+
+        // Act
+        calculated = calculator.Calculate(calculated!.Value);
+        expected = new DateTime(2026, 05, 01, 5, 0, 0);
+
+        // Assert
+        Equal(expected, calculated);
+    }
+
+    [Fact]
+    public void FifthDayOfEveryMonth()
+    {
+        List<string> cronExpressions = ["0 0 5 * *"];
+
+        // Arrange
+        var calculator = new CronTimeCalculator(cronExpressions);
+
+        var date = new DateTime(2026, 03, 01, 14, 0, 0);
+        var expected = new DateTime(2026, 03, 05, 0, 0, 0);
+
+        // Act
+        var calculated = calculator.Calculate(date);
+
+        // Assert
+        Equal(expected, calculated);
+
+        // Act
+        calculated = calculator.Calculate(calculated!.Value);
+        expected = new DateTime(2026, 04, 05, 0, 0, 0);
+
+        // Assert
+        Equal(expected, calculated);
+    }
+
+    [Fact]
+    public void EverydayAt8And16()
+    {
+        List<string> cronExpressions = ["0 8,16 * * *"];
+
+        // Arrange
+        var calculator = new CronTimeCalculator(cronExpressions);
+
+        var date = new DateTime(2026, 03, 06, 9, 0, 0);
+        var expected = new DateTime(2026, 03, 06, 16, 0, 0);
+
+        // Act
+        var calculated = calculator.Calculate(date);
+
+        // Assert
+        Equal(expected, calculated);
+
+        // Act
+        calculated = calculator.Calculate(calculated!.Value);
+        expected = new DateTime(2026, 03, 07, 8, 0, 0);
+
+        // Assert
+        Equal(expected, calculated);
+    }
+
+    [Fact]
+    public void EverydayAt8And16Merging()
+    {
+        List<string> cronExpressions =
+        [
+            "0 8 * * *",
+            "0 16 * * *"
+        ];
+
+        // Arrange
+        var calculator = new CronTimeCalculator(cronExpressions);
+
+        var date = new DateTime(2026, 03, 06, 9, 0, 0);
+        var expected = new DateTime(2026, 03, 06, 16, 0, 0);
+
+        // Act
+        var calculated = calculator.Calculate(date);
+
+        // Assert
+        Equal(expected, calculated);
+
+        // Act
+        calculated = calculator.Calculate(calculated!.Value);
+        expected = new DateTime(2026, 03, 07, 8, 0, 0);
 
         // Assert
         Equal(expected, calculated);

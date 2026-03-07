@@ -44,7 +44,12 @@ internal class CronTimeCalculator : ITimeCalculator
 
     public void UseUtc() => ((ITimeCalculator)this).Now = () => DateTime.UtcNow;
 
-    public DateTime? Calculate(DateTime last) => _calculators.GetNextOccurrences(last, DateTime.MaxValue).First();
+    public DateTime? Calculate(DateTime last)
+    {
+        var values = _calculators.GetNextOccurrences(last, DateTime.MaxValue);
+
+        return values.First();
+    }
 
     public void Reset()
     {
