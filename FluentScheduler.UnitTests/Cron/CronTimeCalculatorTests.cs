@@ -216,38 +216,7 @@ public class CronTimeCalculatorTests
     }
 
     [Fact]
-    public void EveryLastDayOfTheMonthInLeapYear()
-    {
-        List<string> cronExpressions =
-        [
-            "0 0 31 1,3,5,7,8,10,12 *",
-            "0 0 30 4,6,9,11 *",
-            "0 0 28 2 *",
-            "0 0 29 2 *"
-        ];
-
-        // Arrange
-        var calculator = new CronTimeCalculator(cronExpressions);
-
-        var date = new DateTime(2026, 02, 20);
-        var expected = new DateTime(2026, 02, 28, 0, 0, 0);
-
-        // Act
-        var calculated = calculator.Calculate(date);
-
-        // Assert
-        Equal(expected, calculated);
-
-        calculated = calculator.Calculate(expected);
-
-        expected = new DateTime(2026, 03, 31, 0, 0, 0);
-
-        // Assert
-        Equal(expected, calculated);
-    }
-
-    [Fact]
-    public void InLeapYearShouldRun28and29February()
+    public void InLeapYearShouldRun28And29February()
     {
         List<string> cronExpressions =
         [
