@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FluentScheduler;
 
@@ -90,21 +91,42 @@ public class Schedule
 
         Internal = new InternalSchedule(job, new CronTimeCalculator(cronExpression));
     }
+
     /// <summary>
     /// 
     /// Creates a new schedule for the given job.
     /// </summary>
     /// <param name="job">Job to be scheduled</param>
-    /// <param name="cronExpressions">The scheduling as a cron expression</param>
+    /// <param name="cronExpressions">The cron schedules.</param>
     public Schedule(Action job, IEnumerable<string> cronExpressions)
     {
-        foreach (string expression in cronExpressions)
+        var expressions = cronExpressions.ToList();
+
+        foreach (var expression in expressions)
         {
             ThrowHelper.ThrowIfNull(job, nameof(job));
             ThrowHelper.ThrowIfNullOrWhiteSpace(expression, nameof(cronExpressions));
         }
 
-        Internal = new InternalSchedule(_ => MakeAsync(job), new CronTimeCalculator(cronExpressions));
+        Internal = new InternalSchedule(_ => MakeAsync(job), new CronTimeCalculator(expressions));
+    }
+
+    /// <summary>
+    /// Creates a new schedule for the given job.
+    /// </summary>
+    /// <param name="job">Job to be scheduled</param>
+    /// <param name="cronExpressions">The cron schedules.</param>
+    public Schedule(Func<Task> job, IEnumerable<string> cronExpressions)
+    {
+        var expressions = cronExpressions.ToList();
+
+        foreach (var expression in expressions)
+        {
+            ThrowHelper.ThrowIfNull(job, nameof(job));
+            ThrowHelper.ThrowIfNullOrWhiteSpace(expression, nameof(cronExpressions));
+        }
+
+        Internal = new InternalSchedule(_ => job(), new CronTimeCalculator(expressions));
     }
 
     private static Task MakeAsync(Action action)
